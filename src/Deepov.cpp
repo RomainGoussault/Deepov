@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 
-int ma2in() {
+int main() {
 	cout << "!!!Hello World Deepov!!!" << endl; // prints !!!Hello World!!!
 	return 0;
 }
