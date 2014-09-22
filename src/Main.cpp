@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "Position.hpp"
+#include "Rook.hpp"
 using namespace std;
 
 int main()
@@ -16,6 +17,7 @@ int main()
 
 	Position position(3, 4);
 	Position deltaPosition = position.deltaX(10);
+	Rook rook(position,0);
 
 	cout << position.print() << endl;
 	cout << deltaPosition.print() << endl;

@@ -4,16 +4,22 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/Color.cpp \
 ../src/Main.cpp \
-../src/Position.cpp 
+../src/Position.cpp \
+../src/Rook.cpp 
 
 OBJS += \
+./src/Color.o \
 ./src/Main.o \
-./src/Position.o 
+./src/Position.o \
+./src/Rook.o 
 
 CPP_DEPS += \
+./src/Color.d \
 ./src/Main.d \
-./src/Position.d 
+./src/Position.d \
+./src/Rook.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
