@@ -5,10 +5,10 @@
  *      Author: Romain
  */
 
-
 #include "Color.hpp"
 
-
-Color Color::WHITE(&BLACK);
-Color Color::BLACK(&WHITE);
+Color Color::getOppositeColor(Color c) {
+    static Color opposite[] = {WHITE, BLACK};
+    return opposite[c];
+}
 
