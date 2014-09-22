@@ -6,18 +6,21 @@
 CPP_SRCS += \
 ../src/Color.cpp \
 ../src/Main.cpp \
+../src/Piece.cpp \
 ../src/Position.cpp \
 ../src/Rook.cpp 
 
 OBJS += \
 ./src/Color.o \
 ./src/Main.o \
+./src/Piece.o \
 ./src/Position.o \
 ./src/Rook.o 
 
 CPP_DEPS += \
 ./src/Color.d \
 ./src/Main.d \
+./src/Piece.d \
 ./src/Position.d \
 ./src/Rook.d 
 

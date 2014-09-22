@@ -8,6 +8,6 @@
 #include "Position.hpp"
 
 
-Rook::Rook(Position position, int color) : myPosition(position), myColor(color)
+Rook::Rook(Position position, int color) : Piece(position, color)
 {
 }

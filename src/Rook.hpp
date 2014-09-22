@@ -9,9 +9,10 @@
 #define ROOK_HPP_
 
 #include "Position.hpp"
+#include "Piece.hpp"
 
 
-class Rook
+class Rook : public Piece
 {
 public:
 
@@ -19,8 +20,6 @@ public:
 
 private:
 
-	Position& myPosition;
-	int myColor;
 };
 
 
