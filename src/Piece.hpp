@@ -9,19 +9,20 @@
 #define Piece_HPP_
 
 #include "Position.hpp"
+#include "Color.hpp"
 
 
 class Piece
 {
 public:
 
-	Piece(Position position, int color, bool isPinned);
-	Piece(Position position, int color);
+	Piece(Position position, Color::value color, bool isPinned);
+	Piece(Position position, Color::value color);
 
 private:
 
 	Position& myPosition;
-	int myColor;
+	Color::value myColor;
 	bool myIsPinned;
 };
 

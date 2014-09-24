@@ -8,9 +8,11 @@
 #ifndef COLOR_HPP_
 #define COLOR_HPP_
 
-class Color {
+class Color
+{
 public:
-	enum Color {BLACK, WHITE};
-	Color getOppositeColor(Color c);
+
+	enum value{BLACK, WHITE};
+	Color::value getOppositeColor(Color::value c);
 };
 #endif /* COLOR_HPP_ */

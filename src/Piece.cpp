@@ -8,10 +8,10 @@
 #include "Position.hpp"
 
 
-Piece::Piece(Position position, int color, bool isPinned) : myPosition(position), myColor(color), myIsPinned(isPinned)
+Piece::Piece(Position position, Color::value color, bool isPinned) : myPosition(position), myColor(color), myIsPinned(isPinned)
 {
 }
 
-Piece::Piece(Position position, int color) : myPosition(position), myColor(color), myIsPinned(false)
+Piece::Piece(Position position, Color::value color) : myPosition(position), myColor(color), myIsPinned(false)
 {
 }

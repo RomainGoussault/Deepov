@@ -5,9 +5,8 @@
  *      Author: Romain
  */
 #include "Rook.hpp"
-#include "Position.hpp"
 
 
-Rook::Rook(Position position, int color) : Piece(position, color)
+Rook::Rook(Position position, Color::value color) : Piece(position, color)
 {
 }

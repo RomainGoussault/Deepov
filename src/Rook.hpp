@@ -10,13 +10,14 @@
 
 #include "Position.hpp"
 #include "Piece.hpp"
+#include "Color.hpp"
 
 
 class Rook : public Piece
 {
 public:
 
-	Rook(Position position, int color);
+	Rook(Position position, Color::value color);
 
 private:
 

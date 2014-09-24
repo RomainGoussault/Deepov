@@ -7,8 +7,9 @@
 
 #include "Color.hpp"
 
-Color Color::getOppositeColor(Color c) {
-    static Color opposite[] = {WHITE, BLACK};
+Color::value Color::getOppositeColor(Color::value c)
+{
+    static Color::value opposite[] = {WHITE, BLACK};
     return opposite[c];
 }
 
