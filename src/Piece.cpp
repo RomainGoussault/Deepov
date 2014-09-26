@@ -22,3 +22,9 @@ Piece::Piece() : myPosition(), myColor(Color::WHITE), myIsPinned(false)
 {
 }
 
+Position Piece::getPosition()
+{
+	return myPosition;
+}
+
+

@@ -19,13 +19,14 @@ public:
 
 	static const int BOARD_SIZE = 7;
 
-	void addPiece(Piece piece, int position);
+	void addPiece(Piece piece, Position position);
+	void addPiece(Piece piece);
 
 	Board();
 
 private:
 
-	std::array<Piece, BOARD_SIZE> myPieces;
+	std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
 };
 
 

@@ -6,13 +6,19 @@
  */
 
 #include "Board.hpp"
+#include "Position.hpp"
 
 Board::Board()
 {
 }
 
-void Board::addPiece(Piece piece, int position)
+void Board::addPiece(Piece piece, Position position)
 {
-	myPieces[position] = piece;
+	myPieces[position.getX()][position.getY()] = piece;
+}
+
+void Board::addPiece(Piece piece)
+{
+	addPiece(piece, piece.getPosition());
 }
 

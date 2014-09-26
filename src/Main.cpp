@@ -25,6 +25,7 @@ int main()
 	cout << deltaPosition.print() << endl;
 
 	Board board;
+	board.addPiece(rook);
 
 	return 0;
 }

@@ -20,6 +20,7 @@ public:
 	Piece(Position position, Color::value color);
 	Piece(Position position);
 	Piece();
+	Position getPosition();
 
 private:
 
