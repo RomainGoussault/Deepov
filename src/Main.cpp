@@ -28,5 +28,7 @@ int main()
 	cout << board.isPositionFree(rook.getPosition())<< endl;
 	cout << board.isPositionFree(rook.getPosition().deltaX(1)) << endl;
 
+	board.getPseudoLegalMoves(rook);
+
 	return 0;
 }
