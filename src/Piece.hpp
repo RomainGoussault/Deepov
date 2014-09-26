@@ -10,15 +10,14 @@
 
 #include <ostream>
 
-
 #include "Position.hpp"
 #include "Color.hpp"
-
 
 class Piece
 {
 public:
 
+	static const char ROOK = 1;
 	Piece(char value, Position position, Color::value color, bool isPinned);
 	Piece(char value, Position position, Color::value color);
 	Piece(char value, Position position);
@@ -35,9 +34,22 @@ private:
 	bool myIsPinned;
 };
 
-inline std::ostream& operator<<(std::ostream &strm, const Piece &piece) {
-  strm << "Piece value:" << piece.getValue();
-  return strm ;
+inline std::ostream& operator<<(std::ostream &strm, const Piece &piece)
+{
+	std::string name;
+
+	switch (piece.getValue())
+	{
+	case Piece::ROOK:
+		name = "Rook";
+		break;
+
+	default:
+		name = "Unknown Piece";
+	}
+
+	strm << "Piece value:" << name;
+	return strm;
 }
 
 #endif /* Piece_HPP_ */
