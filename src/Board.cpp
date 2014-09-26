@@ -4,9 +4,10 @@
  *  Created on: 24 sept. 2014
  *      Author: Romain
  */
+#include <iostream>
 
 #include "Board.hpp"
-#include "Position.hpp"
+
 
 Board::Board()
 {
@@ -32,4 +33,26 @@ Piece Board::getPiece(Position position)
 	return myPieces[position.getX()][position.getY()];
 }
 
+std::vector<Move> Board::getPseudoLegalMoves(Piece piece)
+{
+	switch(piece.getValue())
+	    {
+	        case 'r' :
+	            return getRookMoves(piece);
+	            break;
+
+	        default :
+	            std::cout << "Error: Unknown Piece" << std::endl;
+	            std::vector<Move> emptyVector;
+	            return emptyVector;
+	    }
+}
+
+std::vector<Move> Board::getRookMoves(Piece piece)
+{
+    std::vector<Move> rookMoves;
+    //TODO Implement
+
+    return rookMoves;
+}
 

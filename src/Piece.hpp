@@ -21,6 +21,7 @@ public:
 	Piece(char value, Position position);
 	Piece();
 	Position getPosition();
+	char getValue();
 	bool isNull();
 
 private:

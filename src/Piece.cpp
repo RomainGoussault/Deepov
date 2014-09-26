@@ -32,4 +32,9 @@ bool Piece::isNull()
 	return myValue;
 }
 
+char Piece::getValue(){
+	return myValue;
+}
+
+
 
