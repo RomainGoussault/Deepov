@@ -25,8 +25,15 @@ public:
 
 	void addPiece(Piece piece, Position position);
 	void addPiece(Piece piece);
+
 	Piece getPiece(Position position);
+	std::vector<Piece> getPieces(Color color); //TODO
+	std::vector<Piece> getEnnemyPieces(Position position);//TODO
+	Piece getKing(Color color); //TODO
+	Position getKingPosition(Color color); //TODO
+
 	bool isPositionFree(Position position);
+	bool isPositionOnBoard(Position position); //TODO
 
 	std::vector<Move> getPseudoLegalMoves(Piece piece); // TODO
 	std::vector<Move> getLegalMoves(Piece piece); // TODO
