@@ -20,7 +20,7 @@ class Board
 {
 public:
 
-	static const int BOARD_SIZE = 7;
+	static const char BOARD_SIZE = 7;
 	Board();
 
 	void addPiece(Piece piece, Position position);

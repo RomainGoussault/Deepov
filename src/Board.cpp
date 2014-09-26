@@ -25,7 +25,7 @@ void Board::addPiece(Piece piece)
 
 bool Board::isPositionFree(Position position)
 {
-	return getPiece(position).isNull();
+	return getPiece(position).isEmpty();
 }
 
 Piece Board::getPiece(Position position)
@@ -37,7 +37,7 @@ std::vector<Move> Board::getPseudoLegalMoves(Piece piece)
 {
 	switch(piece.getValue())
 	    {
-	        case 'r' :
+	        case Piece::ROOK :
 	            return getRookMoves(piece);
 	            break;
 

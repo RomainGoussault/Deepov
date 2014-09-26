@@ -27,7 +27,7 @@ Position Piece::getPosition()
 	return myPosition;
 }
 
-bool Piece::isNull()
+bool Piece::isEmpty()
 {
 	return myValue;
 }

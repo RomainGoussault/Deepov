@@ -18,7 +18,7 @@ int main()
 	cout << "!!!Hello World !!!" << endl;
 	Position position(3, 4);
 	Position deltaPosition = position.deltaX(10);
-	Piece rook('r', position, Color::WHITE);
+	Piece rook(Piece::ROOK, position, Color::WHITE);
 
 	cout << position.print() << endl;
 	cout << deltaPosition.print() << endl;
