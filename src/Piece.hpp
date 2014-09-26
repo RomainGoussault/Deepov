@@ -18,14 +18,14 @@ class Piece
 {
 public:
 
-	enum pieceType
+	enum Type
 	{
-		KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
+		KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN, EMPTY
 	};
 
-	Piece(int value, Position position, Color::value color, bool isPinned);
-	Piece(int value, Position position, Color::value color);
-	Piece(int value, Position position);
+	Piece(Type value, Position position, Color::value color, bool isPinned);
+	Piece(Type value, Position position, Color::value color);
+	Piece(Type value, Position position);
 	Piece();
 	Position getPosition();
 	int getValue() const;
@@ -33,7 +33,7 @@ public:
 
 private:
 
-	int myValue;
+	Type myValue;
 	Position myPosition;
 	Color::value myColor;
 	bool myIsPinned;
