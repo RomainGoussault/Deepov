@@ -11,6 +11,7 @@
 #include "Position.hpp"
 #include "Rook.hpp"
 #include "Color.hpp"
+#include "Board.hpp"
 using namespace std;
 
 int main()
@@ -22,6 +23,8 @@ int main()
 
 	cout << position.print() << endl;
 	cout << deltaPosition.print() << endl;
+
+	Board board;
 
 	return 0;
 }

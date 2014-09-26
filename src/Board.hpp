@@ -18,14 +18,15 @@ class Board
 public:
 
 	static const int BOARD_SIZE = 7;
+
+	void addPiece(Piece piece, int position);
+
 	Board();
 
 private:
 
 	std::array<Piece, BOARD_SIZE> myPieces;
-
 };
-
 
 
 #endif /* BOARD_HPP_ */

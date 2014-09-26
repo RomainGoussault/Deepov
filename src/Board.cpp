@@ -11,5 +11,8 @@ Board::Board()
 {
 }
 
-
+void Board::addPiece(Piece piece, int position)
+{
+	myPieces[position] = piece;
+}
 
