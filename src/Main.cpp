@@ -22,7 +22,7 @@ int main()
 
 	cout << position.print() << endl;
 	cout << deltaPosition.print() << endl;
-
+	cout << rook << endl;
 	Board board;
 	board.addPiece(rook);
 	cout << board.isPositionFree(rook.getPosition())<< endl;

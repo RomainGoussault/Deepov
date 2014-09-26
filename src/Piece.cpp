@@ -32,7 +32,8 @@ bool Piece::isNull()
 	return myValue;
 }
 
-char Piece::getValue(){
+char Piece::getValue() const
+{
 	return myValue;
 }
 

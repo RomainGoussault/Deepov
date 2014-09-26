@@ -8,6 +8,9 @@
 #ifndef Piece_HPP_
 #define Piece_HPP_
 
+#include <ostream>
+
+
 #include "Position.hpp"
 #include "Color.hpp"
 
@@ -21,7 +24,7 @@ public:
 	Piece(char value, Position position);
 	Piece();
 	Position getPosition();
-	char getValue();
+	char getValue() const;
 	bool isNull();
 
 private:
@@ -32,5 +35,9 @@ private:
 	bool myIsPinned;
 };
 
+inline std::ostream& operator<<(std::ostream &strm, const Piece &piece) {
+  strm << "Piece value:" << piece.getValue();
+  return strm ;
+}
 
 #endif /* Piece_HPP_ */
