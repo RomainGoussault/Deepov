@@ -21,6 +21,8 @@ public:
 
 	void addPiece(Piece piece, Position position);
 	void addPiece(Piece piece);
+	Piece getPiece(Position position);
+	bool isPositionFree(Position position);
 
 	Board();
 

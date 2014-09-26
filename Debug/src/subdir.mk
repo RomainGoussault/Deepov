@@ -8,24 +8,21 @@ CPP_SRCS += \
 ../src/Color.cpp \
 ../src/Main.cpp \
 ../src/Piece.cpp \
-../src/Position.cpp \
-../src/Rook.cpp 
+../src/Position.cpp 
 
 OBJS += \
 ./src/Board.o \
 ./src/Color.o \
 ./src/Main.o \
 ./src/Piece.o \
-./src/Position.o \
-./src/Rook.o 
+./src/Position.o 
 
 CPP_DEPS += \
 ./src/Board.d \
 ./src/Color.d \
 ./src/Main.d \
 ./src/Piece.d \
-./src/Position.d \
-./src/Rook.d 
+./src/Position.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

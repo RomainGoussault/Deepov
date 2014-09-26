@@ -22,3 +22,14 @@ void Board::addPiece(Piece piece)
 	addPiece(piece, piece.getPosition());
 }
 
+bool Board::isPositionFree(Position position)
+{
+	return getPiece(position).isNull();
+}
+
+Piece Board::getPiece(Position position)
+{
+	return myPieces[position.getX()][position.getY()];
+}
+
+

@@ -9,7 +9,6 @@
 
 #include <iostream>
 #include "Position.hpp"
-#include "Rook.hpp"
 #include "Color.hpp"
 #include "Board.hpp"
 using namespace std;
@@ -19,13 +18,15 @@ int main()
 	cout << "!!!Hello World !!!" << endl;
 	Position position(3, 4);
 	Position deltaPosition = position.deltaX(10);
-	Rook rook(position, Color::WHITE);
+	Piece rook('r', position, Color::WHITE);
 
 	cout << position.print() << endl;
 	cout << deltaPosition.print() << endl;
 
 	Board board;
 	board.addPiece(rook);
+	cout << board.isPositionFree(rook.getPosition())<< endl;
+	cout << board.isPositionFree(rook.getPosition().deltaX(1)) << endl;
 
 	return 0;
 }

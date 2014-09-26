@@ -16,14 +16,16 @@ class Piece
 {
 public:
 
-	Piece(Position position, Color::value color, bool isPinned);
-	Piece(Position position, Color::value color);
-	Piece(Position position);
+	Piece(char value, Position position, Color::value color, bool isPinned);
+	Piece(char value, Position position, Color::value color);
+	Piece(char value, Position position);
 	Piece();
 	Position getPosition();
+	bool isNull();
 
 private:
 
+	char myValue;
 	Position myPosition;
 	Color::value myColor;
 	bool myIsPinned;

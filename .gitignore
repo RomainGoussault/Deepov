@@ -22,3 +22,5 @@
 .settings/org.eclipse.cdt.managedbuilder.core.prefs
 .project
 /Debug/
+.cproject
+.settings/language.settings.xml
