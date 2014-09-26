@@ -29,6 +29,7 @@ int main()
 	cout << board.isPositionFree(rook.getPosition().deltaX(1)) << endl;
 
 	board.getPseudoLegalMoves(rook);
+	//test travis
 
 	return 0;
 }
