@@ -7,6 +7,7 @@ CPP_SRCS += \
 ../src/Board.cpp \
 ../src/Color.cpp \
 ../src/Main.cpp \
+../src/Move.cpp \
 ../src/Piece.cpp \
 ../src/Position.cpp 
 
@@ -14,6 +15,7 @@ OBJS += \
 ./src/Board.o \
 ./src/Color.o \
 ./src/Main.o \
+./src/Move.o \
 ./src/Piece.o \
 ./src/Position.o 
 
@@ -21,6 +23,7 @@ CPP_DEPS += \
 ./src/Board.d \
 ./src/Color.d \
 ./src/Main.d \
+./src/Move.d \
 ./src/Piece.d \
 ./src/Position.d 
 
