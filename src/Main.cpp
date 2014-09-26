@@ -18,14 +18,14 @@ int main()
 	cout << "!!!Hello World !!!" << endl;
 	Position position(3, 4);
 	Position deltaPosition = position.deltaX(10);
-	Piece rook(Piece::ROOK, position, Color::WHITE);
+	Piece rook('r', position, Color::WHITE);
 
 	cout << position.print() << endl;
 	cout << deltaPosition.print() << endl;
 	cout << rook << endl;
 	Board board;
 	board.addPiece(rook);
-	cout << board.isPositionFree(rook.getPosition()) << endl;
+	cout << board.isPositionFree(rook.getPosition())<< endl;
 	cout << board.isPositionFree(rook.getPosition().deltaX(1)) << endl;
 
 	return 0;

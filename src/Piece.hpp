@@ -9,52 +9,35 @@
 #define Piece_HPP_
 
 #include <ostream>
-#include <string>
+
 
 #include "Position.hpp"
 #include "Color.hpp"
+
 
 class Piece
 {
 public:
 
-	enum pieceType
-	{
-		KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
-	};
-
-	Piece(int value, Position position, Color::value color, bool isPinned);
-	Piece(int value, Position position, Color::value color);
-	Piece(int value, Position position);
+	Piece(char value, Position position, Color::value color, bool isPinned);
+	Piece(char value, Position position, Color::value color);
+	Piece(char value, Position position);
 	Piece();
 	Position getPosition();
-	int getValue() const;
+	char getValue() const;
 	bool isNull();
 
 private:
 
-	int myValue;
+	char myValue;
 	Position myPosition;
 	Color::value myColor;
 	bool myIsPinned;
 };
 
-inline std::ostream& operator<<(std::ostream &strm, const Piece &piece)
-{
-	std::string name;
-
-	switch (piece.getValue())
-	{
-	case Piece::ROOK:
-		name = "Rook";
-		break;
-
-	default:
-		name = "Unknown Piece";
-	}
-
-	strm << "Piece value:" << name;
-	return strm;
+inline std::ostream& operator<<(std::ostream &strm, const Piece &piece) {
+  strm << "Piece value:" << piece.getValue();
+  return strm ;
 }
 
 #endif /* Piece_HPP_ */
