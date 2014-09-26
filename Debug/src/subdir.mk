@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/Board.cpp \
 ../src/Color.cpp \
 ../src/Main.cpp \
 ../src/Piece.cpp \
@@ -11,6 +12,7 @@ CPP_SRCS += \
 ../src/Rook.cpp 
 
 OBJS += \
+./src/Board.o \
 ./src/Color.o \
 ./src/Main.o \
 ./src/Piece.o \
@@ -18,6 +20,7 @@ OBJS += \
 ./src/Rook.o 
 
 CPP_DEPS += \
+./src/Board.d \
 ./src/Color.d \
 ./src/Main.d \
 ./src/Piece.d \

@@ -13,6 +13,11 @@ Position::Position(int _x, int _y)
 	y = _x;
 }
 
+Position::Position() : x(0), y(0)
+{
+}
+
+
 Position Position::deltaX(int delta)
 {
 	return Position(x + delta, y);

@@ -18,10 +18,12 @@ public:
 
 	Piece(Position position, Color::value color, bool isPinned);
 	Piece(Position position, Color::value color);
+	Piece(Position position);
+	Piece();
 
 private:
 
-	Position& myPosition;
+	Position myPosition;
 	Color::value myColor;
 	bool myIsPinned;
 };

@@ -14,6 +14,7 @@ class Position
 public:
 
 	Position(int _x, int _y);
+	Position();
 	Position deltaX(int delta);
 	Position deltaY(int delta);
 	Position deltaXY(int deltaX, int deltaY);
