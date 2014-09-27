@@ -6,19 +6,19 @@
  */
 #include "Piece.hpp"
 
-Piece::Piece(char value, Position position, Color::value color, bool isPinned) : myValue(value), myPosition(position), myColor(color), myIsPinned(isPinned)
+Piece::Piece(Position position, Color::value color, bool isPinned) : myIsEmpty(false), myPosition(position), myColor(color), myIsPinned(isPinned)
 {
 }
 
-Piece::Piece(char value, Position position, Color::value color) : myValue(value), myPosition(position), myColor(color), myIsPinned(false)
+Piece::Piece(Position position, Color::value color) : myIsEmpty(false), myPosition(position), myColor(color), myIsPinned(false)
 {
 }
 
-Piece::Piece(char value, Position position) : myValue(value), myPosition(position), myColor(Color::WHITE), myIsPinned(false)
+Piece::Piece(Position position) :  myIsEmpty(false), myPosition(position), myColor(Color::WHITE), myIsPinned(false)
 {
 }
 
-Piece::Piece() : myValue(0), myPosition(), myColor(Color::WHITE), myIsPinned(false)
+Piece::Piece() :  myIsEmpty(false), myPosition(), myColor(Color::WHITE), myIsPinned(false)
 {
 }
 
@@ -29,13 +29,11 @@ Position Piece::getPosition()
 
 bool Piece::isEmpty()
 {
-	return myValue;
+	return myIsEmpty;
 }
 
-char Piece::getValue() const
+std::vector<Move> Piece::getPseudoLegalMoves()
 {
-	return myValue;
+	std::vector<Move> emptyVector;
+	return emptyVector;
 }
-
-
-

@@ -9,7 +9,6 @@
 #define MOVE_HPP_
 
 #include "Position.hpp"
-#include "Piece.hpp"
 
 class Move
 {
@@ -17,7 +16,7 @@ public:
 
 	Position myOrigin;
 	Position myDestination;
-	Piece myCapturedPiece;
+	//Piece myCapturedPiece;
 	bool myIsPromotion;
 
 	Move(Position origin, Position destination);

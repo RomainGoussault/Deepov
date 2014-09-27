@@ -52,29 +52,5 @@ Piece Board::getPiece(Position position)
 
 std::vector<Move> Board::getPseudoLegalMoves(Piece piece)
 {
-	switch (piece.getValue())
-	{
-	case Piece::ROOK:
-		return getRookMoves(piece);
-		break;
-
-	default:
-		std::cout << "Error: Unknown Piece" << std::endl;
-		std::vector<Move> emptyVector;
-		return emptyVector;
-	}
-}
-
-std::vector<Move> Board::getRookMoves(Piece piece)
-{
-	std::vector<Move> rookMoves;
-	//TODO Implement
-
-	Position origin(0, 0);
-	Position destination(0, 0);
-	Move move(origin, destination);
-
-	rookMoves.push_back(move);
-
-	return rookMoves;
+	return piece.getPseudoLegalMoves();
 }

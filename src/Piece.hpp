@@ -9,54 +9,31 @@
 #define Piece_HPP_
 
 #include <ostream>
+#include <vector>
 
 #include "Position.hpp"
 #include "Color.hpp"
+#include "Move.hpp"
 
 class Piece
 {
 public:
 
-	static const char EMPTY = 0;
-	static const char KING = 1;
-	static const char QUEEN = 2;
-	static const char ROOK = 3;
-	static const char BISHOP = 4;
-	static const char KNIGHT = 6;
-	static const char PAWN = 5;
-
-	Piece(char value, Position position, Color::value color, bool isPinned);
-	Piece(char value, Position position, Color::value color);
-	Piece(char value, Position position);
+	Piece(Position position, Color::value color, bool isPinned);
+	Piece(Position position, Color::value color);
+	Piece(Position position);
 	Piece();
 	Position getPosition();
 	char getValue() const;
 	bool isEmpty();
+	std::vector<Move> getPseudoLegalMoves();
 
 private:
 
-	char myValue;
+	bool myIsEmpty;
 	Position myPosition;
 	Color::value myColor;
 	bool myIsPinned;
 };
-
-inline std::ostream& operator<<(std::ostream &strm, const Piece &piece)
-{
-	std::string name;
-
-	switch (piece.getValue())
-	{
-	case Piece::ROOK:
-		name = "Rook";
-		break;
-
-	default:
-		name = "Unknown Piece";
-	}
-
-	strm << "Piece value:" << name;
-	return strm;
-}
 
 #endif /* Piece_HPP_ */

@@ -9,7 +9,8 @@ CPP_SRCS += \
 ../src/Main.cpp \
 ../src/Move.cpp \
 ../src/Piece.cpp \
-../src/Position.cpp 
+../src/Position.cpp \
+../src/Rook.cpp 
 
 OBJS += \
 ./src/Board.o \
@@ -17,7 +18,8 @@ OBJS += \
 ./src/Main.o \
 ./src/Move.o \
 ./src/Piece.o \
-./src/Position.o 
+./src/Position.o \
+./src/Rook.o 
 
 CPP_DEPS += \
 ./src/Board.d \
@@ -25,14 +27,15 @@ CPP_DEPS += \
 ./src/Main.d \
 ./src/Move.d \
 ./src/Piece.d \
-./src/Position.d 
+./src/Position.d \
+./src/Rook.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -IC:/Users/Romain/git/c++/Deepov/Deepov/include -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

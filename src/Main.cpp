@@ -11,6 +11,7 @@
 #include "Position.hpp"
 #include "Color.hpp"
 #include "Board.hpp"
+#include "Rook.hpp"
 using namespace std;
 
 int main()
@@ -18,7 +19,7 @@ int main()
 	cout << "!!!Hello World !!!" << endl;
 	Position position(3, 4);
 	Position deltaPosition = position.deltaX(10);
-	Piece rook(Piece::ROOK, position, Color::WHITE);
+	Rook rook(position, Color::WHITE);
 
 	cout << position.print() << endl;
 	cout << deltaPosition.print() << endl;
@@ -27,6 +28,8 @@ int main()
 	board.addPiece(rook);
 	cout << board.isPositionFree(rook.getPosition())<< endl;
 	cout << board.isPositionFree(rook.getPosition().deltaX(1)) << endl;
+
+
 
 	board.getPseudoLegalMoves(rook);
 	//test travis

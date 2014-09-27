@@ -33,17 +33,10 @@ public:
 	Position getKingPosition(Color color); //TODO
 
 	bool isPositionFree(Position position);
-	bool isPositionOnBoard(Position position); //TODO
+	bool isPositionOnBoard(Position position);
 
-	std::vector<Move> getPseudoLegalMoves(Piece piece); // TODO
+	std::vector<Move> getPseudoLegalMoves(Piece piece);
 	std::vector<Move> getLegalMoves(Piece piece); // TODO
-
-	std::vector<Move> getKingMoves(Piece piece);  // TODO
-	std::vector<Move> getQueenMoves(Piece piece);  // TODO
-	std::vector<Move> getRookMoves(Piece piece);  // TODO
-	std::vector<Move> getBishopMoves(Piece piece);  // TODO
-	std::vector<Move> getKnightMoves(Piece piece);  // TODO
-	std::vector<Move> getPawnMoves(Piece piece);  // TODO
 
 private:
 
