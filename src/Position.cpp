@@ -7,10 +7,8 @@
 #include "Position.hpp"
 #include <string>
 
-Position::Position(int _x, int _y)
+Position::Position(int _x, int _y) : x(_x), y(_y)
 {
-	x = _x;
-	y = _x;
 }
 
 Position::Position() : x(0), y(0)
