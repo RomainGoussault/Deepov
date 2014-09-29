@@ -24,3 +24,6 @@
 /Debug/
 .cproject
 .settings/language.settings.xml
+*.cbp
+*.depend
+*.layout

@@ -1,5 +1,5 @@
 /*
- * Position.h
+ * Position.hpp
  *
  *  Created on: 30/08/2014
  *      Author: Romain
