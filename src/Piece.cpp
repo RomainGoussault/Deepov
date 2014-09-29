@@ -14,11 +14,11 @@ Piece::Piece(Position position, Color::value color) : myIsEmpty(false), myPositi
 {
 }
 
-Piece::Piece(Position position) :  myIsEmpty(false), myPosition(position), myColor(Color::WHITE), myIsPinned(false)
+Piece::Piece(Position position) : myIsEmpty(false), myPosition(position), myColor(Color::WHITE), myIsPinned(false)
 {
 }
 
-Piece::Piece() :  myIsEmpty(false), myPosition(), myColor(Color::WHITE), myIsPinned(false)
+Piece::Piece() : myIsEmpty(true), myPosition(), myColor(Color::WHITE), myIsPinned(false)
 {
 }
 
