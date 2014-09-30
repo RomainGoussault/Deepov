@@ -1,0 +1,28 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+before_install:
+  - echo $LANG
+  - echo $LC_ALL
+  - rvm use $RVM --install --binary --fuzzy
+  - gem update --system
+  - gem --version
+before_script:
+  - travis_retry bundle
+  - travis_retry ./configure
+script: rake
+branches:
+  only:
+    - master
+notifications:
+  recipients:
+    - romain.goussault@gmail.com
+  email:
+    on_success: change
+    on_failure: always
+env:
+  - RVM=2.0.0 LANG="en_US.UTF-8"
+os:
+  - linux
+  - osx
