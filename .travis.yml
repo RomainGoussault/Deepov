@@ -23,21 +23,8 @@ install:
   - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4"; fi
   
 before_script:
+  - $CXX --version
   - cd Debug
   
 script: make
 
-branches:
-  only:
-    - master
-notifications:
-  recipients:
-    - romain.goussault@gmail.com
-  email:
-    on_success: change
-    on_failure: always
-env:
-  - RVM=2.0.0 LANG="en_US.UTF-8"
-os:
-  - linux
-  - osx
