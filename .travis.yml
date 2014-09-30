@@ -4,7 +4,7 @@ compiler:
   - clang
 before_script:
   - cd Debug
-script: rake
+script: make
 branches:
   only:
     - master
