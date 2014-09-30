@@ -2,7 +2,9 @@ language: cpp
 compiler:
   - gcc
   - clang
-script: make
+before_script:
+  - cd Debug
+script: rake
 branches:
   only:
     - master
