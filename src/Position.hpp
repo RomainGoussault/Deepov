@@ -13,13 +13,13 @@ class Position
 {
 public:
 
-	Position(int _x, int _y);
 	Position();
+	Position(int _x, int _y);
+	int getX();
+	int getY();
 	Position deltaX(int delta);
 	Position deltaY(int delta);
 	Position deltaXY(int deltaX, int deltaY);
-	int getX();
-	int getY();
 	std::string print();
 
 private:
