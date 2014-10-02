@@ -30,7 +30,7 @@ public:
 	bool isEmpty();
 	std::vector<Move> getPseudoLegalMoves(Board &board);
 
-private:
+protected:
 
 	bool myIsEmpty;
 	Position myPosition;

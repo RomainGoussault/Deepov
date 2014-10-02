@@ -25,5 +25,4 @@ private:
 
 };
 
-
 #endif /* MOVE_HPP_ */

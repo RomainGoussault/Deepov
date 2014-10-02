@@ -6,6 +6,8 @@
  */
 
 #include "Rook.hpp"
+#include "Board.hpp"
+
 
 Rook::Rook(Position position, Color::value color) : Piece(position, color)
 {
@@ -14,48 +16,36 @@ Rook::Rook(Position position, Color::value color) : Piece(position, color)
 std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 {
 	std::vector<Move> rookMoves;
-	//TODO Implement
-/*
-
-	Position origin();
+/*	Position origin();
 	Position destination();
-	Move move(origin, destination);
 
-        i = 1;
-		destination = myPosition.deltaX(i);
+	Move move(origin, destination);*/
+
+        int i = 1;
+		Position destination = myPosition.deltaX(i);
 		while (board.isPositionOnBoard(destination))
 		{
-			possibleMove = new Move(position, destination);
+			Move possibleMove(myPosition, destination);
 
 			if (board.isPositionFree(destination))
 			{
-				pseudoLegalMoves.add(possibleMove);
+				rookMoves.push_back(possibleMove);
 			}
 			else
 			{
-				Piece piece = board.getPiece(destination);
+			/*	Piece piece = board.getPiece(destination);
 				// look for capture
 				if (pieceToMove.areColorDifferent(piece))
 				{
 					possibleMove.setCapturedPiece(piece);
 					pseudoLegalMoves.add(possibleMove);
-				}
+				}*/
 				break;
 			}
 
 			++i;
-			destination = position.deltaX(i);
+			destination = myPosition.deltaX(i);
 		}
-
-
-*/
-
-
-
-
-
-
-
 
 	return rookMoves;
 }
