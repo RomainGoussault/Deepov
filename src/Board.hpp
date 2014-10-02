@@ -20,26 +20,26 @@ class Board
 {
 public:
 
-	static const char BOARD_SIZE = 7;
-	Board();
+    static const char BOARD_SIZE = 7;
+    Board();
 
-	void addPiece(Piece piece, Position position);
-	void addPiece(Piece piece);
+    void addPiece(Piece piece, Position position);
+    void addPiece(Piece piece);
 
-	Piece getPiece(Position position);
-	std::vector<Piece> getPieces(int color); //TODO
-	std::vector<Piece> getEnnemyPieces(Position position);//TODO
-	Piece getKing(int color); //TODO
-	Position getKingPosition(int color); //TODO
+    Piece getPiece(Position position);
+    std::vector<Piece> getPieces(int color); //TODO
+    std::vector<Piece> getEnnemyPieces(Position position);//TODO
+    Piece getKing(int color); //TODO
+    Position getKingPosition(int color); //TODO
 
-	bool isPositionFree(Position position);
-	bool isPositionOnBoard(Position position);
+    bool isPositionFree(Position position);
+    bool isPositionOnBoard(Position position);
 
-	std::vector<Move> getLegalMoves(Piece piece); // TODO
+    std::vector<Move> getLegalMoves(Piece piece); // TODO
 
 private:
 
-	std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
+    std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
 };
 
 

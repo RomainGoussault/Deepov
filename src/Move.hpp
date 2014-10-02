@@ -17,14 +17,14 @@ class Move
 {
 public:
 
-	Position myOrigin;
-	Position myDestination;
-	std::shared_ptr<Piece> myCapturedPiece;
-	bool myIsPromotion;
+    Position myOrigin;
+    Position myDestination;
+    std::shared_ptr<Piece> myCapturedPiece;
+    bool myIsPromotion;
 
-	Piece getCapturedPiece();
+    Piece getCapturedPiece();
     void setCapturedPiece(Piece &piece);
-	Move(Position origin, Position destination);
+    Move(Position origin, Position destination);
 
 private:
 
@@ -32,8 +32,8 @@ private:
 
 inline std::ostream& operator<<(std::ostream &strm, const Move &move)
 {
-	strm << "Orig: "  << move.myOrigin  << "  Dest: "  << move.myDestination<< std::endl;
-	return strm;
+    strm << "Orig: "  << move.myOrigin  << "  Dest: "  << move.myDestination<< std::endl;
+    return strm;
 }
 
 #endif /* MOVE_HPP_ */
