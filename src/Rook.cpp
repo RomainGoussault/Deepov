@@ -33,13 +33,13 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 			}
 			else
 			{
-			/*	Piece piece = board.getPiece(destination);
+				Piece otherPiece = board.getPiece(destination);
 				// look for capture
-				if (pieceToMove.areColorDifferent(piece))
+				if (areColorDifferent(otherPiece))
 				{
-					possibleMove.setCapturedPiece(piece);
-					pseudoLegalMoves.add(possibleMove);
-				}*/
+					possibleMove.setCapturedPiece(otherPiece);
+					rookMoves.push_back(possibleMove);
+				}
 				break;
 			}
 

@@ -8,7 +8,10 @@
 #ifndef MOVE_HPP_
 #define MOVE_HPP_
 
+#include <memory>
 #include "Position.hpp"
+
+class Piece;
 
 class Move
 {
@@ -16,9 +19,11 @@ public:
 
 	Position myOrigin;
 	Position myDestination;
-	//Piece myCapturedPiece;
+	std::shared_ptr<Piece> myCapturedPiece;
 	bool myIsPromotion;
 
+	Piece getCapturedPiece();
+    void setCapturedPiece(Piece &piece);
 	Move(Position origin, Position destination);
 
 private:
