@@ -30,17 +30,12 @@ Position Position::deltaXY(int deltaX, int deltaY)
 	return Position(x + deltaX, y + deltaY);
 }
 
-int Position::getX()
+int Position::getX() const
 {
 	return x;
 }
 
-int Position::getY()
+int Position::getY() const
 {
 	return y;
-}
-
-std::string Position::print()
-{
-	return "e";
 }

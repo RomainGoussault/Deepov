@@ -6,19 +6,19 @@
  */
 #include "Piece.hpp"
 
-Piece::Piece(Position position, Color::value color, bool isPinned) : myIsEmpty(false), myPosition(position), myColor(color), myIsPinned(isPinned)
+Piece::Piece(Position position, Color::value color, bool isPinned) : myPosition(position), myIsEmpty(true), myColor(color), myIsPinned(isPinned)
 {
 }
 
-Piece::Piece(Position position, Color::value color) : myIsEmpty(false), myPosition(position), myColor(color), myIsPinned(false)
+Piece::Piece(Position position, Color::value color) : myPosition(position), myIsEmpty(true), myColor(color), myIsPinned(false)
 {
 }
 
-Piece::Piece(Position position) : myIsEmpty(false), myPosition(position), myColor(Color::WHITE), myIsPinned(false)
+Piece::Piece(Position position) : myPosition(position), myIsEmpty(true),  myColor(Color::WHITE), myIsPinned(false)
 {
 }
 
-Piece::Piece() : myIsEmpty(true), myPosition(), myColor(Color::WHITE), myIsPinned(false)
+Piece::Piece() : myPosition(),myIsEmpty(true),  myColor(Color::WHITE), myIsPinned(false)
 {
 }
 

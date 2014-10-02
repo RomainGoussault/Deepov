@@ -20,7 +20,7 @@ public:
     std::vector<Move> getPseudoLegalMoves(Board &board);
 };
 
-inline std::ostream& operator<<(std::ostream &strm, const Piece &piece)
+inline std::ostream& operator<<(std::ostream &strm, const Rook &rook)
 {
 	strm << "Rook" << std::endl;
 	return strm;

@@ -32,8 +32,11 @@ public:
 
 protected:
 
-	bool myIsEmpty;
 	Position myPosition;
+
+private:
+
+	bool myIsEmpty;
 	Color::value myColor;
 	bool myIsPinned;
 };

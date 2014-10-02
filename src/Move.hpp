@@ -25,4 +25,10 @@ private:
 
 };
 
+inline std::ostream& operator<<(std::ostream &strm, const Move &move)
+{
+	strm << "Orig: "  << move.myOrigin  << "  Dest: "  << move.myDestination<< std::endl;
+	return strm;
+}
+
 #endif /* MOVE_HPP_ */
