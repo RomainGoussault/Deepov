@@ -35,7 +35,6 @@ public:
 	bool isPositionFree(Position position);
 	bool isPositionOnBoard(Position position);
 
-	std::vector<Move> getPseudoLegalMoves(Piece piece);
 	std::vector<Move> getLegalMoves(Piece piece); // TODO
 
 private:

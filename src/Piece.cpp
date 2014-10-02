@@ -32,7 +32,7 @@ bool Piece::isEmpty()
 	return myIsEmpty;
 }
 
-std::vector<Move> Piece::getPseudoLegalMoves()
+std::vector<Move> Piece::getPseudoLegalMoves(Board &board)
 {
 	std::vector<Move> emptyVector;
 	return emptyVector;

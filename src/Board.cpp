@@ -50,7 +50,3 @@ Piece Board::getPiece(Position position)
 	return myPieces[position.getX()][position.getY()];
 }
 
-std::vector<Move> Board::getPseudoLegalMoves(Piece piece)
-{
-	return piece.getPseudoLegalMoves();
-}

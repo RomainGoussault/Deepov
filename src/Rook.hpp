@@ -12,17 +12,12 @@
 #include "Color.hpp"
 #include "Move.hpp"
 
-
-
 class Rook : public Piece
 {
 public:
 
     Rook(Position position, Color::value color);
-    std::vector<Move> getPseudoLegalMoves();
-
-private:
-
+    std::vector<Move> getPseudoLegalMoves(Board &board);
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const Piece &piece)

@@ -15,6 +15,8 @@
 #include "Color.hpp"
 #include "Move.hpp"
 
+class Board;
+
 class Piece
 {
 public:
@@ -26,7 +28,7 @@ public:
 	Position getPosition();
 	char getValue() const;
 	bool isEmpty();
-	std::vector<Move> getPseudoLegalMoves();
+	std::vector<Move> getPseudoLegalMoves(Board &board);
 
 private:
 
