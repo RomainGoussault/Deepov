@@ -21,13 +21,15 @@ class Piece
 {
 public:
 
-	Piece(Position position, Color::value color, bool isPinned);
-	Piece(Position position, Color::value color);
+	Piece(Position position, int color, bool isPinned);
+	Piece(Position position, int color);
 	Piece(Position position);
 	Piece();
 	Position getPosition();
 	char getValue() const;
+	int getColor() const;
 	bool isEmpty();
+	bool areColorDifferent(Piece &piece);
 	std::vector<Move> getPseudoLegalMoves(Board &board);
 
 protected:
@@ -37,7 +39,7 @@ protected:
 private:
 
 	bool myIsEmpty;
-	Color::value myColor;
+	int myColor;
 	bool myIsPinned;
 };
 

@@ -16,7 +16,7 @@ class Rook : public Piece
 {
 public:
 
-    Rook(Position position, Color::value color);
+    Rook(Position position, int color);
     std::vector<Move> getPseudoLegalMoves(Board &board);
 };
 

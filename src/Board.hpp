@@ -27,10 +27,10 @@ public:
 	void addPiece(Piece piece);
 
 	Piece getPiece(Position position);
-	std::vector<Piece> getPieces(Color color); //TODO
+	std::vector<Piece> getPieces(int color); //TODO
 	std::vector<Piece> getEnnemyPieces(Position position);//TODO
-	Piece getKing(Color color); //TODO
-	Position getKingPosition(Color color); //TODO
+	Piece getKing(int color); //TODO
+	Position getKingPosition(int color); //TODO
 
 	bool isPositionFree(Position position);
 	bool isPositionOnBoard(Position position);
