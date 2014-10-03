@@ -16,12 +16,12 @@ public:
 
 	Position();
 	Position(int _x, int _y);
+
 	int getX() const;
 	int getY() const;
 	Position deltaX(int delta);
 	Position deltaY(int delta);
 	Position deltaXY(int deltaX, int deltaY);
-	std::string print();
 
 private:
 

@@ -21,10 +21,11 @@ class Piece
 {
 public:
 
-	Piece(Position position, int color, bool isPinned);
-	Piece(Position position, int color);
-	Piece(Position position);
 	Piece();
+	Piece(Position position);
+	Piece(Position position, int color);
+	Piece(Position position, int color, bool isPinned);
+
 	Position getPosition();
 	char getValue() const;
 	int getColor() const;

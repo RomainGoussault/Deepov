@@ -4,8 +4,6 @@
  *  Created on: 24 sept. 2014
  *      Author: Romain
  */
-#include <iostream>
-
 #include "Board.hpp"
 
 Board::Board() : myPieces()
@@ -49,4 +47,3 @@ Piece Board::getPiece(Position position)
 {
     return myPieces[position.getX()][position.getY()];
 }
-

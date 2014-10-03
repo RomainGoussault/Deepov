@@ -5,7 +5,6 @@
  *      Author: Romain
  */
 #include "Position.hpp"
-#include <string>
 
 Position::Position() : x(0), y(0)
 {

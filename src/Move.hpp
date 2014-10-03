@@ -19,6 +19,9 @@ public:
 
     Position myOrigin;
     Position myDestination;
+
+    //myCapturedPiece needs to be a pointer
+    // because the Piece is a forward declaration
     std::shared_ptr<Piece> myCapturedPiece;
     bool myIsPromotion;
 

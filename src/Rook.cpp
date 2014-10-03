@@ -8,7 +8,6 @@
 #include "Rook.hpp"
 #include "Board.hpp"
 
-
 Rook::Rook(Position position, int color) : Piece(position, color)
 {
 }
