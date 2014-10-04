@@ -16,6 +16,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> rookMoves;
 
+    // Direction +x
     int i = 1;
     Position destination = myPosition.deltaX(i);
     while (board.isPositionOnBoard(destination))
@@ -40,6 +41,87 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 
         ++i;
         destination = myPosition.deltaX(i);
+    }
+
+    //Direction +y
+    i = 1;
+    Position destination = myPosition.deltaY(i);
+    while (board.isPositionOnBoard(destination))
+    {
+        Move possibleMove(myPosition, destination);
+
+        if (board.isPositionFree(destination))
+        {
+            rookMoves.push_back(possibleMove);
+        }
+        else
+        {
+            Piece otherPiece = board.getPiece(destination);
+            // look for capture
+            if (areColorDifferent(otherPiece))
+            {
+                possibleMove.setCapturedPiece(otherPiece);
+                rookMoves.push_back(possibleMove);
+            }
+            break;
+        }
+
+        ++i;
+        destination = myPosition.deltaY(i);
+    }
+
+    //Direction -x
+    i = -1;
+    Position destination = myPosition.deltaX(i);
+    while (board.isPositionOnBoard(destination))
+    {
+        Move possibleMove(myPosition, destination);
+
+        if (board.isPositionFree(destination))
+        {
+            rookMoves.push_back(possibleMove);
+        }
+        else
+        {
+            Piece otherPiece = board.getPiece(destination);
+            // look for capture
+            if (areColorDifferent(otherPiece))
+            {
+                possibleMove.setCapturedPiece(otherPiece);
+                rookMoves.push_back(possibleMove);
+            }
+            break;
+        }
+
+        --i;
+        destination = myPosition.deltaX(i);
+    }
+
+    //Direction -y
+    int i = -1;
+    Position destination = myPosition.deltaY(i);
+    while (board.isPositionOnBoard(destination))
+    {
+        Move possibleMove(myPosition, destination);
+
+        if (board.isPositionFree(destination))
+        {
+            rookMoves.push_back(possibleMove);
+        }
+        else
+        {
+            Piece otherPiece = board.getPiece(destination);
+            // look for capture
+            if (areColorDifferent(otherPiece))
+            {
+                possibleMove.setCapturedPiece(otherPiece);
+                rookMoves.push_back(possibleMove);
+            }
+            break;
+        }
+
+        ++i;
+        destination = myPosition.deltaY(i);
     }
 
     return rookMoves;
