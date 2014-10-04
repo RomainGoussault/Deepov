@@ -23,8 +23,8 @@ public:
 
 inline std::ostream& operator<<(std::ostream &strm, const Bishop &bishop)
 {
-	strm << "Bishop" << std::endl;
-	return strm;
+    strm << "Bishop" << std::endl;
+    return strm;
 }
 
 #endif /* BISHOP_HPP_ */

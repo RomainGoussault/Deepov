@@ -15,6 +15,7 @@ Rook::Rook(Position position, int color) : Piece(position, color)
 std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> rookMoves;
+    Piece otherPiece;
 
     // Direction +x
     int i = 1;
@@ -29,7 +30,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            Piece otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiece(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -48,7 +49,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
     destination = myPosition.deltaY(i);
     while (board.isPositionOnBoard(destination))
     {
-        possibleMove.myDestination = destination;
+        Move possibleMove(myPosition, destination);
 
         if (board.isPositionFree(destination))
         {
@@ -75,7 +76,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
     destination = myPosition.deltaX(i);
     while (board.isPositionOnBoard(destination))
     {
-        possibleMove.myDestination = destination;
+        Move possibleMove(myPosition, destination);
 
         if (board.isPositionFree(destination))
         {
@@ -98,11 +99,11 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
     }
 
     //Direction -y
-    int i = -1;
+    i = -1;
     destination = myPosition.deltaY(i);
     while (board.isPositionOnBoard(destination))
     {
-        possibleMove.myDestination = destination;
+        Move possibleMove(myPosition, destination);
 
         if (board.isPositionFree(destination))
         {

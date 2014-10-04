@@ -15,6 +15,7 @@ Bishop::Bishop(Position position, int color) : Piece(position, color)
 std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> bishopMoves;
+    Piece otherPiece;
 
     // Direction +x +y
     int i = 1;
@@ -51,7 +52,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
      destination = destination.deltaY(-i);
     while (board.isPositionOnBoard(destination))
     {
-        possibleMove.myDestination = destination;
+        Move possibleMove(myPosition, destination);
 
         if (board.isPositionFree(destination))
         {
@@ -80,7 +81,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         destination = destination.deltaY(i);
     while (board.isPositionOnBoard(destination))
     {
-        possibleMove.myDestination = destination;
+        Move possibleMove(myPosition, destination);
 
         if (board.isPositionFree(destination))
         {
@@ -104,12 +105,12 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
     }
 
     //Direction -x-y
-    int i = 1;
+    i = 1;
     destination = myPosition.deltaX(-i);
     destination = destination.deltaY(-i);
     while (board.isPositionOnBoard(destination))
     {
-        possibleMove.myDestination = destination;
+        Move possibleMove(myPosition, destination);
 
         if (board.isPositionFree(destination))
         {
