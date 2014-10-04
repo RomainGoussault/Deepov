@@ -1,31 +1,32 @@
 /*
- * Rook.cpp
+ * Bishop.hpp
  *
- *  Created on: 1 sept. 2014
- *      Author: Romain
+ *  Created on: 4 oct. 2014
+ *      Author: Romain & Navid
  */
 
-#include "Rook.hpp"
+#include "Bishop.hpp"
 #include "Board.hpp"
 
-Rook::Rook(Position position, int color) : Piece(position, color)
+Bishop::Bishop(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
+std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
 {
-    std::vector<Move> rookMoves;
+    std::vector<Move> bishopMoves;
 
-    // Direction +x
+    // Direction +x +y
     int i = 1;
     Position destination = myPosition.deltaX(i);
+    destination = destination.deltaY(i);
     while (board.isPositionOnBoard(destination))
     {
         Move possibleMove(myPosition, destination);
 
         if (board.isPositionFree(destination))
         {
-            rookMoves.push_back(possibleMove);
+            bishopMoves.push_back(possibleMove);
         }
         else
         {
@@ -34,25 +35,27 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
             if (areColorDifferent(otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
-                rookMoves.push_back(possibleMove);
+                bishopMoves.push_back(possibleMove);
             }
             break;
         }
 
         ++i;
         destination = myPosition.deltaX(i);
+        destination = destination.deltaY(i);
     }
 
-    //Direction +y
+    //Direction +x-y
     i = 1;
-    destination = myPosition.deltaY(i);
+     destination = myPosition.deltaX(i);
+     destination = destination.deltaY(-i);
     while (board.isPositionOnBoard(destination))
     {
         possibleMove.myDestination = destination;
 
         if (board.isPositionFree(destination))
         {
-            rookMoves.push_back(possibleMove);
+            bishopMoves.push_back(possibleMove);
         }
         else
         {
@@ -61,52 +64,27 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
             if (areColorDifferent(otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
-                rookMoves.push_back(possibleMove);
+                bishopMoves.push_back(possibleMove);
             }
             break;
         }
 
         ++i;
-        destination = myPosition.deltaY(i);
-    }
-
-    //Direction -x
-    i = -1;
-    destination = myPosition.deltaX(i);
-    while (board.isPositionOnBoard(destination))
-    {
-        possibleMove.myDestination = destination;
-
-        if (board.isPositionFree(destination))
-        {
-            rookMoves.push_back(possibleMove);
-        }
-        else
-        {
-            otherPiece = board.getPiece(destination);
-            // look for capture
-            if (areColorDifferent(otherPiece))
-            {
-                possibleMove.setCapturedPiece(otherPiece);
-                rookMoves.push_back(possibleMove);
-            }
-            break;
-        }
-
-        --i;
         destination = myPosition.deltaX(i);
+        destination = destination.deltaY(-i);
     }
 
-    //Direction -y
-    int i = -1;
-    destination = myPosition.deltaY(i);
+    //Direction -x+y
+    i = 1;
+        destination = myPosition.deltaX(-i);
+        destination = destination.deltaY(i);
     while (board.isPositionOnBoard(destination))
     {
         possibleMove.myDestination = destination;
 
         if (board.isPositionFree(destination))
         {
-            rookMoves.push_back(possibleMove);
+            bishopMoves.push_back(possibleMove);
         }
         else
         {
@@ -115,14 +93,44 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
             if (areColorDifferent(otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
-                rookMoves.push_back(possibleMove);
+                bishopMoves.push_back(possibleMove);
             }
             break;
         }
 
-        --i;
-        destination = myPosition.deltaY(i);
+        ++i;
+        destination = myPosition.deltaX(-i);
+        destination = destination.deltaY(i);
     }
 
-    return rookMoves;
+    //Direction -x-y
+    int i = 1;
+    destination = myPosition.deltaX(-i);
+    destination = destination.deltaY(-i);
+    while (board.isPositionOnBoard(destination))
+    {
+        possibleMove.myDestination = destination;
+
+        if (board.isPositionFree(destination))
+        {
+            bishopMoves.push_back(possibleMove);
+        }
+        else
+        {
+            otherPiece = board.getPiece(destination);
+            // look for capture
+            if (areColorDifferent(otherPiece))
+            {
+                possibleMove.setCapturedPiece(otherPiece);
+                bishopMoves.push_back(possibleMove);
+            }
+            break;
+        }
+
+        ++i;
+        destination = myPosition.deltaX(-i);
+        destination = destination.deltaY(-i);
+    }
+
+    return bishopMoves;
 }
