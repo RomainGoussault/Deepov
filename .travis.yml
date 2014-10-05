@@ -26,7 +26,7 @@ before_script:
   - $CXX --version
   - echo "CXX="$CXX
   - echo "CC="$CC
-  - cd Debug
+
   
 script: make
 
