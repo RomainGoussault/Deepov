@@ -25,7 +25,6 @@ install:
 before_script:
   - $CXX --version
   - echo "CXX="$CXX
-  - echo "CC="$CC
 
   
 script: make
