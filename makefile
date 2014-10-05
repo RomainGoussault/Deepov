@@ -1,6 +1,5 @@
 # Var definitions
-GXX = 'g++'
-CXX = ENV['CXX'] || GXX
+CXX = g++4.8
 CC_FLAGS = -W -Wall -std=c++11
 
 CPP_FILES := $(wildcard src/*.cpp)
