@@ -25,6 +25,7 @@ install:
 before_script:
   - $CXX --version
   - echo "CXX="$CXX
+  - mkdir obj
 
   
 script: make
