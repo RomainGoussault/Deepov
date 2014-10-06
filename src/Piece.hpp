@@ -26,10 +26,10 @@ public:
 	Piece(Position position, int color);
 	Piece(Position position, int color, bool isPinned);
 
-	Position getPosition();
+	Position getPosition() const;
 	char getValue() const;
 	int getColor() const;
-	bool isEmpty();
+	bool isEmpty() const;
 	bool areColorDifferent(Piece &piece);
 	std::vector<Move> getPseudoLegalMoves(Board &board);
 
@@ -43,5 +43,13 @@ private:
 	int myColor;
 	bool myIsPinned;
 };
+
+inline std::ostream& operator<<(std::ostream &strm, const Piece &piece)
+{
+    std::string color = piece.getColor() == 0 ? " WHITE" : " BLACK";
+
+   	strm << piece.getPosition() << color <<std::endl;
+	return strm;
+}
 
 #endif /* Piece_HPP_ */

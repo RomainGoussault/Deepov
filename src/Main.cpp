@@ -21,11 +21,12 @@ using namespace std;
 int main()
 {
     boost::array<int, 4> arr = {{1,2,3,4}};
-    cout << "hi" << arr[0];
 
 	Position position(3, 4);
 	Position position2(7, 4);
 	Rook rook(position, BLACK);
+    cout << rook << endl;
+
 	Rook rook2(position2, WHITE);
 
     bool b = rook.areColorDifferent(rook2);

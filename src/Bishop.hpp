@@ -23,8 +23,13 @@ public:
 
 inline std::ostream& operator<<(std::ostream &strm, const Bishop &bishop)
 {
-    strm << "Bishop" << std::endl;
-    return strm;
+    if(bishop.isEmpty())
+    {
+        return strm;
+    }
+
+	strm << "Bishop " << static_cast<const Piece &>(bishop) << std::endl;
+	return strm;
 }
 
 #endif /* BISHOP_HPP_ */

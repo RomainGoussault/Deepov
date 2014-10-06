@@ -10,19 +10,19 @@ Piece::Piece() : myPosition(), myIsEmpty(true), myColor(WHITE), myIsPinned(false
 {
 }
 
-Piece::Piece(Position position) : myPosition(position), myIsEmpty(true), myColor(WHITE), myIsPinned(false)
+Piece::Piece(Position position) : myPosition(position), myIsEmpty(false), myColor(WHITE), myIsPinned(false)
 {
 }
 
-Piece::Piece(Position position, int color) : myPosition(position), myIsEmpty(true), myColor(color), myIsPinned(false)
+Piece::Piece(Position position, int color) : myPosition(position), myIsEmpty(false), myColor(color), myIsPinned(false)
 {
 }
 
-Piece::Piece(Position position, int color, bool isPinned) : myPosition(position), myIsEmpty(true), myColor(color), myIsPinned(isPinned)
+Piece::Piece(Position position, int color, bool isPinned) : myPosition(position), myIsEmpty(false), myColor(color), myIsPinned(isPinned)
 {
 }
 
-Position Piece::getPosition()
+Position Piece::getPosition() const
 {
     return myPosition;
 }
@@ -32,7 +32,7 @@ int Piece::getColor() const
     return myColor;
 }
 
-bool Piece::isEmpty()
+bool Piece::isEmpty() const
 {
     return myIsEmpty;
 }
