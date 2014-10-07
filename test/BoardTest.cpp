@@ -34,9 +34,9 @@ TEST_CASE( "is position free", "[board]" )
     Position position2(7,7);
     Position position3(6,4);
 
-    Rook rook1(position1, Color::WHITE);
-    Rook rook2(position2, Color::WHITE);
-    Rook rook3(position3, Color::WHITE);
+    Rook rook1(position1, WHITE);
+    Rook rook2(position2, WHITE);
+    Rook rook3(position3, WHITE);
 
     board.addPiece(rook1);
     board.addPiece(rook2);
