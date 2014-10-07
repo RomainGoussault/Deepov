@@ -22,26 +22,25 @@ int main()
 {
     boost::array<int, 4> arr = {{1,2,3,4}};
 
-	Position position(3, 4);
-	Position position2(7, 4);
-	Rook rook(position, BLACK);
+    Position position(6, 4);
+    Rook rook(position, BLACK);
     cout << rook << endl;
 
-	Rook rook2(position2, WHITE);
+    Board board;
+    board.addPiece(rook);
 
-    bool b = rook.areColorDifferent(rook2);
-    cout << b << endl;
+    std::vector<Move> rookMoves = rook.getPseudoLegalMoves(board); // should be 14
+    cout << "number of pseudo legal moves should be 14: " << rookMoves.size() << endl;
 
 
-	Board board;
-	board.addPiece(rook);
+        for( std::vector<Move>::const_iterator i = rookMoves.begin(); i != rookMoves.end(); ++i)
+        {
+            cout << *i << endl;
 
-    std::vector<Move> rookMoves = rook.getPseudoLegalMoves(board);
+        }
 
-    for( std::vector<Move>::const_iterator i = rookMoves.begin(); i != rookMoves.end(); ++i)
-    {
-        cout << *i << endl;
-    }
 
-	return 0;
+    cout << "number of pseudo legal moves should be 14: " << rookMoves.size() << endl;
+
+    return 0;
 }

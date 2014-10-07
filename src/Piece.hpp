@@ -26,12 +26,17 @@ public:
 	Piece(Position position, int color);
 	Piece(Position position, int color, bool isPinned);
 
+	//virtual destructor
+	virtual ~Piece()
+	{
+	}
+
 	Position getPosition() const;
 	char getValue() const;
 	int getColor() const;
 	bool isEmpty() const;
 	bool areColorDifferent(Piece &piece);
-	std::vector<Move> getPseudoLegalMoves(Board &board);
+	virtual std::vector<Move> getPseudoLegalMoves(Board &board){}
 
 protected:
 

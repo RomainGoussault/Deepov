@@ -41,9 +41,3 @@ bool Piece::areColorDifferent(Piece &piece)
 {
     return myColor != piece.getColor();
 }
-
-std::vector<Move> Piece::getPseudoLegalMoves(Board &board)
-{
-    std::vector<Move> emptyVector;
-    return emptyVector;
-}
