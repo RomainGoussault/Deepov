@@ -1,13 +1,14 @@
 #include "Move.hpp"
 #include "Piece.hpp"
 
-Move::Move(Position origin, Position destination) : myOrigin(origin), myDestination(destination), myIsPromotion(false)
+Move::Move(Position origin, Position destination) : myOrigin(origin), myDestination(destination),  myCapturedPiece(nullptr), myIsPromotion(false)
 {
 }
 
 void Move::setCapturedPiece(Piece &piece)
 {
-    myCapturedPiece.reset(&piece);
+    //myCapturedPiece will hold a copy of piece
+    myCapturedPiece.reset(new Piece(piece));
 }
 
 Piece Move::getCapturedPiece()
