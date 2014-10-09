@@ -6,7 +6,7 @@
  */
 #include "Board.hpp"
 
-Board::Board() : myPieces(), colorToPlay(0)
+Board::Board() : myPieces(), myColorToPlay(0)
 {
 	for(int i = 0; i < 8; ++i )
 	{
@@ -19,6 +19,15 @@ Board::Board() : myPieces(), colorToPlay(0)
 	}
 }
 
+int Board::getTurn() const
+{
+    return myColorToPlay;
+}
+
+void Board::executeMove(Move move)
+{
+    myColorToPlay = (myColorToPlay+1) % 2;
+}
 void Board::addPiece(Piece piece, Position position)
 {
    	myPieces[position.getX()][position.getY()] = piece;
