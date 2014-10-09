@@ -29,7 +29,7 @@ public:
 
     Piece getPiece(Position position);
     std::vector<Piece> getPieces(int color); //TODO
-    std::vector<Piece> getEnnemyPieces(Position position);//TODO
+    std::vector<Piece> getEnnemyPieces(int color);//TODO
     Piece getKing(int color); //TODO
     Position getKingPosition(int color); //TODO
 
@@ -38,9 +38,11 @@ public:
 
     std::vector<Move> getLegalMoves(Piece piece); // TODO
 
+
 private:
 
     std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
+    int colorToPlay;
 };
 
 

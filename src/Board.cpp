@@ -6,7 +6,7 @@
  */
 #include "Board.hpp"
 
-Board::Board() : myPieces()
+Board::Board() : myPieces(), colorToPlay(0)
 {
 	for(int i = 0; i < 8; ++i )
 	{
@@ -76,4 +76,9 @@ std::vector<Piece> Board::getPieces(int color)
     }
 
     return piecesList;
+}
+
+std::vector<Piece> Board::getEnnemyPieces(int color)
+{
+    return getPieces((color + 1)%2);
 }
