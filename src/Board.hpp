@@ -20,13 +20,12 @@ class Board
 {
 public:
 
-    static const char BOARD_SIZE = 7;
+    static const char BOARD_SIZE = 8;
 
     Board();
 
     void addPiece(Piece piece, Position position);
     void addPiece(Piece piece);
-    void init();
 
     Piece getPiece(Position position);
     std::vector<Piece> getPieces(int color); //TODO
@@ -41,8 +40,7 @@ public:
 
 private:
 
-    Piece myPieces[7][7];    
-//std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
+    std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
 };
 
 

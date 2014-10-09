@@ -10,7 +10,6 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
     {
         for(int j = 0; j < 8; ++j )
         {
-            std::cout << j << std::endl;
             Position position(i, j);
             Rook rook(position, BLACK);
             Board board;
