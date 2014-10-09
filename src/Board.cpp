@@ -6,7 +6,7 @@
  */
 #include "Board.hpp"
 
-Board::Board() : myPieces(), myColorToPlay(0)
+Board::Board() : myPieces(), myColorToPlay(WHITE)
 {
 	for(int i = 0; i < 8; ++i )
 	{
@@ -28,6 +28,7 @@ void Board::executeMove(Move move)
 {
     myColorToPlay = (myColorToPlay+1) % 2;
 }
+
 void Board::addPiece(Piece piece, Position position)
 {
    	myPieces[position.getX()][position.getY()] = piece;
@@ -75,11 +76,11 @@ std::vector<Piece> Board::getPieces(int color)
         for (int j=0; j<8; j++)
         {
             Position position(i,j);
-            Piece thePiece;
-            thePiece = myPieces[position.getX()][position.getY()];
-            if (thePiece.getColor() == color)
+            Piece piece;
+            piece = myPieces[position.getX()][position.getY()];
+            if (!piece.isEmpty() && piece.getColor() == color)
             {
-                piecesList.push_back(thePiece);
+                piecesList.push_back(piece);
             }
         }
     }
