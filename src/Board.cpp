@@ -56,3 +56,24 @@ Piece Board::getPiece(Position position)
 {
     return myPieces[position.getX()][position.getY()];
 }
+
+std::vector<Piece> Board::getPieces(int color)
+{
+    std::vector<Piece> piecesList;
+
+    for (int i=0; i<8; i++)
+    {
+        for (int j=0; j<8; j++)
+        {
+            Position position(i,j);
+            Piece thePiece;
+            thePiece = myPieces[position.getX()][position.getY()];
+            if (thePiece.getColor() == color)
+            {
+                piecesList.push_back(thePiece);
+            }
+        }
+    }
+
+    return piecesList;
+}
