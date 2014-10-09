@@ -15,3 +15,12 @@ Piece Move::getCapturedPiece()
 {
     return *myCapturedPiece;
 }
+
+Position Move::getOrigin() const
+{
+    return myOrigin;
+}
+Position Move::getDestination() const
+{
+    return myDestination;
+}

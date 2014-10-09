@@ -17,25 +17,30 @@ class Move
 {
 public:
 
-    Position myOrigin;
-    Position myDestination;
-
+    Move(Position origin, Position destination);
     //myCapturedPiece needs to be a pointer
     // because the Piece is a forward declaration
-    std::shared_ptr<Piece> myCapturedPiece;
-    bool myIsPromotion;
+
+    Position getOrigin() const;
+    Position getDestination() const;
+    bool isPromotion() const;
 
     Piece getCapturedPiece();
     void setCapturedPiece(Piece &piece);
-    Move(Position origin, Position destination);
+
 
 private:
+
+    Position myOrigin;
+    Position myDestination;
+    std::shared_ptr<Piece> myCapturedPiece;
+    bool myIsPromotion;
 
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const Move &move)
 {
-    strm << "Orig: "  << move.myOrigin  << "  Dest: "  << move.myDestination<< std::endl;
+    strm << "Orig: "  << move.getOrigin()  << "  Dest: "  << move.getDestination()<< std::endl;
     return strm;
 }
 
