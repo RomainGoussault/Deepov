@@ -26,6 +26,7 @@ public:
 
     void addPiece(Piece piece, Position position);
     void addPiece(Piece piece);
+    void init();
 
     Piece getPiece(Position position);
     std::vector<Piece> getPieces(int color); //TODO
@@ -40,7 +41,8 @@ public:
 
 private:
 
-    std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
+    Piece myPieces[7][7];    
+//std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
 };
 
 
