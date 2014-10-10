@@ -20,11 +20,9 @@ before_script:
   - $CXX --version
   - echo "CXX="$CXX
   - mkdir obj
-
   
-script: make
-
-after_script:
+script: 
+  - make
   - ./DeepovTesting 
  
 notifications:
