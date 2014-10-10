@@ -2,6 +2,7 @@
 #include "Board.hpp"
 #include "Position.hpp"
 #include "Rook.hpp"
+#include "Color.hpp"
 #include "Piece.hpp"
 
 TEST_CASE( "is position on Board test", "[board]" )
@@ -55,4 +56,27 @@ TEST_CASE( "is position free", "[board]" )
     REQUIRE(board.isPositionFree(position4));
     REQUIRE(board.isPositionFree(position6));
     REQUIRE(board.isPositionFree(position7));
+}
+
+TEST_CASE( "getPieces", "[board]" )
+{
+    Board board;
+
+    Position position1(0, 0);
+    Position position2(7,7);
+    Position position3(6,4);
+
+    Rook rook1(position1, WHITE);
+    Rook rook2(position2, BLACK);
+    Rook rook3(position3, WHITE);
+
+    board.addPiece(rook1);
+    board.addPiece(rook2);
+    board.addPiece(rook3);
+
+	int numberWhitePieces = board.getPieces(WHITE).size();
+	int numberBlackPieces = board.getPieces(BLACK).size();
+
+    REQUIRE(numberWhitePieces == 2);
+    REQUIRE(numberBlackPieces == 1);
 }
