@@ -19,6 +19,8 @@
 *.exe
 *.out
 *.app
+
+
 .settings/org.eclipse.cdt.managedbuilder.core.prefs
 .project
 /Debug/
@@ -27,3 +29,7 @@
 *.cbp
 *.depend
 *.layout
+*~
+
+Deepov
+DeepovTesting
