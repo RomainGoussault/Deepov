@@ -15,7 +15,7 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
             Board board;
             board.addPiece(rook);
             int size = rook.getPseudoLegalMoves(board).size();
-            REQUIRE(size == 914);
+            REQUIRE(size == 14);
         }
     }
 }
