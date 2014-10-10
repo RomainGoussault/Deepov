@@ -1,11 +1,17 @@
 # Var definitions
 CXX = g++-4.8
-CC_FLAGS = -W -Wall -std=c++11
+CC_FLAGS = -W -Wall -g -std=c++11
 
-CPP_FILES := $(wildcard src/*.cpp)
-OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
+SRC_FILES := $(wildcard src/*.cpp)
 
-all: Deepov
+TEST_FILES := $(wildcard test/*.cpp)
+TEST_FILES += $(SRC_FILES)
+TEST_FILES := $(filter-out src/Main.cpp, $(TEST_FILES)) 
+
+OBJ_FILES := $(addprefix obj/,$(notdir $(SRC_FILES:.cpp=.o)))
+OBJ_TEST_FILES := $(addprefix obj/,$(notdir $(TEST_FILES:.cpp=.o)))
+
+all: Deepov DeepovTesting
 
 Deepov: $(OBJ_FILES)
 	$(CXX) $(LD_FLAGS) -o $@ $^
@@ -14,4 +20,9 @@ obj/%.o: src/%.cpp
 	$(CXX) $(CC_FLAGS) -c -o $@ $<
 
 clean:
-	rm -rf *.bak rm -rf *.o
+	rm -rf *.bak rm -rf $(OBJ_FILES)
+
+DeepovTesting: $(OBJ_TEST_FILES)
+	$(CXX) $(LD_FLAGS)  -o $@ $^
+
+

@@ -6,8 +6,6 @@ compiler:
 before_install:
  # g++4.8.1
  - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
-
-
  - sudo apt-get update -qq
 
 install:
@@ -26,9 +24,11 @@ before_script:
   
 script: make
 
+after_script:
+  - ./DeepovTesting 
+ 
 notifications:
   email:
     recipients:
       - navid.hedjazian@gmail.com
       - romain.goussault@gmail.com
-
