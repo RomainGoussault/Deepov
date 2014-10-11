@@ -10,6 +10,7 @@
 
 #include <array>
 #include <vector>
+#include <memory>
 
 #include "Piece.hpp"
 #include "Position.hpp"
@@ -30,7 +31,7 @@ public:
     int getTurn() const;
     void executeMove(Move move); //TODO
 
-    Piece getPiece(Position position);
+    std::shared_ptr<Piece> getPiece(Position position);
     std::vector<Piece> getPieces(int color); //TODO
     std::vector<Piece> getEnnemyPieces(int color);//TODO
     Piece getKing(int color); //TODO
@@ -44,7 +45,7 @@ public:
 
 private:
 
-    std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> myPieces;
+    std::array<std::array<std::shared_ptr<Piece>, BOARD_SIZE>, BOARD_SIZE> myPieces;
     int myColorToPlay;
 };
 

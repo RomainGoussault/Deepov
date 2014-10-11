@@ -15,7 +15,7 @@ Rook::Rook(Position position, int color) : Piece(position, color)
 std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> rookMoves;
-    Piece otherPiece;
+    std::shared_ptr<Piece> otherPiece;
 
     // Direction +x
     int i = 1;
@@ -32,9 +32,9 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
         {
             otherPiece = board.getPiece(destination);
             // look for capture
-            if (areColorDifferent(otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
-                possibleMove.setCapturedPiece(otherPiece);
+                possibleMove.setCapturedPiece(*otherPiece);
                 rookMoves.push_back(possibleMove);
             }
             break;
@@ -59,9 +59,9 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
         {
             otherPiece = board.getPiece(destination);
             // look for capture
-            if (areColorDifferent(otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
-                possibleMove.setCapturedPiece(otherPiece);
+                possibleMove.setCapturedPiece(*otherPiece);
                 rookMoves.push_back(possibleMove);
             }
             break;
@@ -86,9 +86,9 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
         {
             otherPiece = board.getPiece(destination);
             // look for capture
-            if (areColorDifferent(otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
-                possibleMove.setCapturedPiece(otherPiece);
+                possibleMove.setCapturedPiece(*otherPiece);
                 rookMoves.push_back(possibleMove);
             }
             break;
@@ -113,9 +113,9 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
         {
             otherPiece = board.getPiece(destination);
             // look for capture
-            if (areColorDifferent(otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
-                possibleMove.setCapturedPiece(otherPiece);
+                possibleMove.setCapturedPiece(*otherPiece);
                 rookMoves.push_back(possibleMove);
             }
             break;

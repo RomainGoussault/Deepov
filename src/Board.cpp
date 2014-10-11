@@ -8,7 +8,7 @@
 
 Board::Board() : myPieces(), myColorToPlay(WHITE)
 {
-	for(int i = 0; i < 8; ++i )
+	/*for(int i = 0; i < 8; ++i )
 	{
 	    for(int j = 0; j < 8; ++j )
 	    {
@@ -16,7 +16,7 @@ Board::Board() : myPieces(), myColorToPlay(WHITE)
 			Piece piece(position);
 			myPieces[i][j] = piece;
 	    }
-	}
+	}*/
 }
 
 int Board::getTurn() const
@@ -31,7 +31,7 @@ void Board::executeMove(Move move)
 
 void Board::addPiece(Piece piece, Position position)
 {
-   	myPieces[position.getX()][position.getY()] = piece;
+   	myPieces[position.getX()][position.getY()].reset(new Piece(piece));
 }
 
 void Board::addPiece(Piece piece)
@@ -41,7 +41,7 @@ void Board::addPiece(Piece piece)
 
 bool Board::isPositionFree(Position position)
 {
-    return getPiece(position).isEmpty();
+    return myPieces[position.getX()][position.getY()] == nullptr;
 }
 
 bool Board::isPositionOnBoard(Position position)
@@ -62,7 +62,7 @@ bool Board::isPositionOnBoard(Position position)
     return true;
 }
 
-Piece Board::getPiece(Position position)
+std::shared_ptr<Piece> Board::getPiece(Position position)
 {
     return myPieces[position.getX()][position.getY()];
 }
@@ -76,11 +76,11 @@ std::vector<Piece> Board::getPieces(int color)
         for (int j=0; j<8; j++)
         {
             Position position(i,j);
-            Piece piece;
+            std::shared_ptr<Piece> piece;
             piece = myPieces[position.getX()][position.getY()];
-            if (!piece.isEmpty() && piece.getColor() == color)
+            if (piece && piece->getColor() == color)
             {
-                piecesList.push_back(piece);
+                piecesList.push_back(*piece);
             }
         }
     }
