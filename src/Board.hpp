@@ -30,7 +30,7 @@ public:
     int getTurn() const;
     void executeMove(Move move); //TODO
 
-    piecePtr getPiece(Position position);
+    piecePtr getPiecePtr(Position position);
     std::vector<Piece> getPieces(int color); //TODO
     std::vector<Piece> getEnnemyPieces(int color);//TODO
     Piece getKing(int color); //TODO

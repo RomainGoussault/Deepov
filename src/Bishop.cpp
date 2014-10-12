@@ -31,7 +31,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            Piece otherPiece = board.getPiece(destination);
+            Piece otherPiece = board.getPiecePr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -60,7 +60,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -89,7 +89,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -118,7 +118,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {

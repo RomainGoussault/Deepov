@@ -53,7 +53,7 @@ bool Board::isPositionOnBoard(Position position)
     return true;
 }
 
-piecePtr Board::getPiece(Position position)
+piecePtr Board::getPiecePtr(Position position)
 {
     return myPieces[position.getX()][position.getY()];
 }

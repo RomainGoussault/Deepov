@@ -16,8 +16,8 @@ King::King(Position position, int color) : Piece(position, color)
 std::vector<Move> King::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> kingMoves;
-  /*  Piece otherPiece;
-
+    Piece otherPiece;
+/*
     // Direction +x
     int i = 1;
     Position destination = myPosition.deltaX(i);
@@ -31,7 +31,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            Piece otherPiece = board.getPiece(destination);
+            Piece otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -54,7 +54,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -76,7 +76,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -98,7 +98,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -120,7 +120,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -142,7 +142,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -164,7 +164,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
@@ -186,7 +186,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiece(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(otherPiece))
             {
