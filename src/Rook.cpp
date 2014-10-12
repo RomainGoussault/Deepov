@@ -57,7 +57,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiecePr(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(*otherPiece))
             {
@@ -84,7 +84,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiecePr(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(*otherPiece))
             {
@@ -111,7 +111,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiecePr(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
             if (areColorDifferent(*otherPiece))
             {
