@@ -34,7 +34,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
             // look for capture
             if (areColorDifferent(*otherPiece))
             {
-                possibleMove.setCapturedPiece(*otherPiece);
+                possibleMove.setCapturedPiece(otherPiece);
                 rookMoves.push_back(possibleMove);
             }
             break;
@@ -61,7 +61,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
             // look for capture
             if (areColorDifferent(*otherPiece))
             {
-                possibleMove.setCapturedPiece(*otherPiece);
+                possibleMove.setCapturedPiece(otherPiece);
                 rookMoves.push_back(possibleMove);
             }
             break;
@@ -88,7 +88,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
             // look for capture
             if (areColorDifferent(*otherPiece))
             {
-                possibleMove.setCapturedPiece(*otherPiece);
+                possibleMove.setCapturedPiece(otherPiece);
                 rookMoves.push_back(possibleMove);
             }
             break;
@@ -115,7 +115,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
             // look for capture
             if (areColorDifferent(*otherPiece))
             {
-                possibleMove.setCapturedPiece(*otherPiece);
+                possibleMove.setCapturedPiece(otherPiece);
                 rookMoves.push_back(possibleMove);
             }
             break;
