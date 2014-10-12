@@ -26,7 +26,7 @@ public:
     bool isPromotion() const;
 
     Piece getCapturedPiece();
-    void setCapturedPiece(Piece &piece);
+    void setCapturedPiece(std::shared_ptr<Piece> piece);
 
 
 private:

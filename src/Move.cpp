@@ -5,10 +5,9 @@ Move::Move(Position origin, Position destination) : myOrigin(origin), myDestinat
 {
 }
 
-void Move::setCapturedPiece(Piece &piece)
+void Move::setCapturedPiece(std::shared_ptr<Piece> piece)
 {
-    //myCapturedPiece will hold a copy of piece
-    myCapturedPiece.reset(new Piece(piece));
+    myCapturedPiece = piece;
 }
 
 Piece Move::getCapturedPiece()

@@ -21,14 +21,14 @@ int main()
 {
     Position position(0, 0);
     Position position2(0, 1);
-    Board board;
+
+   Board board;
 
     bool a = board.isPositionFree(position);
     cout << a << endl;
 
     bool b =  board.isPositionFree(position2);
     cout << b << endl;
-
     Rook rook(position, BLACK);
     Rook rook2(position2, BLACK);
     cout << rook << endl;
@@ -43,6 +43,16 @@ int main()
     {
         cout << *i << endl;
     }
-
+for(int i = 0; i < 8; ++i )
+		{
+		    for(int j = 0; j < 8; ++j )
+		    {
+		        Position position(i, j);
+		        Rook rook(position, BLACK);
+		        Board board2;
+		        board2.addPiece(rook);
+		        int size = rook.getPseudoLegalMoves(board).size();
+		    }
+		}
     return 0;
 }

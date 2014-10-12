@@ -18,7 +18,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
     Piece otherPiece;
 
     // Direction +x +y
-    int i = 1;
+ /*   int i = 1;
     Position destination = myPosition.deltaX(i);
     destination = destination.deltaY(i);
     while (board.isPositionOnBoard(destination))
@@ -132,6 +132,6 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         destination = myPosition.deltaX(-i);
         destination = destination.deltaY(-i);
     }
-
+*/
     return bishopMoves;
 }
