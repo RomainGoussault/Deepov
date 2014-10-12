@@ -15,7 +15,7 @@ Rook::Rook(Position position, int color) : Piece(position, color)
 std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> rookMoves;
-    std::shared_ptr<Piece> otherPiece;
+    piecePtr otherPiece;
 
     // Direction +x
     int i = 1;

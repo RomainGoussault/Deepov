@@ -10,16 +10,20 @@
 
 #include <ostream>
 #include <vector>
+#include <memory>
 
 #include "Position.hpp"
 #include "Color.hpp"
 #include "Move.hpp"
-
 class Board;
+
+typedef std::shared_ptr<Piece> piecePtr;
+
 
 class Piece
 {
 public:
+
 
 	Piece();
 	Piece(Position position);

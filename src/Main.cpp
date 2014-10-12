@@ -9,6 +9,8 @@
 
 #include <iostream>
 #include <vector>
+
+#include "Color.hpp"
 #include "Position.hpp"
 #include "Color.hpp"
 #include "Board.hpp"
@@ -19,6 +21,7 @@ using namespace std;
 
 int main()
 {
+
     Position position(0, 0);
     Position position2(0, 1);
 

@@ -16,7 +16,6 @@
 #include "Position.hpp"
 #include "Move.hpp"
 
-
 class Board
 {
 public:
@@ -31,7 +30,7 @@ public:
     int getTurn() const;
     void executeMove(Move move); //TODO
 
-    std::shared_ptr<Piece> getPiece(Position position);
+    piecePtr getPiece(Position position);
     std::vector<Piece> getPieces(int color); //TODO
     std::vector<Piece> getEnnemyPieces(int color);//TODO
     Piece getKing(int color); //TODO
@@ -45,7 +44,7 @@ public:
 
 private:
 
-    std::array<std::array<std::shared_ptr<Piece>, BOARD_SIZE>, BOARD_SIZE> myPieces;
+    std::array<std::array<piecePtr, BOARD_SIZE>, BOARD_SIZE> myPieces;
     int myColorToPlay;
 };
 
