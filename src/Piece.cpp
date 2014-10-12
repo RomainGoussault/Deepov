@@ -6,19 +6,19 @@
  */
 #include "Piece.hpp"
 
-Piece::Piece() : myPosition(), myIsEmpty(true), myColor(WHITE), myIsPinned(false)
+Piece::Piece() : myPosition(), myColor(WHITE), myIsPinned(false)
 {
 }
 
-Piece::Piece(Position position) : myPosition(position), myIsEmpty(true), myColor(WHITE), myIsPinned(false)
+Piece::Piece(Position position) : myPosition(position), myColor(WHITE), myIsPinned(false)
 {
 }
 
-Piece::Piece(Position position, int color) : myPosition(position), myIsEmpty(false), myColor(color), myIsPinned(false)
+Piece::Piece(Position position, int color) : myPosition(position), myColor(color), myIsPinned(false)
 {
 }
 
-Piece::Piece(Position position, int color, bool isPinned) : myPosition(position), myIsEmpty(false), myColor(color), myIsPinned(isPinned)
+Piece::Piece(Position position, int color, bool isPinned) : myPosition(position), myColor(color), myIsPinned(isPinned)
 {
 }
 
@@ -30,11 +30,6 @@ Position Piece::getPosition() const
 int Piece::getColor() const
 {
     return myColor;
-}
-
-bool Piece::isEmpty() const
-{
-    return myIsEmpty;
 }
 
 bool Piece::areColorDifferent(Piece &piece)

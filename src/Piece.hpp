@@ -34,7 +34,6 @@ public:
 	Position getPosition() const;
 	char getValue() const;
 	int getColor() const;
-	bool isEmpty() const;
 	bool areColorDifferent(Piece &piece);
 	virtual std::vector<Move> getPseudoLegalMoves(Board &board) {return std::vector<Move>();};
 
@@ -44,7 +43,6 @@ protected:
 
 private:
 
-	bool myIsEmpty;
 	int myColor;
 	bool myIsPinned;
 };

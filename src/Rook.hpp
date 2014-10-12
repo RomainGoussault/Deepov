@@ -23,11 +23,6 @@ public:
 
 inline std::ostream& operator<<(std::ostream &strm, const Rook &rook)
 {
-    if(rook.isEmpty())
-    {
-        return strm;
-    }
-
 	strm << "Rook " << static_cast<const Piece &>(rook) << std::endl;
 	return strm;
 }

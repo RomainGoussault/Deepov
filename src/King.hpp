@@ -24,11 +24,6 @@ public:
 
 inline std::ostream& operator<<(std::ostream &strm, const King &king)
 {
-    if(king.isEmpty())
-    {
-        return strm;
-    }
-
 	strm << "King " << static_cast<const Piece &>(king) << std::endl;
 	return strm;
 }

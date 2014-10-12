@@ -8,15 +8,6 @@
 
 Board::Board() : myPieces(), myColorToPlay(WHITE)
 {
-	/*for(int i = 0; i < 8; ++i )
-	{
-	    for(int j = 0; j < 8; ++j )
-	    {
-			Position position(i,j);
-			Piece piece(position);
-			myPieces[i][j] = piece;
-	    }
-	}*/
 }
 
 int Board::getTurn() const
