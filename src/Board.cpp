@@ -24,7 +24,7 @@ void Board::addPiece(Piece &piece, Position position)
 {
    	myPieces[position.getX()][position.getY()].reset(new Piece(piece));
 	std::cout << "piece.getChar() " << piece.getChar() << std::endl;
-	std::cout << "myPieces[][].getChat() " << myPieces[position.getX()][position.getY()]->getChar() << std::endl << std::endl;
+	std::cout << "myPieces[][].getChar() " << myPieces[position.getX()][position.getY()]->getChar() << std::endl << std::endl;
 }
 
 void Board::addPiece(Piece &piece)
