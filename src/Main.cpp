@@ -25,20 +25,15 @@ int main()
     Position position(0, 0);
     Position position2(0, 1);
 
-   Board board;
+    Board board;
 
-    bool a = board.isPositionFree(position);
-    cout << a << endl;
-
-    bool b =  board.isPositionFree(position2);
-    cout << b << endl;
     Rook rook(position, BLACK);
     Rook rook2(position2, BLACK);
-    cout << rook << endl;
 
     board.addPiece(rook);
     board.addPiece(rook2);
-
+    cout << board << endl;
+/*
     std::vector<Move> rookMoves = rook.getPseudoLegalMoves(board); // should be 14
     cout << "number of pseudo legal moves should be 7: " << rookMoves.size() << endl;
 
@@ -57,5 +52,6 @@ for(int i = 0; i < 8; ++i )
 		        int size = rook.getPseudoLegalMoves(board).size();
 		    }
 		}
-    return 0;
+ */
+   return 0;
 }

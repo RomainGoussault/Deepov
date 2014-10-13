@@ -53,8 +53,7 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &board)
 		std::string boardStr;
 		PiecePtr piece;
 
-        //segfault in the following code:
-		/*for(int i = 7; i >= 0 ; i--)
+		for(int i = 7; i >= 0 ; i--)
 		{
 			strm << i << "|  ";
 
@@ -62,11 +61,21 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &board)
 			{
 				Position position(i,j);
 				piece = board.getPiecePtr(position);
-				strm << piece->getChar() <<  " ";
+				
+				if(piece)
+				{
+		            boardStr = piece->getChar();
+				}
+				else
+				{
+		            boardStr = "*";
+				}
+	
+				strm << boardStr <<  " ";
 			}
 
 			strm << std::endl;
-		}*/
+		}
 
 		strm << "   ________________" << std::endl;
 		strm << "    0 1 2 3 4 5 6 7" << std::endl;

@@ -40,7 +40,7 @@ public:
 	int getColor() const;
 	bool areColorDifferent(Piece &piece);
 	virtual std::vector<Move> getPseudoLegalMoves(Board &board) {return std::vector<Move>();};
-	virtual char getChar() const {return 'A';};
+	virtual char getChar() const {return 'P';};
 
 protected:
 
