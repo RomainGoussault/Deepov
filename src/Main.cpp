@@ -16,12 +16,10 @@
 #include "Board.hpp"
 #include "Rook.hpp"
 
-
 using namespace std;
 
 int main()
 {
-
     Position position(0, 0);
     Position position2(0, 1);
 
@@ -32,6 +30,9 @@ int main()
 
     board.addPiece(rook);
     board.addPiece(rook2);
+
+	PiecePtr p = board.getPiecePtr(position);
+    cout << p->getChar() << endl; //should be 'r'..
     cout << board << endl;
 /*
     std::vector<Move> rookMoves = rook.getPseudoLegalMoves(board); // should be 14

@@ -24,8 +24,8 @@ public:
 
     Board();
 
-    void addPiece(Piece piece, Position position);
-    void addPiece(Piece piece);
+    void addPiece(Piece &piece, Position position);
+    void addPiece(Piece &piece);
 
     int getTurn() const;
     void executeMove(Move move); //TODO

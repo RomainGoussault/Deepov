@@ -20,12 +20,14 @@ void Board::executeMove(Move move)
     myColorToPlay = (myColorToPlay+1) % 2;
 }
 
-void Board::addPiece(Piece piece, Position position)
+void Board::addPiece(Piece &piece, Position position)
 {
    	myPieces[position.getX()][position.getY()].reset(new Piece(piece));
+	std::cout << "piece.getChar() " << piece.getChar() << std::endl;
+	std::cout << "myPieces[][].getChat() " << myPieces[position.getX()][position.getY()]->getChar() << std::endl << std::endl;
 }
 
-void Board::addPiece(Piece piece)
+void Board::addPiece(Piece &piece)
 {
     addPiece(piece, piece.getPosition());
 }
@@ -55,7 +57,9 @@ bool Board::isPositionOnBoard(Position position)
 
 PiecePtr Board::getPiecePtr(Position position) const
 {
-    return myPieces[position.getX()][position.getY()];
+	PiecePtr p = myPieces[position.getX()][position.getY()];
+
+    return p;
 }
 
 std::vector<Piece> Board::getPieces(int color)
