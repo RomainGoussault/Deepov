@@ -17,7 +17,7 @@
 #include "Move.hpp"
 class Board;
 
-typedef std::shared_ptr<Piece> piecePtr;
+typedef std::shared_ptr<Piece> PiecePtr;
 
 
 class Piece
@@ -40,6 +40,7 @@ public:
 	int getColor() const;
 	bool areColorDifferent(Piece &piece);
 	virtual std::vector<Move> getPseudoLegalMoves(Board &board) {return std::vector<Move>();};
+	virtual char getChar() const {return 'A';};
 
 protected:
 

@@ -19,6 +19,8 @@ public:
     Rook(Position position, int color);
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
+    char getChar() const {return 'r';};
+
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const Rook &rook)

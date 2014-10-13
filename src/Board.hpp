@@ -30,7 +30,7 @@ public:
     int getTurn() const;
     void executeMove(Move move); //TODO
 
-    piecePtr getPiecePtr(Position position);
+    PiecePtr getPiecePtr(Position position) const;
     std::vector<Piece> getPieces(int color); //TODO
     std::vector<Piece> getEnnemyPieces(int color);//TODO
     Piece getKing(int color); //TODO
@@ -44,9 +44,33 @@ public:
 
 private:
 
-    std::array<std::array<piecePtr, BOARD_SIZE>, BOARD_SIZE> myPieces;
+    std::array<std::array<PiecePtr, BOARD_SIZE>, BOARD_SIZE> myPieces;
     int myColorToPlay;
 };
 
+inline std::ostream& operator<<(std::ostream &strm, const Board &board)
+{
+		std::string boardStr;
+		PiecePtr piece;
 
+        //segfault in the following code:
+		/*for(int i = 7; i >= 0 ; i--)
+		{
+			strm << i << "|  ";
+
+			for(int j = 0; j < 8 ; j++)
+			{
+				Position position(i,j);
+				piece = board.getPiecePtr(position);
+				strm << piece->getChar() <<  " ";
+			}
+
+			strm << std::endl;
+		}*/
+
+		strm << "   ________________" << std::endl;
+		strm << "    0 1 2 3 4 5 6 7" << std::endl;
+
+	return strm;
+}
 #endif /* BOARD_HPP_ */

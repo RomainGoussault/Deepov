@@ -5,7 +5,7 @@ Move::Move(Position origin, Position destination) : myOrigin(origin), myDestinat
 {
 }
 
-void Move::setCapturedPiece(piecePtr piece)
+void Move::setCapturedPiece(PiecePtr piece)
 {
     myCapturedPiece = piece;
 }
