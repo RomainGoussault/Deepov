@@ -8,16 +8,15 @@
 class Game
 {
     public:
-        Game();
-        Game(Player whitePlayer, Player blackPlayer);
+        Game(Board &board, Player &whitePlayer, Player &blackPlayer);
 
         ~Game();
 
 
     private:
-        Board myBoard;
-        Player myWhitePlayer;
-        Player myBlackPlayer;
+        Board* myBoardptr;
+        Player* myWhitePlayer;
+        Player* myBlackPlayer;
 
 };
 

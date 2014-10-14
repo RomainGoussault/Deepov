@@ -9,17 +9,20 @@ class Player
 {
     public:
         Player();
-        Player(Board board);
-        Player(Board board, std::string name);
+        Player(Board &board);
+        Player(Board &board, std::string name);
 
         ~Player();
+
         std::string getName() { return myName; }
         void setName(std::string val) { myName = val; }
-        Board getBoard() { return myBoard; }
-        void setBoard(Board val) { myBoard = val; }
+        Board getBoard() { return *myBoardptr; }
+        Board* getBoardptr() { return myBoardptr; }
+        void setBoard(Board val) { *myBoardptr = val; }
+        void setBoardptr(Board* val) { myBoardptr = val; }
 
     private:
-        Board *myBoard;
+        Board* myBoardptr;
         std::string myName;
 };
 

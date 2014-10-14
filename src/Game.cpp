@@ -4,24 +4,15 @@
 
 #include "Game.hpp"
 
-Game::Game()
+Game::Game(Board &board, Player &whitePlayer, Player &blackPlayer) : myBoardptr(&board), myWhitePlayer(&whitePlayer), myBlackPlayer(&blackPlayer)
 {
-    Board myBoard;
-    Player myWhitePlayer(myBoard,"Player 1");
-    Player myBlackPlayer(myBoard,"Player 2");
-
-}
-
-Game::Game(Player whitePlayer, Player blackPlayer) : myWhitePlayer(whitePlayer), myBlackPlayer(blackPlayer)
-{
-    Board myBoard;
-    if (whitePlayer.getBoard() != myBoard)
+    if (whitePlayer.getBoardptr() != myBoardptr)
     {
-        whitePlayer.setBoard(myBoard);
+        whitePlayer.setBoardptr(myBoardptr);
     }
 
-    if (blackPlayer.getBoard() != myBoard)
+    if (blackPlayer.getBoardptr() != myBoardptr)
     {
-        blackPlayer.setBoard(myBoard);
+        blackPlayer.setBoardptr(myBoardptr);
     }
 }

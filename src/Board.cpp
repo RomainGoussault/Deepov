@@ -22,9 +22,7 @@ void Board::executeMove(Move move)
 
 void Board::addPiece(PiecePtr piecePtr, Position position)
 {
-   	myPieces[position.getX()][position.getY()].reset(new Piece(piece));
-	std::cout << "piece.getChar() " << piece.getChar() << std::endl;
-	std::cout << "myPieces[][].getChar() " << myPieces[position.getX()][position.getY()]->getChar() << std::endl << std::endl;
+   	 myPieces[position.getX()][position.getY()] = piecePtr;
 }
 
 void Board::addPiece(PiecePtr piecePtr)

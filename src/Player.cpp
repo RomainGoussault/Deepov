@@ -3,15 +3,15 @@
  */
 #include "Player.hpp"
 
-Player::Player() : myBoard(Board board), myName("Player")
+Player::Player() : myBoardptr(NULL), myName("Player")
 {
 }
 
-Player::Player(Board board) : myBoard(board), myName("Player")
+Player::Player(Board &board) : myBoardptr(&board), myName("Player")
 {
 }
 
-Player::Player(Board board, std::string name) : myBoard(board), myName(name)
+Player::Player(Board &board, std::string name) : myBoardptr(&board), myName(name)
 {
 }
 
