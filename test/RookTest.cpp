@@ -13,10 +13,10 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
 		    for(int j = 0; j < 8; ++j )
 		    {
 		        Position position(i, j);
-		        Rook rook(position, BLACK);
+		        PiecePtr rook (new Rook(position, BLACK));
 		        Board board;
 		        board.addPiece(rook);
-		        int size = rook.getPseudoLegalMoves(board).size();
+		        int size = rook->getPseudoLegalMoves(board).size();
 		        REQUIRE(size == 14);
 		    }
 		}
@@ -28,9 +28,9 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
 		Position position1(0, 1);
 		Position position2(1, 0);
 
-        Rook rook(position, BLACK);
-        Rook rook1(position1, BLACK);
-        Rook rook2(position2, BLACK);
+		PiecePtr rook(new Rook(position, BLACK));
+		PiecePtr rook1(new Rook(position1, BLACK));
+		PiecePtr rook2(new Rook(position2, BLACK));
 
         Board board;
 
@@ -38,7 +38,7 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
         board.addPiece(rook1);
         board.addPiece(rook2);
 
-	    int size = rook.getPseudoLegalMoves(board).size();
+	    int size = rook->getPseudoLegalMoves(board).size();
 	    REQUIRE(size == 0);
 	}
 
@@ -48,9 +48,9 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
 		Position position1(0, 1);
 		Position position2(1, 0);
 
-        Rook rook(position, WHITE);
-        Rook rook1(position1, BLACK);
-        Rook rook2(position2, BLACK);
+		PiecePtr rook(new Rook(position, WHITE));
+		PiecePtr rook1(new Rook(position1, BLACK));
+		PiecePtr rook2(new Rook(position2, BLACK));
 
         Board board;
 
@@ -58,7 +58,7 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
         board.addPiece(rook1);
         board.addPiece(rook2);
 
-	    int size = rook.getPseudoLegalMoves(board).size();
+	    int size = rook->getPseudoLegalMoves(board).size();
 	    REQUIRE(size == 2);
 	}
 }

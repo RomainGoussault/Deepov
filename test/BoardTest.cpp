@@ -35,9 +35,9 @@ TEST_CASE( "is position free", "[board]" )
     Position position2(7,7);
     Position position3(6,4);
 
-    Rook rook1(position1, WHITE);
-    Rook rook2(position2, WHITE);
-    Rook rook3(position3, WHITE);
+	PiecePtr rook1(new Rook(position1, WHITE));
+	PiecePtr rook2(new Rook(position2, WHITE));
+	PiecePtr rook3(new Rook(position3, WHITE));
 
     board.addPiece(rook1);
     board.addPiece(rook2);
@@ -66,9 +66,9 @@ TEST_CASE( "getPieces", "[board]" )
     Position position2(7,7);
     Position position3(6,4);
 
-    Rook rook1(position1, WHITE);
-    Rook rook2(position2, BLACK);
-    Rook rook3(position3, WHITE);
+	PiecePtr rook1(new Rook(position1, WHITE));
+	PiecePtr rook2(new Rook(position2, BLACK));
+	PiecePtr rook3(new Rook(position3, WHITE));
 
     board.addPiece(rook1);
     board.addPiece(rook2);
