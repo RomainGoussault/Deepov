@@ -35,6 +35,7 @@ public:
 	{
 	}
 
+    void setPosition(Position position);
 	Position getPosition() const;
 	char getValue() const;
 	int getColor() const;

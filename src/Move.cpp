@@ -10,9 +10,9 @@ void Move::setCapturedPiece(PiecePtr piece)
     myCapturedPiece = piece;
 }
 
-Piece Move::getCapturedPiece()
+PiecePtr Move::getCapturedPiece()
 {
-    return *myCapturedPiece;
+    return myCapturedPiece;
 }
 
 Position Move::getOrigin() const

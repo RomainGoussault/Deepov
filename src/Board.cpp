@@ -6,7 +6,7 @@
  */
 #include "Board.hpp"
 
-Board::Board() : myPieces(), myColorToPlay(WHITE)
+Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves()
 {
 }
 
@@ -17,7 +17,34 @@ int Board::getTurn() const
 
 void Board::executeMove(Move move)
 {
+    Position origin = move.getOrigin();
+	Position destination = move.getDestination();
+	PiecePtr capturePiecePtr = move.getCapturedPiece();
+	bool isCaptureMove = capturePiecePtr!= nullptr;
+	PiecePtr pieceToMove = getPiecePtr(origin);
+
+	if(isCaptureMove)
+    {
+		//remove the captured piece
+        removePiece(capturePiecePtr->getPosition());
+
+    }
+
+    //pieceToMove.incrementMoveCounter(); TODO
+    executeMove(pieceToMove, destination);
+
+	//TODO:
+	//Handle promotion/castling/en Passant
+
+    myMoves.push_back(move);
     myColorToPlay = (myColorToPlay+1) % 2;
+}
+
+void Board::executeMove(PiecePtr piecePtr, Position destination)
+{
+    removePiece(piecePtr->getPosition());
+    piecePtr->setPosition(destination);
+    addPiece(piecePtr);
 }
 
 void Board::addPiece(PiecePtr piecePtr, Position position)
@@ -28,6 +55,12 @@ void Board::addPiece(PiecePtr piecePtr, Position position)
 void Board::addPiece(PiecePtr piecePtr)
 {
     addPiece(piecePtr, piecePtr->getPosition());
+}
+
+void Board::removePiece(Position position)
+{
+    PiecePtr p = getPiecePtr(position);
+    p.reset();
 }
 
 bool Board::isPositionFree(Position position)

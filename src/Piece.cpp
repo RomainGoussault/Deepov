@@ -27,6 +27,11 @@ Position Piece::getPosition() const
     return myPosition;
 }
 
+void Piece::setPosition(Position position)
+{
+    myPosition = position;
+}
+
 int Piece::getColor() const
 {
     return myColor;

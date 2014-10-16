@@ -25,7 +25,7 @@ public:
     Position getDestination() const;
     bool isPromotion() const;
 
-    Piece getCapturedPiece();
+    std::shared_ptr<Piece> getCapturedPiece();
     void setCapturedPiece(std::shared_ptr<Piece> piece);
 
 

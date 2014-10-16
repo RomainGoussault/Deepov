@@ -26,9 +26,13 @@ public:
 
     void addPiece(PiecePtr piecePtr, Position position);
     void addPiece(PiecePtr piecePtr);
+    void removePiece(Position position);
 
     int getTurn() const;
-    void executeMove(Move move); //TODO
+    void executeMove(PiecePtr piecePtr, Position destination);
+    void executeMove(Move move);
+    void undoMove(Move move);
+
 
     PiecePtr getPiecePtr(Position position) const;
     std::vector<Piece> getPieces(int color); //TODO
@@ -46,6 +50,8 @@ private:
 
     std::array<std::array<PiecePtr, BOARD_SIZE>, BOARD_SIZE> myPieces;
     int myColorToPlay;
+    std::vector<Move> myMoves;
+
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const Board &board)
@@ -61,7 +67,7 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &board)
 			{
 				Position position(i,j);
 				piece = board.getPiecePtr(position);
-				
+
 				if(piece)
 				{
 		            boardStr = piece->getChar();
@@ -70,7 +76,7 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &board)
 				{
 		            boardStr = "*";
 				}
-	
+
 				strm << boardStr <<  " ";
 			}
 
