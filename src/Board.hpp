@@ -67,7 +67,7 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &board)
 			{
 				Position position(i,j);
 				piece = board.getPiecePtr(position);
-
+                strm <<  " " << piece <<  " ";
 				if(piece)
 				{
 		            boardStr = piece->getChar();

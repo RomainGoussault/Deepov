@@ -32,18 +32,13 @@ int main()
     board.addPiece(rook1);
     board.addPiece(rook2);
     board.addPiece(rook3);
+   // board.removePiece(rook1->getPosition());
 
 	//PiecePtr p = board.getPiecePtr(position);
    // cout << p->getChar() << endl; //should be 'r'..
     cout << board << endl;
 
     std::vector<Move> rookMoves = rook1->getPseudoLegalMoves(board);
-    Move move = rookMoves[0];
-    board.executeMove(move);
-
-    cout << board << endl;
-
-
     cout << "number of pseudo legal moves should be 7: " << rookMoves.size() << endl;
 
     for( std::vector<Move>::const_iterator i = rookMoves.begin(); i != rookMoves.end(); ++i)
@@ -51,5 +46,9 @@ int main()
         cout << *i << endl;
     }
 
+    Move move = rookMoves[0];
+    board.executeMove(move);
+
+   cout << board << endl;
    return 0;
 }

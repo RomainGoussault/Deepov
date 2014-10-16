@@ -59,8 +59,11 @@ void Board::addPiece(PiecePtr piecePtr)
 
 void Board::removePiece(Position position)
 {
-    PiecePtr p = getPiecePtr(position);
-    p.reset();
+    //TODO: Findout why following line does not work.
+  //  PiecePtr p = getPiecePtr(position);
+   // p.reset();
+   // std::cout << " p " << p << std::endl;
+    myPieces[position.getX()][position.getY()].reset();
 }
 
 bool Board::isPositionFree(Position position)
