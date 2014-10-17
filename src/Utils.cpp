@@ -45,9 +45,10 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 	for (int i=0; i<piecesCharSize; i++)
 	{
 		char pieceChar = piecesChar[i];
+
 		if(isdigit(pieceChar))
 		{
-			x += pieceChar;
+			x += pieceChar - '0';
 		}
 		else
 		{
