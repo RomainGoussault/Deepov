@@ -15,7 +15,7 @@ Bishop::Bishop(Position position, int color) : Piece(position, color)
 std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> bishopMoves;
-  /*  Piece otherPiece;
+    PiecePtr otherPiece;
 
     // Direction +x +y
    int i = 1;
@@ -31,9 +31,9 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            Piece otherPiece = board.getPiecePr(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 bishopMoves.push_back(possibleMove);
@@ -60,9 +60,9 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiecePr(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 bishopMoves.push_back(possibleMove);
@@ -89,9 +89,9 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiecePr(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 bishopMoves.push_back(possibleMove);
@@ -118,9 +118,9 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         }
         else
         {
-            otherPiece = board.getPiecePr(destination);
+            otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 bishopMoves.push_back(possibleMove);
@@ -132,6 +132,6 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
         destination = myPosition.deltaX(-i);
         destination = destination.deltaY(-i);
     }
-*/
+
     return bishopMoves;
 }
