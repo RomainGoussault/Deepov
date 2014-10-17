@@ -35,8 +35,8 @@ public:
 
 
     PiecePtr getPiecePtr(Position position) const;
-    std::vector<Piece> getPieces(int color); //TODO
-    std::vector<Piece> getEnnemyPieces(int color);//TODO
+    std::vector<PiecePtr> getPieces(int color); //TODO
+    std::vector<PiecePtr> getEnnemyPieces(int color);//TODO
     PiecePtr getKing(int color); //TODO
     Position getKingPosition(int color); //TODO
 

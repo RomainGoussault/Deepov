@@ -88,13 +88,12 @@ bool Board::isPositionOnBoard(Position position)
 PiecePtr Board::getPiecePtr(Position position) const
 {
 	PiecePtr p = myPieces[position.getX()][position.getY()];
-
     return p;
 }
 
-std::vector<Piece> Board::getPieces(int color)
+std::vector<PiecePtr> Board::getPieces(int color)
 {
-    std::vector<Piece> piecesList;
+    std::vector<PiecePtr> piecesList;
 
     for (int i=0; i<8; i++)
     {
@@ -105,7 +104,7 @@ std::vector<Piece> Board::getPieces(int color)
             piece = myPieces[position.getX()][position.getY()];
             if (piece && piece->getColor() == color)
             {
-                piecesList.push_back(*piece);
+                piecesList.push_back(piece);
             }
         }
     }
@@ -113,7 +112,7 @@ std::vector<Piece> Board::getPieces(int color)
     return piecesList;
 }
 
-std::vector<Piece> Board::getEnnemyPieces(int color)
+std::vector<PiecePtr> Board::getEnnemyPieces(int color)
 {
     return getPieces((color + 1)%2);
 }

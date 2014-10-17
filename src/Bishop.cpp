@@ -15,10 +15,10 @@ Bishop::Bishop(Position position, int color) : Piece(position, color)
 std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> bishopMoves;
-    Piece otherPiece;
+  /*  Piece otherPiece;
 
     // Direction +x +y
- /*   int i = 1;
+   int i = 1;
     Position destination = myPosition.deltaX(i);
     destination = destination.deltaY(i);
     while (board.isPositionOnBoard(destination))

@@ -16,8 +16,8 @@ King::King(Position position, int color) : Piece(position, color)
 std::vector<Move> King::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> kingMoves;
-    Piece otherPiece;
-/*
+/*    Piece otherPiece;
+
     // Direction +x
     int i = 1;
     Position destination = myPosition.deltaX(i);
