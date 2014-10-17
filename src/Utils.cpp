@@ -1,0 +1,82 @@
+/*
+ * Utils.cpp
+ *
+ *  Created on: 24 sept. 2014
+ */
+#include "Utils.hpp"
+#include "Color.hpp"
+#include "King.hpp"
+#include "Rook.hpp"
+#include "Bishop.hpp"
+#include "Piece.hpp"
+
+#include <boost/algorithm/string.hpp>
+
+
+std::vector<PiecePtr> Utils::getPiecesFromFen(std::string fen)
+{
+	std::vector<PiecePtr> pieces;
+	
+	std::vector<std::string> spaceSplit;
+	std::vector<std::string> piecesByRank;
+
+	boost::split(spaceSplit, fen, boost::is_any_of(" "));
+	boost::split(piecesByRank, spaceSplit[0], boost::is_any_of("/"));
+
+	int rank = 7;
+	for (int i=0; i<8; i++)
+	{
+		std::vector<PiecePtr> piecesOnRank = Utils::getPieces(piecesByRank[i], rank);
+		pieces.insert(pieces.end(), piecesOnRank.begin(), piecesOnRank.end());
+		rank--;
+	}
+
+	return pieces;
+}
+
+std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
+{
+	std::vector<PiecePtr> piecePtrs;
+	int x = -1;
+	char piecesChar[8];
+	strcpy(piecesChar, piecesString.c_str());
+
+	for (int i=0; i<8; i++)
+	{
+		char pieceChar = piecesChar[i];
+
+		if(isdigit(pieceChar))
+		{
+			x += pieceChar;
+		}
+		else
+		{
+			x++;
+			int color = islower(pieceChar) ? BLACK : WHITE;
+			pieceChar = tolower(pieceChar);
+			Position position(x, rank);
+
+			if (pieceChar == 'k')
+			{
+				PiecePtr piecePtr(new King(position, color));
+				piecePtrs.push_back(piecePtr);
+			}
+			else if (pieceChar == 'r')
+			{
+				PiecePtr piecePtr(new Rook(position, color));
+				piecePtrs.push_back(piecePtr);
+			}
+			else if (pieceChar == 'b')
+			{
+				PiecePtr piecePtr(new Bishop(position, color));
+				piecePtrs.push_back(piecePtr);
+			}
+			else
+			{
+			}
+		}
+	}
+
+	return piecePtrs;
+}
+

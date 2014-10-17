@@ -20,6 +20,7 @@ public:
     King(Position position, int color);
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
+    char getChar() const {return 'k';};
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const King &king)

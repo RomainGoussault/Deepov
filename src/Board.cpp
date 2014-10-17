@@ -5,9 +5,20 @@
  *   ar   Author: Romain
  */
 #include "Board.hpp"
+#include "Utils.hpp"
 
 Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves()
 {
+}
+
+Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves()
+{
+	std::vector<PiecePtr> piecePtrs = Utils::getPiecesFromFen(fen);
+
+    for( std::vector<PiecePtr>::const_iterator i = piecePtrs.begin(); i != piecePtrs.end(); ++i)
+    {
+		addPiece(*i);
+    }
 }
 
 int Board::getTurn() const

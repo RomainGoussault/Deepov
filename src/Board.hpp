@@ -15,6 +15,7 @@
 #include "Piece.hpp"
 #include "Position.hpp"
 #include "Move.hpp"
+#include "Color.hpp"
 
 class Board
 {
@@ -23,6 +24,7 @@ public:
     static const char BOARD_SIZE = 8;
 
     Board();
+    Board(std::string fen);
 
     void addPiece(PiecePtr piecePtr, Position position);
     void addPiece(PiecePtr piecePtr);
@@ -57,7 +59,6 @@ private:
 inline std::ostream& operator<<(std::ostream &strm, const Board &board)
 {
 		std::string boardStr;
-		PiecePtr piece;
 
 		for(int i = 7; i >= 0 ; i--)
 		{
@@ -65,12 +66,14 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &board)
 
 			for(int j = 0; j < 8 ; j++)
 			{
-				Position position(i,j);
-				piece = board.getPiecePtr(position);
-                strm <<  " " << piece <<  " ";
-				if(piece)
+				Position position(j,i);
+				PiecePtr piecePtr = board.getPiecePtr(position);
+				
+				if(piecePtr)
 				{
-		            boardStr = piece->getChar();
+					char piecechar = piecePtr->getChar();
+					piecechar = piecePtr->getColor() == WHITE ? toupper(piecechar) : piecechar;
+		            boardStr = piecechar;
 				}
 				else
 				{

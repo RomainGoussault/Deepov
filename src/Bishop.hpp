@@ -19,6 +19,7 @@ public:
     Bishop(Position position, int color);
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
+    char getChar() const {return 'b';};
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const Bishop &bishop)
