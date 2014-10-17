@@ -38,13 +38,13 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 {
 	std::vector<PiecePtr> piecePtrs;
 	int x = -1;
-	char piecesChar[8];
+	int piecesCharSize = piecesString.size();
+	char piecesChar[piecesCharSize];
 	strcpy(piecesChar, piecesString.c_str());
 
-	for (int i=0; i<8; i++)
+	for (int i=0; i<piecesCharSize; i++)
 	{
 		char pieceChar = piecesChar[i];
-
 		if(isdigit(pieceChar))
 		{
 			x += pieceChar;
