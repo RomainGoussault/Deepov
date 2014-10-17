@@ -15,6 +15,9 @@ install:
   
   # Boost
   - sudo apt-get install libboost-dev
+
+  # Valgrind
+  - sudo apt-get install valgrind
   
 before_script:
   - $CXX --version
@@ -24,6 +27,7 @@ before_script:
 script: 
   - make
   - ./DeepovTesting 
+  - valgrind --leak-check=full --show-reachable=yes --error-exitcode=1  ./DeepovTesting
  
 notifications:
   email:
