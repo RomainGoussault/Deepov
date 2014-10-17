@@ -12,7 +12,6 @@ TEST_CASE( "Bishop possible moves ", "[bishop]" )
 		Position position(0,0);
 		PiecePtr bishopPtr = board.getPiecePtr(position);
 		
-		std::cout << board;
 	    int size = bishopPtr->getPseudoLegalMoves(board).size();
 	    REQUIRE(size == 1);
 	}

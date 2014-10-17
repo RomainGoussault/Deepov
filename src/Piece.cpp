@@ -37,7 +37,7 @@ int Piece::getColor() const
     return myColor;
 }
 
-bool Piece::areColorDifferent(Piece &piece)
+bool Piece::areColorDifferent(Piece &piece) const
 {
     return myColor != piece.getColor();
 }

@@ -14,17 +14,17 @@ Position::Position(int _x, int _y) : x(_x), y(_y)
 {
 }
 
-Position Position::deltaX(int delta)
+Position Position::deltaX(int delta) const
 {
 	return Position(x + delta, y);
 }
 
-Position Position::deltaY(int delta)
+Position Position::deltaY(int delta) const
 {
 	return Position(x, y + delta);
 }
 
-Position Position::deltaXY(int deltaX, int deltaY)
+Position Position::deltaXY(int deltaX, int deltaY) const
 {
 	return Position(x + deltaX, y + deltaY);
 }

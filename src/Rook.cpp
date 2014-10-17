@@ -12,7 +12,7 @@ Rook::Rook(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
+std::vector<Move> Rook::getPseudoLegalMoves(Board &board) const
 {
     std::vector<Move> rookMoves;
     PiecePtr otherPiece;

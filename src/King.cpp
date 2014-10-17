@@ -13,7 +13,7 @@ King::King(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> King::getPseudoLegalMoves(Board &board)
+std::vector<Move> King::getPseudoLegalMoves(Board &board) const
 {
     std::vector<Move> kingMoves;
 /*    Piece otherPiece;

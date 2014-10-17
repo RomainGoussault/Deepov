@@ -37,10 +37,9 @@ public:
 
     void setPosition(Position position);
 	Position getPosition() const;
-	char getValue() const;
 	int getColor() const;
-	bool areColorDifferent(Piece &piece);
-	virtual std::vector<Move> getPseudoLegalMoves(Board &board) = 0;
+	bool areColorDifferent(Piece &piece) const;
+	virtual std::vector<Move> getPseudoLegalMoves(Board &board) const = 0;
 	virtual char getChar() const = 0;
 
 protected:

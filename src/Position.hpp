@@ -19,9 +19,9 @@ public:
 
 	int getX() const;
 	int getY() const;
-	Position deltaX(int delta);
-	Position deltaY(int delta);
-	Position deltaXY(int deltaX, int deltaY);
+	Position deltaX(int delta) const;
+	Position deltaY(int delta) const;
+	Position deltaXY(int deltaX, int deltaY) const;
 
 private:
 

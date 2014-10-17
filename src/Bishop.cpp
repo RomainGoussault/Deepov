@@ -12,7 +12,7 @@ Bishop::Bishop(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
+std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) const
 {
     std::vector<Move> bishopMoves;
     PiecePtr otherPiece;

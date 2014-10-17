@@ -19,7 +19,7 @@ public:
 
     King(Position position, int color);
 
-    std::vector<Move> getPseudoLegalMoves(Board &board);
+    std::vector<Move> getPseudoLegalMoves(Board &board) const;
     char getChar() const {return 'k';};
 };
 
