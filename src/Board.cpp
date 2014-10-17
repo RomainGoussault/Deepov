@@ -49,7 +49,7 @@ void Board::executeMove(PiecePtr piecePtr, Position destination)
 
 void Board::addPiece(PiecePtr piecePtr, Position position)
 {
-   	 myPieces[position.getX()][position.getY()] = piecePtr;
+    myPieces[position.getX()][position.getY()] = piecePtr;
 }
 
 void Board::addPiece(PiecePtr piecePtr)
@@ -59,10 +59,6 @@ void Board::addPiece(PiecePtr piecePtr)
 
 void Board::removePiece(Position position)
 {
-    //TODO: Findout why following line does not work.
-  //  PiecePtr p = getPiecePtr(position);
-   // p.reset();
-   // std::cout << " p " << p << std::endl;
     myPieces[position.getX()][position.getY()].reset();
 }
 
