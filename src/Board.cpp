@@ -30,7 +30,7 @@ void Board::executeMove(Move move)
 
     }
 
-    //pieceToMove.incrementMoveCounter(); TODO
+    //pieceToMove.incrementMoveCounter(); TODO???
     executeMove(pieceToMove, destination);
 
 	//TODO:

@@ -37,13 +37,13 @@ public:
     PiecePtr getPiecePtr(Position position) const;
     std::vector<Piece> getPieces(int color); //TODO
     std::vector<Piece> getEnnemyPieces(int color);//TODO
-    Piece getKing(int color); //TODO
+    PiecePtr getKing(int color); //TODO
     Position getKingPosition(int color); //TODO
 
     bool isPositionFree(Position position);
     bool isPositionOnBoard(Position position);
 
-    std::vector<Move> getLegalMoves(Piece piece); // TODO
+    std::vector<Move> getLegalMoves(PiecePtr piecePtr); // TODO
 
 
 private:
