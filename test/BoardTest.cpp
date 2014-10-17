@@ -80,3 +80,38 @@ TEST_CASE( "getPieces", "[board]" )
     REQUIRE(numberWhitePieces == 2);
     REQUIRE(numberBlackPieces == 1);
 }
+
+TEST_CASE( "execute Move", "[board]" )
+{
+    Board board;
+
+	Position position1(0, 0);
+    Position position2(0, 1);
+    Position position3(1, 0);
+
+	PiecePtr rook1(new Rook(position1, BLACK));
+	PiecePtr rook2(new Rook(position2, WHITE));
+	PiecePtr rook3(new Rook(position3, BLACK));
+
+    board.addPiece(rook1);
+    board.addPiece(rook2);
+    board.addPiece(rook3);
+
+    std::vector<Move> rookMoves = rook1->getPseudoLegalMoves(board);
+    Move move = rookMoves[0];
+
+
+	int numberWhitePieces = board.getPieces(WHITE).size();
+	int numberBlackPieces = board.getPieces(BLACK).size();
+
+    REQUIRE(numberWhitePieces == 1);
+    REQUIRE(numberBlackPieces == 2);
+
+    board.executeMove(move);
+
+	numberWhitePieces = board.getPieces(WHITE).size();
+	numberBlackPieces = board.getPieces(BLACK).size();
+
+    REQUIRE(numberWhitePieces == 0);
+    REQUIRE(numberBlackPieces == 2);
+}
