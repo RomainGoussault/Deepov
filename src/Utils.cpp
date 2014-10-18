@@ -6,6 +6,7 @@
 #include "Utils.hpp"
 #include "Color.hpp"
 #include "King.hpp"
+#include "Queen.hpp"
 #include "Rook.hpp"
 #include "Bishop.hpp"
 #include "Piece.hpp"
@@ -70,6 +71,11 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 			else if (pieceChar == 'b')
 			{
 				PiecePtr piecePtr(new Bishop(position, color));
+				piecePtrs.push_back(piecePtr);
+			}
+			else if (pieceChar == 'q')
+			{
+				PiecePtr piecePtr(new Queen(position, color));
 				piecePtrs.push_back(piecePtr);
 			}
 			else
