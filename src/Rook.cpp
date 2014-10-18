@@ -12,10 +12,11 @@ Rook::Rook(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Rook::getPseudoLegalMoves(Board &board) const
+std::vector<Move> Rook::getRookMoves(Board &board, PiecePtr piecePtr)
 {
     std::vector<Move> rookMoves;
     PiecePtr otherPiece;
+    Position myPosition = piecePtr->getPosition();
 
     // Direction +x
     int i = 1;
@@ -32,7 +33,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board) const
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(*otherPiece))
+            if (piecePtr->areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 rookMoves.push_back(possibleMove);
@@ -59,7 +60,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board) const
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(*otherPiece))
+            if (piecePtr->areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 rookMoves.push_back(possibleMove);
@@ -86,7 +87,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board) const
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(*otherPiece))
+            if (piecePtr->areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 rookMoves.push_back(possibleMove);
@@ -113,7 +114,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board) const
         {
             otherPiece = board.getPiecePtr  (destination);
             // look for capture
-            if (areColorDifferent(*otherPiece))
+            if (piecePtr->areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 rookMoves.push_back(possibleMove);
@@ -126,4 +127,9 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board) const
     }
 
     return rookMoves;
+}
+
+std::vector<Move> Rook::getPseudoLegalMoves(Board &board) 
+{
+    return Rook::getRookMoves(board, shared_from_this());
 }

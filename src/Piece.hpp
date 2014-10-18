@@ -20,7 +20,7 @@ class Board;
 typedef std::shared_ptr<Piece> PiecePtr;
 
 
-class Piece
+class Piece : public std::enable_shared_from_this<Piece>
 {
 public:
 
@@ -39,7 +39,7 @@ public:
 	Position getPosition() const;
 	int getColor() const;
 	bool areColorDifferent(Piece &piece) const;
-	virtual std::vector<Move> getPseudoLegalMoves(Board &board) const = 0;
+	virtual std::vector<Move> getPseudoLegalMoves(Board &board) = 0;
 	virtual char getChar() const = 0;
 
 protected:

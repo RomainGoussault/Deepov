@@ -12,10 +12,11 @@ Bishop::Bishop(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) const
+std::vector<Move> Bishop::getBishopMoves(Board &board, PiecePtr piecePtr)
 {
     std::vector<Move> bishopMoves;
     PiecePtr otherPiece;
+    Position myPosition = piecePtr->getPosition();
 
     // Direction +x +y
    int i = 1;
@@ -33,7 +34,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) const
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(*otherPiece))
+            if (piecePtr->areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 bishopMoves.push_back(possibleMove);
@@ -62,7 +63,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) const
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(*otherPiece))
+            if (piecePtr->areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 bishopMoves.push_back(possibleMove);
@@ -91,7 +92,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) const
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(*otherPiece))
+            if (piecePtr->areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 bishopMoves.push_back(possibleMove);
@@ -120,7 +121,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) const
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (areColorDifferent(*otherPiece))
+            if (piecePtr->areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 bishopMoves.push_back(possibleMove);
@@ -134,4 +135,9 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) const
     }
 
     return bishopMoves;
+}
+
+std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) 
+{
+    return Bishop::getBishopMoves(board, shared_from_this());
 }

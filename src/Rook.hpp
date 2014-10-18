@@ -18,7 +18,8 @@ public:
 
     Rook(Position position, int color);
 
-    std::vector<Move> getPseudoLegalMoves(Board &board) const;
+    std::vector<Move> getPseudoLegalMoves(Board &board);
+    static std::vector<Move> getRookMoves(Board &board, PiecePtr piecePtr);
     char getChar() const {return 'r';};
 
 };
