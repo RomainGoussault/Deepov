@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include "Board.hpp"
 #include "Position.hpp"
-#include "Rook.hpp"
+#include "Bishop.hpp"
 #include "Piece.hpp"
 
 TEST_CASE( "Bishop possible moves ", "[bishop]" )
@@ -11,7 +11,7 @@ TEST_CASE( "Bishop possible moves ", "[bishop]" )
 		Board board("8/3k4/8/8/8/8/1R4K1/b7 w - - 0 1");
 		Position position(0,0);
 		PiecePtr bishopPtr = board.getPiecePtr(position);
-		
+
 	    int size = bishopPtr->getPseudoLegalMoves(board).size();
 	    REQUIRE(size == 1);
 	}

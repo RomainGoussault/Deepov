@@ -84,6 +84,11 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 				PiecePtr piecePtr(new Knight(position, color));
 				piecePtrs.push_back(piecePtr);
 			}
+            else if (pieceChar == 'p')
+			{
+				PiecePtr piecePtr(new Knight(position, color));
+				piecePtrs.push_back(piecePtr);
+			}
 			else
 			{
 			}

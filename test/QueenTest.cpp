@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include "Board.hpp"
 #include "Position.hpp"
-#include "Rook.hpp"
+#include "Queen.hpp"
 #include "Piece.hpp"
 
 TEST_CASE( "Queen possible moves ", "[queen]" )
@@ -11,7 +11,7 @@ TEST_CASE( "Queen possible moves ", "[queen]" )
 		Board board("8/2k5/2brb3/2rQr3/2rbq1K1/8/8/8 w - - 0 1");
 		Position position(3,4);
 		PiecePtr queenPtr = board.getPiecePtr(position);
-		
+
         int size = queenPtr->getPseudoLegalMoves(board).size();
         REQUIRE(size == 8);
 	}
@@ -35,7 +35,7 @@ TEST_CASE( "Queen possible moves ", "[queen]" )
         int size = queenPtr->getPseudoLegalMoves(board).size();
         REQUIRE(size == 13);
 	}
-	
+
 	SECTION("Queen rook mode")
 	{
 		Board board("5k2/8/2r1r3/3q4/2r1r3/8/4K3/8 w - - 0 1");
