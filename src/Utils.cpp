@@ -9,6 +9,7 @@
 #include "Queen.hpp"
 #include "Rook.hpp"
 #include "Bishop.hpp"
+#include "Knight.hpp"
 #include "Piece.hpp"
 
 #include <boost/algorithm/string.hpp>
@@ -17,7 +18,7 @@
 std::vector<PiecePtr> Utils::getPiecesFromFen(std::string fen)
 {
 	std::vector<PiecePtr> pieces;
-	
+
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
 
@@ -76,6 +77,11 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 			else if (pieceChar == 'q')
 			{
 				PiecePtr piecePtr(new Queen(position, color));
+				piecePtrs.push_back(piecePtr);
+			}
+			else if (pieceChar == 'n')
+			{
+				PiecePtr piecePtr(new Knight(position, color));
 				piecePtrs.push_back(piecePtr);
 			}
 			else
