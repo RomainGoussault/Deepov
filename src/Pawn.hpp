@@ -19,12 +19,12 @@ public:
     std::vector<Move> getPseudoLegalMoves(Board &board);
     static std::vector<Move> getPawnMoves(Board &board, PiecePtr piecePtr);
 
-    int getDirection();
-    bool isEnPassantPossible(Board &board);
-    bool isOnStartingRank();
-    bool isOnLastRank();
-
-
+    int getDirection() const;
+    bool isOnGoodRankForEnPassant() const;
+    bool isEnPassantPossible(Board &board) const;
+    bool isOnStartingRank() const;
+    bool isOnLastRank() const;
+    bool isGoingToPromote() const;
 
     char getChar() const {return 'p';};
 };

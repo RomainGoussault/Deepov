@@ -45,11 +45,11 @@ public:
 protected:
 
 	Position myPosition;
+    int myColor;
+	bool myIsPinned;
 
 private:
 
-	int myColor;
-	bool myIsPinned;
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const Piece &piece)
