@@ -10,11 +10,10 @@ Knight::Knight(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
+std::vector<Move> Knight::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> KnightMoves;
     PiecePtr otherPiece;
-    Position myPosition = piecePtr->getPosition();
 
     // Direction +2x +y
 
@@ -32,7 +31,7 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 KnightMoves.push_back(possibleMove);
@@ -56,7 +55,7 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 KnightMoves.push_back(possibleMove);
@@ -80,7 +79,7 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 KnightMoves.push_back(possibleMove);
@@ -104,7 +103,7 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 KnightMoves.push_back(possibleMove);
@@ -128,7 +127,7 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 KnightMoves.push_back(possibleMove);
@@ -152,7 +151,7 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 KnightMoves.push_back(possibleMove);
@@ -176,7 +175,7 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 KnightMoves.push_back(possibleMove);
@@ -200,7 +199,7 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
         {
             otherPiece = board.getPiecePtr(destination);
             // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (areColorDifferent(*otherPiece))
             {
                 possibleMove.setCapturedPiece(otherPiece);
                 KnightMoves.push_back(possibleMove);
@@ -211,9 +210,3 @@ std::vector<Move> Knight::getKnightMoves(Board &board, PiecePtr piecePtr)
 
     return KnightMoves;
 }
-
-std::vector<Move> Knight::getPseudoLegalMoves(Board &board)
-{
-    return Knight::getKnightMoves(board, shared_from_this());
-}
-

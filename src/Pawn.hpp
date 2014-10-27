@@ -17,7 +17,6 @@ public:
     Pawn(Position position, int color);
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
-    static std::vector<Move> getPawnMoves(Board &board, PiecePtr piecePtr);
 
     int getDirection() const;
     bool isOnGoodRankForEnPassant() const;

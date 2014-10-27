@@ -9,18 +9,12 @@ Pawn::Pawn(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Pawn::getPawnMoves(Board &board, PiecePtr piecePtr)
-{
-    std::vector<Move> PawnMoves;
-    PiecePtr otherPiece;
-    Position myPosition = piecePtr->getPosition();
-
-    return PawnMoves;
-}
-
 std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
 {
-    return Pawn::getPawnMoves(board, shared_from_this());
+    std::vector<Move> pawnMoves;
+    PiecePtr otherPiece;
+
+    return pawnMoves;
 }
 
 
