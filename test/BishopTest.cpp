@@ -6,7 +6,7 @@
 
 TEST_CASE( "Bishop possible moves ", "[bishop]" )
 {
-	SECTION("Bishop blocked by ennemies pieces")
+	SECTION("Bishop blocked by enemy pieces")
 	{
 		Board board("8/3k4/8/8/8/8/1R4K1/b7 w - - 0 1");
 		Position position(0,0);
@@ -16,7 +16,7 @@ TEST_CASE( "Bishop possible moves ", "[bishop]" )
 	    REQUIRE(size == 1);
 	}
 
-	SECTION("Bishop blocked by allied and ennemies pieces")
+	SECTION("Bishop blocked by allied and enemy pieces")
 	{
 		Board board("2K3k1/8/3r1R2/4b3/3r1R2/8/8/8 w - - 0 1");
 		Position position(4,4);

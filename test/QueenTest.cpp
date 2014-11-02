@@ -6,7 +6,7 @@
 
 TEST_CASE( "Queen possible moves ", "[queen]" )
 {
-	SECTION("Queen surrounded by ennemies pieces")
+	SECTION("Queen surrounded by enemy pieces")
 	{
 		Board board("8/2k5/2brb3/2rQr3/2rbq1K1/8/8/8 w - - 0 1");
 		Position position(3,4);

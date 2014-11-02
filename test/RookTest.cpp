@@ -42,7 +42,7 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
 	    REQUIRE(size == 0);
 	}
 
-	SECTION("Rook blocked by ennemy pieces")
+	SECTION("Rook blocked by enemy pieces")
 	{
 		Position position(0, 0);
 		Position position1(0, 1);
