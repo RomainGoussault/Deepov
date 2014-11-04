@@ -19,6 +19,8 @@ public:
 
     static std::vector<PiecePtr> getPiecesFromFen(std::string fen);
     static std::vector<PiecePtr> getPieces(std::string piecesString, int rank);
+    static bool getEnPassantPossible(std::string fen); // TODO
+    static Position getEnPassantPosition(std::string fen); // TODO
 
 private:
 

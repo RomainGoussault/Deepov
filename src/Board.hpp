@@ -11,6 +11,7 @@
 #include <array>
 #include <vector>
 #include <memory>
+#include <boost/optional.hpp>
 
 #include "Piece.hpp"
 #include "Position.hpp"
@@ -38,9 +39,11 @@ public:
 
     PiecePtr getPiecePtr(Position position) const;
     std::vector<PiecePtr> getPieces(int color); //TODO
-    std::vector<PiecePtr> getEnnemyPieces(int color);//TODO
+    std::vector<PiecePtr> getEnemyPieces(int color);//TODO
     PiecePtr getKing(int color); //TODO
     Position getKingPosition(int color); //TODO
+
+    boost::optional<Move> getEnemyLastMove(); // I use boost::optional in case there is no move to return
 
     bool isPositionFree(Position position);
     bool isPositionOnBoard(Position position);
@@ -68,7 +71,7 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &board)
 			{
 				Position position(j,i);
 				PiecePtr piecePtr = board.getPiecePtr(position);
-				
+
 				if(piecePtr)
 				{
 					char piecechar = piecePtr->getChar();

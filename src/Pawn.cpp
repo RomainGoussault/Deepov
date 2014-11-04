@@ -13,6 +13,47 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
 {
     std::vector<Move> pawnMoves;
     PiecePtr otherPiece;
+    int direction = getDirection();
+
+   if (isOnStartingRank())
+   {
+       if (board.isPositionFree(myPosition.deltaY(direction)) && board.isPositionFree(myPosition.deltaY(2*direction)))
+       {
+            Position destination = myPosition.deltaY(2*direction);
+            Move possibleMove(myPosition,destination);
+            pawnMoves.push_back(possibleMove);
+       }
+   }
+
+/*   else if
+   int i = 1;
+    Position destination = myPosition.deltaX(i);
+    destination = destination.deltaY(i);
+    while (board.isPositionOnBoard(destination))
+    {
+        Move possibleMove(myPosition, destination);
+
+        if (board.isPositionFree(destination))
+        {
+            bishopMoves.push_back(possibleMove);
+        }
+        else
+        {
+            otherPiece = board.getPiecePtr(destination);
+            // look for capture
+            if (piecePtr->areColorDifferent(*otherPiece))
+            {
+                possibleMove.setCapturedPiece(otherPiece);
+                bishopMoves.push_back(possibleMove);
+            }
+            break;
+        }
+
+        ++i;
+        destination = myPosition.deltaX(i);
+        destination = destination.deltaY(i);
+    }
+*/
 
     return pawnMoves;
 }

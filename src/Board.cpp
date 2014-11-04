@@ -7,6 +7,7 @@
 #include "Board.hpp"
 #include "Utils.hpp"
 
+
 Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves()
 {
 }
@@ -123,7 +124,17 @@ std::vector<PiecePtr> Board::getPieces(int color)
     return piecesList;
 }
 
-std::vector<PiecePtr> Board::getEnnemyPieces(int color)
+std::vector<PiecePtr> Board::getEnemyPieces(int color)
 {
     return getPieces((color + 1)%2);
+}
+
+boost::optional<Move> Board::getEnemyLastMove()
+{
+    if (myMoves.size()>0)
+    {
+        return boost::optional<Move>(myMoves[myMoves.size()-1]);
+    }
+        return boost::optional<Move>();
+
 }
