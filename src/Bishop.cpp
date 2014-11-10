@@ -6,7 +6,6 @@
  */
 
 #include "Bishop.hpp"
-#include "Board.hpp"
 
 Bishop::Bishop(Position position, int color) : Piece(position, color)
 {
@@ -137,7 +136,7 @@ std::vector<Move> Bishop::getBishopMoves(Board &board, PiecePtr piecePtr)
     return bishopMoves;
 }
 
-std::vector<Move> Bishop::getPseudoLegalMoves(Board &board) 
+std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
 {
     return Bishop::getBishopMoves(board, shared_from_this());
 }

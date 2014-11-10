@@ -3,7 +3,6 @@
  */
 
 #include "Pawn.hpp"
-#include "Board.hpp"
 
 Pawn::Pawn(Position position, int color) : Piece(position, color)
 {
@@ -23,6 +22,11 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
             Move possibleMove(myPosition,destination);
             pawnMoves.push_back(possibleMove);
        }
+   }
+
+   else if (isEnPassantPossible(board))
+   {
+
    }
 
 /*   else if
@@ -78,12 +82,36 @@ bool Pawn::isOnGoodRankForEnPassant() const {
 }
 
 bool Pawn::isEnPassantPossible(Board &board) const {
-    if (!isOnGoodRankForEnPassant()) {
+    if (!isOnGoodRankForEnPassant())
+    {
         return false;
     }
-    else {
-        return false; // Need to add getLastMove in Board class
+    else
+    {
+        boost::optional<Move> enemyLastMove(board.getEnemyLastMove());
+        //bool isNotFirstMove = enemyLastMove; // True if there is a move in enemyLastMove
+
+        if (enemyLastMove)
+        {
+            Position enemyMoveOrigin = enemyLastMove->getOrigin();
+            Position enemyMoveDestination = enemyLastMove->getDestination();
+            //bool isPawnMoved =  // NEED TO USE DNAMIC CAST ??
+            bool isPlus2Move(std::abs(enemyMoveOrigin.getY() - enemyMoveDestination.getY()) == -2*getDirection());
+            bool isOnNextColumn((enemyMoveDestination.getX() - myPosition.getX()) == 1);
+            return isPlus2Move && isOnNextColumn ;
+        }
+        else
+        {
+            return false;
+        }
+
+
+
     }
+
+
+        return false; // Need to add getLastMove in Board class
+
 }
 
 bool Pawn::isOnStartingRank() const {

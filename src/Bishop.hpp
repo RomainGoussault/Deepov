@@ -11,6 +11,7 @@
 #include "Piece.hpp"
 #include "Color.hpp"
 #include "Move.hpp"
+#include "Board.hpp"
 
 class Bishop : public Piece
 {
@@ -20,7 +21,7 @@ public:
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
     static std::vector<Move> getBishopMoves(Board &board, PiecePtr piecePtr);
-   
+
     char getChar() const {return 'b';};
 };
 

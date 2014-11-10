@@ -5,6 +5,7 @@
  *      Author: Romain
  */
 #include "Piece.hpp"
+#include "Board.hpp"
 
 Piece::Piece() : myPosition(), myColor(WHITE), myIsPinned(false)
 {

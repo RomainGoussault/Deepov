@@ -15,6 +15,8 @@
 #include "Position.hpp"
 #include "Color.hpp"
 #include "Move.hpp"
+
+
 class Board;
 
 typedef std::shared_ptr<Piece> PiecePtr;

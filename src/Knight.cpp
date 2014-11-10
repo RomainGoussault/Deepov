@@ -4,7 +4,7 @@
  */
 
 #include "Knight.hpp"
-#include "Board.hpp"
+
 
 Knight::Knight(Position position, int color) : Piece(position, color)
 {

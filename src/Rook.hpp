@@ -11,6 +11,7 @@
 #include "Piece.hpp"
 #include "Color.hpp"
 #include "Move.hpp"
+#include "Board.hpp"
 
 class Rook : public Piece
 {

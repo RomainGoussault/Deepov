@@ -6,7 +6,6 @@
  */
 
 #include "Rook.hpp"
-#include "Board.hpp"
 
 Rook::Rook(Position position, int color) : Piece(position, color)
 {
@@ -129,7 +128,7 @@ std::vector<Move> Rook::getRookMoves(Board &board, PiecePtr piecePtr)
     return rookMoves;
 }
 
-std::vector<Move> Rook::getPseudoLegalMoves(Board &board) 
+std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 {
     return Rook::getRookMoves(board, shared_from_this());
 }

@@ -7,7 +7,7 @@
  */
 
 #include "King.hpp"
-#include "Board.hpp"
+
 
 King::King(Position position, int color) : Piece(position, color)
 {

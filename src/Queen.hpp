@@ -1,6 +1,6 @@
 /*
  * Queen.hpp
- 
+
  */
 #ifndef QUEEN_HPP_
 #define QUEEN_HPP_
@@ -9,6 +9,9 @@
 #include "Piece.hpp"
 #include "Color.hpp"
 #include "Move.hpp"
+#include "Bishop.hpp"
+#include "Rook.hpp"
+#include "Board.hpp"
 
 class Queen : public Piece
 {

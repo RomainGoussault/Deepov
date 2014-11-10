@@ -135,6 +135,10 @@ boost::optional<Move> Board::getEnemyLastMove()
     {
         return boost::optional<Move>(myMoves[myMoves.size()-1]);
     }
+    else
+    {
         return boost::optional<Move>();
+    }
+
 
 }

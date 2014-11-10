@@ -9,6 +9,9 @@
 #include "Piece.hpp"
 #include "Color.hpp"
 #include "Move.hpp"
+#include <boost/optional.hpp>
+#include "Board.hpp"
+#include <cmath>
 
 class Pawn : public Piece
 {
