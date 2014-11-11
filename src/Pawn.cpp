@@ -95,10 +95,20 @@ bool Pawn::isEnPassantPossible(Board &board) const {
         {
             Position enemyMoveOrigin = enemyLastMove->getOrigin();
             Position enemyMoveDestination = enemyLastMove->getDestination();
-            //bool isPawnMoved =  // NEED TO USE DNAMIC CAST ??
+            PiecePtr enemyPiece(board.getPiecePtr(enemyMoveDestination));
+            std::shared_ptr<Pawn> isPawn = std::dynamic_pointer_cast<Pawn>(enemyPiece);
+
+            bool isEnemyPiecePawn(false);
+
+            if (isPawn!=NULL)
+            {
+                isEnemyPiecePawn = true;
+            }
+
             bool isPlus2Move(std::abs(enemyMoveOrigin.getY() - enemyMoveDestination.getY()) == -2*getDirection());
             bool isOnNextColumn((enemyMoveDestination.getX() - myPosition.getX()) == 1);
-            return isPlus2Move && isOnNextColumn ;
+
+            return(isEnemyPiecePawn && isPlus2Move && isOnNextColumn);
         }
         else
         {
