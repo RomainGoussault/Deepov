@@ -18,7 +18,7 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
    {
        if (board.isPositionFree(myPosition.deltaY(direction)) && board.isPositionFree(myPosition.deltaY(2*direction)))
        {
-            Position destination = myPosition.deltaY(2*direction);
+            Position destination(myPosition.deltaY(2*direction));
             Move possibleMove(myPosition,destination);
             pawnMoves.push_back(possibleMove);
        }
@@ -26,9 +26,26 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
 
    else if (isEnPassantPossible(board))
    {
-
+            Position enemyPawnPosition(board.getEnemyLastMove()->getDestination());
+            Move possibleMove(myPosition,enemyPawnPosition.deltaY(direction));
+            possibleMove.setCapturedPiece(board.getPiecePtr(enemyPawnPosition));
+            pawnMoves.push_back(possibleMove);
    }
 
+    Position destination(myPosition.deltaY(direction));
+    if (board.isPositionFree(destination))
+    {
+        if (this->isGoingToPromote())
+        {
+
+        }
+        else
+        {
+            Move possibleMove(myPosition,destination);
+            pawnMoves.push_back(possibleMove);
+        }
+
+    }
 /*   else if
    int i = 1;
     Position destination = myPosition.deltaX(i);
@@ -60,6 +77,15 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
 */
 
     return pawnMoves;
+}
+
+std::vector<Move> Pawn::getPromotionMoves(Board &board, Position const& destination)
+{
+    std::vector<Move> movesList;
+    Move possibleMove(myPosition,destination);
+    possibleMove.setIsPromotion();
+
+    return movesList;
 }
 
 
@@ -96,11 +122,13 @@ bool Pawn::isEnPassantPossible(Board &board) const {
             Position enemyMoveOrigin = enemyLastMove->getOrigin();
             Position enemyMoveDestination = enemyLastMove->getDestination();
             PiecePtr enemyPiece(board.getPiecePtr(enemyMoveDestination));
+
             std::shared_ptr<Pawn> isPawn = std::dynamic_pointer_cast<Pawn>(enemyPiece);
+            // Convert to pawn shared pointer
 
             bool isEnemyPiecePawn(false);
 
-            if (isPawn!=NULL)
+            if (isPawn!=NULL) // if isPawn = NULL, enemyPiece was not a Pawn subclass of Piece
             {
                 isEnemyPiecePawn = true;
             }
@@ -114,13 +142,9 @@ bool Pawn::isEnPassantPossible(Board &board) const {
         {
             return false;
         }
-
-
-
     }
 
-
-        return false; // Need to add getLastMove in Board class
+        return false;
 
 }
 

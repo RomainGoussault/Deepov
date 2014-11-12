@@ -24,10 +24,12 @@ public:
     Position getOrigin() const;
     Position getDestination() const;
     bool isPromotion() const;
-
     std::shared_ptr<Piece> getCapturedPiece();
-    void setCapturedPiece(std::shared_ptr<Piece> piece);
+    std::shared_ptr<Piece> getPromotedPiece();
 
+    void setCapturedPiece(std::shared_ptr<Piece> piece);
+    void setIsPromotion();
+    void setPromotedPiece(std::shared_ptr<Piece> piece);
 
 private:
 
@@ -35,6 +37,7 @@ private:
     Position myDestination;
     std::shared_ptr<Piece> myCapturedPiece;
     bool myIsPromotion;
+    std::shared_ptr<Piece> myPromotedPiece;
 
 };
 
