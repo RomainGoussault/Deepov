@@ -21,6 +21,8 @@ int main()
 {
 	Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 	std::cout << board << std::endl;
+    std::cout  << "Press ENTER key to continue..." << std::endl;
+    getchar();
 
 	return 0;
 }

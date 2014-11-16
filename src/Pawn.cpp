@@ -37,7 +37,8 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
     {
         if (this->isGoingToPromote())
         {
-
+        std::vector<Move> promotionMoves(this->getPromotionMoves(destination));
+        pawnMoves.insert(pawnMoves.end(), promotionMoves.begin(), promotionMoves.end());
         }
         else
         {
@@ -79,24 +80,54 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
     return pawnMoves;
 }
 
-std::vector<Move> Pawn::getPromotionMoves(Board &board, Position const& destination)
+/*****************************  Promotion functions *********************************/
+
+std::vector<Move> Pawn::getPromotionMoves(Position const& destination)
 {
     std::vector<Move> movesList;
-    Move possibleMove(myPosition,destination);
+
+    {Move possibleMove(myPosition,destination);
     possibleMove.setIsPromotion();
+    possibleMove.setPromotedPawn(shared_from_this());
+
+    possibleMove.setPromotedPiece('q');
+    movesList.push_back(possibleMove);}
+
+
+    {Move possibleMove(myPosition,destination);
+    possibleMove.setIsPromotion();
+    possibleMove.setPromotedPawn(shared_from_this());
+
+    possibleMove.setPromotedPiece('r');
+    movesList.push_back(possibleMove);}
+
+    {Move possibleMove(myPosition,destination);
+    possibleMove.setIsPromotion();
+    possibleMove.setPromotedPawn(shared_from_this());
+
+    possibleMove.setPromotedPiece('b');
+    movesList.push_back(possibleMove);}
+
+    {Move possibleMove(myPosition,destination);
+    possibleMove.setIsPromotion();
+    possibleMove.setPromotedPawn(shared_from_this());
+
+    possibleMove.setPromotedPiece('n');
+    movesList.push_back(possibleMove);}
 
     return movesList;
 }
 
-
-int Pawn::getDirection() const {
+bool Pawn::isGoingToPromote() const{
     if (myColor == WHITE) {
-        return 1;
+        return (myPosition.getY() == 6);
     }
     else {
-        return -1;
+        return (myPosition.getY() == 1);
     }
 }
+
+/*****************************  EnPassant functions *********************************/
 
 bool Pawn::isOnGoodRankForEnPassant() const {
     if (myColor == WHITE) {
@@ -148,6 +179,17 @@ bool Pawn::isEnPassantPossible(Board &board) const {
 
 }
 
+/*****************************  Other functions *********************************/
+
+int Pawn::getDirection() const {
+    if (myColor == WHITE) {
+        return 1;
+    }
+    else {
+        return -1;
+    }
+}
+
 bool Pawn::isOnStartingRank() const {
     if (myColor == WHITE) {
         return (myPosition.getY() == 1);
@@ -165,13 +207,3 @@ bool Pawn::isOnLastRank() const {
         return (myPosition.getY() == 0);
     }
 }
-
-bool Pawn::isGoingToPromote() const{
-    if (myColor == WHITE) {
-        return (myPosition.getY() == 6);
-    }
-    else {
-        return (myPosition.getY() == 1);
-    }
-}
-

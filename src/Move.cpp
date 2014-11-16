@@ -1,7 +1,8 @@
 #include "Move.hpp"
 #include "Piece.hpp"
 
-Move::Move(Position origin, Position destination) : myOrigin(origin), myDestination(destination),  myCapturedPiece(nullptr), myIsPromotion(false), myPromotedPiece(nullptr)
+Move::Move(Position origin, Position destination) : myOrigin(origin), myDestination(destination),
+myCapturedPiece(nullptr), myIsPromotion(false), myPromotedPiece('\0'), myPromotedPawn(nullptr)
 {
 }
 
@@ -29,13 +30,18 @@ void Move::setIsPromotion()
     myIsPromotion = true;
 }
 
-std::shared_ptr<Piece> Move::getPromotedPiece()
+char Move::getPromotedPiece()
 {
     return myPromotedPiece;
 }
 
 
-void Move::setPromotedPiece(PiecePtr piece)
+void Move::setPromotedPiece(char piece)
 {
     myPromotedPiece = piece ;
+}
+
+void Move::setPromotedPawn(std::shared_ptr<Piece> pawn)
+{
+    myPromotedPawn = pawn ;
 }

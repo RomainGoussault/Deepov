@@ -20,14 +20,22 @@ public:
     Pawn(Position position, int color);
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
-    std::vector<Move> getPromotionMoves(Board &board, Position const& destination);
+
+    /***************************** Promotion functions *********************************/
+    std::vector<Move> getPromotionMoves(Position const& destination);
+    bool isGoingToPromote() const;
+
+    /***************************** EnPassant functions *********************************/
+
+        bool isOnGoodRankForEnPassant() const;
+    bool isEnPassantPossible(Board &board) const;
+
+    /******************************* Other functions ***********************************/
 
     int getDirection() const;
-    bool isOnGoodRankForEnPassant() const;
-    bool isEnPassantPossible(Board &board) const;
     bool isOnStartingRank() const;
     bool isOnLastRank() const;
-    bool isGoingToPromote() const;
+
 
     char getChar() const {return 'p';};
 };
