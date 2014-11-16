@@ -14,30 +14,34 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
     PiecePtr otherPiece;
     int direction = getDirection();
 
-   if (isOnStartingRank())
-   {
+    /* Is starting pawn ? */
+
+    if (isOnStartingRank())
+    {
        if (board.isPositionFree(myPosition.deltaY(direction)) && board.isPositionFree(myPosition.deltaY(2*direction)))
        {
             Position destination(myPosition.deltaY(2*direction));
             Move possibleMove(myPosition,destination);
             pawnMoves.push_back(possibleMove);
        }
-   }
+    }
 
-   else if (isEnPassantPossible(board))
-   {
+    /* En passant ? */
+
+    else if (isEnPassantPossible(board))
+    {
             Position enemyPawnPosition(board.getEnemyLastMove()->getDestination());
             Move possibleMove(myPosition,enemyPawnPosition.deltaY(direction));
             possibleMove.setCapturedPiece(board.getPiecePtr(enemyPawnPosition));
             pawnMoves.push_back(possibleMove);
-   }
+    }
 
     Position destination(myPosition.deltaY(direction));
     if (board.isPositionFree(destination))
     {
-        if (this->isGoingToPromote())
+        if (isGoingToPromote())
         {
-        std::vector<Move> promotionMoves(this->getPromotionMoves(destination));
+        std::vector<Move> promotionMoves(getPromotionMoves(destination));
         pawnMoves.insert(pawnMoves.end(), promotionMoves.begin(), promotionMoves.end());
         }
         else
@@ -45,37 +49,63 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
             Move possibleMove(myPosition,destination);
             pawnMoves.push_back(possibleMove);
         }
-
     }
-/*   else if
-   int i = 1;
-    Position destination = myPosition.deltaX(i);
-    destination = destination.deltaY(i);
-    while (board.isPositionOnBoard(destination))
+
+    /* Capture ? (test the 2 sides)*/
+
+    int i = 1;
+    destination=myPosition.deltaXY(i,direction);
+
+    if (board.isPositionOnBoard(destination))
     {
-        Move possibleMove(myPosition, destination);
-
-        if (board.isPositionFree(destination))
+        otherPiece = board.getPiecePtr(destination);
+        if (otherPiece != nullptr && areColorDifferent(*otherPiece))
         {
-            bishopMoves.push_back(possibleMove);
-        }
-        else
-        {
-            otherPiece = board.getPiecePtr(destination);
-            // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
+            if (isGoingToPromote())
             {
-                possibleMove.setCapturedPiece(otherPiece);
-                bishopMoves.push_back(possibleMove);
+                std::vector<Move> promotionMoves(getPromotionMoves(destination));
+                // Add captured piece to each move
+                for (unsigned int j = 0; j < promotionMoves.size(); j++)
+                {
+                    promotionMoves[j].setCapturedPiece(otherPiece);
+                }
+                pawnMoves.insert(pawnMoves.end(), promotionMoves.begin(), promotionMoves.end());
             }
-            break;
+            else
+            {
+                Move possibleMove(myPosition,destination);
+                possibleMove.setCapturedPiece(otherPiece);
+                pawnMoves.push_back(possibleMove);
+            }
         }
-
-        ++i;
-        destination = myPosition.deltaX(i);
-        destination = destination.deltaY(i);
     }
-*/
+
+    i = -1;
+    destination=myPosition.deltaXY(i,direction);
+
+        if (board.isPositionOnBoard(destination))
+    {
+        otherPiece = board.getPiecePtr(destination);
+        if (otherPiece != nullptr && areColorDifferent(*otherPiece))
+        {
+            if (isGoingToPromote())
+            {
+                std::vector<Move> promotionMoves(getPromotionMoves(destination));
+                // Add captured piece to each move
+                for (unsigned int j = 0; j < promotionMoves.size(); j++)
+                {
+                    promotionMoves[j].setCapturedPiece(otherPiece);
+                }
+                pawnMoves.insert(pawnMoves.end(), promotionMoves.begin(), promotionMoves.end());
+            }
+            else
+            {
+                Move possibleMove(myPosition,destination);
+                possibleMove.setCapturedPiece(otherPiece);
+                pawnMoves.push_back(possibleMove);
+            }
+        }
+    }
 
     return pawnMoves;
 }
