@@ -30,11 +30,13 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
 
     else if (isEnPassantPossible(board))
     {
-            Position enemyPawnPosition(board.getEnemyLastMove()->getDestination());
-            Move possibleMove(myPosition,enemyPawnPosition.deltaY(direction));
-            possibleMove.setCapturedPiece(board.getPiecePtr(enemyPawnPosition));
-            pawnMoves.push_back(possibleMove);
+        Position enemyPawnPosition(board.getEnemyLastMove()->getDestination());
+        Move possibleMove(myPosition,enemyPawnPosition.deltaY(direction));
+        possibleMove.setCapturedPiece(board.getPiecePtr(enemyPawnPosition));
+        pawnMoves.push_back(possibleMove);
     }
+
+    /* TODO function isEnPassantPossible using FEN */
 
     Position destination(myPosition.deltaY(direction));
     if (board.isPositionFree(destination))

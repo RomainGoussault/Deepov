@@ -27,7 +27,7 @@ public:
 
     /***************************** EnPassant functions *********************************/
 
-        bool isOnGoodRankForEnPassant() const;
+    bool isOnGoodRankForEnPassant() const;
     bool isEnPassantPossible(Board &board) const;
 
     /******************************* Other functions ***********************************/
@@ -35,7 +35,6 @@ public:
     int getDirection() const;
     bool isOnStartingRank() const;
     bool isOnLastRank() const;
-
 
     char getChar() const {return 'p';};
 };
