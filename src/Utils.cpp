@@ -10,6 +10,7 @@
 #include "Rook.hpp"
 #include "Bishop.hpp"
 #include "Knight.hpp"
+#include "Pawn.hpp"
 #include "Piece.hpp"
 
 #include <boost/algorithm/string.hpp>
@@ -86,7 +87,7 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 			}
             else if (pieceChar == 'p')
 			{
-				PiecePtr piecePtr(new Knight(position, color));
+				PiecePtr piecePtr(new Pawn(position, color));
 				piecePtrs.push_back(piecePtr);
 			}
 			else

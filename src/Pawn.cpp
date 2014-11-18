@@ -85,7 +85,7 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
     i = -1;
     destination=myPosition.deltaXY(i,direction);
 
-        if (board.isPositionOnBoard(destination))
+    if (board.isPositionOnBoard(destination))
     {
         otherPiece = board.getPiecePtr(destination);
         if (otherPiece != nullptr && areColorDifferent(*otherPiece))

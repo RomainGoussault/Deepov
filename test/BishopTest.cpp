@@ -6,6 +6,16 @@
 
 TEST_CASE( "Bishop possible moves ", "[bishop]" )
 {
+    SECTION("Bishop starting game")
+    {
+        Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        Position position(2,0);
+        PiecePtr bishopPtr = board.getPiecePtr(position);
+        int size = bishopPtr->getPseudoLegalMoves(board).size();
+        REQUIRE(size == 0);
+    }
+
+
 	SECTION("Bishop blocked by enemy pieces")
 	{
 		Board board("8/3k4/8/8/8/8/1R4K1/b7 w - - 0 1");
