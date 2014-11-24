@@ -47,6 +47,7 @@ public:
 
     bool isPositionFree(Position position);
     bool isPositionOnBoard(Position position);
+    bool isFirstMove(); // Use it to know if the position comes from FEN when you want an info on a previous move.
 
     std::vector<Move> getLegalMoves(PiecePtr piecePtr); // TODO
 

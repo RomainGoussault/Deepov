@@ -7,7 +7,7 @@
 #include "Board.hpp"
 #include "Utils.hpp"
 
-
+/*****************************  Constructors *********************************/
 Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves()
 {
 }
@@ -21,6 +21,8 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves()
 		addPiece(*i);
     }
 }
+
+/******************************************************************************/
 
 int Board::getTurn() const
 {
@@ -139,6 +141,16 @@ boost::optional<Move> Board::getEnemyLastMove()
     {
         return boost::optional<Move>();
     }
+}
 
-
+bool Board::isFirstMove()
+{
+    if (myMoves.size()==0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
