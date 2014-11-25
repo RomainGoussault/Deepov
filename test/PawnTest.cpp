@@ -5,7 +5,7 @@
 #include "Piece.hpp"
 
 
-TEST_CASE( "Pawn possible moves ", "[pawn]" )
+TEST_CASE( "Pawn possible moves", "[pawn]" )
 {
 
     SECTION("Pawn on starting rank")
@@ -16,6 +16,7 @@ TEST_CASE( "Pawn possible moves ", "[pawn]" )
         int size = pawnPtr->getPseudoLegalMoves(board).size();
         REQUIRE(size == 2);
     }
+	
     SECTION("Pawn starting game")
     {
         Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -24,7 +25,6 @@ TEST_CASE( "Pawn possible moves ", "[pawn]" )
         int size = pawn->getPseudoLegalMoves(board).size();
         REQUIRE(size == 2);
     }
-
 
     SECTION("Pawn blocked by enemy pieces")
     {
@@ -52,7 +52,6 @@ TEST_CASE( "Pawn possible moves ", "[pawn]" )
         int size = pawn->getPseudoLegalMoves(board).size();
         REQUIRE(size == 4);
     }
-
     SECTION("Promotion with capture")
     {
         Board board("1r6/2P1k3/8/3K4/8/8/8/8 w - - 0 1");
@@ -63,5 +62,6 @@ TEST_CASE( "Pawn possible moves ", "[pawn]" )
     }
 
     /* TODO tests with EnPassant */
-
+    /* TODO tests execute/undo enPassant/Promotion/Starting ran */
+	
 }
