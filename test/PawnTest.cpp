@@ -62,6 +62,6 @@ TEST_CASE( "Pawn possible moves", "[pawn]" )
     }
 
     /* TODO tests with EnPassant */
-    /* TODO tests execute/undo enPassant/Promotion/Starting ran */
+    /* TODO tests execute/undo enPassant/Promotion/Starting rank */
 	
 }
