@@ -4,7 +4,7 @@
 #include "Knight.hpp"
 #include "Piece.hpp"
 
-TEST_CASE( "Knight possible moves ", "[Knight]" )
+TEST_CASE( "Knight possible moves", "[Knight]" )
 {
 
     SECTION("Knight on starting rank")
@@ -45,6 +45,5 @@ TEST_CASE( "Knight possible moves ", "[Knight]" )
 	    int size = knightPtr->getPseudoLegalMoves(board).size();
 	    REQUIRE(size == 7);
 	}
-
 }
 

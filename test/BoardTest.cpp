@@ -114,4 +114,12 @@ TEST_CASE( "execute Move", "[board]" )
 
     REQUIRE(numberWhitePieces == 0);
     REQUIRE(numberBlackPieces == 2);
+	
+    board.undoMove(move);
+	
+	numberWhitePieces = board.getPieces(WHITE).size();
+	numberBlackPieces = board.getPieces(BLACK).size();
+
+    REQUIRE(numberWhitePieces == 1);
+    REQUIRE(numberBlackPieces == 2);
 }

@@ -96,6 +96,33 @@ void Board::executeMove(Move move)
     myColorToPlay = (myColorToPlay+1) % 2;
 }
 
+void Board::undoMove(Move move)
+{
+    Position origin = move.getOrigin();
+	Position destination = move.getDestination();
+
+	PiecePtr capturePiecePtr = move.getCapturedPiece();
+	bool isCaptureMove = capturePiecePtr!= nullptr;
+	PiecePtr pieceToMove = getPiecePtr(destination);
+	std::cout << "Piece to move: " << pieceToMove << std::endl;
+
+    executeMove(pieceToMove, origin);
+    //pieceToMove.incrementMoveCounter(); TODO???
+
+	if(isCaptureMove)
+    {
+		//add the captured piece
+        addPiece(capturePiecePtr);
+	}
+
+	//TODO:
+	//Handle promotion/castling/en Passant
+	
+	//Remove the last move from the myMoves list.
+    myMoves.pop_back();
+    myColorToPlay = (myColorToPlay+1) % 2;
+}
+
 void Board::executeMove(PiecePtr piecePtr, Position destination)
 {
     removePiece(piecePtr->getPosition());
