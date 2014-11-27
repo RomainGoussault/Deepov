@@ -30,23 +30,28 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 		rank--;
 	}
 
-    for( std::vector<PiecePtr>::const_iterator i = piecePtrs.begin(); i != piecePtrs.end(); ++i)
+    for( std::vector<PiecePtr>::const_iterator i = piecesPtrs.begin(); i != piecesPtrs.end(); ++i)
     {
 		addPiece(*i);
     }
 
-    if (spaceSplit[1] == 'w')
+    if (spaceSplit[1][0] == 'w')
     {
         myColorToPlay=WHITE;
     }
-    else if (spaceSplit[1]='b')
+    else if (spaceSplit[1][0] == 'b')
     {
         myColorToPlay=BLACK;
     }
 
-    myCastling = Utils::getCastling(spaceSplit[2]);
+    for (int i=0; i<3; ++i)
+    {
+        myCastling[i] = false;
+    }
 
-    if (spaceSplit[3] == '-')
+    Utils::getCastling(spaceSplit[2],myCastling);
+
+    if (spaceSplit[3][0] == '-')
     {
         myEnPassant=boost::optional<Position>();
     }

@@ -12,6 +12,7 @@
 #include <vector>
 #include <memory>
 #include <boost/optional.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "Piece.hpp"
 #include "Position.hpp"
@@ -59,8 +60,8 @@ private:
     int myColorToPlay;
     std::vector<Move> myMoves;
     boost::optional<Position> myEnPassant;
-    bool[3] myCastling; // Same order as FEN : white king side, white queen side, black king side, black queen side
-    int[1] myMovesCounter; // 1 counter for each color
+    bool myCastling[3] ; // Same order as FEN : white king side, white queen side, black king side, black queen side
+    int myMovesCounter[1]; // 1 counter for each color
 
 };
 

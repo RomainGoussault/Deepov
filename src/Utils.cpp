@@ -99,17 +99,15 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 	return piecePtrs;
 }
 
-bool[3] Utils::getCastling(std:string castleString)
+void Utils::getCastling(std::string &castleString, bool (&castleBool)[3])
 {
-    bool[3] castleBool(false);
-
-    if (castleString[0]) == '-')
+    if (castleString[0] == '-')
     {
-        return castleBool;
+        return;
     }
     else
     {
-        for (int i=0; i<castleString.size(); ++i)
+        for (unsigned int i=0; i<castleString.size(); ++i)
         {
             if (castleString[i]=='K')
             {
@@ -129,12 +127,9 @@ bool[3] Utils::getCastling(std:string castleString)
             }
         }
     }
-
-    return castleBool;
-
 }
 
-Position Utils::getSquare(std::string fenSquare)
+Position Utils::getSquare(std::string &fenSquare)
 {
     int line(0);
 
@@ -149,34 +144,36 @@ Position Utils::getSquare(std::string fenSquare)
 
     if (fenSquare[0] == 'a')
     {
-        return Position(0,line)
+        return Position(0,line);
     }
     else if (fenSquare[0] == 'b')
     {
-        return Position(1,line)
+        return Position(1,line);
     }
     else if (fenSquare[0] == 'c')
     {
-        return Position(2,line)
+        return Position(2,line);
     }
     else if (fenSquare[0] == 'd')
     {
-        return Position(3,line)
+        return Position(3,line);
     }
     else if (fenSquare[0] == 'e')
     {
-        return Position(4,line)
+        return Position(4,line);
     }
     else if (fenSquare[0] == 'f')
     {
-        return Position(5,line)
+        return Position(5,line);
     }
     else if (fenSquare[0] == 'g')
     {
-        return Position(6,line)
+        return Position(6,line);
     }
     else if (fenSquare[0] == 'h')
     {
-        return Position(7,line)
+        return Position(7,line);
     }
+
+    return Position();
 }

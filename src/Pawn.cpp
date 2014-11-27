@@ -211,7 +211,9 @@ bool Pawn::isEnPassantPossible(Board &board) const {
 
 }
 
- bool isEnPassantPossibleFEN(Board &board) const {
+ bool Pawn::isEnPassantPossibleFEN(Board &board) const
+ {
+     return false;
  }
 /*****************************  Other functions *********************************/
 
