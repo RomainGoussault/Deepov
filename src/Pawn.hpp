@@ -29,6 +29,7 @@ public:
 
     bool isOnGoodRankForEnPassant() const;
     bool isEnPassantPossible(Board &board) const;
+    bool isEnPassantPossibleFEN(Board &board) const;
 
     /******************************* Other functions ***********************************/
 

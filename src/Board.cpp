@@ -8,18 +8,55 @@
 #include "Utils.hpp"
 
 /*****************************  Constructors *********************************/
-Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves()
+Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter()
 {
 }
 
-Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves()
+Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter()
 {
-	std::vector<PiecePtr> piecePtrs = Utils::getPiecesFromFen(fen);
+    std::vector<PiecePtr> piecesPtrs;
+
+	std::vector<std::string> spaceSplit;
+	std::vector<std::string> piecesByRank;
+
+	boost::split(spaceSplit, fen, boost::is_any_of(" "));
+	boost::split(piecesByRank, spaceSplit[0], boost::is_any_of("/"));
+
+	int rank = 7;
+	for (int i=0; i<8; i++)
+	{
+		std::vector<PiecePtr> piecesOnRank = Utils::getPieces(piecesByRank[i], rank);
+		piecesPtrs.insert(piecesPtrs.end(), piecesOnRank.begin(), piecesOnRank.end());
+		rank--;
+	}
 
     for( std::vector<PiecePtr>::const_iterator i = piecePtrs.begin(); i != piecePtrs.end(); ++i)
     {
 		addPiece(*i);
     }
+
+    if (spaceSplit[1] == 'w')
+    {
+        myColorToPlay=WHITE;
+    }
+    else if (spaceSplit[1]='b')
+    {
+        myColorToPlay=BLACK;
+    }
+
+    myCastling = Utils::getCastling(spaceSplit[2]);
+
+    if (spaceSplit[3] == '-')
+    {
+        myEnPassant=boost::optional<Position>();
+    }
+    else
+    {
+        myEnPassant=boost::optional<Position>(Utils::getSquare(spaceSplit[3]));
+    }
+
+
+
 }
 
 /******************************************************************************/

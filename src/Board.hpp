@@ -25,7 +25,8 @@ public:
     static const char BOARD_SIZE = 8;
 
     Board();
-    Board(std::string fen);
+    Board(std::string fen); /* I split the FEN to get all his features in the board
+    finally we should have class Board = FEN + (TODO) : myNumberMovesWithoutCapture and myPositionRepeat */
 
     void addPiece(PiecePtr piecePtr, Position position);
     void addPiece(PiecePtr piecePtr);
@@ -33,7 +34,7 @@ public:
 
     int getTurn() const;
     void executeMove(PiecePtr piecePtr, Position destination);
-    void executeMove(Move move);
+    void executeMove(Move move); // TODO add promotion moves
     void undoMove(Move move);
 
 
@@ -57,6 +58,9 @@ private:
     std::array<std::array<PiecePtr, BOARD_SIZE>, BOARD_SIZE> myPieces;
     int myColorToPlay;
     std::vector<Move> myMoves;
+    boost::optional<Position> myEnPassant;
+    bool[3] myCastling; // Same order as FEN : white king side, white queen side, black king side, black queen side
+    int[1] myMovesCounter; // 1 counter for each color
 
 };
 

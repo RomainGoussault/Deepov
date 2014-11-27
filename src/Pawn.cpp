@@ -211,6 +211,8 @@ bool Pawn::isEnPassantPossible(Board &board) const {
 
 }
 
+ bool isEnPassantPossibleFEN(Board &board) const {
+ }
 /*****************************  Other functions *********************************/
 
 int Pawn::getDirection() const {

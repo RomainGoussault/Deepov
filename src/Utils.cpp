@@ -99,3 +99,84 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 	return piecePtrs;
 }
 
+bool[3] Utils::getCastling(std:string castleString)
+{
+    bool[3] castleBool(false);
+
+    if (castleString[0]) == '-')
+    {
+        return castleBool;
+    }
+    else
+    {
+        for (int i=0; i<castleString.size(); ++i)
+        {
+            if (castleString[i]=='K')
+            {
+                castleBool[0]=true;
+            }
+            else if (castleString[i]=='Q')
+            {
+                castleBool[1]=true;
+            }
+            else if (castleString[i]=='k')
+            {
+                castleBool[2]=true;
+            }
+            else if (castleString[i]=='q')
+            {
+                castleBool[3]=true;
+            }
+        }
+    }
+
+    return castleBool;
+
+}
+
+Position Utils::getSquare(std::string fenSquare)
+{
+    int line(0);
+
+    if (fenSquare[1] == '3')
+    {
+        line = 2;
+    }
+    else if (fenSquare[2] == '5')
+    {
+        line = 4;
+    }
+
+    if (fenSquare[0] == 'a')
+    {
+        return Position(0,line)
+    }
+    else if (fenSquare[0] == 'b')
+    {
+        return Position(1,line)
+    }
+    else if (fenSquare[0] == 'c')
+    {
+        return Position(2,line)
+    }
+    else if (fenSquare[0] == 'd')
+    {
+        return Position(3,line)
+    }
+    else if (fenSquare[0] == 'e')
+    {
+        return Position(4,line)
+    }
+    else if (fenSquare[0] == 'f')
+    {
+        return Position(5,line)
+    }
+    else if (fenSquare[0] == 'g')
+    {
+        return Position(6,line)
+    }
+    else if (fenSquare[0] == 'h')
+    {
+        return Position(7,line)
+    }
+}
