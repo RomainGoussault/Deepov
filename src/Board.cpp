@@ -7,7 +7,7 @@
 #include "Board.hpp"
 #include "Utils.hpp"
 
-/*****************************  Constructors *********************************/
+    /*********************************** Constructor ****************************************/
 Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter()
 {
 }
@@ -72,7 +72,7 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 
     if (spaceSplit.size() >= 6)
     {
-        myMovesCounter[1] = Utils::convertStringToInt(spaceSplit[5]) ;
+        myMovesCounter[1] = Utils::convertStringToInt(spaceSplit[5]);
     }
     else
     {
@@ -82,11 +82,35 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 
 }
 
-/******************************************************************************/
+    /******************************* Pieces manipulation ************************************/
 
-int Board::getTurn() const
+void Board::addPiece(PiecePtr piecePtr, Position position)
 {
-    return myColorToPlay;
+    myPieces[position.getX()][position.getY()] = piecePtr;
+}
+
+void Board::addPiece(PiecePtr piecePtr)
+{
+    addPiece(piecePtr, piecePtr->getPosition());
+}
+
+void Board::removePiece(Position position)
+{
+    myPieces[position.getX()][position.getY()].reset();
+}
+
+    /******************************** Moves manipulation ************************************/
+
+bool Board::isFirstMove()
+{
+    if (myMoves.size()==0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void Board::executeMove(Move move)
@@ -148,42 +172,23 @@ void Board::executeMove(PiecePtr piecePtr, Position destination)
     addPiece(piecePtr);
 }
 
-void Board::addPiece(PiecePtr piecePtr, Position position)
+boost::optional<Move> Board::getEnemyLastMove()
 {
-    myPieces[position.getX()][position.getY()] = piecePtr;
-}
-
-void Board::addPiece(PiecePtr piecePtr)
-{
-    addPiece(piecePtr, piecePtr->getPosition());
-}
-
-void Board::removePiece(Position position)
-{
-    myPieces[position.getX()][position.getY()].reset();
-}
-
-bool Board::isPositionFree(Position position)
-{
-    return myPieces[position.getX()][position.getY()] == nullptr;
-}
-
-bool Board::isPositionOnBoard(Position position)
-{
-    char x = position.getX();
-    char y = position.getY();
-
-    if (x >= BOARD_SIZE || y >= BOARD_SIZE)
+    if (myMoves.size()>0)
     {
-        return false;
+        return boost::optional<Move>(myMoves[myMoves.size()-1]);
     }
-
-    if (x < 0 || y < 0)
+    else
     {
-        return false;
+        return boost::optional<Move>();
     }
+}
 
-    return true;
+    /*********************************** Get attributes **************************************/
+
+int Board::getTurn() const
+{
+    return myColorToPlay;
 }
 
 PiecePtr Board::getPiecePtr(Position position) const
@@ -218,26 +223,37 @@ std::vector<PiecePtr> Board::getEnemyPieces(int color)
     return getPieces((color + 1)%2);
 }
 
-boost::optional<Move> Board::getEnemyLastMove()
+bool Board::getCastling(int castleNumber)
 {
-    if (myMoves.size()>0)
-    {
-        return boost::optional<Move>(myMoves[myMoves.size()-1]);
-    }
-    else
-    {
-        return boost::optional<Move>();
-    }
+    return myCastling[castleNumber];
 }
 
-bool Board::isFirstMove()
+int Board::getMovesCounter(int color)
 {
-    if (myMoves.size()==0)
-    {
-        return true;
-    }
-    else
+    return myMovesCounter[color];
+}
+
+    /******************************* Position manipulation ***********************************/
+
+bool Board::isPositionFree(Position position)
+{
+    return myPieces[position.getX()][position.getY()] == nullptr;
+}
+
+bool Board::isPositionOnBoard(Position position)
+{
+    char x = position.getX();
+    char y = position.getY();
+
+    if (x >= BOARD_SIZE || y >= BOARD_SIZE)
     {
         return false;
     }
+
+    if (x < 0 || y < 0)
+    {
+        return false;
+    }
+
+    return true;
 }

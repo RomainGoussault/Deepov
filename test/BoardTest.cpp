@@ -114,12 +114,33 @@ TEST_CASE( "execute Move", "[board]" )
 
     REQUIRE(numberWhitePieces == 0);
     REQUIRE(numberBlackPieces == 2);
-	
+
     board.undoMove(move);
-	
+
 	numberWhitePieces = board.getPieces(WHITE).size();
 	numberBlackPieces = board.getPieces(BLACK).size();
 
     REQUIRE(numberWhitePieces == 1);
     REQUIRE(numberBlackPieces == 2);
+}
+
+
+TEST_CASE( "get Board from FEN", "[board]" )
+{
+    Board board(rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1);
+
+    int numberWhitePieces = board.getPieces(WHITE).size();
+	int numberBlackPieces = board.getPieces(BLACK).size();
+	int colorToPlay = board.getTurn();
+    bool firstMove = board.isFirstMove();
+    int whiteMovesNumber = board.getMovesCounter(WHITE);
+
+
+    REQUIRE(numberWhitePieces == 16);
+    REQUIRE(numberBlackPieces == 16);
+    REQUIRE(colorToPlay ==  BLACK);
+    REQUIRE(firstMove == true);
+
+
+
 }

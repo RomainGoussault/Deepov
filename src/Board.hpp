@@ -25,34 +25,45 @@ public:
 
     static const char BOARD_SIZE = 8;
 
+
+    /*********************************** Constructor ****************************************/
+
     Board();
     Board(std::string fen); /* I split the FEN to get all his features in the board
     finally we should have class Board = FEN + (TODO) : myNumberMovesWithoutCapture and myPositionRepeat */
+
+    /******************************* Pieces manipulation ************************************/
 
     void addPiece(PiecePtr piecePtr, Position position);
     void addPiece(PiecePtr piecePtr);
     void removePiece(Position position);
 
-    int getTurn() const;
+    /******************************** Moves manipulation ************************************/
+
+    bool isFirstMove(); // Use it to know if the position comes from FEN when you want an info on a previous move.
     void executeMove(PiecePtr piecePtr, Position destination);
     void executeMove(Move move); // TODO add promotion moves
     void undoMove(Move move);
+    boost::optional<Move> getEnemyLastMove(); // I use boost::optional in case there is no move to return
+    std::vector<Move> getLegalMoves(PiecePtr piecePtr); // TODO
 
+    /*********************************** Get attributes **************************************/
 
+    int getTurn() const;
     PiecePtr getPiecePtr(Position position) const;
     std::vector<PiecePtr> getPieces(int color); //TODO
     std::vector<PiecePtr> getEnemyPieces(int color);//TODO
     PiecePtr getKing(int color); //TODO
     Position getKingPosition(int color); //TODO
+    bool getCastling(int castleNumber); /* Same order as FEN :
+    0 white king side, 1 white queen side, 2 black king side, 3 black queen side */
+    int getMovesCounter(int color);
 
-    boost::optional<Move> getEnemyLastMove(); // I use boost::optional in case there is no move to return
+
+    /******************************* Position manipulation ***********************************/
 
     bool isPositionFree(Position position);
     bool isPositionOnBoard(Position position);
-    bool isFirstMove(); // Use it to know if the position comes from FEN when you want an info on a previous move.
-
-    std::vector<Move> getLegalMoves(PiecePtr piecePtr); // TODO
-
 
 private:
 
