@@ -233,7 +233,7 @@ int Board::getHalfMovesCounter()
     return myHalfMovesCounter;
 }
 
-int Board::getMovesCounter(int color)
+int Board::getMovesCounter()
 {
     return myMovesCounter;
 }

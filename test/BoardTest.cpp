@@ -127,20 +127,31 @@ TEST_CASE( "execute Move", "[board]" )
 
 TEST_CASE( "get Board from FEN", "[board]" )
 {
-    Board board(rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1);
+    Board board("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
 
     int numberWhitePieces = board.getPieces(WHITE).size();
 	int numberBlackPieces = board.getPieces(BLACK).size();
 	int colorToPlay = board.getTurn();
     bool firstMove = board.isFirstMove();
-    int whiteMovesNumber = board.getMovesCounter(WHITE);
-    int blackMovesNumber = board.getMovesCounter(BLACK);
+    int movesNumber = board.getMovesCounter();
+    int halfMovNumber = board.getHalfMovesCounter();
+    bool K,Q,k,q;
+    K = board.getCastling(0);
+    Q = board.getCastling(1);
+    k = board.getCastling(2);
+    q = board.getCastling(3);
 
 
     REQUIRE(numberWhitePieces == 16);
     REQUIRE(numberBlackPieces == 16);
     REQUIRE(colorToPlay ==  BLACK);
     REQUIRE(firstMove == true);
+    REQUIRE(movesNumber == 0);
+    REQUIRE(halfMovNumber == 1);
+    REQUIRE(K == true);
+    REQUIRE(Q == true);
+    REQUIRE(k == true);
+    REQUIRE(q == true);
 
 
 
