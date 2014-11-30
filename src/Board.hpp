@@ -30,7 +30,8 @@ public:
 
     Board();
     Board(std::string fen); /* I split the FEN to get all his features in the board
-    finally we should have class Board = FEN + (TODO) : myNumberMovesWithoutCapture and myPositionRepeat */
+    finally we should have class Board = FEN + (TODO) : myNumberMovesWithoutCapture and myPositionRepeat
+    I put one move in myMoves if the FEN says enPassant is possible */
 
     /******************************* Pieces manipulation ************************************/
 
@@ -55,6 +56,7 @@ public:
     std::vector<PiecePtr> getEnemyPieces(int color);//TODO
     PiecePtr getKing(int color); //TODO
     Position getKingPosition(int color); //TODO
+    boost::optional<Position> getEnPassantPosition();
     bool getCastling(int castleNumber); /* Same order as FEN :
     0 white king side, 1 white queen side, 2 black king side, 3 black queen side */
     int getHalfMovesCounter();

@@ -197,7 +197,7 @@ bool Pawn::isEnPassantPossible(Board &board) const {
             }
 
             bool isPlus2Move(std::abs(enemyMoveOrigin.getY() - enemyMoveDestination.getY()) == -2*getDirection());
-            bool isOnNextColumn((enemyMoveDestination.getX() - myPosition.getX()) == 1);
+            bool isOnNextColumn(std::abs(enemyMoveDestination.getX() - myPosition.getX()) == 1);
 
             return(isEnemyPiecePawn && isPlus2Move && isOnNextColumn);
         }
@@ -213,7 +213,21 @@ bool Pawn::isEnPassantPossible(Board &board) const {
 
  bool Pawn::isEnPassantPossibleFEN(Board &board) const
  {
-     return false;
+    if (!isOnGoodRankForEnPassant())
+    {
+        return false;
+    }
+
+    boost::optional<Position> enPassantCandidate(board.getEnPassantPosition());
+    if (enPassantCandidate)
+    {
+        return(std::abs(enPassantCandidate->getX() - myPosition.getX()) == 1); // i.e. isOnNextColumn
+    }
+    else
+    {
+        return false;
+    }
+
  }
 /*****************************  Other functions *********************************/
 

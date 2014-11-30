@@ -152,8 +152,4 @@ TEST_CASE( "get Board from FEN", "[board]" )
     REQUIRE(Q == true);
     REQUIRE(k == true);
     REQUIRE(q == true);
-
-
-
-
 }

@@ -223,6 +223,11 @@ std::vector<PiecePtr> Board::getEnemyPieces(int color)
     return getPieces((color + 1)%2);
 }
 
+boost::optional<Position> Board::getEnPassantPosition()
+{
+    return myEnPassant;
+}
+
 bool Board::getCastling(int castleNumber)
 {
     return myCastling[castleNumber];
