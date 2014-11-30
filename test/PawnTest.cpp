@@ -16,7 +16,7 @@ TEST_CASE( "Pawn possible moves", "[pawn]" )
         int size = pawnPtr->getPseudoLegalMoves(board).size();
         REQUIRE(size == 2);
     }
-	
+
     SECTION("Pawn starting game")
     {
         Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -61,7 +61,16 @@ TEST_CASE( "Pawn possible moves", "[pawn]" )
         REQUIRE(size == 8);
     }
 
-    /* TODO tests with EnPassant */
+    /* Tests with EnPassant */
+
+    SECTION("EnPassant from FEN")
+    {
+        Board board("rnbqkbnr/ppp1pppp/8/8/3pP3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        Position position(3,3);
+        PiecePtr pawn(board.getPiecePtr(position));
+        int size = pawn->getPseudoLegalMoves(board).size();
+        REQUIRE(size == 2);
+    }
     /* TODO tests execute/undo enPassant/Promotion/Starting rank */
-	
+
 }

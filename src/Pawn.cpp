@@ -27,16 +27,27 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
     }
 
     /* En passant ? */
-
-    if (isEnPassantPossible(board))
+    if (board.getMoves().size() == 0) /* If position comes from FEN i won't have a lastMove in the
+        move vector. Ultimately with UCI we will only use this case. */
     {
-        Position enemyPawnPosition(board.getEnemyLastMove()->getDestination());
-        Move possibleMove(myPosition,enemyPawnPosition.deltaY(direction));
-        possibleMove.setCapturedPiece(board.getPiecePtr(enemyPawnPosition));
-        pawnMoves.push_back(possibleMove);
+        if (isEnPassantPossibleFEN(board))
+        {
+            Position enemyPawnPosition(board.getEnPassantPosition()->deltaY(-direction));
+            Move possibleMove(myPosition,enemyPawnPosition.deltaY(direction));
+            possibleMove.setCapturedPiece(board.getPiecePtr(enemyPawnPosition));
+            pawnMoves.push_back(possibleMove);
+        }
     }
-
-    /* TODO function isEnPassantPossible using FEN */
+    else
+    {
+        if (isEnPassantPossible(board))
+        {
+            Position enemyPawnPosition(board.getEnemyLastMove()->getDestination());
+            Move possibleMove(myPosition,enemyPawnPosition.deltaY(direction));
+            possibleMove.setCapturedPiece(board.getPiecePtr(enemyPawnPosition));
+            pawnMoves.push_back(possibleMove);
+        }
+    }
 
     Position destination(myPosition.deltaY(direction));
     if (board.isPositionFree(destination))
