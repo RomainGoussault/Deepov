@@ -223,6 +223,11 @@ std::vector<PiecePtr> Board::getEnemyPieces(int color)
     return getPieces((color + 1)%2);
 }
 
+std::vector<Move> Board::getMoves()
+{
+    return myMoves;
+}
+
 boost::optional<Position> Board::getEnPassantPosition()
 {
     return myEnPassant;

@@ -56,6 +56,7 @@ public:
     std::vector<PiecePtr> getEnemyPieces(int color);//TODO
     PiecePtr getKing(int color); //TODO
     Position getKingPosition(int color); //TODO
+    std::vector<Move> getMoves();
     boost::optional<Position> getEnPassantPosition();
     bool getCastling(int castleNumber); /* Same order as FEN :
     0 white king side, 1 white queen side, 2 black king side, 3 black queen side */

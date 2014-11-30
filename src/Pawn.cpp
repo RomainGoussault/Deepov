@@ -28,7 +28,7 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
 
     /* En passant ? */
 
-    else if (isEnPassantPossible(board))
+    if (isEnPassantPossible(board))
     {
         Position enemyPawnPosition(board.getEnemyLastMove()->getDestination());
         Move possibleMove(myPosition,enemyPawnPosition.deltaY(direction));
