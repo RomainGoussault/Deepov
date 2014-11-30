@@ -99,7 +99,7 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 	return piecePtrs;
 }
 
-void Utils::getCastling(std::string &castleString, bool (&castleBool)[3])
+void Utils::getCastling(std::string const& castleString, bool (&castleBool)[3])
 {
     if (castleString[0] == '-')
     {
@@ -129,7 +129,7 @@ void Utils::getCastling(std::string &castleString, bool (&castleBool)[3])
     }
 }
 
-Position Utils::getSquare(std::string &fenSquare)
+Position Utils::getSquare(std::string const& fenSquare)
 {
     int line(0);
 
@@ -176,4 +176,14 @@ Position Utils::getSquare(std::string &fenSquare)
     }
 
     return Position();
+}
+
+int Utils::convertStringToInt(std::string const& fenMoveCounter)
+{
+    int counter = 0;
+    for (unsigned int i=0; i<fenMoveCounter.size();++i)
+    {
+        counter += (fenMoveCounter[i]- '0')*pow(10,i) ;
+    }
+    return counter;
 }

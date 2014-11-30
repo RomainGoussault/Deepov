@@ -60,6 +60,24 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
         myEnPassant=boost::optional<Position>(Utils::getSquare(spaceSplit[3]));
     }
 
+    // I put a condition in case the FEN format doesn't include the move counters
+    if (spaceSplit.size() >= 5)
+    {
+        myMovesCounter[0] = Utils::convertStringToInt(spaceSplit[4]);
+    }
+    else
+    {
+        myMovesCounter[0] = 0;
+    }
+
+    if (spaceSplit.size() >= 6)
+    {
+        myMovesCounter[1] = Utils::convertStringToInt(spaceSplit[5]) ;
+    }
+    else
+    {
+        myMovesCounter[1] = 0;
+    }
 
 
 }
@@ -117,7 +135,7 @@ void Board::undoMove(Move move)
 
 	//TODO:
 	//Handle promotion/castling/en Passant
-	
+
 	//Remove the last move from the myMoves list.
     myMoves.pop_back();
     myColorToPlay = (myColorToPlay+1) % 2;
