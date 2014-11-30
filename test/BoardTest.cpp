@@ -134,12 +134,14 @@ TEST_CASE( "get Board from FEN", "[board]" )
 	int colorToPlay = board.getTurn();
     bool firstMove = board.isFirstMove();
     int whiteMovesNumber = board.getMovesCounter(WHITE);
+    int blackMovesNumber = board.getMovesCounter(BLACK);
 
 
     REQUIRE(numberWhitePieces == 16);
     REQUIRE(numberBlackPieces == 16);
     REQUIRE(colorToPlay ==  BLACK);
     REQUIRE(firstMove == true);
+
 
 
 

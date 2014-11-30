@@ -63,20 +63,20 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
     // I put a condition in case the FEN format doesn't include the move counters
     if (spaceSplit.size() >= 5)
     {
-        myMovesCounter[0] = Utils::convertStringToInt(spaceSplit[4]);
+        myMovesCounter = Utils::convertStringToInt(spaceSplit[4]);
     }
     else
     {
-        myMovesCounter[0] = 0;
+        myMovesCounter = 0;
     }
 
     if (spaceSplit.size() >= 6)
     {
-        myMovesCounter[1] = Utils::convertStringToInt(spaceSplit[5]);
+        myHalfMovesCounter = Utils::convertStringToInt(spaceSplit[5]);
     }
     else
     {
-        myMovesCounter[1] = 0;
+        myHalfMovesCounter = 0;
     }
 
 
@@ -228,10 +228,16 @@ bool Board::getCastling(int castleNumber)
     return myCastling[castleNumber];
 }
 
+int Board::getHalfMovesCounter()
+{
+    return myHalfMovesCounter;
+}
+
 int Board::getMovesCounter(int color)
 {
-    return myMovesCounter[color];
+    return myMovesCounter;
 }
+
 
     /******************************* Position manipulation ***********************************/
 

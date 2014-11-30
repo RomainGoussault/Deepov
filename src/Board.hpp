@@ -57,7 +57,8 @@ public:
     Position getKingPosition(int color); //TODO
     bool getCastling(int castleNumber); /* Same order as FEN :
     0 white king side, 1 white queen side, 2 black king side, 3 black queen side */
-    int getMovesCounter(int color);
+    int getHalfMovesCounter();
+    int getMovesCounter();
 
 
     /******************************* Position manipulation ***********************************/
@@ -72,7 +73,9 @@ private:
     std::vector<Move> myMoves;
     boost::optional<Position> myEnPassant;
     bool myCastling[3] ; // Same order as FEN : white king side, white queen side, black king side, black queen side
-    int myMovesCounter[1]; // 1 counter for each color
+    int myHalfMovesCounter; // +1 after each color's move
+    int myMovesCounter; // +1 move after black's move
+
 
 };
 
