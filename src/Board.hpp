@@ -52,8 +52,8 @@ public:
 
     int getTurn() const;
     PiecePtr getPiecePtr(Position position) const;
-    std::vector<PiecePtr> getPieces(int color); //TODO
-    std::vector<PiecePtr> getEnemyPieces(int color);//TODO
+    std::vector<PiecePtr> getPieces(int color);
+    std::vector<PiecePtr> getEnemyPieces(int color);
     PiecePtr getKing(int color); //TODO
     Position getKingPosition(int color); //TODO
     std::vector<Move> getMoves();
