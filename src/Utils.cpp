@@ -129,53 +129,48 @@ void Utils::getCastling(std::string const& castleString, bool (&castleBool)[3])
     }
 }
 
-Position Utils::getSquare(std::string const& fenSquare)
+Position Utils::getPosition(std::string const& fenSquare)
 {
-    int line(0);
+	//TODO: Probably should to a try/catch statement here
+	
+	int row = fenSquare[1] - '0'; //convert from char to int
+	row = row-1; //In our board model row starts at index 0.
 
-    if (fenSquare[1] == '3')
-    {
-        line = 2;
-    }
-    else if (fenSquare[2] == '5')
-    {
-        line = 4;
-    }
+	if (fenSquare[0] == 'a')
+	{
+		return Position(0,row);
+	}
+	else if (fenSquare[0] == 'b')
+	{
+		return Position(1,row);
+	}
+	else if (fenSquare[0] == 'c')
+	{
+		return Position(2,row);
+	}
+	else if (fenSquare[0] == 'd')
+	{
+		return Position(3,row);
+	}
+	else if (fenSquare[0] == 'e')
+	{
+		return Position(4,row);
+	}
+	else if (fenSquare[0] == 'f')
+	{
+		return Position(5,row);
+	}
+	else if (fenSquare[0] == 'g')
+	{
+		return Position(6,row);
+	}
+	else if (fenSquare[0] == 'h')
+	{
+		return Position(7,row);
+	}
 
-    if (fenSquare[0] == 'a')
-    {
-        return Position(0,line);
-    }
-    else if (fenSquare[0] == 'b')
-    {
-        return Position(1,line);
-    }
-    else if (fenSquare[0] == 'c')
-    {
-        return Position(2,line);
-    }
-    else if (fenSquare[0] == 'd')
-    {
-        return Position(3,line);
-    }
-    else if (fenSquare[0] == 'e')
-    {
-        return Position(4,line);
-    }
-    else if (fenSquare[0] == 'f')
-    {
-        return Position(5,line);
-    }
-    else if (fenSquare[0] == 'g')
-    {
-        return Position(6,line);
-    }
-    else if (fenSquare[0] == 'h')
-    {
-        return Position(7,line);
-    }
-
-    return Position();
+	std::cout << "Error getting position from string: [" << fenSquare << "]." << std::endl;
+	return Position();
 }
 
 int Utils::convertStringToInt(std::string const& fenMoveCounter)

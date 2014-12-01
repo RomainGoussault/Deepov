@@ -133,7 +133,8 @@ TEST_CASE( "get Board from FEN", "[board]" )
 	int colorToPlay = board.getTurn();
 	bool firstMove = board.isFirstMove();
 	int movesNumber = board.getMovesCounter();
-	int halfMovNumber = board.getHalfMovesCounter();
+	int halfMoveNumber = board.getHalfMovesCounter();
+	boost::optional<Position> enPassantTarget = board.getEnPassantPosition();
 	bool K,Q,k,q;
 	K = board.getCastling(0);
 	Q = board.getCastling(1);
@@ -145,7 +146,9 @@ TEST_CASE( "get Board from FEN", "[board]" )
 	REQUIRE(colorToPlay ==  BLACK);
 	REQUIRE(firstMove == true);
 	REQUIRE(movesNumber == 0);
-	REQUIRE(halfMovNumber == 1);
+	REQUIRE(halfMoveNumber == 1);
+	REQUIRE(enPassantTarget.get().getX() == 4); //Todo: Overload == operator for Position
+	REQUIRE(enPassantTarget.get().getY() == 2);
 	REQUIRE(K == true);
 	REQUIRE(Q == true);
 	REQUIRE(k == true);

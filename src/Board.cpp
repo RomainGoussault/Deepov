@@ -30,7 +30,7 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 		rank--;
 	}
 
-    for( std::vector<PiecePtr>::const_iterator i = piecesPtrs.begin(); i != piecesPtrs.end(); ++i)
+    for(std::vector<PiecePtr>::const_iterator i = piecesPtrs.begin(); i != piecesPtrs.end(); ++i)
     {
 		addPiece(*i);
     }
@@ -57,7 +57,7 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
     }
     else
     {
-        myEnPassant=boost::optional<Position>(Utils::getSquare(spaceSplit[3]));
+        myEnPassant=boost::optional<Position>(Utils::getPosition(spaceSplit[3]));
     }
 
     // I put a condition in case the FEN format doesn't include the move counters
@@ -115,54 +115,54 @@ bool Board::isFirstMove()
 
 void Board::executeMove(Move move)
 {
-    Position origin = move.getOrigin();
+	Position origin = move.getOrigin();
 	Position destination = move.getDestination();
 	PiecePtr capturePiecePtr = move.getCapturedPiece();
 	bool isCaptureMove = capturePiecePtr!= nullptr;
 	PiecePtr pieceToMove = getPiecePtr(origin);
 
 	if(isCaptureMove)
-    {
+	{
 		//remove the captured piece
-        removePiece(capturePiecePtr->getPosition());
+		removePiece(capturePiecePtr->getPosition());
 
-    }
+	}
 
-    //pieceToMove.incrementMoveCounter(); TODO???
-    executeMove(pieceToMove, destination);
+	//pieceToMove.incrementMoveCounter(); TODO???
+	executeMove(pieceToMove, destination);
 
 	//TODO:
 	//Handle promotion/castling/en Passant
 
-    myMoves.push_back(move);
-    myColorToPlay = (myColorToPlay+1) % 2;
+	myMoves.push_back(move);
+	myColorToPlay = (myColorToPlay+1) % 2;
 }
 
 void Board::undoMove(Move move)
 {
-    Position origin = move.getOrigin();
+	Position origin = move.getOrigin();
 	Position destination = move.getDestination();
 
 	PiecePtr capturePiecePtr = move.getCapturedPiece();
 	bool isCaptureMove = capturePiecePtr!= nullptr;
 	PiecePtr pieceToMove = getPiecePtr(destination);
-	std::cout << "Piece to move: " << pieceToMove << std::endl;
+	//std::cout << "Piece to move: " << pieceToMove << std::endl;
 
-    executeMove(pieceToMove, origin);
-    //pieceToMove.incrementMoveCounter(); TODO???
+	executeMove(pieceToMove, origin);
+	//pieceToMove.incrementMoveCounter(); TODO???
 
 	if(isCaptureMove)
-    {
-		//add the captured piece
-        addPiece(capturePiecePtr);
+	{
+	//add the captured piece
+	addPiece(capturePiecePtr);
 	}
 
 	//TODO:
 	//Handle promotion/castling/en Passant
 
 	//Remove the last move from the myMoves list.
-    myMoves.pop_back();
-    myColorToPlay = (myColorToPlay+1) % 2;
+	myMoves.pop_back();
+	myColorToPlay = (myColorToPlay+1) % 2;
 }
 
 void Board::executeMove(PiecePtr piecePtr, Position destination)
