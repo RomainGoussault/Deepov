@@ -147,8 +147,7 @@ TEST_CASE( "get Board from FEN", "[board]" )
 	REQUIRE(firstMove == true);
 	REQUIRE(movesNumber == 0);
 	REQUIRE(halfMoveNumber == 1);
-	REQUIRE(enPassantTarget.get().getX() == 4); //Todo: Overload == operator for Position
-	REQUIRE(enPassantTarget.get().getY() == 2);
+	REQUIRE(enPassantTarget.get() == Position(4,2));
 	REQUIRE(K == true);
 	REQUIRE(Q == true);
 	REQUIRE(k == true);

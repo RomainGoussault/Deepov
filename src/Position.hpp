@@ -36,4 +36,11 @@ inline std::ostream& operator<<(std::ostream &strm, const Position &position)
 	return strm;
 }
 
+//Overload of the == operator
+inline bool operator==(const Position &lhs, const Position &rhs)
+{
+	return lhs.getX() == rhs.getX() && lhs.getY() == rhs.getY();
+}
+
+
 #endif /* POSITION_H_ */
