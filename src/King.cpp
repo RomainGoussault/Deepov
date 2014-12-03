@@ -53,6 +53,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
 	
 	if(board.isQueenSideCastlingAllowed(myColor))
 	{
+	//Todo needs to check if the positions between the rook and the king are empty AND not attached
 		Move possibleMove = Move(myPosition, Position(6,myPosition.getY()));
 		possibleMove.setIsCastling();
 		kingMoves.push_back(possibleMove);
