@@ -18,22 +18,23 @@ class Move
 {
 public:
 
-    Move(Position origin, Position destination);
-    //myCapturedPiece needs to be a pointer
-    // because the Piece is a forward declaration
+	Move(Position origin, Position destination);
+	//myCapturedPiece needs to be a pointer
+	// because the Piece is a forward declaration
 
-    // ALL GETS
-    Position getOrigin() const;
-    Position getDestination() const;
-    bool isPromotion() const;
-    std::shared_ptr<Piece> getCapturedPiece();
-    char getPromotedPiece();
+	// ALL GETS
+	Position getOrigin() const;
+	Position getDestination() const;
+	bool isPromotion() const;
+	std::shared_ptr<Piece> getCapturedPiece();
+	char getPromotedPiece();
 
-    //ALL SETS
-    void setCapturedPiece(std::shared_ptr<Piece> piece);
-    void setIsPromotion();
-    void setPromotedPiece(char piece);
-    void setPromotedPawn(std::shared_ptr<Piece> pawn);
+	//ALL SETS
+	void setCapturedPiece(std::shared_ptr<Piece> piece);
+	void setIsPromotion();
+	void setIsCastling();
+	void setPromotedPiece(char piece);
+	void setPromotedPawn(std::shared_ptr<Piece> pawn);
 
 private:
 
@@ -41,8 +42,9 @@ private:
     Position myDestination;
     std::shared_ptr<Piece> myCapturedPiece;
 
-    // For promotion moves, initialized at nullptr
+    // For promotion moves, initialized to false
     bool myIsPromotion;
+    bool myIsCastling;
     char myPromotedPiece; // This is a character corresponding to the piece type
     // Interpretation to be done in executeMove; so i don't have to carry more objects
     std::shared_ptr<Piece> myPromotedPawn;

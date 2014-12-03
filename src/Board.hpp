@@ -45,8 +45,11 @@ public:
     void executeMove(PiecePtr piecePtr, Position destination);
     void executeMove(Move move); // TODO add promotion moves
     void undoMove(Move move);
+    void updateCastlingRights(); //TODO
     boost::optional<Move> getEnemyLastMove(); // I use boost::optional in case there is no move to return
     std::vector<Move> getLegalMoves(PiecePtr piecePtr); // TODO
+    bool isQueenSideCastlingAllowed(int color);
+    bool isKingSideCastlingAllowed(int color);
 
     /*********************************** Get attributes **************************************/
 

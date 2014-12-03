@@ -2,7 +2,7 @@
 #include "Piece.hpp"
 
 Move::Move(Position origin, Position destination) : myOrigin(origin), myDestination(destination),
-myCapturedPiece(nullptr), myIsPromotion(false), myPromotedPiece('\0'), myPromotedPawn(nullptr)
+myCapturedPiece(nullptr), myIsPromotion(false), myIsCastling(false), myPromotedPiece('\0'), myPromotedPawn(nullptr)
 {
 }
 
@@ -28,6 +28,11 @@ Position Move::getDestination() const
 void Move::setIsPromotion()
 {
     myIsPromotion = true;
+}
+
+void Move::setIsCastling()
+{
+    myIsCastling = true;
 }
 
 char Move::getPromotedPiece()

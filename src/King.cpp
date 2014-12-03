@@ -50,6 +50,20 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
 			}
 		}
 	}
+	
+	if(board.isQueenSideCastlingAllowed(myColor))
+	{
+		Move possibleMove = Move(myPosition, Position(6,myPosition.getY()));
+		possibleMove.setIsCastling();
+		kingMoves.push_back(possibleMove);
+	}
 
+	if(board.isKingSideCastlingAllowed(myColor))
+	{
+		Move possibleMove = Move(myPosition, Position(2,myPosition.getY()));
+		possibleMove.setIsCastling();
+		kingMoves.push_back(possibleMove);
+	}
+	
     return kingMoves;
 }

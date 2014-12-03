@@ -184,6 +184,16 @@ boost::optional<Move> Board::getEnemyLastMove()
     }
 }
 
+bool Board::isQueenSideCastlingAllowed(int color)
+{
+	return myCastling[1 + 2*color];
+}
+
+bool Board::isKingSideCastlingAllowed(int color)
+{
+	return myCastling[2*color];
+}
+    
     /*********************************** Get attributes **************************************/
 
 int Board::getTurn() const
