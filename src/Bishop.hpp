@@ -20,6 +20,7 @@ public:
     Bishop(Position position, int color);
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
+    std::vector<Position> getAttackedPositions(Board &board){return std::vector<Position>();};
     static std::vector<Move> getBishopMoves(Board &board, PiecePtr piecePtr);
 
     char getChar() const {return 'b';};
