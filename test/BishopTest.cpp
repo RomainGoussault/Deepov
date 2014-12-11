@@ -15,7 +15,6 @@ TEST_CASE( "Bishop possible moves ", "[bishop]" )
         REQUIRE(size == 0);
     }
 
-
 	SECTION("Bishop blocked by enemy pieces")
 	{
 		Board board("8/3k4/8/8/8/8/1R4K1/b7 w - - 0 1");

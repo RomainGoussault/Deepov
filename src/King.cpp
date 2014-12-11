@@ -6,6 +6,7 @@
  */
 
 #include "King.hpp"
+#include <array>
 
 
 King::King(Position position, int color) : Piece(position, color)
@@ -15,22 +16,20 @@ King::King(Position position, int color) : Piece(position, color)
 std::vector<Move> King::getPseudoLegalMoves(Board &board)
 {
 	std::vector<Move> kingMoves;
-	std::vector<Position> destinations;
 	PiecePtr otherPiece;
+	std::array<Position,8> destinations;
 
-	destinations.push_back(myPosition.deltaXY(0,1));
-	destinations.push_back(myPosition.deltaXY(0,-1));
-	destinations.push_back(myPosition.deltaXY(1,-1));
-	destinations.push_back(myPosition.deltaXY(1,0));
-	destinations.push_back(myPosition.deltaXY(1,1));
-	destinations.push_back(myPosition.deltaXY(-1,-1));
-	destinations.push_back(myPosition.deltaXY(-1,0));
-	destinations.push_back(myPosition.deltaXY(-1,1));
+	destinations[0] = myPosition.deltaXY(0,1);
+	destinations[1] = myPosition.deltaXY(0,-1);
+	destinations[2] = myPosition.deltaXY(1,-1);
+	destinations[3] = myPosition.deltaXY(1,0);
+	destinations[4] = myPosition.deltaXY(1,1);
+	destinations[5] = myPosition.deltaXY(-1,-1);
+	destinations[6] = myPosition.deltaXY(-1,0);
+	destinations[7] = myPosition.deltaXY(-1,1);
 
-	for(std::vector<Position>::const_iterator i = destinations.begin(); i != destinations.end(); ++i)
+	for(const auto& destination : destinations)
 	{
-		Position destination = *i;
-
 		if (board.isPositionOnBoard(destination))
 		{
 			Move possibleMove = Move(myPosition, destination);
