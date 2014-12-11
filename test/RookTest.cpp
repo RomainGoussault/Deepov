@@ -61,4 +61,22 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
 	    int size = rook->getPseudoLegalMoves(board).size();
 	    REQUIRE(size == 2);
 	}
+
+    SECTION("Rook attacking squares")
+    {
+        Board board("8/3p4/5k2/3R4/8/3P4/2K5/8 w - - 0 1");
+        Position position(3,4);
+        PiecePtr rookPtr = board.getPiecePtr(position);
+        int size = rookPtr->getAttackedPositions(board).size();
+        REQUIRE(size == 11);
+    }
+
+    SECTION("Rook attacking squares, tight")
+    {
+        Board board("8/8/3p1k2/2KRn3/3P4/8/8/8 w - - 0 1");
+        Position position(3,4);
+        PiecePtr rookPtr = board.getPiecePtr(position);
+        int size = rookPtr->getAttackedPositions(board).size();
+        REQUIRE(size == 4);
+    }
 }
