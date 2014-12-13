@@ -50,6 +50,7 @@ public:
     std::vector<Move> getLegalMoves(PiecePtr piecePtr); // TODO
     bool isQueenSideCastlingAllowed(int color);
     bool isKingSideCastlingAllowed(int color);
+    std::vector<Position> getAttackedPositions(int color);
 
     /*********************************** Get attributes **************************************/
 

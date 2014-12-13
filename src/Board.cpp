@@ -258,6 +258,19 @@ int Board::getMovesCounter()
     return myMovesCounter;
 }
 
+std::vector<Position> Board::getAttackedPositions(int color)
+{
+	std::vector<PiecePtr> piecePtrs = getPieces(color);
+	std::vector<Position> attackedPositions;
+
+	for (const auto ennemyPiecePtr : piecePtrs)
+	{
+		std::vector<Position> pieceAttackedPositions = ennemyPiecePtr->getAttackedPositions(*this);
+		attackedPositions.insert(attackedPositions.end(), pieceAttackedPositions.begin(), pieceAttackedPositions.end());
+	}
+
+	return attackedPositions;
+}
 
     /******************************* Position manipulation ***********************************/
 
