@@ -22,7 +22,7 @@ public:
     static void getCastling(std::string const& castleString, bool (&castleBool)[3]);
     static Position getPosition(std::string const& fenSquare);
     static int convertStringToInt(std::string const& fenMoveCounter);
-    static Move getFENMove(std::string const& fenMove);
+    static Move getFENMove(std::string const& fenMove, Board &board);
 private:
 
 };

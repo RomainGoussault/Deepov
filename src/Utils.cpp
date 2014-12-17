@@ -187,7 +187,7 @@ Move Utils::getFENMove(std::string const& fenMove, Board &board)
 {
     std::string subMove = fenMove.substr(0,2) ;
     Position origin = getPosition(subMove) ;
-    std::string subMove = fenMove.substr(2,2) ;
+    subMove = fenMove.substr(2,2) ;
     Position destination = getPosition(subMove) ;
 
     Move theMove(origin,destination);
@@ -199,10 +199,12 @@ Move Utils::getFENMove(std::string const& fenMove, Board &board)
         theMove.setPromotedPawn(board.getPiecePtr(origin)) ;
     }
 
-    if (!board.isPositionFree(Position destination))
+    if (!board.isPositionFree(destination))
     {
         theMove.setCapturedPiece(board.getPiecePtr(destination));
     }
 
     //TODO set myIsCastling
+
+    return theMove ;
 }
