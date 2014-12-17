@@ -132,7 +132,7 @@ void Utils::getCastling(std::string const& castleString, bool (&castleBool)[3])
 Position Utils::getPosition(std::string const& fenSquare)
 {
 	//TODO: Probably should to a try/catch statement here
-	
+
 	int row = fenSquare[1] - '0'; //convert from char to int
 	row = row-1; //In our board model row starts at index 0.
 
@@ -181,4 +181,20 @@ int Utils::convertStringToInt(std::string const& fenMoveCounter)
         counter += (fenMoveCounter[i]- '0')*pow(10,i) ;
     }
     return counter;
+}
+
+Move Utils::getFENMove(std::string const& fenMove)
+{
+    std::string subMove = fenMove.substr(0,2) ;
+    Position origin = getPosition(subMove) ;
+    std::string subMove = fenMove.substr(2,2) ;
+    Position destination = getPosition(subMove) ;
+
+    Move theMove(origin,destination);
+
+    if (fenMove.size() >= 5)
+    {
+        move.setIsPromotion() ;
+        move.setPromotedPiece(fenMove[5]) ;
+    }
 }
