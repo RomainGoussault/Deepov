@@ -183,7 +183,7 @@ int Utils::convertStringToInt(std::string const& fenMoveCounter)
     return counter;
 }
 
-Move Utils::getFENMove(std::string const& fenMove)
+Move Utils::getFENMove(std::string const& fenMove, Board &board)
 {
     std::string subMove = fenMove.substr(0,2) ;
     Position origin = getPosition(subMove) ;
@@ -194,7 +194,15 @@ Move Utils::getFENMove(std::string const& fenMove)
 
     if (fenMove.size() >= 5)
     {
-        move.setIsPromotion() ;
-        move.setPromotedPiece(fenMove[5]) ;
+        theMove.setIsPromotion() ;
+        theMove.setPromotedPiece(fenMove[5]) ;
+        theMove.setPromotedPawn(board.getPiecePtr(origin)) ;
     }
+
+    if (!board.isPositionFree(Position destination))
+    {
+        theMove.setCapturedPiece(board.getPiecePtr(destination));
+    }
+
+    //TODO set myIsCastling
 }
