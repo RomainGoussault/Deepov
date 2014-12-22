@@ -154,9 +154,18 @@ TEST_CASE( "get Board from FEN", "[board]" )
 	REQUIRE(q == true);
 }
 
-TEST_CASE( "attacked positions", "[board]" )
+TEST_CASE( "attacked positions with kings only", "[board]" )
 {
 	Board board("8/2k5/8/8/8/2K5/8/8 w - - 0 1");
 
 	REQUIRE(board.getAttackedPositions(BLACK).size() == 8);
+	REQUIRE(board.getAttackedPositions(WHITE).size() == 8);
+}
+
+TEST_CASE( "attacked positions with kings and a rook", "[board]" )
+{
+	Board board("8/2k5/8/2R5/8/2K5/8/8 b - - 0 1");
+
+	REQUIRE(board.getAttackedPositions(BLACK).size() == 8);
+	REQUIRE(board.getAttackedPositions(WHITE).size() == (8+11));
 }
