@@ -132,7 +132,85 @@ std::vector<Move> Bishop::getBishopMoves(Board &board, PiecePtr piecePtr)
 	return bishopMoves;
 }
 
+std::vector<Position> Bishop::getAttackedPositions(Board &board, PiecePtr piecePtr)
+{
+	std::vector<Position> attackedPositions;
+	PiecePtr otherPiece;
+	Position myPosition = piecePtr->getPosition();
+
+	// Direction +x +y
+	int i = 1;
+	Position destination = myPosition.deltaXY(i,i);
+	while (board.isPositionOnBoard(destination))
+	{
+		attackedPositions.push_back(destination);
+
+		if (!board.isPositionFree(destination))
+		{
+			break;
+		}
+
+		++i;
+		destination = myPosition.deltaXY(i,i);
+	}
+
+	//Direction +x -y
+	i = 1;
+	destination = myPosition.deltaXY(i,-i);
+	while (board.isPositionOnBoard(destination))
+	{
+		attackedPositions.push_back(destination);
+
+		if (!board.isPositionFree(destination))
+		{
+			break;
+		}
+
+		++i;
+		destination = myPosition.deltaXY(i,-i);
+	}
+
+	//Direction -x +y
+	i = 1;
+	destination = myPosition.deltaXY(-i,i);
+	while (board.isPositionOnBoard(destination))
+	{
+		attackedPositions.push_back(destination);
+
+		if (!board.isPositionFree(destination))
+		{
+			break;
+		}
+
+		++i;
+		destination = myPosition.deltaXY(-i,i);
+	}
+
+	//Direction -x -y
+	i = 1;
+	destination = myPosition.deltaXY(-i,-i);
+	while (board.isPositionOnBoard(destination))
+	{
+		attackedPositions.push_back(destination);
+
+		if (!board.isPositionFree(destination))
+		{
+			break;
+		}
+
+		++i;
+		destination = myPosition.deltaXY(-i,-i);
+	}
+
+	return attackedPositions;
+}
+
 std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
 {
 	return Bishop::getBishopMoves(board, shared_from_this());
+}
+
+std::vector<Position> Bishop::getAttackedPositions(Board &board)
+{
+    return Bishop::getAttackedPositions(board, shared_from_this());
 }

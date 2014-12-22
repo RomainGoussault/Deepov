@@ -54,4 +54,20 @@ TEST_CASE( "Bishop possible moves ", "[bishop]" )
 	    int size = bishopPtr->getPseudoLegalMoves(board).size();
 	    REQUIRE(size == 5);
 	}
+
+    SECTION("Bishop attacking squares")
+    {
+        Board board("8/2k5/8/4b3/8/2K1B3/8/8 w - - 0 1");
+        Position blackPosition(4,4);
+        Position whitePosition(4,2);
+
+        PiecePtr blackBishopPtr = board.getPiecePtr(blackPosition);
+        PiecePtr whiteBishopPtr = board.getPiecePtr(whitePosition);
+
+        int blackSize = blackBishopPtr->getAttackedPositions(board).size();
+        int whiteSize = whiteBishopPtr->getAttackedPositions(board).size();
+
+        REQUIRE(blackSize == 10);
+        REQUIRE(whiteSize == 11);
+    }
 }
