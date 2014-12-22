@@ -13,130 +13,126 @@ Bishop::Bishop(Position position, int color) : Piece(position, color)
 
 std::vector<Move> Bishop::getBishopMoves(Board &board, PiecePtr piecePtr)
 {
-    std::vector<Move> bishopMoves;
-    PiecePtr otherPiece;
-    Position myPosition = piecePtr->getPosition();
+	std::vector<Move> bishopMoves;
+	PiecePtr otherPiece;
+	Position myPosition = piecePtr->getPosition();
 
-    // Direction +x +y
-   int i = 1;
-    Position destination = myPosition.deltaX(i);
-    destination = destination.deltaY(i);
-    while (board.isPositionOnBoard(destination))
-    {
-        Move possibleMove(myPosition, destination);
+	// Direction +x +y
+	int i = 1;
+	Position destination = myPosition.deltaX(i);
+	destination = destination.deltaY(i);
+	while (board.isPositionOnBoard(destination))
+	{
+		Move possibleMove(myPosition, destination);
 
-        if (board.isPositionFree(destination))
-        {
-            bishopMoves.push_back(possibleMove);
-        }
-        else
-        {
-            otherPiece = board.getPiecePtr(destination);
-            // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
-            {
-                possibleMove.setCapturedPiece(otherPiece);
-                bishopMoves.push_back(possibleMove);
-            }
-            break;
-        }
+		if (board.isPositionFree(destination))
+		{
+			bishopMoves.push_back(possibleMove);
+		}
+		else
+		{
+			otherPiece = board.getPiecePtr(destination);
+			// look for capture
+			if (piecePtr->areColorDifferent(*otherPiece))
+			{
+				possibleMove.setCapturedPiece(otherPiece);
+				bishopMoves.push_back(possibleMove);
+			}
+			break;
+		}
 
-        ++i;
-        destination = myPosition.deltaX(i);
-        destination = destination.deltaY(i);
-    }
+		++i;
+		destination = myPosition.deltaXY(i,i);
+	}
 
-    //Direction +x-y
-    i = 1;
-     destination = myPosition.deltaX(i);
-     destination = destination.deltaY(-i);
-    while (board.isPositionOnBoard(destination))
-    {
-        Move possibleMove(myPosition, destination);
+	//Direction +x-y
+	i = 1;
+	destination = myPosition.deltaX(i);
+	destination = destination.deltaY(-i);
+	while (board.isPositionOnBoard(destination))
+	{
+		Move possibleMove(myPosition, destination);
 
-        if (board.isPositionFree(destination))
-        {
-            bishopMoves.push_back(possibleMove);
-        }
-        else
-        {
-            otherPiece = board.getPiecePtr(destination);
-            // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
-            {
-                possibleMove.setCapturedPiece(otherPiece);
-                bishopMoves.push_back(possibleMove);
-            }
-            break;
-        }
+		if (board.isPositionFree(destination))
+		{
+			bishopMoves.push_back(possibleMove);
+		}
+		else
+		{
+			otherPiece = board.getPiecePtr(destination);
+			// look for capture
+			if (piecePtr->areColorDifferent(*otherPiece))
+			{
+				possibleMove.setCapturedPiece(otherPiece);
+				bishopMoves.push_back(possibleMove);
+			}
+			break;
+		}
 
-        ++i;
-        destination = myPosition.deltaX(i);
-        destination = destination.deltaY(-i);
-    }
+		++i;
+		destination = myPosition.deltaXY(i,-i);
+	}
 
-    //Direction -x+y
-    i = 1;
-        destination = myPosition.deltaX(-i);
-        destination = destination.deltaY(i);
-    while (board.isPositionOnBoard(destination))
-    {
-        Move possibleMove(myPosition, destination);
+	//Direction -x+y
+	i = 1;
+	destination = myPosition.deltaX(-i);
+	destination = destination.deltaY(i);
+	while (board.isPositionOnBoard(destination))
+	{
+		Move possibleMove(myPosition, destination);
 
-        if (board.isPositionFree(destination))
-        {
-            bishopMoves.push_back(possibleMove);
-        }
-        else
-        {
-            otherPiece = board.getPiecePtr(destination);
-            // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
-            {
-                possibleMove.setCapturedPiece(otherPiece);
-                bishopMoves.push_back(possibleMove);
-            }
-            break;
-        }
+		if (board.isPositionFree(destination))
+		{
+			bishopMoves.push_back(possibleMove);
+		}
+		else
+		{
+			otherPiece = board.getPiecePtr(destination);
+			// look for capture
+			if (piecePtr->areColorDifferent(*otherPiece))
+			{
+				possibleMove.setCapturedPiece(otherPiece);
+				bishopMoves.push_back(possibleMove);
+			}
+			break;
+		}
 
-        ++i;
-        destination = myPosition.deltaX(-i);
-        destination = destination.deltaY(i);
-    }
+		++i;
+		destination = myPosition.deltaXY(-i,i);
+	}
 
-    //Direction -x-y
-    i = 1;
-    destination = myPosition.deltaX(-i);
-    destination = destination.deltaY(-i);
-    while (board.isPositionOnBoard(destination))
-    {
-        Move possibleMove(myPosition, destination);
+	//Direction -x-y
+	i = 1;
+	destination = myPosition.deltaX(-i);
+	destination = destination.deltaY(-i);
+	while (board.isPositionOnBoard(destination))
+	{
+		Move possibleMove(myPosition, destination);
 
-        if (board.isPositionFree(destination))
-        {
-            bishopMoves.push_back(possibleMove);
-        }
-        else
-        {
-            otherPiece = board.getPiecePtr(destination);
-            // look for capture
-            if (piecePtr->areColorDifferent(*otherPiece))
-            {
-                possibleMove.setCapturedPiece(otherPiece);
-                bishopMoves.push_back(possibleMove);
-            }
-            break;
-        }
+		if (board.isPositionFree(destination))
+		{
+			bishopMoves.push_back(possibleMove);
+		}
+		else
+		{
+			otherPiece = board.getPiecePtr(destination);
+			// look for capture
+			if (piecePtr->areColorDifferent(*otherPiece))
+			{
+				possibleMove.setCapturedPiece(otherPiece);
+				bishopMoves.push_back(possibleMove);
+			}
+			break;
+		}
 
-        ++i;
-        destination = myPosition.deltaX(-i);
-        destination = destination.deltaY(-i);
-    }
+		++i;
+		destination = myPosition.deltaXY(-i,-i);
+	}
 
-    return bishopMoves;
+	return bishopMoves;
 }
 
 std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
 {
-    return Bishop::getBishopMoves(board, shared_from_this());
+	return Bishop::getBishopMoves(board, shared_from_this());
 }
