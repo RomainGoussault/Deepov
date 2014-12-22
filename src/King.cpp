@@ -67,3 +67,28 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
 	
     return kingMoves;
 }
+
+std::vector<Position> King::getAttackedPositions(Board &board)
+{
+	std::vector<Position> attackedPositions;
+	std::array<Position,8> destinations;
+
+	destinations[0] = myPosition.deltaXY(0,1);
+	destinations[1] = myPosition.deltaXY(0,-1);
+	destinations[2] = myPosition.deltaXY(1,-1);
+	destinations[3] = myPosition.deltaXY(1,0);
+	destinations[4] = myPosition.deltaXY(1,1);
+	destinations[5] = myPosition.deltaXY(-1,-1);
+	destinations[6] = myPosition.deltaXY(-1,0);
+	destinations[7] = myPosition.deltaXY(-1,1);
+
+	for(const auto& destination : destinations)
+	{
+		if (board.isPositionOnBoard(destination))
+		{
+			attackedPositions.push_back(destination);
+		}
+	}
+
+	return attackedPositions;
+}

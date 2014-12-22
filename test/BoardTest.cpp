@@ -153,3 +153,10 @@ TEST_CASE( "get Board from FEN", "[board]" )
 	REQUIRE(k == true);
 	REQUIRE(q == true);
 }
+
+TEST_CASE( "attacked positions", "[board]" )
+{
+	Board board("8/2k5/8/8/8/2K5/8/8 w - - 0 1");
+
+	REQUIRE(board.getAttackedPositions(BLACK).size() == 8);
+}

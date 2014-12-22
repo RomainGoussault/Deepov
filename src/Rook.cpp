@@ -130,7 +130,7 @@ std::vector<Move> Rook::getRookMoves(Board &board, PiecePtr piecePtr)
 
 std::vector<Position> Rook::getAttackedPositions(Board &board, PiecePtr piecePtr)
 {
-    std::vector<Position> attackedPosition;
+    std::vector<Position> attackedPositions;
     PiecePtr otherPiece;
     Position myPosition = piecePtr->getPosition();
 
@@ -139,7 +139,7 @@ std::vector<Position> Rook::getAttackedPositions(Board &board, PiecePtr piecePtr
     Position destination = myPosition.deltaX(i);
     while (board.isPositionOnBoard(destination))
     {
-		attackedPosition.push_back(destination);
+		attackedPositions.push_back(destination);
 
         if (!board.isPositionFree(destination))
         {
@@ -155,7 +155,7 @@ std::vector<Position> Rook::getAttackedPositions(Board &board, PiecePtr piecePtr
     destination = myPosition.deltaY(i);
     while (board.isPositionOnBoard(destination))
     {
-		attackedPosition.push_back(destination);
+		attackedPositions.push_back(destination);
 
         if (!board.isPositionFree(destination))
         {
@@ -171,7 +171,7 @@ std::vector<Position> Rook::getAttackedPositions(Board &board, PiecePtr piecePtr
     destination = myPosition.deltaX(i);
     while (board.isPositionOnBoard(destination))
     {
-		attackedPosition.push_back(destination);
+		attackedPositions.push_back(destination);
 
         if (!board.isPositionFree(destination))
         {
@@ -187,7 +187,7 @@ std::vector<Position> Rook::getAttackedPositions(Board &board, PiecePtr piecePtr
     destination = myPosition.deltaY(i);
     while (board.isPositionOnBoard(destination))
     {
-		attackedPosition.push_back(destination);
+		attackedPositions.push_back(destination);
 
         if (!board.isPositionFree(destination))
         {
@@ -198,7 +198,7 @@ std::vector<Position> Rook::getAttackedPositions(Board &board, PiecePtr piecePtr
         destination = myPosition.deltaY(i);
     }
 
-    return attackedPosition;
+    return attackedPositions;
 }
 
 std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
