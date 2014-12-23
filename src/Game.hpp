@@ -9,6 +9,7 @@ class Game
 {
     public:
         Game(Board &board, Player &whitePlayer, Player &blackPlayer);
+        int perft(int depth);
 
         ~Game();
 

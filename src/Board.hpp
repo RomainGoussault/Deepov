@@ -47,7 +47,8 @@ public:
     void undoMove(Move move);
     void updateCastlingRights(); //TODO
     boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
-    std::vector<Move> getLegalMoves(PiecePtr piecePtr) const; // TODO
+    std::vector<Move> getLegalMoves() const;
+    std::vector<Move> getLegalMoves(int color) const; // TODO
     bool isQueenSideCastlingAllowed(const int color) const;
     bool isKingSideCastlingAllowed(const int color) const;
     std::vector<Position> getAttackedPositions(const int color) const;

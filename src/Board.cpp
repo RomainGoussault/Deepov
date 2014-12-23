@@ -290,6 +290,26 @@ std::vector<Position> Board::getAttackedPositions(const int color) const
 	return attackedPositions;
 }
 
+std::vector<Move> Board::getLegalMoves() const
+{
+	return getLegalMoves(myColorToPlay);
+}
+
+std::vector<Move> Board::getLegalMoves(int color) const
+{
+	std::vector<PiecePtr> pieces = getPieces(color);
+	std::vector<Move> legalMoves;
+
+	for(const auto piece : pieces)
+	{
+		//TODO
+		//std::vector<Move> pieceLegalMoves = piece->getPseudoLegalMoves(*this); // TODO change to LEGAL MOVES
+		//legalMoves.insert(legalMoves.end(), pieceLegalMoves.begin(), pieceLegalMoves.end());
+	}
+
+	return legalMoves;
+}
+
     /******************************* Position manipulation ***********************************/
 
 bool Board::isPositionFree(const Position position) const
