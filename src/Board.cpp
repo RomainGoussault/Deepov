@@ -78,8 +78,6 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
     {
         myHalfMovesCounter = 0;
     }
-
-
 }
 
     /******************************* Pieces manipulation ************************************/

@@ -128,4 +128,3 @@ bool King::isKingSideCastlingPossible(const Board &board)
 
 	return iKSCP;
 }
-
