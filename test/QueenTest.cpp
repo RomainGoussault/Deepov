@@ -12,8 +12,8 @@ TEST_CASE( "Queen possible moves ", "[queen]" )
 		Position position(3,4);
 		PiecePtr queenPtr = board.getPiecePtr(position);
 
-        int size = queenPtr->getPseudoLegalMoves(board).size();
-        REQUIRE(size == 8);
+		int size = queenPtr->getPseudoLegalMoves(board).size();
+		REQUIRE(size == 8);
 	}
 
 	SECTION("Queen blocked by allied pieces")
@@ -22,8 +22,8 @@ TEST_CASE( "Queen possible moves ", "[queen]" )
 		Position position(0,0);
 		PiecePtr queenPtr = board.getPiecePtr(position);
 
-        int size = queenPtr->getPseudoLegalMoves(board).size();
-        REQUIRE(size == 0);
+		int size = queenPtr->getPseudoLegalMoves(board).size();
+		REQUIRE(size == 0);
 	}
 
 	SECTION("Queen bishop mode")
@@ -32,8 +32,8 @@ TEST_CASE( "Queen possible moves ", "[queen]" )
 		Position position(3,4);
 		PiecePtr queenPtr = board.getPiecePtr(position);
 
-        int size = queenPtr->getPseudoLegalMoves(board).size();
-        REQUIRE(size == 13);
+		int size = queenPtr->getPseudoLegalMoves(board).size();
+		REQUIRE(size == 13);
 	}
 
 	SECTION("Queen rook mode")
@@ -42,8 +42,8 @@ TEST_CASE( "Queen possible moves ", "[queen]" )
 		Position position(3,4);
 		PiecePtr queenPtr = board.getPiecePtr(position);
 
-        int size = queenPtr->getPseudoLegalMoves(board).size();
-        REQUIRE(size == 14);
+		int size = queenPtr->getPseudoLegalMoves(board).size();
+		REQUIRE(size == 14);
 	}
 
 	SECTION("Queen free")
@@ -52,8 +52,8 @@ TEST_CASE( "Queen possible moves ", "[queen]" )
 		Position position(3,4);
 		PiecePtr queenPtr = board.getPiecePtr(position);
 
-        int size = queenPtr->getPseudoLegalMoves(board).size();
-        REQUIRE(size == 27);
+		int size = queenPtr->getPseudoLegalMoves(board).size();
+		REQUIRE(size == 27);
 	}
 
 	SECTION("Queen random test")
@@ -62,7 +62,23 @@ TEST_CASE( "Queen possible moves ", "[queen]" )
 		Position position(5,5);
 		PiecePtr queenPtr = board.getPiecePtr(position);
 
-        int size = queenPtr->getPseudoLegalMoves(board).size();
-        REQUIRE(size == 19);
+		int size = queenPtr->getPseudoLegalMoves(board).size();
+		REQUIRE(size == 19);
+	}
+
+	SECTION("Queen attacked positions")
+	{
+		Board board("Q7/8/4K3/8/6q1/8/4k3/8 w - - 0 1");
+		Position blackPosition(6,3);
+		Position whitePosition(0,7);
+
+		PiecePtr blackBishopPtr = board.getPiecePtr(blackPosition);
+		PiecePtr whiteBishopPtr = board.getPiecePtr(whitePosition);
+
+		int blackSize = blackBishopPtr->getAttackedPositions(board).size();
+		int whiteSize = whiteBishopPtr->getAttackedPositions(board).size();
+
+		REQUIRE(blackSize == 7+7+1+1+2+2);
+		REQUIRE(whiteSize == 7+7+7);
 	}
 }
