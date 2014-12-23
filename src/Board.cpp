@@ -12,7 +12,7 @@ Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myC
 {
 }
 
-Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter()
+Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter(), myHalfMovesCounter()
 {
     std::vector<PiecePtr> piecesPtrs;
 
