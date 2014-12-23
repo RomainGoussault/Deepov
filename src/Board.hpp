@@ -72,7 +72,7 @@ public:
 
     bool isPositionFree(const Position position) const;
     bool isPositionOnBoard(const Position position) const;
-    bool isPositionAttacked(const Position position, const int color);
+    bool isPositionAttacked(const Position position, const int color) const;
 
 private:
 

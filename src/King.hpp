@@ -27,6 +27,7 @@ public:
 private:
 
 	bool isQueenSideCastlingPossible(const Board &board);
+	bool isKingSideCastlingPossible(const Board &board);
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const King &king)

@@ -50,20 +50,18 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
 		}
 	}
 	
-	if(board.isQueenSideCastlingAllowed(myColor))
+	if(board.isQueenSideCastlingAllowed(myColor) && isQueenSideCastlingPossible(board))
 	{
-		//Todo needs to check if the positions between the rook and the king are empty AND not attacked
-
-		Move possibleMove = Move(myPosition, Position(6,myPosition.getY()));
-		possibleMove.setIsCastling();
-		kingMoves.push_back(possibleMove);
+		Move queenSideCastlingMove = Move(myPosition, Position(6, myPosition.getY()));
+		queenSideCastlingMove.setIsCastling();
+		kingMoves.push_back(queenSideCastlingMove);
 	}
 
-	if(board.isKingSideCastlingAllowed(myColor))
+	if(board.isKingSideCastlingAllowed(myColor) && isKingSideCastlingPossible(board))
 	{
-		Move possibleMove = Move(myPosition, Position(2,myPosition.getY()));
-		possibleMove.setIsCastling();
-		kingMoves.push_back(possibleMove);
+		Move isKingSideCastlingMove = Move(myPosition, Position(2, myPosition.getY()));
+		isKingSideCastlingMove.setIsCastling();
+		kingMoves.push_back(isKingSideCastlingMove);
 	}
 	
     return kingMoves;
@@ -100,24 +98,32 @@ bool King::isQueenSideCastlingPossible(const Board &board)
 
 	//We already know the rook and the king has not moved
 	bool iQSCP = true;
-		//check if the positions are not in check
-	/*	List<Position> positions = new ArrayList<>();
-		positions.add(new Position(2,y));
-		positions.add(new Position(3,y));
-		positions.add(new Position(4,y));
 
-		for(Position position : positions)
-		{
-			isQueenSideCastlingPossible = isQueenSideCastlingPossible && !board.isPositionAttacked(position, myColor);
-		}*/
-/*
 	iQSCP = iQSCP && !board.isPositionAttacked(Position(2,y), myColor);
+	iQSCP = iQSCP && !board.isPositionAttacked(Position(3,y), myColor);
+	iQSCP = iQSCP && !board.isPositionAttacked(Position(4,y), myColor);
 
-	Position p(1,y);
-	iQSCP = iQSCP && board.isPositionFree(p);
-		isQueenSideCastlingPossible = isQueenSideCastlingPossible && board.isPositionFree(Position(2,y));
-	//	isQueenSideCastlingPossible = isQueenSideCastlingPossible && board.isPositionFree(new Position(3,y));
-*/
+	iQSCP = iQSCP && board.isPositionFree(Position(1,y));
+	iQSCP = iQSCP && board.isPositionFree(Position(2,y));
+	iQSCP = iQSCP && board.isPositionFree(Position(3,y));
+
 	return iQSCP;
+}
+
+bool King::isKingSideCastlingPossible(const Board &board)
+{
+	int y = myColor == WHITE ? 0 : 7 ;
+
+	//We already know the rook and the king has not moved
+	bool iKSCP = true;
+
+	iKSCP = iKSCP && !board.isPositionAttacked(Position(4,y), myColor);
+	iKSCP = iKSCP && !board.isPositionAttacked(Position(5,y), myColor);
+	iKSCP = iKSCP && !board.isPositionAttacked(Position(6,y), myColor);
+
+	iKSCP = iKSCP && board.isPositionFree(Position(5,y));
+	iKSCP = iKSCP && board.isPositionFree(Position(6,y));
+
+	return iKSCP;
 }
 

@@ -299,7 +299,7 @@ bool Board::isPositionOnBoard(const Position position) const
     return true;
 }
 
-bool Board::isPositionAttacked(const Position position, const int color)
+bool Board::isPositionAttacked(const Position position, const int color) const
 {
 	std::vector<Position> attackedPositions = getAttackedPositions(color);
 	// TODO attackedPositions should be an attribute of the board class, that we update on each execute/undo move

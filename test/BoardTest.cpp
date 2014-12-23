@@ -180,7 +180,7 @@ TEST_CASE( "attacked positions", "[board]" )
 		REQUIRE(board.isPositionAttacked(Position(5,1), WHITE) == true);
 		REQUIRE(board.isPositionAttacked(Position(7,7), WHITE) == false);
 		REQUIRE(board.isPositionAttacked(Position(7,7), BLACK) == false);
-		REQUIRE(board.isPositionAttacked(Position(2,3), BLACK) == true);
+		REQUIRE(board.isPositionAttacked(Position(2,3), BLACK) == false);
 		REQUIRE(board.isPositionAttacked(Position(2,3), WHITE) == true);
 	}
 }
