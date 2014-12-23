@@ -30,16 +30,25 @@ void Move::setIsPromotion()
     myIsPromotion = true;
 }
 
+bool Move::isPromotion() const
+{
+	return myIsPromotion;
+}
+
 void Move::setIsCastling()
 {
     myIsCastling = true;
+}
+
+bool Move::isCastling() const
+{
+	return myIsCastling;
 }
 
 char Move::getPromotedPiece()
 {
     return myPromotedPiece;
 }
-
 
 void Move::setPromotedPiece(char piece)
 {

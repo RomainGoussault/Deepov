@@ -26,6 +26,7 @@ public:
 	Position getOrigin() const;
 	Position getDestination() const;
 	bool isPromotion() const;
+	bool isCastling() const;
 	std::shared_ptr<Piece> getCapturedPiece();
 	char getPromotedPiece();
 

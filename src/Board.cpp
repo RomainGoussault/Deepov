@@ -119,18 +119,27 @@ void Board::executeMove(Move move)
 	bool isCaptureMove = capturePiecePtr!= nullptr;
 	PiecePtr pieceToMove = getPiecePtr(origin);
 
-	if(isCaptureMove)
+	if(move.isCastling())
 	{
-		//remove the captured piece
-		removePiece(capturePiecePtr->getPosition());
-
+		//TODO
+		std::cout << " NOT IMPLEMENTED" << std::endl;
 	}
+	else if(move.isPromotion())
+	{
+		//TODO
+		std::cout << " NOT IMPLEMENTED" << std::endl;
+	}
+	else
+	{
+		if(isCaptureMove)
+		{
+			//remove the captured piece
+			removePiece(capturePiecePtr->getPosition());
+		}
 
-	//pieceToMove.incrementMoveCounter(); TODO???
-	executeMove(pieceToMove, destination);
-
-	//TODO:
-	//Handle promotion/castling/en Passant
+		//pieceToMove.incrementMoveCounter(); TODO???
+		executeMove(pieceToMove, destination);
+	}
 
 	myMoves.push_back(move);
 	myColorToPlay = (myColorToPlay+1) % 2;
@@ -144,19 +153,28 @@ void Board::undoMove(Move move)
 	PiecePtr capturePiecePtr = move.getCapturedPiece();
 	bool isCaptureMove = capturePiecePtr!= nullptr;
 	PiecePtr pieceToMove = getPiecePtr(destination);
-	//std::cout << "Piece to move: " << pieceToMove << std::endl;
 
-	executeMove(pieceToMove, origin);
-	//pieceToMove.incrementMoveCounter(); TODO???
-
-	if(isCaptureMove)
+	if(move.isCastling())
 	{
-	//add the captured piece
-	addPiece(capturePiecePtr);
+		//TODO
+		std::cout << " NOT IMPLEMENTED" << std::endl;
 	}
+	else if(move.isPromotion())
+	{
+		//TODO
+		std::cout << " NOT IMPLEMENTED" << std::endl;
+	}
+	else
+	{
+		executeMove(pieceToMove, origin);
+		//pieceToMove.incrementMoveCounter(); TODO???
 
-	//TODO:
-	//Handle promotion/castling/en Passant
+		if(isCaptureMove)
+		{
+			//add the captured piece
+			addPiece(capturePiecePtr);
+		}
+	}
 
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
