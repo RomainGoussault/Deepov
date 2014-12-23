@@ -59,9 +59,9 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
 
 	if(board.isKingSideCastlingAllowed(myColor) && isKingSideCastlingPossible(board))
 	{
-		Move isKingSideCastlingMove = Move(myPosition, Position(2, myPosition.getY()));
-		isKingSideCastlingMove.setIsCastling();
-		kingMoves.push_back(isKingSideCastlingMove);
+		Move kingSideCastlingMove = Move(myPosition, Position(2, myPosition.getY()));
+		kingSideCastlingMove.setIsCastling();
+		kingMoves.push_back(kingSideCastlingMove);
 	}
 	
     return kingMoves;
@@ -95,13 +95,14 @@ std::vector<Position> King::getAttackedPositions(const Board &board)
 bool King::isQueenSideCastlingPossible(const Board &board)
 {
 	int y = myColor == WHITE ? 0 : 7 ;
+	int ennemyColor = myColor == WHITE ? BLACK : WHITE;
 
 	//We already know the rook and the king has not moved
 	bool iQSCP = true;
 
-	iQSCP = iQSCP && !board.isPositionAttacked(Position(2,y), myColor);
-	iQSCP = iQSCP && !board.isPositionAttacked(Position(3,y), myColor);
-	iQSCP = iQSCP && !board.isPositionAttacked(Position(4,y), myColor);
+	iQSCP = iQSCP && !board.isPositionAttacked(Position(2,y), ennemyColor);
+	iQSCP = iQSCP && !board.isPositionAttacked(Position(3,y), ennemyColor);
+	iQSCP = iQSCP && !board.isPositionAttacked(Position(4,y), ennemyColor);
 
 	iQSCP = iQSCP && board.isPositionFree(Position(1,y));
 	iQSCP = iQSCP && board.isPositionFree(Position(2,y));
@@ -113,13 +114,14 @@ bool King::isQueenSideCastlingPossible(const Board &board)
 bool King::isKingSideCastlingPossible(const Board &board)
 {
 	int y = myColor == WHITE ? 0 : 7 ;
+	int ennemyColor = myColor == WHITE ? BLACK : WHITE;
 
 	//We already know the rook and the king has not moved
 	bool iKSCP = true;
 
-	iKSCP = iKSCP && !board.isPositionAttacked(Position(4,y), myColor);
-	iKSCP = iKSCP && !board.isPositionAttacked(Position(5,y), myColor);
-	iKSCP = iKSCP && !board.isPositionAttacked(Position(6,y), myColor);
+	iKSCP = iKSCP && !board.isPositionAttacked(Position(4,y), ennemyColor);
+	iKSCP = iKSCP && !board.isPositionAttacked(Position(5,y), ennemyColor);
+	iKSCP = iKSCP && !board.isPositionAttacked(Position(6,y), ennemyColor);
 
 	iKSCP = iKSCP && board.isPositionFree(Position(5,y));
 	iKSCP = iKSCP && board.isPositionFree(Position(6,y));
