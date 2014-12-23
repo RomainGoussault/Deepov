@@ -19,7 +19,7 @@ std::vector<Move> Queen::getPseudoLegalMoves(Board &board)
 	return rookMoves;
 }
 
-std::vector<Position> Queen::getAttackedPositions(Board &board)
+std::vector<Position> Queen::getAttackedPositions(const Board &board)
 {
 	std::vector<Position> rookAttackedPositions = Rook::getAttackedPositions(board, shared_from_this());
 	std::vector<Position> bishopAttackedPositions = Bishop::getAttackedPositions(board, shared_from_this());

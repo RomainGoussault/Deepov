@@ -20,9 +20,10 @@ public:
     Rook(Position position, int color);
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
-    std::vector<Position> getAttackedPositions(Board &board);
+    std::vector<Position> getAttackedPositions(const Board &board);
     static std::vector<Move> getRookMoves(Board &board, PiecePtr piecePtr);
-    static std::vector<Position> getAttackedPositions(Board &board, PiecePtr piecePtr);
+    static std::vector<Position> getAttackedPositions(const Board &board, PiecePtr piecePtr);
+
     char getChar() const {return 'r';};
 
 };

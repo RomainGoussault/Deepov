@@ -123,7 +123,7 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
 	return pawnMoves;
 }
 
-std::vector<Position> Pawn::getAttackedPositions(Board &board)
+std::vector<Position> Pawn::getAttackedPositions(const Board &board)
 {
 	std::vector<Position> attackedPositions;
 	int direction = getDirection();

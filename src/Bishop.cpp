@@ -132,7 +132,7 @@ std::vector<Move> Bishop::getBishopMoves(Board &board, PiecePtr piecePtr)
 	return bishopMoves;
 }
 
-std::vector<Position> Bishop::getAttackedPositions(Board &board, PiecePtr piecePtr)
+std::vector<Position> Bishop::getAttackedPositions(const Board &board, PiecePtr piecePtr)
 {
 	std::vector<Position> attackedPositions;
 	PiecePtr otherPiece;
@@ -210,7 +210,7 @@ std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
 	return Bishop::getBishopMoves(board, shared_from_this());
 }
 
-std::vector<Position> Bishop::getAttackedPositions(Board &board)
+std::vector<Position> Bishop::getAttackedPositions(const Board &board)
 {
     return Bishop::getAttackedPositions(board, shared_from_this());
 }

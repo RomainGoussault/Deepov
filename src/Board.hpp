@@ -50,28 +50,29 @@ public:
     std::vector<Move> getLegalMoves(PiecePtr piecePtr); // TODO
     bool isQueenSideCastlingAllowed(int color);
     bool isKingSideCastlingAllowed(int color);
-    std::vector<Position> getAttackedPositions(int color);
+    std::vector<Position> getAttackedPositions(const int color) const;
 
     /*********************************** Get attributes **************************************/
 
     int getTurn() const;
-    PiecePtr getPiecePtr(Position position) const;
-    std::vector<PiecePtr> getPieces(int color);
-    std::vector<PiecePtr> getEnemyPieces(int color);
-    PiecePtr getKing(int color); //TODO
-    Position getKingPosition(int color); //TODO
-    std::vector<Move> getMoves();
-    boost::optional<Position> getEnPassantPosition();
-    bool getCastling(int castleNumber); /* Same order as FEN :
+    PiecePtr getPiecePtr(const Position position) const;
+    std::vector<PiecePtr> getPieces(const int color) const;
+    std::vector<PiecePtr> getEnemyPieces(int color) const;
+    PiecePtr getKing(const int color) const; //TODO
+    Position getKingPosition(const int color) const; //TODO
+    std::vector<Move> getMoves() const;
+    boost::optional<Position> getEnPassantPosition() const;
+    bool getCastling(const int castleNumber) const; /* Same order as FEN :
     0 white king side, 1 white queen side, 2 black king side, 3 black queen side */
-    int getHalfMovesCounter();
-    int getMovesCounter();
+    int getHalfMovesCounter() const;
+    int getMovesCounter() const;
 
 
     /******************************* Position manipulation ***********************************/
 
-    bool isPositionFree(Position position);
-    bool isPositionOnBoard(Position position);
+    bool isPositionFree(const Position position) const;
+    bool isPositionOnBoard(const Position position) const;
+    bool isPositionAttacked(const Position position, const int color);
 
 private:
 

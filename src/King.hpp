@@ -18,11 +18,15 @@ class King : public Piece
 {
 public:
 
-    King(Position position, int color);
+	King(Position position, int color);
 
-    std::vector<Move> getPseudoLegalMoves(Board &board);
-    std::vector<Position> getAttackedPositions(Board &board);
-    char getChar() const {return 'k';};
+	std::vector<Move> getPseudoLegalMoves(Board &board);
+	std::vector<Position> getAttackedPositions(const Board &board);
+	char getChar() const {return 'k';};
+
+private:
+
+	bool isQueenSideCastlingPossible(const Board &board);
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const King &king)

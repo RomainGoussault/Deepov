@@ -50,7 +50,7 @@ std::vector<Move> Knight::getPseudoLegalMoves(Board &board)
     return knightMoves;
 }
 
-std::vector<Position> Knight::getAttackedPositions(Board &board)
+std::vector<Position> Knight::getAttackedPositions(const Board &board)
 {
 	std::vector<Position> attackedPositions;
 	std::array<Position,8> destinations;

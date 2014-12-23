@@ -52,7 +52,8 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
 	
 	if(board.isQueenSideCastlingAllowed(myColor))
 	{
-	//Todo needs to check if the positions between the rook and the king are empty AND not attached
+		//Todo needs to check if the positions between the rook and the king are empty AND not attacked
+
 		Move possibleMove = Move(myPosition, Position(6,myPosition.getY()));
 		possibleMove.setIsCastling();
 		kingMoves.push_back(possibleMove);
@@ -68,7 +69,7 @@ std::vector<Move> King::getPseudoLegalMoves(Board &board)
     return kingMoves;
 }
 
-std::vector<Position> King::getAttackedPositions(Board &board)
+std::vector<Position> King::getAttackedPositions(const Board &board)
 {
 	std::vector<Position> attackedPositions;
 	std::array<Position,8> destinations;
@@ -92,3 +93,31 @@ std::vector<Position> King::getAttackedPositions(Board &board)
 
 	return attackedPositions;
 }
+
+bool King::isQueenSideCastlingPossible(const Board &board)
+{
+	int y = myColor == WHITE ? 0 : 7 ;
+
+	//We already know the rook and the king has not moved
+	bool iQSCP = true;
+		//check if the positions are not in check
+	/*	List<Position> positions = new ArrayList<>();
+		positions.add(new Position(2,y));
+		positions.add(new Position(3,y));
+		positions.add(new Position(4,y));
+
+		for(Position position : positions)
+		{
+			isQueenSideCastlingPossible = isQueenSideCastlingPossible && !board.isPositionAttacked(position, myColor);
+		}*/
+/*
+	iQSCP = iQSCP && !board.isPositionAttacked(Position(2,y), myColor);
+
+	Position p(1,y);
+	iQSCP = iQSCP && board.isPositionFree(p);
+		isQueenSideCastlingPossible = isQueenSideCastlingPossible && board.isPositionFree(Position(2,y));
+	//	isQueenSideCastlingPossible = isQueenSideCastlingPossible && board.isPositionFree(new Position(3,y));
+*/
+	return iQSCP;
+}
+

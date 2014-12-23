@@ -184,11 +184,13 @@ boost::optional<Move> Board::getEnemyLastMove()
     }
 }
 
+//Returns true if the queen side rook AND the king has not moved during this game
 bool Board::isQueenSideCastlingAllowed(int color)
 {
 	return myCastling[1 + 2*color];
 }
 
+//Returns true if the king side rook AND the king has not moved during this game
 bool Board::isKingSideCastlingAllowed(int color)
 {
 	return myCastling[2*color];
@@ -201,13 +203,13 @@ int Board::getTurn() const
     return myColorToPlay;
 }
 
-PiecePtr Board::getPiecePtr(Position position) const
+PiecePtr Board::getPiecePtr(const Position position) const
 {
 	PiecePtr p = myPieces[position.getX()][position.getY()];
     return p;
 }
 
-std::vector<PiecePtr> Board::getPieces(int color)
+std::vector<PiecePtr> Board::getPieces(const int color) const
 {
     std::vector<PiecePtr> piecesList;
 
@@ -228,37 +230,37 @@ std::vector<PiecePtr> Board::getPieces(int color)
     return piecesList;
 }
 
-std::vector<PiecePtr> Board::getEnemyPieces(int color)
+std::vector<PiecePtr> Board::getEnemyPieces(int color) const
 {
     return getPieces((color + 1)%2);
 }
 
-std::vector<Move> Board::getMoves()
+std::vector<Move> Board::getMoves() const
 {
     return myMoves;
 }
 
-boost::optional<Position> Board::getEnPassantPosition()
+boost::optional<Position> Board::getEnPassantPosition() const
 {
     return myEnPassant;
 }
 
-bool Board::getCastling(int castleNumber)
+bool Board::getCastling(const int castleNumber) const
 {
     return myCastling[castleNumber];
 }
 
-int Board::getHalfMovesCounter()
+int Board::getHalfMovesCounter() const
 {
     return myHalfMovesCounter;
 }
 
-int Board::getMovesCounter()
+int Board::getMovesCounter() const
 {
     return myMovesCounter;
 }
 
-std::vector<Position> Board::getAttackedPositions(int color)
+std::vector<Position> Board::getAttackedPositions(const int color) const
 {
 	std::vector<PiecePtr> piecePtrs = getPieces(color);
 	std::vector<Position> attackedPositions;
@@ -274,12 +276,12 @@ std::vector<Position> Board::getAttackedPositions(int color)
 
     /******************************* Position manipulation ***********************************/
 
-bool Board::isPositionFree(Position position)
+bool Board::isPositionFree(const Position position) const
 {
     return myPieces[position.getX()][position.getY()] == nullptr;
 }
 
-bool Board::isPositionOnBoard(Position position)
+bool Board::isPositionOnBoard(const Position position) const
 {
     char x = position.getX();
     char y = position.getY();
@@ -295,4 +297,12 @@ bool Board::isPositionOnBoard(Position position)
     }
 
     return true;
+}
+
+bool Board::isPositionAttacked(const Position position, const int color)
+{
+	std::vector<Position> attackedPositions = getAttackedPositions(color);
+	// TODO attackedPositions should be an attribute of the board class, that we update on each execute/undo move
+
+    return std::count(attackedPositions.begin(), attackedPositions.end(), position) > 0;
 }

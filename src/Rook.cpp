@@ -128,7 +128,7 @@ std::vector<Move> Rook::getRookMoves(Board &board, PiecePtr piecePtr)
 	return rookMoves;
 }
 
-std::vector<Position> Rook::getAttackedPositions(Board &board, PiecePtr piecePtr)
+std::vector<Position> Rook::getAttackedPositions(const Board &board, PiecePtr piecePtr)
 {
 	std::vector<Position> attackedPositions;
 	PiecePtr otherPiece;
@@ -206,7 +206,7 @@ std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
 	return Rook::getRookMoves(board, shared_from_this());
 }
 
-std::vector<Position> Rook::getAttackedPositions(Board &board)
+std::vector<Position> Rook::getAttackedPositions(const Board &board)
 {
 	return Rook::getAttackedPositions(board, shared_from_this());
 }
