@@ -41,15 +41,15 @@ public:
 
     /******************************** Moves manipulation ************************************/
 
-    bool isFirstMove(); // Use it to know if the position comes from FEN when you want an info on a previous move.
+    bool isFirstMove() const; // Use it to know if the position comes from FEN when you want an info on a previous move.
     void executeMove(PiecePtr piecePtr, Position destination);
     void executeMove(Move move); // TODO add promotion moves
     void undoMove(Move move);
     void updateCastlingRights(); //TODO
-    boost::optional<Move> getEnemyLastMove(); // I use boost::optional in case there is no move to return
-    std::vector<Move> getLegalMoves(PiecePtr piecePtr); // TODO
-    bool isQueenSideCastlingAllowed(int color);
-    bool isKingSideCastlingAllowed(int color);
+    boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
+    std::vector<Move> getLegalMoves(PiecePtr piecePtr) const; // TODO
+    bool isQueenSideCastlingAllowed(const int color) const;
+    bool isKingSideCastlingAllowed(const int color) const;
     std::vector<Position> getAttackedPositions(const int color) const;
 
     /*********************************** Get attributes **************************************/
@@ -57,7 +57,7 @@ public:
     int getTurn() const;
     PiecePtr getPiecePtr(const Position position) const;
     std::vector<PiecePtr> getPieces(const int color) const;
-    std::vector<PiecePtr> getEnemyPieces(int color) const;
+    std::vector<PiecePtr> getEnemyPieces(const int color) const;
     PiecePtr getKing(const int color) const; //TODO
     Position getKingPosition(const int color) const; //TODO
     std::vector<Move> getMoves() const;

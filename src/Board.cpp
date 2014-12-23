@@ -101,7 +101,7 @@ void Board::removePiece(Position position)
 
     /******************************** Moves manipulation ************************************/
 
-bool Board::isFirstMove()
+bool Board::isFirstMove() const
 {
     if (myMoves.size()==0)
     {
@@ -172,7 +172,7 @@ void Board::executeMove(PiecePtr piecePtr, Position destination)
     addPiece(piecePtr);
 }
 
-boost::optional<Move> Board::getEnemyLastMove()
+boost::optional<Move> Board::getEnemyLastMove() const
 {
     if (myMoves.size()>0)
     {
@@ -185,13 +185,13 @@ boost::optional<Move> Board::getEnemyLastMove()
 }
 
 //Returns true if the queen side rook AND the king has not moved during this game
-bool Board::isQueenSideCastlingAllowed(int color)
+bool Board::isQueenSideCastlingAllowed(const int color) const
 {
 	return myCastling[1 + 2*color];
 }
 
 //Returns true if the king side rook AND the king has not moved during this game
-bool Board::isKingSideCastlingAllowed(int color)
+bool Board::isKingSideCastlingAllowed(const int color) const
 {
 	return myCastling[2*color];
 }
@@ -230,7 +230,7 @@ std::vector<PiecePtr> Board::getPieces(const int color) const
     return piecesList;
 }
 
-std::vector<PiecePtr> Board::getEnemyPieces(int color) const
+std::vector<PiecePtr> Board::getEnemyPieces(const int color) const
 {
     return getPieces((color + 1)%2);
 }
