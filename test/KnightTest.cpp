@@ -36,7 +36,7 @@ TEST_CASE( "Knight possible moves", "[Knight]" )
 		REQUIRE(size == 0);
 	}
 
-	SECTION("Knight blocked by enemy pieces")
+	SECTION("Attacked Positions")
 	{
 		Board board("n7/8/4K3/8/5N2/8/4k3/8 b - - 0 1");
 		Position blackPosition(0,7);

@@ -123,6 +123,26 @@ std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
 	return pawnMoves;
 }
 
+std::vector<Position> Pawn::getAttackedPositions(Board &board)
+{
+	std::vector<Position> attackedPositions;
+	int direction = getDirection();
+
+	Position destination = myPosition.deltaXY(-1, direction);
+	if (board.isPositionOnBoard(destination))
+	{
+		attackedPositions.push_back(destination);
+	}
+
+	destination = myPosition.deltaXY(1, direction);
+	if (board.isPositionOnBoard(destination))
+	{
+		attackedPositions.push_back(destination);
+	}
+
+	return attackedPositions;
+}
+
 /*****************************  Promotion functions *********************************/
 
 std::vector<Move> Pawn::getPromotionMoves(Position const& destination)

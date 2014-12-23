@@ -90,5 +90,21 @@ TEST_CASE( "Pawn possible moves", "[pawn]" )
 		int size = pawn->getPseudoLegalMoves(board).size();
 		REQUIRE(size == 2);
 	}
+
+	SECTION("Attacked positions")
+	{
+		Board board("8/8/4K1k1/5P2/8/8/p7/8 b - - 0 1");
+		Position blackPosition(0,1);
+		Position whitePosition(5,4);
+
+		PiecePtr blackBishopPtr = board.getPiecePtr(blackPosition);
+		PiecePtr whiteBishopPtr = board.getPiecePtr(whitePosition);
+
+		int blackSize = blackBishopPtr->getAttackedPositions(board).size();
+		int whiteSize = whiteBishopPtr->getAttackedPositions(board).size();
+
+		REQUIRE(blackSize == 1);
+		REQUIRE(whiteSize == 2);
+	}
 	/* TODO tests execute/undo enPassant/Promotion/Starting rank */
 }
