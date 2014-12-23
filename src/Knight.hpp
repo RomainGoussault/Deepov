@@ -18,7 +18,7 @@ public:
     Knight(Position position, int color);
 
     std::vector<Move> getPseudoLegalMoves(Board &board);
-    std::vector<Position> getAttackedPositions(Board &board){return std::vector<Position>();};
+    std::vector<Position> getAttackedPositions(Board &board);
     char getChar() const {return 'n';};
 };
 
