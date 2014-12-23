@@ -19,7 +19,7 @@ public:
 
     Queen(Position position, int color);
 
-    std::vector<Move> getPseudoLegalMoves(Board &board);
+    std::vector<Move> getPseudoLegalMoves(const Board &board);
     std::vector<Position> getAttackedPositions(const Board &board);
     char getChar() const {return 'q';};
 };

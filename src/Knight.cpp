@@ -10,7 +10,7 @@ Knight::Knight(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Knight::getPseudoLegalMoves(Board &board)
+std::vector<Move> Knight::getPseudoLegalMoves(const Board &board)
 {
     std::vector<Move> knightMoves;
     PiecePtr otherPiece;

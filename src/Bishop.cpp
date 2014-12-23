@@ -11,7 +11,7 @@ Bishop::Bishop(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Bishop::getBishopMoves(Board &board, PiecePtr piecePtr)
+std::vector<Move> Bishop::getBishopMoves(const Board &board, PiecePtr piecePtr)
 {
 	std::vector<Move> bishopMoves;
 	PiecePtr otherPiece;
@@ -205,7 +205,7 @@ std::vector<Position> Bishop::getAttackedPositions(const Board &board, PiecePtr 
 	return attackedPositions;
 }
 
-std::vector<Move> Bishop::getPseudoLegalMoves(Board &board)
+std::vector<Move> Bishop::getPseudoLegalMoves(const Board &board)
 {
 	return Bishop::getBishopMoves(board, shared_from_this());
 }

@@ -8,7 +8,7 @@ Pawn::Pawn(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Pawn::getPseudoLegalMoves(Board &board)
+std::vector<Move> Pawn::getPseudoLegalMoves(const Board &board)
 {
 	std::vector<Move> pawnMoves;
 	PiecePtr otherPiece;
@@ -202,7 +202,7 @@ bool Pawn::isOnGoodRankForEnPassant() const
 	}
 }
 
-bool Pawn::isEnPassantPossible(Board &board) const
+bool Pawn::isEnPassantPossible(const Board &board) const
 {
 	if (!isOnGoodRankForEnPassant())
 	{
@@ -243,7 +243,7 @@ bool Pawn::isEnPassantPossible(Board &board) const
 	return false;
 }
 
-bool Pawn::isEnPassantPossibleFEN(Board &board) const
+bool Pawn::isEnPassantPossibleFEN(const Board &board) const
 {
 	if (!isOnGoodRankForEnPassant())
 	{

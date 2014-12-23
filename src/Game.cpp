@@ -4,22 +4,25 @@
 
 #include "Game.hpp"
 
-Game::Game(Board &board, Player &whitePlayer, Player &blackPlayer) : myBoardptr(&board), myWhitePlayer(&whitePlayer), myBlackPlayer(&blackPlayer)
+Game::Game(Board board) : myBoard(board)
 {
-    if (whitePlayer.getBoardptr() != myBoardptr)
+}
+/*
+Game::Game(Board &board, Player &whitePlayer, Player &blackPlayer) : myBoard(&board), myWhitePlayer(&whitePlayer), myBlackPlayer(&blackPlayer)
+{
+    if (whitePlayer.getBoardptr() != myBoard)
     {
-        whitePlayer.setBoardptr(myBoardptr);
+        whitePlayer.setBoardptr(myBoard);
     }
 
-    if (blackPlayer.getBoardptr() != myBoardptr)
+    if (blackPlayer.getBoardptr() != myBoard)
     {
-        blackPlayer.setBoardptr(myBoardptr);
+        blackPlayer.setBoardptr(myBoard);
     }
 }
-
+*/
 int Game::perft(int depth)
 {
-	int nMoves, i;
 	int nodes = 0;
 
 	if (depth == 0)
@@ -27,15 +30,13 @@ int Game::perft(int depth)
 		return 1;
 	}
 
-	std::vector<Move> moves = myBoardptr->getLegalMoves();
-	nMoves = moves.size();
+	std::vector<Move> moves = myBoard.getLegalMoves();
 
-	for (i = 0; i < nMoves; i++)
+	for (const auto move : moves)
 	{
-		Move move = moves[i];
-		myBoardptr->executeMove(move);
+		myBoard.executeMove(move);
 		nodes += perft(depth - 1);
-		myBoardptr->undoMove(move);
+		myBoard.undoMove(move);
 	}
 
 	return nodes;

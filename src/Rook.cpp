@@ -11,7 +11,7 @@ Rook::Rook(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Rook::getRookMoves(Board &board, PiecePtr piecePtr)
+std::vector<Move> Rook::getRookMoves(const Board &board, PiecePtr piecePtr)
 {
 	std::vector<Move> rookMoves;
 	PiecePtr otherPiece;
@@ -201,7 +201,7 @@ std::vector<Position> Rook::getAttackedPositions(const Board &board, PiecePtr pi
 	return attackedPositions;
 }
 
-std::vector<Move> Rook::getPseudoLegalMoves(Board &board)
+std::vector<Move> Rook::getPseudoLegalMoves(const Board &board)
 {
 	return Rook::getRookMoves(board, shared_from_this());
 }

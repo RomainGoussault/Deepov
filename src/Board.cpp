@@ -302,9 +302,8 @@ std::vector<Move> Board::getLegalMoves(int color) const
 
 	for(const auto piece : pieces)
 	{
-		//TODO
-		//std::vector<Move> pieceLegalMoves = piece->getPseudoLegalMoves(*this); // TODO change to LEGAL MOVES
-		//legalMoves.insert(legalMoves.end(), pieceLegalMoves.begin(), pieceLegalMoves.end());
+		std::vector<Move> pieceLegalMoves = piece->getPseudoLegalMoves(*this); // TODO change to LEGAL MOVES
+		legalMoves.insert(legalMoves.end(), pieceLegalMoves.begin(), pieceLegalMoves.end());
 	}
 
 	return legalMoves;

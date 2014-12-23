@@ -40,7 +40,7 @@ public:
 	Position getPosition() const;
 	int getColor() const;
 	bool areColorDifferent(Piece &piece) const;
-	virtual std::vector<Move> getPseudoLegalMoves(Board &board) = 0;
+	virtual std::vector<Move> getPseudoLegalMoves(const Board &board) = 0;
 	virtual std::vector<Position> getAttackedPositions(const Board &board) = 0;
 	virtual char getChar() const = 0;
 

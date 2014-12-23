@@ -19,7 +19,7 @@ public:
 
     Pawn(Position position, int color);
 
-    std::vector<Move> getPseudoLegalMoves(Board &board);
+    std::vector<Move> getPseudoLegalMoves(const Board &board);
     std::vector<Position> getAttackedPositions(const Board &board);
 
     /***************************** Promotion functions *********************************/
@@ -29,8 +29,8 @@ public:
     /***************************** EnPassant functions *********************************/
 
     bool isOnGoodRankForEnPassant() const;
-    bool isEnPassantPossible(Board &board) const;
-    bool isEnPassantPossibleFEN(Board &board) const;
+    bool isEnPassantPossible(const Board &board) const;
+    bool isEnPassantPossibleFEN(const Board &board) const;
 
     /******************************* Other functions ***********************************/
 

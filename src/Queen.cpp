@@ -9,7 +9,7 @@ Queen::Queen(Position position, int color) : Piece(position, color)
 {
 }
 
-std::vector<Move> Queen::getPseudoLegalMoves(Board &board)
+std::vector<Move> Queen::getPseudoLegalMoves(const Board &board)
 {
 	std::vector<Move> rookMoves = Rook::getRookMoves(board, shared_from_this());
 	std::vector<Move> bishopMoves = Bishop::getBishopMoves(board, shared_from_this());

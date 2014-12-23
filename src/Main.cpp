@@ -15,14 +15,16 @@
 #include "Color.hpp"
 #include "Board.hpp"
 #include "Rook.hpp"
+#include "Game.hpp"
 
 
 int main()
 {
-	Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-	std::cout << board << std::endl;
-    std::cout  << "Press ENTER key to continue..." << std::endl;
-    getchar();
+		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		Game game(board);
+		int s = game.perft(4);
+
+		std::cout << s;
 
 	return 0;
 }
