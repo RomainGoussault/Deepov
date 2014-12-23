@@ -31,7 +31,7 @@ TEST_CASE( "Perft", "[perft]" )
     }
 
 
-    SECTION("Perft 2")
+    SECTION("Perft 3")
 	{
         Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         Game game(board);
