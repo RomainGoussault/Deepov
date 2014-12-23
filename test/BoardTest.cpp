@@ -154,18 +154,33 @@ TEST_CASE( "get Board from FEN", "[board]" )
 	REQUIRE(q == true);
 }
 
-TEST_CASE( "attacked positions with kings only", "[board]" )
+TEST_CASE( "attacked positions", "[board]" )
 {
-	Board board("8/2k5/8/8/8/2K5/8/8 w - - 0 1");
+	SECTION( "attacked positions with kings only")
+	{
+		Board board("8/2k5/8/8/8/2K5/8/8 w - - 0 1");
 
-	REQUIRE(board.getAttackedPositions(BLACK).size() == 8);
-	REQUIRE(board.getAttackedPositions(WHITE).size() == 8);
-}
+		REQUIRE(board.getAttackedPositions(BLACK).size() == 8);
+		REQUIRE(board.getAttackedPositions(WHITE).size() == 8);
+	}
 
-TEST_CASE( "attacked positions with kings and a rook", "[board]" )
-{
-	Board board("8/2k5/8/2R5/8/2K5/8/8 b - - 0 1");
+	SECTION( "attacked positions with kings and a rook" )
+	{
+		Board board("8/2k5/8/2R5/8/2K5/8/8 b - - 0 1");
 
-	REQUIRE(board.getAttackedPositions(BLACK).size() == 8);
-	REQUIRE(board.getAttackedPositions(WHITE).size() == (8+11));
+		REQUIRE(board.getAttackedPositions(BLACK).size() == 8);
+		REQUIRE(board.getAttackedPositions(WHITE).size() == (8+11));
+	}
+
+	SECTION( "isPositionAttacked()" )
+	{
+		Board board("8/8/1r4K1/N7/8/5k2/1R6/8 w - - 0 1");
+
+		REQUIRE(board.isPositionAttacked(Position(0,0), WHITE) == false);
+		REQUIRE(board.isPositionAttacked(Position(5,1), WHITE) == true);
+		REQUIRE(board.isPositionAttacked(Position(7,7), WHITE) == false);
+		REQUIRE(board.isPositionAttacked(Position(7,7), BLACK) == false);
+		REQUIRE(board.isPositionAttacked(Position(2,3), BLACK) == true);
+		REQUIRE(board.isPositionAttacked(Position(2,3), WHITE) == true);
+	}
 }
