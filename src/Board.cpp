@@ -381,7 +381,7 @@ int Board::divide(int depth)
 
 	for (const auto move : moves)
 	{
-		std::cout << "" << std::endl;
+		std::cout << std::endl;
 		executeMove(move);
 		nodes = perft(depth - 1);
 		std::cout <<  move.toShortString() <<  " " << nodes << std::endl;
@@ -389,6 +389,7 @@ int Board::divide(int depth)
 		undoMove(move);
 	}
 
+	std::cout << std::endl;
 	std::cout << "Total nodes: " << nodeTotal << std::endl;
 	std::cout << "Total moves: " << nMoves << std::endl;
 	return nodes;

@@ -9,27 +9,27 @@
 
 TEST_CASE( "Perft", "[perft]" )
 {
-    SECTION("Perft 0")
+	SECTION("Perft 0")
 	{
-        Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        REQUIRE(board.perft(0) == 1);
-    }
+		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.perft(0) == 1);
+	}
 
-    SECTION("Perft 1")
+	SECTION("Perft 1")
 	{
-        Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        REQUIRE(board.perft(1) == 20);
-    }
+		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.perft(1) == 20);
+	}
 
-    SECTION("Perft 2")
+	SECTION("Perft 2")
 	{
-        Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        REQUIRE(board.perft(2) == 400);
-    }
+		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.perft(2) == 400);
+	}
 
-    SECTION("Perft 3")
+	SECTION("Perft 3")
 	{
-        Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-       // REQUIRE(board.perft(3) == 8902); //NOT WORKING
-    }
+		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.perft(3) == 8902); //NOT WORKING
+	}
 }

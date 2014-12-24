@@ -51,4 +51,14 @@ TEST_CASE( "Knight possible moves", "[Knight]" )
 		REQUIRE(blackSize == 2);
 		REQUIRE(whiteSize == 8);
 	}
+
+	SECTION("Knight after 2 moves")
+	{
+		Board board("rnbqkbnr/1ppppppp/8/p7/8/2N5/PPPPPPPP/R1BQKBNR w KQkq a6 0 2");
+		Position position(2,2);
+		PiecePtr knightPtr = board.getPiecePtr(position);
+
+		int size = knightPtr->getPseudoLegalMoves(board).size();
+		REQUIRE(size == 5);
+	}
 }
