@@ -30,6 +30,9 @@ public:
 	std::shared_ptr<Piece> getCapturedPiece();
 	char getPromotedPiece();
 
+	std::string toShortString() const;
+
+
 	//ALL SETS
 	void setCapturedPiece(std::shared_ptr<Piece> piece);
 	void setIsPromotion();

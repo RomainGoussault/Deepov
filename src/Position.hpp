@@ -23,6 +23,8 @@ public:
 	Position deltaY(int delta) const;
 	Position deltaXY(int deltaX, int deltaY) const;
 
+	std::string toShortString() const;
+
 private:
 
 	int x;

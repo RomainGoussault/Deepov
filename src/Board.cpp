@@ -384,12 +384,12 @@ int Board::divide(int depth)
 		std::cout << "" << std::endl;
 		executeMove(move);
 		nodes = perft(depth - 1);
-		std::cout <<  move <<  " " << nodes << std::endl;
+		std::cout <<  move.toShortString() <<  " " << nodes << std::endl;
 		nodeTotal += nodes;
 		undoMove(move);
 	}
 
-	std::cout << "Total nodes: " + nodeTotal << std::endl;
-	std::cout << "Total moves: " + nMoves << std::endl;
+	std::cout << "Total nodes: " << nodeTotal << std::endl;
+	std::cout << "Total moves: " << nMoves << std::endl;
 	return nodes;
 }

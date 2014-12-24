@@ -1,5 +1,7 @@
 #include "Move.hpp"
 #include "Piece.hpp"
+#include <sstream>
+#include <string>
 
 Move::Move(Position origin, Position destination) : myOrigin(origin), myDestination(destination),
 myCapturedPiece(nullptr), myIsPromotion(false), myIsCastling(false), myPromotedPiece('\0'), myPromotedPawn(nullptr)
@@ -59,3 +61,12 @@ void Move::setPromotedPawn(std::shared_ptr<Piece> pawn)
 {
     myPromotedPawn = pawn ;
 }
+
+std::string Move::toShortString() const
+{
+	std::stringstream ss;
+	ss << myOrigin.toShortString() << myDestination.toShortString();
+
+	return ss.str();
+}
+

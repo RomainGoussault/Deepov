@@ -5,6 +5,9 @@
  *      Author: Romain
  */
 #include "Position.hpp"
+#include <array>
+#include <sstream>
+#include <string>
 
 Position::Position() : x(0), y(0)
 {
@@ -37,4 +40,15 @@ int Position::getX() const
 int Position::getY() const
 {
 	return y;
+}
+
+std::string Position::toShortString() const
+{
+	std::array<std::string,8> letters = {"a", "b", "c", "d", "e", "f", "g", "h"};
+	int yy = y + 1;
+
+	std::stringstream ss;
+	ss << letters[x] << yy;
+
+	return ss.str();;
 }
