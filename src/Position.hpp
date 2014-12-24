@@ -32,7 +32,7 @@ private:
 
 inline std::ostream& operator<<(std::ostream &strm, const Position &position)
 {
-	strm << "[" << position.getX() <<  "," << position.getY() <<  "]" <<std::endl;
+	strm << "[" << position.getX() <<  "," << position.getY() <<  "]";
 	return strm;
 }
 

@@ -78,6 +78,7 @@ public:
     /************************************** Perft ********************************************/
 
     int perft(int depth);
+    int divide(int depth);
 
 
 private:

@@ -39,24 +39,23 @@ public:
 
 private:
 
-    Position myOrigin;
-    Position myDestination;
-    std::shared_ptr<Piece> myCapturedPiece;
+	Position myOrigin;
+	Position myDestination;
+	std::shared_ptr<Piece> myCapturedPiece;
 
-    // For promotion moves, initialized to false
-    bool myIsPromotion;
-    bool myIsCastling;
-    char myPromotedPiece; // This is a character corresponding to the piece type
-    // Interpretation to be done in executeMove; so i don't have to carry more objects
-    std::shared_ptr<Piece> myPromotedPawn;
-
+	// For promotion moves, initialized to false
+	bool myIsPromotion;
+	bool myIsCastling;
+	char myPromotedPiece; // This is a character corresponding to the piece type
+	// Interpretation to be done in executeMove; so i don't have to carry more objects
+	std::shared_ptr<Piece> myPromotedPawn;
 
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const Move &move)
 {
-    strm << "Orig: "  << move.getOrigin()  << "  Dest: "  << move.getDestination()<< std::endl;
-    return strm;
+	strm << "Orig: " << move.getOrigin() << "  Dest: " << move.getDestination();
+	return strm;
 }
 
 #endif /* MOVE_HPP_ */

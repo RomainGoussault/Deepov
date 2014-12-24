@@ -364,3 +364,32 @@ int Board::perft(int depth)
 
 	return nodes;
 }
+
+int Board::divide(int depth)
+{
+	int nMoves;
+	int nodes = 0;
+	int nodeTotal = 0;
+
+	if (depth == 0)
+	{
+		return 1;
+	}
+
+	std::vector<Move> moves = getLegalMoves();
+	nMoves = moves.size();
+
+	for (const auto move : moves)
+	{
+		std::cout << "" << std::endl;
+		executeMove(move);
+		nodes = perft(depth - 1);
+		std::cout <<  move <<  " " << nodes << std::endl;
+		nodeTotal += nodes;
+		undoMove(move);
+	}
+
+	std::cout << "Total nodes: " + nodeTotal << std::endl;
+	std::cout << "Total moves: " + nMoves << std::endl;
+	return nodes;
+}
