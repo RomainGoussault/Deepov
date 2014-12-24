@@ -30,6 +30,12 @@ TEST_CASE( "Perft", "[perft]" )
 	SECTION("Perft 3")
 	{
 		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		REQUIRE(board.perft(3) == 8902); //NOT WORKING
+		REQUIRE(board.perft(3) == 8902);
+	}
+
+	SECTION("Perft 4")
+	{
+		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		//REQUIRE(board.perft(4) == 197281); //NOT WORKING
 	}
 }
