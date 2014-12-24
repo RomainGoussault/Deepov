@@ -8,7 +8,7 @@
 #include "Utils.hpp"
 
     /*********************************** Constructor ****************************************/
-Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter()
+Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter(), myHalfMovesCounter()
 {
 }
 
@@ -341,6 +341,8 @@ bool Board::isPositionAttacked(const Position position, const int color) const
 
     return std::count(attackedPositions.begin(), attackedPositions.end(), position) > 0;
 }
+
+/*********************************** Perft *******************************************/
 
 int Board::perft(int depth)
 {
