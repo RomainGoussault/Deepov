@@ -1,4 +1,3 @@
-// Ca va groooos ?
 //============================================================================
 // Name        : Deepov.cpp
 // Author      : Romain Goussault
@@ -21,9 +20,7 @@
 int main()
 {
 		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		Game game(board);
-		int s = game.perft(4);
-
+		int s = board.perft(2);
 		std::cout << s;
 
 	return 0;

@@ -341,3 +341,24 @@ bool Board::isPositionAttacked(const Position position, const int color) const
 
     return std::count(attackedPositions.begin(), attackedPositions.end(), position) > 0;
 }
+
+int Board::perft(int depth)
+{
+	int nodes = 0;
+
+	if (depth == 0)
+	{
+		return 1;
+	}
+
+	std::vector<Move> moves = getLegalMoves();
+
+	for (const auto move : moves)
+	{
+		executeMove(move);
+		nodes += perft(depth - 1);
+		undoMove(move);
+	}
+
+	return nodes;
+}

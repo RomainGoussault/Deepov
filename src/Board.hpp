@@ -75,6 +75,11 @@ public:
     bool isPositionOnBoard(const Position position) const;
     bool isPositionAttacked(const Position position, const int color) const;
 
+    /************************************** Perft ********************************************/
+
+    int perft(int depth);
+
+
 private:
 
     std::array<std::array<PiecePtr, BOARD_SIZE>, BOARD_SIZE> myPieces;
@@ -82,9 +87,8 @@ private:
     std::vector<Move> myMoves;
     boost::optional<Position> myEnPassant;
     bool myCastling[3] ; // Same order as FEN : white king side, white queen side, black king side, black queen side
-    int myHalfMovesCounter; // +1 after each color's move
     int myMovesCounter; // +1 move after black's move
-
+    int myHalfMovesCounter; // +1 after each color's move
 
 };
 

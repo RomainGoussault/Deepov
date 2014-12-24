@@ -8,14 +8,15 @@
 class Game
 {
     public:
-		Game(Board board);
-		//Game(Board &board, Player &whitePlayer, Player &blackPlayer);
-        int perft(int depth);
+        Game(Board &board, Player &whitePlayer, Player &blackPlayer);
+
+        ~Game();
+
 
     private:
-        Board myBoard;
-       // Player* myWhitePlayer;
-      //  Player* myBlackPlayer;
+        Board* myBoardptr;
+        Player* myWhitePlayer;
+        Player* myBlackPlayer;
 
 };
 

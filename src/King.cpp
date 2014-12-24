@@ -97,10 +97,13 @@ bool King::isQueenSideCastlingPossible(const Board &board) const
 	//This return false if the queen side rook or the king has already moved
 	bool iQSCP = board.isQueenSideCastlingAllowed(myColor);
 
+	if(!iQSCP) return false;
+
 	int y = myColor == WHITE ? 0 : 7 ;
 	int ennemyColor = myColor == WHITE ? BLACK : WHITE;
 
-	iQSCP = iQSCP && !board.isPositionAttacked(Position(2,y), ennemyColor);
+	Position p2 = Position(2,y);
+	iQSCP = iQSCP && !board.isPositionAttacked(p2, ennemyColor);
 	iQSCP = iQSCP && !board.isPositionAttacked(Position(3,y), ennemyColor);
 	iQSCP = iQSCP && !board.isPositionAttacked(Position(4,y), ennemyColor);
 
@@ -115,6 +118,8 @@ bool King::isKingSideCastlingPossible(const Board &board) const
 {
 	//This return false if the king side rook or the king has already moved
 	bool iKSCP = board.isKingSideCastlingAllowed(myColor);
+
+	if(!iKSCP) return false;
 
 	int y = myColor == WHITE ? 0 : 7 ;
 	int ennemyColor = myColor == WHITE ? BLACK : WHITE;
