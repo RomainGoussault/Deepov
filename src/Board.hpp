@@ -80,6 +80,8 @@ public:
     int perft(int depth);
     int divide(int depth);
 
+    bool isMoveLegal(const Move move);
+    bool isCheck(const int color) const;
 
 private:
 

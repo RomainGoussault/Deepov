@@ -394,3 +394,26 @@ int Board::divide(int depth)
 	std::cout << "Total moves: " << nMoves << std::endl;
 	return nodes;
 }
+
+bool Board::isMoveLegal(const Move move)
+{
+	bool isLegalMove = false;
+	int color = myColorToPlay;
+
+	executeMove(move);
+
+	if(isCheck(color))
+	{
+		isLegalMove = false;
+	}
+
+	undoMove(move);
+
+	return isLegalMove;
+}
+
+bool Board::isCheck(const int color) const
+{
+	//TODO Implement
+	return false;
+}
