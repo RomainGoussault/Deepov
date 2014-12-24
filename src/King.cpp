@@ -50,14 +50,14 @@ std::vector<Move> King::getPseudoLegalMoves(const Board &board)
 		}
 	}
 	
-	if(isQueenSideCastlingPossible(board) && board.isQueenSideCastlingAllowed(myColor))
+	if(isQueenSideCastlingPossible(board))
 	{
 		Move queenSideCastlingMove = Move(myPosition, Position(6, myPosition.getY()));
 		queenSideCastlingMove.setIsCastling();
 		kingMoves.push_back(queenSideCastlingMove);
 	}
 
-	if(board.isKingSideCastlingAllowed(myColor) && isKingSideCastlingPossible(board))
+	if(isKingSideCastlingPossible(board))
 	{
 		Move kingSideCastlingMove = Move(myPosition, Position(2, myPosition.getY()));
 		kingSideCastlingMove.setIsCastling();
@@ -94,11 +94,11 @@ std::vector<Position> King::getAttackedPositions(const Board &board)
 
 bool King::isQueenSideCastlingPossible(const Board &board) const
 {
+	//This return false if the queen side rook or the king has already moved
+	bool iQSCP = board.isQueenSideCastlingAllowed(myColor);
+
 	int y = myColor == WHITE ? 0 : 7 ;
 	int ennemyColor = myColor == WHITE ? BLACK : WHITE;
-
-	//We assume the rook and the king has not moved
-	bool iQSCP = true;
 
 	iQSCP = iQSCP && !board.isPositionAttacked(Position(2,y), ennemyColor);
 	iQSCP = iQSCP && !board.isPositionAttacked(Position(3,y), ennemyColor);
@@ -113,11 +113,11 @@ bool King::isQueenSideCastlingPossible(const Board &board) const
 
 bool King::isKingSideCastlingPossible(const Board &board) const
 {
+	//This return false if the king side rook or the king has already moved
+	bool iKSCP = board.isKingSideCastlingAllowed(myColor);
+
 	int y = myColor == WHITE ? 0 : 7 ;
 	int ennemyColor = myColor == WHITE ? BLACK : WHITE;
-
-	//We assume the rook and the king has not moved
-	bool iKSCP = true;
 
 	iKSCP = iKSCP && !board.isPositionAttacked(Position(4,y), ennemyColor);
 	iKSCP = iKSCP && !board.isPositionAttacked(Position(5,y), ennemyColor);
