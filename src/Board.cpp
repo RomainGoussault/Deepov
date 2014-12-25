@@ -143,8 +143,10 @@ void Board::executeMove(Move move)
 		executeMove(pieceToMove, destination);
 	}
 
+	//updateCastlingRights();
+
 	myMoves.push_back(move);
-	myColorToPlay = (myColorToPlay+1) % 2;
+	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 }
 
 void Board::undoMove(Move move)
@@ -178,9 +180,11 @@ void Board::undoMove(Move move)
 		}
 	}
 
+	//updateCastlingRights();
+
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
-	myColorToPlay = (myColorToPlay+1) % 2;
+	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 }
 
 void Board::executeMove(PiecePtr piecePtr, Position destination)
@@ -250,7 +254,8 @@ std::vector<PiecePtr> Board::getPieces(const int color) const
 
 std::vector<PiecePtr> Board::getEnemyPieces(const int color) const
 {
-	return getPieces((color + 1)%2);
+	int ennemyColor = Utils::getOppositeColor(color);
+	return getPieces(ennemyColor);
 }
 
 PiecePtr Board::getKing(const int color) const
@@ -446,7 +451,7 @@ bool Board::isMoveLegal(const Move move)
 
 bool Board::isCheck(const int color) const
 {
-	int ennemyColor = (color+1)%2; //TODO have function for this
+	int ennemyColor = Utils::getOppositeColor(color);
 
 	std::vector<Position> ennemyAttackingPositions = getAttackedPositions(ennemyColor);
 	Position kingPosition = getKingPosition(color);

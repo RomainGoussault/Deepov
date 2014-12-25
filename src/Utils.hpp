@@ -23,6 +23,7 @@ public:
     static Position getPosition(std::string const& fenSquare);
     static int convertStringToInt(std::string const& fenMoveCounter);
     static Move getFENMove(std::string const& fenMove, Board &board);
+    static int getOppositeColor(const int color){return (1+color)%2;};
 private:
 
 };
