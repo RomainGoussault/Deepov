@@ -106,5 +106,21 @@ TEST_CASE( "Pawn possible moves", "[pawn]" )
 		REQUIRE(blackSize == 1);
 		REQUIRE(whiteSize == 2);
 	}
+
+	SECTION("EnPassant after execute move")
+	{
+		Board board("rnbqkbnr/1ppppppp/p7/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
+		Position origin = Position(5,6);
+		Position destination = Position(5,4);
+
+		Move move(origin,destination);
+		board.executeMove(move);
+
+		PiecePtr whitePawnPtr = board.getPiecePtr(Position(4,4));
+
+		int size = whitePawnPtr->getPseudoLegalMoves(board).size();
+		REQUIRE(size == 2);
+	}
+
 	/* TODO tests execute/undo enPassant/Promotion/Starting rank */
 }

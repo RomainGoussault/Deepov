@@ -229,7 +229,7 @@ bool Pawn::isEnPassantPossible(const Board &board) const
 				isEnemyPiecePawn = true;
 			}
 
-			bool isPlus2Move(std::abs(enemyMoveOrigin.getY() - enemyMoveDestination.getY()) == -2*getDirection());
+			bool isPlus2Move(enemyMoveOrigin.getY() - enemyMoveDestination.getY() == 2*getDirection());
 			bool isOnNextColumn(std::abs(enemyMoveDestination.getX() - myPosition.getX()) == 1);
 
 			return(isEnemyPiecePawn && isPlus2Move && isOnNextColumn);

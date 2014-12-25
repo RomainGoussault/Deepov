@@ -7,7 +7,7 @@
 
 //Perft data from: https://chessprogramming.wikispaces.com/Perft+Results
 
-TEST_CASE( "Perft", "[perft]" )
+TEST_CASE( "Perft", "[perft]")
 {
 	SECTION("Perft 0")
 	{
@@ -42,7 +42,6 @@ TEST_CASE( "Perft", "[perft]" )
 	SECTION("Perft 5")
 	{
 		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		//REQUIRE(board.perft(5) == 4865609); NOT WORKING  4865351 == 4865609
-		// The missing 258 moves are the enPassant moves. TODO: Fix it!
+		REQUIRE(board.perft(5) == 4865609);
 	}
 }
