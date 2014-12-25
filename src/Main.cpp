@@ -20,8 +20,7 @@
 int main()
 {
 		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		int s = board.perft(2);
-		std::cout << s;
-
+		Position p =  board.getKingPosition(WHITE);
+std::cout << p;
 	return 0;
 }

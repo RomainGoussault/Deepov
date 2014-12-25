@@ -6,15 +6,17 @@
  */
 #include "Board.hpp"
 #include "Utils.hpp"
+#include "King.hpp"
+#include <memory>
 
-    /*********************************** Constructor ****************************************/
+/*********************************** Constructor ****************************************/
 Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter(), myHalfMovesCounter()
 {
 }
 
 Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter(), myHalfMovesCounter()
 {
-    std::vector<PiecePtr> piecesPtrs;
+	std::vector<PiecePtr> piecesPtrs;
 
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -30,85 +32,85 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 		rank--;
 	}
 
-    for(std::vector<PiecePtr>::const_iterator i = piecesPtrs.begin(); i != piecesPtrs.end(); ++i)
-    {
+	for(std::vector<PiecePtr>::const_iterator i = piecesPtrs.begin(); i != piecesPtrs.end(); ++i)
+	{
 		addPiece(*i);
-    }
+	}
 
-    if (spaceSplit[1][0] == 'w')
-    {
-        myColorToPlay=WHITE;
-    }
-    else if (spaceSplit[1][0] == 'b')
-    {
-        myColorToPlay=BLACK;
-    }
+	if (spaceSplit[1][0] == 'w')
+	{
+		myColorToPlay=WHITE;
+	}
+	else if (spaceSplit[1][0] == 'b')
+	{
+		myColorToPlay=BLACK;
+	}
 
-    for (int i=0; i<3; ++i)
-    {
-        myCastling[i] = false;
-    }
+	for (int i=0; i<3; ++i)
+	{
+		myCastling[i] = false;
+	}
 
-    Utils::getCastling(spaceSplit[2],myCastling);
+	Utils::getCastling(spaceSplit[2],myCastling);
 
-    if (spaceSplit[3][0] == '-')
-    {
-        myEnPassant=boost::optional<Position>();
-    }
-    else
-    {
-        myEnPassant=boost::optional<Position>(Utils::getPosition(spaceSplit[3]));
-    }
+	if (spaceSplit[3][0] == '-')
+	{
+		myEnPassant=boost::optional<Position>();
+	}
+	else
+	{
+		myEnPassant=boost::optional<Position>(Utils::getPosition(spaceSplit[3]));
+	}
 
-    // I put a condition in case the FEN format doesn't include the move counters
-    if (spaceSplit.size() >= 5)
-    {
-        myMovesCounter = Utils::convertStringToInt(spaceSplit[4]);
-    }
-    else
-    {
-        myMovesCounter = 0;
-    }
+	// I put a condition in case the FEN format doesn't include the move counters
+	if (spaceSplit.size() >= 5)
+	{
+		myMovesCounter = Utils::convertStringToInt(spaceSplit[4]);
+	}
+	else
+	{
+		myMovesCounter = 0;
+	}
 
-    if (spaceSplit.size() >= 6)
-    {
-        myHalfMovesCounter = Utils::convertStringToInt(spaceSplit[5]);
-    }
-    else
-    {
-        myHalfMovesCounter = 0;
-    }
+	if (spaceSplit.size() >= 6)
+	{
+		myHalfMovesCounter = Utils::convertStringToInt(spaceSplit[5]);
+	}
+	else
+	{
+		myHalfMovesCounter = 0;
+	}
 }
 
-    /******************************* Pieces manipulation ************************************/
+/******************************* Pieces manipulation ************************************/
 
 void Board::addPiece(PiecePtr piecePtr, Position position)
 {
-    myPieces[position.getX()][position.getY()] = piecePtr;
+	myPieces[position.getX()][position.getY()] = piecePtr;
 }
 
 void Board::addPiece(PiecePtr piecePtr)
 {
-    addPiece(piecePtr, piecePtr->getPosition());
+	addPiece(piecePtr, piecePtr->getPosition());
 }
 
 void Board::removePiece(Position position)
 {
-    myPieces[position.getX()][position.getY()].reset();
+	myPieces[position.getX()][position.getY()].reset();
 }
 
-    /******************************** Moves manipulation ************************************/
+/******************************** Moves manipulation ************************************/
 
 bool Board::isFirstMove() const
 {
-    if (myMoves.size()==0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+	if (myMoves.size()==0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void Board::executeMove(Move move)
@@ -183,21 +185,21 @@ void Board::undoMove(Move move)
 
 void Board::executeMove(PiecePtr piecePtr, Position destination)
 {
-    removePiece(piecePtr->getPosition());
-    piecePtr->setPosition(destination);
-    addPiece(piecePtr);
+	removePiece(piecePtr->getPosition());
+	piecePtr->setPosition(destination);
+	addPiece(piecePtr);
 }
 
 boost::optional<Move> Board::getEnemyLastMove() const
 {
-    if (myMoves.size()>0)
-    {
-        return boost::optional<Move>(myMoves[myMoves.size()-1]);
-    }
-    else
-    {
-        return boost::optional<Move>();
-    }
+	if (myMoves.size()>0)
+	{
+		return boost::optional<Move>(myMoves[myMoves.size()-1]);
+	}
+	else
+	{
+		return boost::optional<Move>();
+	}
 }
 
 //Returns true if the queen side rook AND the king has not moved during this game
@@ -211,69 +213,99 @@ bool Board::isKingSideCastlingAllowed(const int color) const
 {
 	return myCastling[2*color];
 }
-    
-    /*********************************** Get attributes **************************************/
+
+/*********************************** Get attributes **************************************/
 
 int Board::getTurn() const
 {
-    return myColorToPlay;
+	return myColorToPlay;
 }
 
 PiecePtr Board::getPiecePtr(const Position position) const
 {
 	PiecePtr p = myPieces[position.getX()][position.getY()];
-    return p;
+	return p;
 }
 
 std::vector<PiecePtr> Board::getPieces(const int color) const
 {
-    std::vector<PiecePtr> piecesList;
+	std::vector<PiecePtr> piecesList;
 
-    for (int i=0; i<8; i++)
-    {
-        for (int j=0; j<8; j++)
-        {
-            Position position(i,j);
-            PiecePtr piece;
-            piece = myPieces[position.getX()][position.getY()];
-            if (piece && piece->getColor() == color)
-            {
-                piecesList.push_back(piece);
-            }
-        }
-    }
+	for (int i=0; i<8; i++)
+	{
+		for (int j=0; j<8; j++)
+		{
+			Position position(i,j);
+			PiecePtr piece;
+			piece = myPieces[position.getX()][position.getY()];
+			if (piece && piece->getColor() == color)
+			{
+				piecesList.push_back(piece);
+			}
+		}
+	}
 
-    return piecesList;
+	return piecesList;
 }
 
 std::vector<PiecePtr> Board::getEnemyPieces(const int color) const
 {
-    return getPieces((color + 1)%2);
+	return getPieces((color + 1)%2);
+}
+
+PiecePtr Board::getKing(const int color) const
+{
+	for (int i=0; i<8; i++)
+	{
+		for (int j=0; j<8; j++)
+		{
+			Position position(i,j);
+			PiecePtr piecePtr = myPieces[position.getX()][position.getY()];
+
+			if (piecePtr != nullptr && piecePtr->getColor() == color)
+			{
+				std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(piecePtr);
+
+				if(kingPtr != nullptr)
+				{
+					return kingPtr;
+				}
+			}
+		}
+	}
+
+	std::cout << " ERROR could not find king"; // TODO throw exception
+	return nullptr;
+}
+
+Position Board::getKingPosition(const int color) const
+{
+	return getKing(color)->getPosition();
 }
 
 std::vector<Move> Board::getMoves() const
 {
-    return myMoves;
+	return myMoves;
 }
 
 boost::optional<Position> Board::getEnPassantPosition() const
 {
-    return myEnPassant;
+	return myEnPassant;
 }
 
 bool Board::getCastling(const int castleNumber) const
 {
-    return myCastling[castleNumber];
+	return myCastling[castleNumber];
 }
 
 int Board::getHalfMovesCounter() const
 {
-    return myHalfMovesCounter;
+	return myHalfMovesCounter;
 }
 
 int Board::getMovesCounter() const
 {
-    return myMovesCounter;
+	return myMovesCounter;
 }
 
 std::vector<Position> Board::getAttackedPositions(const int color) const
@@ -309,29 +341,29 @@ std::vector<Move> Board::getLegalMoves(int color) const
 	return legalMoves;
 }
 
-    /******************************* Position manipulation ***********************************/
+/******************************* Position manipulation ***********************************/
 
 bool Board::isPositionFree(const Position position) const
 {
-    return myPieces[position.getX()][position.getY()] == nullptr;
+	return myPieces[position.getX()][position.getY()] == nullptr;
 }
 
 bool Board::isPositionOnBoard(const Position position) const
 {
-    char x = position.getX();
-    char y = position.getY();
+	char x = position.getX();
+	char y = position.getY();
 
-    if (x >= BOARD_SIZE || y >= BOARD_SIZE)
-    {
-        return false;
-    }
+	if (x >= BOARD_SIZE || y >= BOARD_SIZE)
+	{
+		return false;
+	}
 
-    if (x < 0 || y < 0)
-    {
-        return false;
-    }
+	if (x < 0 || y < 0)
+	{
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
 bool Board::isPositionAttacked(const Position position, const int color) const
@@ -339,7 +371,7 @@ bool Board::isPositionAttacked(const Position position, const int color) const
 	std::vector<Position> attackedPositions = getAttackedPositions(color);
 	// TODO attackedPositions should be an attribute of the board class, that we update on each execute/undo move
 
-    return std::count(attackedPositions.begin(), attackedPositions.end(), position) > 0;
+	return std::count(attackedPositions.begin(), attackedPositions.end(), position) > 0;
 }
 
 /*********************************** Perft *******************************************/
