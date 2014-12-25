@@ -49,8 +49,8 @@ std::vector<Move> Piece::getLegalMoves(Board &board)
 
 	// get rid of the non legal moves
 	moves.erase(std::remove_if(moves.begin(), moves.end(),
-			[board](Move move) mutable { return board.isMoveLegal(move); }), moves.end());
-	//TODO make this for easy to understand..
+			[board](Move move) mutable { return !board.isMoveLegal(move); }), moves.end());
+	//TODO make this easier to understand..
 
 	return moves;
 }

@@ -62,7 +62,7 @@ std::vector<Position> Knight::getAttackedPositions(const Board &board)
 	destinations[4] = myPosition.deltaXY(2,1);
 	destinations[5] = myPosition.deltaXY(2,-1);
 	destinations[6] = myPosition.deltaXY(-2,1);
-	destinations[7] = myPosition.deltaXY(-2,1);
+	destinations[7] = myPosition.deltaXY(-2,-1);
 
 	for(const auto& destination : destinations)
 	{

@@ -184,3 +184,21 @@ TEST_CASE( "attacked positions", "[board]" )
 		REQUIRE(board.isPositionAttacked(Position(2,3), WHITE) == true);
 	}
 }
+
+TEST_CASE( "check", "[board]" )
+{
+	SECTION( "board is check")
+	{
+		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.isCheck(WHITE) == false);
+		REQUIRE(board.isCheck(WHITE) == false);
+
+		board = Board("4k3/8/3r4/8/8/3K4/8/8 w - - 0 1");
+		REQUIRE(board.isCheck(WHITE) == true);
+		REQUIRE(board.isCheck(BLACK) == false);
+
+		board = Board("8/8/3r4/5N2/3k4/8/3K4/8 b - - 0 1");
+		REQUIRE(board.isCheck(WHITE) == false);
+		REQUIRE(board.isCheck(BLACK) == true);
+	}
+}

@@ -322,19 +322,19 @@ std::vector<Position> Board::getAttackedPositions(const int color) const
 	return attackedPositions;
 }
 
-std::vector<Move> Board::getLegalMoves() const
+std::vector<Move> Board::getLegalMoves()
 {
 	return getLegalMoves(myColorToPlay);
 }
 
-std::vector<Move> Board::getLegalMoves(int color) const
+std::vector<Move> Board::getLegalMoves(int color)
 {
 	std::vector<PiecePtr> pieces = getPieces(color);
 	std::vector<Move> legalMoves;
 
 	for(const auto piece : pieces)
 	{
-		std::vector<Move> pieceLegalMoves = piece->getPseudoLegalMoves(*this); // TODO change to LEGAL MOVES
+		std::vector<Move> pieceLegalMoves = piece->getLegalMoves(*this);
 		legalMoves.insert(legalMoves.end(), pieceLegalMoves.begin(), pieceLegalMoves.end());
 	}
 
@@ -429,7 +429,7 @@ int Board::divide(int depth)
 
 bool Board::isMoveLegal(const Move move)
 {
-	bool isLegalMove = false;
+	bool isLegalMove = true;
 	int color = myColorToPlay;
 
 	executeMove(move);
@@ -446,6 +446,17 @@ bool Board::isMoveLegal(const Move move)
 
 bool Board::isCheck(const int color) const
 {
-	//TODO Implement
-	return false;
+	int ennemyColor = (color+1)%2; //TODO have function for this
+
+	std::vector<Position> ennemyAttackingPositions = getAttackedPositions(ennemyColor);
+	Position kingPosition = getKingPosition(color);
+
+	if(std::find(ennemyAttackingPositions.begin(), ennemyAttackingPositions.end(), kingPosition) != ennemyAttackingPositions.end())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

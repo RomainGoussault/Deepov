@@ -47,8 +47,8 @@ public:
     void undoMove(Move move);
     void updateCastlingRights(); //TODO
     boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
-    std::vector<Move> getLegalMoves() const;
-    std::vector<Move> getLegalMoves(int color) const; // TODO
+    std::vector<Move> getLegalMoves();
+    std::vector<Move> getLegalMoves(int color);
     bool isQueenSideCastlingAllowed(const int color) const;
     bool isKingSideCastlingAllowed(const int color) const;
     std::vector<Position> getAttackedPositions(const int color) const;
@@ -59,8 +59,8 @@ public:
     PiecePtr getPiecePtr(const Position position) const;
     std::vector<PiecePtr> getPieces(const int color) const;
     std::vector<PiecePtr> getEnemyPieces(const int color) const;
-    PiecePtr getKing(const int color) const; //TODO
-    Position getKingPosition(const int color) const; //TODO
+    PiecePtr getKing(const int color) const;
+    Position getKingPosition(const int color) const;
     std::vector<Move> getMoves() const;
     boost::optional<Position> getEnPassantPosition() const;
     bool getCastling(const int castleNumber) const; /* Same order as FEN :

@@ -79,4 +79,12 @@ TEST_CASE( "Rook possible moves ", "[rook]" )
         int size = rookPtr->getAttackedPositions(board).size();
         REQUIRE(size == 4);
     }
+
+    SECTION("rook get legal moves")
+	{
+		Board board("7k/8/4r3/8/R7/4K3/8/8 w - - 0 1");
+		Position position(0,3);
+		PiecePtr rookPtr = board.getPiecePtr(position);
+		REQUIRE(rookPtr->getLegalMoves(board).size() == 1);
+	}
 }
