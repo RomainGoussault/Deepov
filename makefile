@@ -1,4 +1,7 @@
 # Var definitions
+
+export MAKEFLAGS=-j9
+
 CXX = g++-4.8
 CC_FLAGS = -W -Wall -g -std=c++11
 
