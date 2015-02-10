@@ -52,6 +52,11 @@ char Move::getPromotedPiece()
     return myPromotedPiece;
 }
 
+std::shared_ptr<Piece> Move::getPromotedPawn()
+{
+        return myPromotedPawn;
+}
+
 void Move::setPromotedPiece(char piece)
 {
     myPromotedPiece = piece ;

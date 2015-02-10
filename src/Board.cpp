@@ -128,8 +128,54 @@ void Board::executeMove(Move move)
 	}
 	else if(move.isPromotion())
 	{
-		//TODO
-		std::cout << " NOT IMPLEMENTED" << std::endl;
+        PiecePtr promotedPiece;
+		if(isCaptureMove)
+		{
+			//remove the captured piece
+			removePiece(capturePiecePtr->getPosition());
+		}
+
+		 // This must be elsewhere
+
+		/* char promotedPiece;
+		std::cout << "Choose promotion piece : k, b, r or q. " << std::endl;
+		std::cin >> promotedPiece;
+
+		while (promotedPiece != 'k' && promotedPiece != 'b' && promotedPiece != 'r' && promotedPiece != 'q')
+        {
+            cin.clear();
+            cin.ignore(std::numeric_limits<streamsize>::max());
+            std::cout << "Choose a correct promotion piece : k, b, r or q. " << std::endl;
+            std::cin >> promotedPiece;
+        } */
+
+
+        removePiece(move.getPromotedPawn()->getPosition());
+
+        switch (move.getPromotedPiece())
+        {
+        case 'k' :
+        {
+
+            break;
+        }
+        case 'b' :
+        {
+            break;
+        }
+        case 'r' :
+        {
+            break;
+        }
+        case 'q' :
+        {
+            break;
+        }
+        }
+
+         // addPiece(piece
+
+
 	}
 	else
 	{
