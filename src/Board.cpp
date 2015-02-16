@@ -128,8 +128,15 @@ void Board::executeMove(Move move)
 	}
 	else if(move.isPromotion())
 	{
-		//TODO
-		std::cout << " NOT IMPLEMENTED" << std::endl;
+        PiecePtr promotedPiece;
+		if(isCaptureMove)
+		{
+			//remove the captured piece
+			removePiece(capturePiecePtr->getPosition());
+		}
+
+        removePiece(move.getPromotedPawn()->getPosition());
+        addPiece(move.promotePawn());
 	}
 	else
 	{

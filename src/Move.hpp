@@ -10,6 +10,8 @@
 
 #include <memory>
 #include "Position.hpp"
+#include "Board.hpp"
+#include "Piece.hpp"
 
 
 class Piece;
@@ -22,6 +24,7 @@ public:
 	//myCapturedPiece needs to be a pointer
 	// because the Piece is a forward declaration
 
+
 	// ALL GETS
 	Position getOrigin() const;
 	Position getDestination() const;
@@ -29,6 +32,7 @@ public:
 	bool isCastling() const;
 	std::shared_ptr<Piece> getCapturedPiece();
 	char getPromotedPiece();
+	std::shared_ptr<Piece> getPromotedPawn();
 
 	std::string toShortString() const;
 
@@ -39,6 +43,9 @@ public:
 	void setIsCastling();
 	void setPromotedPiece(char piece);
 	void setPromotedPawn(std::shared_ptr<Piece> pawn);
+
+    // Construction of a new promoted piece
+    PiecePtr promotePawn(const Position &destination, Board &board);
 
 private:
 
