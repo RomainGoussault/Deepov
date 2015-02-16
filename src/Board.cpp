@@ -128,7 +128,6 @@ void Board::executeMove(Move move)
 	}
 	else if(move.isPromotion())
 	{
-        PiecePtr promotedPiece;
 		if(isCaptureMove)
 		{
 			//remove the captured piece
@@ -136,7 +135,7 @@ void Board::executeMove(Move move)
 		}
 
         removePiece(pieceToMove->getPosition());
-        addPiece(move.promotePawn(pieceToMove->getColor()));
+        addPiece(move.getPromotedPiece());
 	}
 	else
 	{

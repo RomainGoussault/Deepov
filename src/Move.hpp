@@ -19,9 +19,6 @@ class Move
 public:
 
 	Move(Position origin, Position destination);
-	//myCapturedPiece needs to be a pointer
-	// because the Piece is a forward declaration
-
 
 	// ALL GETS
 	Position getOrigin() const;
@@ -29,30 +26,24 @@ public:
 	bool isPromotion() const;
 	bool isCastling() const;
 	std::shared_ptr<Piece> getCapturedPiece();
-	char getPromotedPiece();
+	std::shared_ptr<Piece> getPromotedPiece();
 
 	std::string toShortString() const;
 
-
 	//ALL SETS
 	void setCapturedPiece(std::shared_ptr<Piece> piece);
-	void setIsPromotion();
 	void setIsCastling();
-	void setPromotedPiece(char piece);
-
-    // Construction of a new promoted piece
-	std::shared_ptr<Piece> promotePawn(int pieceColor);
+	void setPromotedPiece(std::shared_ptr<Piece> piece);
 
 private:
 
 	Position myOrigin;
 	Position myDestination;
+
 	std::shared_ptr<Piece> myCapturedPiece;
 
-	// For promotion moves, initialized to false
-	bool myIsPromotion;
 	bool myIsCastling;
-	char myPromotedPiece; // This is a character corresponding to the piece type
+	std::shared_ptr<Piece> myPromotedPiece;
 
 };
 

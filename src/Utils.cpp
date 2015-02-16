@@ -182,29 +182,3 @@ int Utils::convertStringToInt(std::string const& fenMoveCounter)
     }
     return counter;
 }
-
-//This method is not used
-Move Utils::getFENMove(std::string const& fenMove, Board &board)
-{
-    std::string subMove = fenMove.substr(0,2) ;
-    Position origin = getPosition(subMove) ;
-    subMove = fenMove.substr(2,2) ;
-    Position destination = getPosition(subMove) ;
-
-    Move theMove(origin,destination);
-
-    if (fenMove.size() >= 5)
-    {
-        theMove.setIsPromotion() ;
-        theMove.setPromotedPiece(fenMove[5]) ;
-    }
-
-    if (!board.isPositionFree(destination))
-    {
-        theMove.setCapturedPiece(board.getPiecePtr(destination));
-    }
-
-    //TODO set myIsCastling
-
-    return theMove ;
-}

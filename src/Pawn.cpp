@@ -3,6 +3,10 @@
  */
 
 #include "Pawn.hpp"
+#include "Knight.hpp"
+#include "Bishop.hpp"
+#include "Rook.hpp"
+#include "Queen.hpp"
 
 Pawn::Pawn(Position position, int color) : Piece(position, color)
 {
@@ -149,28 +153,28 @@ std::vector<Move> Pawn::getPromotionMoves(Position const& destination)
 {
 	std::vector<Move> movesList;
 
-	{Move possibleMove(myPosition,destination);
-	possibleMove.setIsPromotion();
+	{Move possibleMove(myPosition, destination);
 
-	possibleMove.setPromotedPiece('q');
+	PiecePtr promotedPiecePtr(new Queen(destination, myColor));
+	possibleMove.setPromotedPiece(promotedPiecePtr);
 	movesList.push_back(possibleMove);}
 
 	{Move possibleMove(myPosition,destination);
-	possibleMove.setIsPromotion();
 
-	possibleMove.setPromotedPiece('r');
+	PiecePtr promotedPiecePtr(new Rook(destination, myColor));
+	possibleMove.setPromotedPiece(promotedPiecePtr);
 	movesList.push_back(possibleMove);}
 
 	{Move possibleMove(myPosition,destination);
-	possibleMove.setIsPromotion();
 
-	possibleMove.setPromotedPiece('b');
+	PiecePtr promotedPiecePtr(new Bishop(destination, myColor));
+	possibleMove.setPromotedPiece(promotedPiecePtr);
 	movesList.push_back(possibleMove);}
 
 	{Move possibleMove(myPosition,destination);
-	possibleMove.setIsPromotion();
 
-	possibleMove.setPromotedPiece('n');
+	PiecePtr promotedPiecePtr(new Knight(destination, myColor));
+	possibleMove.setPromotedPiece(promotedPiecePtr);
 	movesList.push_back(possibleMove);}
 
 	return movesList;
