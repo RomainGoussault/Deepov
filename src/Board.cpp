@@ -123,18 +123,18 @@ void Board::executeMove(Move move)
 
 	if(move.isCastling())
 	{
-		executeMove(pieceToMove, destination);
+		movePiece(pieceToMove, destination);
         if (destination.getX()== 6)
         {
             Position rookOrigin(7, destination.getY());
             Position rookDestination(5, destination.getY());
-            executeMove(getPiecePtr(rookOrigin),rookDestination);
+            movePiece(getPiecePtr(rookOrigin),rookDestination);
         }
         else if (destination.getX() == 2)
         {
             Position rookOrigin(7, destination.getY());
             Position rookDestination(5, destination.getY());
-            executeMove(getPiecePtr(rookOrigin),rookDestination);
+            movePiece(getPiecePtr(rookOrigin),rookDestination);
         }
 	}
 	else if(move.isPromotion())
@@ -157,7 +157,7 @@ void Board::executeMove(Move move)
 		}
 
 		//pieceToMove.incrementMoveCounter(); TODO???
-		executeMove(pieceToMove, destination);
+		movePiece(pieceToMove, destination);
 	}
 
 	//updateCastlingRights();
@@ -187,7 +187,7 @@ void Board::undoMove(Move move)
 	}
 	else
 	{
-		executeMove(pieceToMove, origin);
+		movePiece(pieceToMove, origin);
 		//pieceToMove.incrementMoveCounter(); TODO???
 
 		if(isCaptureMove)
@@ -204,7 +204,7 @@ void Board::undoMove(Move move)
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 }
 
-void Board::executeMove(PiecePtr piecePtr, Position destination)
+void Board::movePiece(PiecePtr piecePtr, Position destination)
 {
 	removePiece(piecePtr->getPosition());
 	piecePtr->setPosition(destination);

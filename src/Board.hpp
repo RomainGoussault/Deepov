@@ -42,7 +42,7 @@ public:
     /******************************** Moves manipulation ************************************/
 
     bool isFirstMove() const; // Use it to know if the position comes from FEN when you want an info on a previous move.
-    void executeMove(PiecePtr piecePtr, Position destination);
+    void movePiece(PiecePtr piecePtr, Position destination);
     void executeMove(Move move);
     void undoMove(Move move);
     void updateCastlingRights(); //TODO
