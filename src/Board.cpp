@@ -123,8 +123,19 @@ void Board::executeMove(Move move)
 
 	if(move.isCastling())
 	{
-		//TODO
-		std::cout << " NOT IMPLEMENTED" << std::endl;
+		executeMove(pieceToMove, destination);
+        if (destination.getX()== 6)
+        {
+            Position rookOrigin(7, destination.getY());
+            Position rookDestination(5, destination.getY());
+            executeMove(getPiecePtr(rookOrigin),rookDestination);
+        }
+        else if (destination.getX() == 2)
+        {
+            Position rookOrigin(7, destination.getY());
+            Position rookDestination(5, destination.getY());
+            executeMove(getPiecePtr(rookOrigin),rookDestination);
+        }
 	}
 	else if(move.isPromotion())
 	{

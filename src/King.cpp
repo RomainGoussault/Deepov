@@ -49,21 +49,21 @@ std::vector<Move> King::getPseudoLegalMoves(const Board &board)
 			}
 		}
 	}
-	
+
 	if(isQueenSideCastlingPossible(board))
 	{
-		Move queenSideCastlingMove = Move(myPosition, Position(6, myPosition.getY()));
+		Move queenSideCastlingMove = Move(myPosition, Position(2, myPosition.getY()));
 		queenSideCastlingMove.setIsCastling();
 		kingMoves.push_back(queenSideCastlingMove);
 	}
 
 	if(isKingSideCastlingPossible(board))
 	{
-		Move kingSideCastlingMove = Move(myPosition, Position(2, myPosition.getY()));
+		Move kingSideCastlingMove = Move(myPosition, Position(6, myPosition.getY()));
 		kingSideCastlingMove.setIsCastling();
 		kingMoves.push_back(kingSideCastlingMove);
 	}
-	
+
     return kingMoves;
 }
 
