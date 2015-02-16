@@ -183,7 +183,7 @@ int Utils::convertStringToInt(std::string const& fenMoveCounter)
     return counter;
 }
 
-Move Utils::getFENMove(std::string const& fenMove, Board &board)
+Move Utils::getUCIMove(std::string const& fenMove, Board &board)
 {
     std::string subMove = fenMove.substr(0,2) ;
     Position origin = getPosition(subMove) ;
@@ -194,9 +194,33 @@ Move Utils::getFENMove(std::string const& fenMove, Board &board)
 
     if (fenMove.size() >= 5)
     {
-        theMove.setIsPromotion() ;
-        theMove.setPromotedPiece(fenMove[5]) ;
-        theMove.setPromotedPawn(board.getPiecePtr(origin)) ;
+        switch (fenMove[5])
+        {
+            case 'k' :
+            {
+            PiecePtr promotedPtr(new Knight(destination, board.getColorToPlay()));
+            theMove.setPromotedPiece(promotedPtr) ;
+            }
+            case 'b' :
+            {
+            PiecePtr promotedPtr(new Bishop(destination, board.getColorToPlay()));
+            theMove.setPromotedPiece(promotedPtr) ;
+            }
+            case 'r' :
+            {
+            PiecePtr promotedPtr(new Rook(destination, board.getColorToPlay()));
+            theMove.setPromotedPiece(promotedPtr) ;
+            }
+            case 'q' :
+            {
+            PiecePtr promotedPtr(new Queen(destination, board.getColorToPlay()));
+            theMove.setPromotedPiece(promotedPtr) ;
+            }
+            default :
+            {
+            std::cout << "ERROR IN std::shared_ptr<Piece> Move::promotePawn " << std::endl; //TODO throw exception
+            }
+        }
     }
 
     if (!board.isPositionFree(destination))
