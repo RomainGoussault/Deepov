@@ -183,6 +183,7 @@ int Utils::convertStringToInt(std::string const& fenMoveCounter)
     return counter;
 }
 
+//This method is not used
 Move Utils::getFENMove(std::string const& fenMove, Board &board)
 {
     std::string subMove = fenMove.substr(0,2) ;
@@ -196,7 +197,6 @@ Move Utils::getFENMove(std::string const& fenMove, Board &board)
     {
         theMove.setIsPromotion() ;
         theMove.setPromotedPiece(fenMove[5]) ;
-        theMove.setPromotedPawn(board.getPiecePtr(origin)) ;
     }
 
     if (!board.isPositionFree(destination))

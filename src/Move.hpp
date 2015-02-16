@@ -30,7 +30,6 @@ public:
 	bool isCastling() const;
 	std::shared_ptr<Piece> getCapturedPiece();
 	char getPromotedPiece();
-	std::shared_ptr<Piece> getPromotedPawn();
 
 	std::string toShortString() const;
 
@@ -40,7 +39,6 @@ public:
 	void setIsPromotion();
 	void setIsCastling();
 	void setPromotedPiece(char piece);
-	void setPromotedPawn(std::shared_ptr<Piece> pawn);
 
     // Construction of a new promoted piece
 	std::shared_ptr<Piece> promotePawn(int pieceColor);
@@ -55,8 +53,6 @@ private:
 	bool myIsPromotion;
 	bool myIsCastling;
 	char myPromotedPiece; // This is a character corresponding to the piece type
-	// Interpretation to be done in executeMove; so i don't have to carry more objects
-	std::shared_ptr<Piece> myPromotedPawn;
 
 };
 
