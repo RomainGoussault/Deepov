@@ -130,7 +130,7 @@ TEST_CASE( "get Board from FEN", "[board]" )
 
 	int numberWhitePieces = board.getPieces(WHITE).size();
 	int numberBlackPieces = board.getPieces(BLACK).size();
-	int colorToPlay = board.getTurn();
+	int colorToPlay = board.getColorToPlay();
 	bool firstMove = board.isFirstMove();
 	int movesNumber = board.getMovesCounter();
 	int halfMoveNumber = board.getHalfMovesCounter();

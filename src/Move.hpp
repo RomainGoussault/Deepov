@@ -43,7 +43,7 @@ public:
 	void setPromotedPawn(std::shared_ptr<Piece> pawn);
 
     // Construction of a new promoted piece
-	std::shared_ptr<Piece> promotePawn(const Position &destination, Board &board);
+	std::shared_ptr<Piece> promotePawn(int pieceColor);
 
 private:
 

@@ -57,7 +57,7 @@ char Move::getPromotedPiece()
     return myPromotedPiece;
 }
 
-std::shared_ptr<Piece> Move::getPromotedPawn()
+PiecePtr Move::getPromotedPawn()
 {
         return myPromotedPawn;
 }
@@ -81,33 +81,29 @@ std::string Move::toShortString() const
 }
 
 //TODO: Rename
-std::shared_ptr<Piece> Move::promotePawn(const Position &destination, Board &board)
+PiecePtr Move::promotePawn(int pieceColor)
 {
 	switch (myPromotedPiece)
 	{
 	case 'k' :
 	{
-		PiecePtr promotedPtr(new Knight(destination, board.getTurn()));
+		PiecePtr promotedPtr(new Knight(myDestination, pieceColor));
 		return promotedPtr;
-		break;
 	}
 	case 'b' :
 	{
-		PiecePtr promotedPtr(new Bishop(destination, board.getTurn()));
+		PiecePtr promotedPtr(new Bishop(myDestination, pieceColor));
 		return promotedPtr;
-		break;
 	}
 	case 'r' :
 	{
-		PiecePtr promotedPtr(new Rook(destination, board.getTurn()));
+		PiecePtr promotedPtr(new Rook(myDestination, pieceColor));
 		return promotedPtr;
-		break;
 	}
 	case 'q' :
 	{
-		PiecePtr promotedPtr(new Queen(destination, board.getTurn()));
+		PiecePtr promotedPtr(new Queen(myDestination, pieceColor));
 		return promotedPtr;
-		break;
 	}
 	default :
 	{

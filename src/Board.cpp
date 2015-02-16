@@ -136,7 +136,7 @@ void Board::executeMove(Move move)
 		}
 
         removePiece(pieceToMove->getPosition());
-        //addPiece(move.promotePawn());
+        addPiece(move.promotePawn(pieceToMove->getColor()));
 	}
 	else
 	{
@@ -227,7 +227,7 @@ bool Board::isKingSideCastlingAllowed(const int color) const
 
 /*********************************** Get attributes **************************************/
 
-int Board::getTurn() const
+int Board::getColorToPlay() const
 {
 	return myColorToPlay;
 }

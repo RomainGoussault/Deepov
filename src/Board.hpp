@@ -55,7 +55,7 @@ public:
 
     /*********************************** Get attributes **************************************/
 
-    int getTurn() const;
+    int getColorToPlay() const;
     PiecePtr getPiecePtr(const Position position) const;
     std::vector<PiecePtr> getPieces(const int color) const;
     std::vector<PiecePtr> getEnemyPieces(const int color) const;
