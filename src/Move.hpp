@@ -10,10 +10,8 @@
 
 #include <memory>
 #include "Position.hpp"
-#include "Board.hpp"
-#include "Piece.hpp"
 
-
+class Board;
 class Piece;
 
 class Move
@@ -45,7 +43,7 @@ public:
 	void setPromotedPawn(std::shared_ptr<Piece> pawn);
 
     // Construction of a new promoted piece
-    PiecePtr promotePawn(const Position &destination, Board &board);
+	std::shared_ptr<Piece> promotePawn(const Position &destination, Board &board);
 
 private:
 

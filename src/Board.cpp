@@ -135,8 +135,8 @@ void Board::executeMove(Move move)
 			removePiece(capturePiecePtr->getPosition());
 		}
 
-        removePiece(move.getPromotedPawn()->getPosition());
-        addPiece(move.promotePawn());
+        removePiece(pieceToMove->getPosition());
+        //addPiece(move.promotePawn());
 	}
 	else
 	{
