@@ -12,7 +12,7 @@
 #include "Knight.hpp"
 #include "Pawn.hpp"
 #include "Piece.hpp"
-
+#include "math.h"
 #include <boost/algorithm/string.hpp>
 
 
@@ -181,4 +181,34 @@ int Utils::convertStringToInt(std::string const& fenMoveCounter)
         counter += (fenMoveCounter[i]- '0')*pow(10,i) ;
     }
     return counter;
+}
+
+Move Utils::getFENMove(std::string const& fenMove, Board &board)
+{
+    std::string subMove = fenMove.substr(0,2) ;
+    Position origin = getPosition(subMove) ;
+    subMove = fenMove.substr(2,2) ;
+    Position destination = getPosition(subMove) ;
+
+    Move theMove(origin,destination);
+
+    if (fenMove.size() >= 5)
+    {
+        theMove.setIsPromotion() ;
+        theMove.setPromotedPiece(fenMove[5]) ;
+        theMove.setPromotedPawn(board.getPiecePtr(origin)) ;
+    }
+
+    if (!board.isPositionFree(destination))
+    {
+        theMove.setCapturedPiece(board.getPiecePtr(destination));
+    }
+
+    if (abs(origin.getX()-destination.getX()) == 2 &&
+        std::dynamic_pointer_cast<King>(board.getPiecePtr(origin)) != nullptr)
+    {
+        theMove.setIsCastling();
+    }
+
+    return theMove ;
 }
