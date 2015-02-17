@@ -126,6 +126,10 @@ void Utils::getCastling(std::string const& castleString, bool (&castleBool)[3])
             {
                 castleBool[3]=true;
             }
+            else
+            {
+            	throw std::runtime_error("");
+            }
         }
     }
 }

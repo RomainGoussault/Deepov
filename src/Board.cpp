@@ -305,8 +305,7 @@ PiecePtr Board::getKing(const int color) const
 		}
 	}
 
-	std::cout << " ERROR could not find king"; // TODO throw exception
-	return nullptr;
+	throw std::runtime_error("No king found for color: " + std::to_string(color));
 }
 
 Position Board::getKingPosition(const int color) const
