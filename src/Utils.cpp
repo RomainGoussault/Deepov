@@ -12,6 +12,7 @@
 #include "Knight.hpp"
 #include "Pawn.hpp"
 #include "Piece.hpp"
+
 #include "math.h"
 #include <boost/algorithm/string.hpp>
 
@@ -129,50 +130,48 @@ void Utils::getCastling(std::string const& castleString, bool (&castleBool)[3])
     }
 }
 
-Position Utils::getPosition(std::string const& fenSquare)
+Position Utils::getPosition(std::string const& stringPosition)
 {
-	//TODO: Probably should to a try/catch statement here
-
-	int row = fenSquare[1] - '0'; //convert from char to int
+	int row = stringPosition[1] - '0'; //convert from char to int
 	row = row-1; //In our board model row starts at index 0.
 
-	if (fenSquare[0] == 'a')
+	if (stringPosition[0] == 'a')
 	{
 		return Position(0,row);
 	}
-	else if (fenSquare[0] == 'b')
+	else if (stringPosition[0] == 'b')
 	{
 		return Position(1,row);
 	}
-	else if (fenSquare[0] == 'c')
+	else if (stringPosition[0] == 'c')
 	{
 		return Position(2,row);
 	}
-	else if (fenSquare[0] == 'd')
+	else if (stringPosition[0] == 'd')
 	{
 		return Position(3,row);
 	}
-	else if (fenSquare[0] == 'e')
+	else if (stringPosition[0] == 'e')
 	{
 		return Position(4,row);
 	}
-	else if (fenSquare[0] == 'f')
+	else if (stringPosition[0] == 'f')
 	{
 		return Position(5,row);
 	}
-	else if (fenSquare[0] == 'g')
+	else if (stringPosition[0] == 'g')
 	{
 		return Position(6,row);
 	}
-	else if (fenSquare[0] == 'h')
+	else if (stringPosition[0] == 'h')
 	{
 		return Position(7,row);
 	}
 
-	std::cout << "Error getting position from string: [" << fenSquare << "]." << std::endl;
-	return Position();
+	throw std::invalid_argument("");
 }
 
+//TODO remove this
 int Utils::convertStringToInt(std::string const& fenMoveCounter)
 {
     int counter = 0;
@@ -194,33 +193,37 @@ Move Utils::getUCIMove(std::string const& fenMove, Board &board)
 
     if (fenMove.size() >= 5)
     {
-        switch (fenMove[5])
-        {
-            case 'k' :
-            {
-            PiecePtr promotedPtr(new Knight(destination, board.getColorToPlay()));
-            theMove.setPromotedPiece(promotedPtr) ;
-            }
-            case 'b' :
-            {
-            PiecePtr promotedPtr(new Bishop(destination, board.getColorToPlay()));
-            theMove.setPromotedPiece(promotedPtr) ;
-            }
-            case 'r' :
-            {
-            PiecePtr promotedPtr(new Rook(destination, board.getColorToPlay()));
-            theMove.setPromotedPiece(promotedPtr) ;
-            }
-            case 'q' :
-            {
-            PiecePtr promotedPtr(new Queen(destination, board.getColorToPlay()));
-            theMove.setPromotedPiece(promotedPtr) ;
-            }
-            default :
-            {
-            std::cout << "ERROR IN std::shared_ptr<Piece> Move::promotePawn " << std::endl; //TODO throw exception
-            }
-        }
+    	switch (fenMove[5])
+		{
+			case 'k' :
+			{
+				PiecePtr promotedPtr(new Knight(destination, board.getColorToPlay()));
+				theMove.setPromotedPiece(promotedPtr);
+				break;
+			}
+			case 'b' :
+			{
+				PiecePtr promotedPtr(new Bishop(destination, board.getColorToPlay()));
+				theMove.setPromotedPiece(promotedPtr);
+				break;
+			}
+			case 'r' :
+			{
+				PiecePtr promotedPtr(new Rook(destination, board.getColorToPlay()));
+				theMove.setPromotedPiece(promotedPtr);
+				break;
+			}
+			case 'q' :
+			{
+				PiecePtr promotedPtr(new Queen(destination, board.getColorToPlay()));
+				theMove.setPromotedPiece(promotedPtr);
+				break;
+			}
+			default :
+			{
+				throw std::invalid_argument("");
+			}
+    	}
     }
 
     if (!board.isPositionFree(destination))
