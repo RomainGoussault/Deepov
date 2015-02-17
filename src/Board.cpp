@@ -4,10 +4,13 @@
  *  Cdreated on: 24 sept. 2014
  *   ar   Author: Romain
  */
+#include <memory>
+#include <cassert>
+
 #include "Board.hpp"
 #include "Utils.hpp"
 #include "King.hpp"
-#include <memory>
+
 
 /*********************************** Constructor ****************************************/
 Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter(), myHalfMovesCounter()
@@ -86,6 +89,9 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 
 void Board::addPiece(PiecePtr piecePtr, Position position)
 {
+	//A piece should be added on a FREE position only
+	assert(isPositionFree(position));
+
 	myPieces[position.getX()][position.getY()] = piecePtr;
 }
 
@@ -96,6 +102,9 @@ void Board::addPiece(PiecePtr piecePtr)
 
 void Board::removePiece(Position position)
 {
+	//There should be a piece to be removed
+	assert(!isPositionFree(position));
+
 	myPieces[position.getX()][position.getY()].reset();
 }
 
