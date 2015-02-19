@@ -6,10 +6,12 @@
  */
 #include <memory>
 #include <cassert>
+#include <string>
 
 #include "Board.hpp"
 #include "Utils.hpp"
 #include "King.hpp"
+#include "Rook.hpp"
 
 
 /*********************************** Constructor ****************************************/
@@ -169,7 +171,50 @@ void Board::executeMove(Move move)
 		movePiece(pieceToMove, destination);
 	}
 
-	//updateCastlingRights();
+	if ((myCastling[0] == true || myCastling[1] == true) && myColorToPlay == WHITE )
+    {
+        std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(pieceToMove);
+        if(kingPtr != nullptr)
+        {
+            cancelCastlingRight(0);
+            cancelCastlingRight(1);
+        }
+
+        std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(pieceToMove);
+        Position queenSide(0,0);
+        Position kingSide(7,0);
+
+        if (origin == kingSide && rookPtr != nullptr)
+        {
+            cancelCastlingRight(0);
+        }
+        else if (origin == queenSide && rookPtr != nullptr)
+        {
+            cancelCastlingRight(1);
+        }
+    }
+	else if ((myCastling[2] == true || myCastling[3] == true) && myColorToPlay == BLACK )
+    {
+        std::shared_ptr<King> kingPtr = std::dynamic_pointer_cast<King>(pieceToMove);
+        if(kingPtr != nullptr)
+        {
+            cancelCastlingRight(2);
+            cancelCastlingRight(3);
+        }
+
+        std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(pieceToMove);
+        Position queenSide(0,7);
+        Position kingSide(7,7);
+
+        if (origin == kingSide && rookPtr != nullptr)
+        {
+            cancelCastlingRight(2);
+        }
+        else if (origin == queenSide && rookPtr != nullptr)
+        {
+            cancelCastlingRight(3);
+        }
+    }
 
 	myMoves.push_back(move);
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
@@ -242,6 +287,11 @@ bool Board::isQueenSideCastlingAllowed(const int color) const
 bool Board::isKingSideCastlingAllowed(const int color) const
 {
 	return myCastling[2*color];
+}
+
+void Board::cancelCastlingRight(const int side)
+{
+    myCastling[side] = false;
 }
 
 /*********************************** Get attributes **************************************/

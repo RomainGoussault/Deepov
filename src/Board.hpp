@@ -45,7 +45,7 @@ public:
     void movePiece(PiecePtr piecePtr, Position destination);
     void executeMove(Move move);
     void undoMove(Move move);
-    void updateCastlingRights(); //TODO
+    void cancelCastlingRight(const int side);
     boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
     std::vector<Move> getLegalMoves();
     std::vector<Move> getLegalMoves(int color);
