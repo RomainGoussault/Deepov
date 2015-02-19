@@ -100,7 +100,7 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 	return piecePtrs;
 }
 
-void Utils::getCastling(std::string const& castleString, bool (&castleBool)[3])
+void Utils::getCastling(std::string const& castleString, bool (&castleBool)[4])
 {
     if (castleString[0] == '-')
     {

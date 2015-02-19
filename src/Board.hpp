@@ -89,7 +89,7 @@ private:
     int myColorToPlay;
     std::vector<Move> myMoves;
     boost::optional<Position> myEnPassant;
-    bool myCastling[3] ; // Same order as FEN : white king side, white queen side, black king side, black queen side
+    bool myCastling[4] ; // Same order as FEN : white king side, white queen side, black king side, black queen side
     int myMovesCounter; // +1 move after black's move
     int myHalfMovesCounter; // +1 after each color's move
 
