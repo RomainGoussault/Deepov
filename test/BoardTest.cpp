@@ -4,6 +4,9 @@
 #include "Rook.hpp"
 #include "Color.hpp"
 #include "Piece.hpp"
+#include "King.hpp"
+#include "Move.hpp"
+
 
 TEST_CASE( "is position on Board test", "[board]" )
 {
@@ -201,4 +204,53 @@ TEST_CASE( "check", "[board]" )
 		REQUIRE(board.isCheck(WHITE) == false);
 		REQUIRE(board.isCheck(BLACK) == true);
 	}
+}
+
+
+TEST_CASE( "executeMove for Castling", "[board]" )
+{
+	Board board("rnbqk2r/pppppppp/8/8/4P3/8/PPPP1PPP/R1BQK2R b KQkq e3 0 1");
+
+	bool K = board.getCastling(2);
+	bool Q = board.getCastling(3);
+    Position position(4,7);
+    PiecePtr kingPtr= board.getPiecePtr(position);
+
+    REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
+
+	std::vector<Move> kingMoves = kingPtr->getPseudoLegalMoves(board) ;
+	Move theCastling(position,position);
+
+
+    REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 2);
+	REQUIRE(K == true);
+    REQUIRE(Q == true);
+
+    if ((kingMoves[0]).isCastling() == true)
+	{
+	    theCastling = kingMoves[0];
+	}
+	else
+    {
+        theCastling = kingMoves[1];
+    }
+
+    board.executeMove(theCastling);
+
+    K = board.getCastling(2);
+    Q = board.getCastling(3);
+    kingMoves = kingPtr->getPseudoLegalMoves(board);
+
+    REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 1);
+    REQUIRE(K == false);
+    REQUIRE(Q == false);
+
+    Position kingPostition(6,7);
+    Position rookPosition(5,7);
+    kingPtr = board.getPiecePtr(kingPostition);
+    PiecePtr rookPtr = board.getPiecePtr(rookPosition);
+
+    REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
+    REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
+
 }
