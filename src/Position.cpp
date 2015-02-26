@@ -44,7 +44,7 @@ int Position::getY() const
 
 std::string Position::toShortString() const
 {
-	std::array<std::string,8> letters = {"a", "b", "c", "d", "e", "f", "g", "h"};
+	std::array<std::string,8> letters = {{"a", "b", "c", "d", "e", "f", "g", "h"}};
 	int yy = y + 1;
 
 	std::stringstream ss;
