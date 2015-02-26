@@ -70,7 +70,9 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 	// I put a condition in case the FEN format doesn't include the move counters
 	if (spaceSplit.size() >= 5)
 	{
-		myMovesCounter = std::stoi(spaceSplit[4]);
+	    myMovesCounter = Utils::convertStringToInt(spaceSplit[4]);
+    // Waiting for a fix for windows
+	//	myMovesCounter = std::stoi(spaceSplit[4]);
 	}
 	else
 	{
@@ -79,7 +81,8 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 
 	if (spaceSplit.size() >= 6)
 	{
-		myHalfMovesCounter = std::stoi(spaceSplit[5]);
+	    myHalfMovesCounter = Utils::convertStringToInt(spaceSplit[5]);
+	//	myHalfMovesCounter = std::stoi(spaceSplit[5]);
 	}
 	else
 	{

@@ -175,6 +175,17 @@ Position Utils::getPosition(std::string const& stringPosition)
 	throw std::invalid_argument("");
 }
 
+//Waiting to have a fix for stoi
+int Utils::convertStringToInt(std::string const& fenMoveCounter)
+{
+    int counter = 0;
+    for (unsigned int i=0; i<fenMoveCounter.size();++i)
+    {
+        counter += (fenMoveCounter[i]- '0')*pow(10,i) ;
+    }
+    return counter;
+}
+
 Move Utils::getUCIMove(std::string const& fenMove, Board &board)
 {
     std::string subMove = fenMove.substr(0,2) ;
