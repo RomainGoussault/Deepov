@@ -358,7 +358,7 @@ PiecePtr Board::getKing(const int color) const
 		}
 	}
 
-	throw std::runtime_error("No king found");
+	throw std::runtime_error("No king found" );
 	// Until fix
 	// for color: " + std::to_string(color));
 }

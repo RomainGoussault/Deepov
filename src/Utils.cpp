@@ -179,9 +179,9 @@ Position Utils::getPosition(std::string const& stringPosition)
 int Utils::convertStringToInt(std::string const& fenMoveCounter)
 {
     int counter = 0;
-    for (unsigned int i=0; i<fenMoveCounter.size();++i)
+    for (unsigned int i=0; fenMoveCounter[i] != '\0';++i)
     {
-        counter += (fenMoveCounter[i]- '0')*pow(10,i) ;
+        counter = counter*10 + (fenMoveCounter[i]- '0') ;
     }
     return counter;
 }
