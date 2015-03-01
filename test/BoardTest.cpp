@@ -105,7 +105,6 @@ TEST_CASE( "execute Move", "[board]" )
 	std::vector<Move> rookMoves = rook1->getPseudoLegalMoves(board);
 	Move move = rookMoves[0];
 
-
 	int numberWhitePieces = board.getPieces(WHITE).size();
 	int numberBlackPieces = board.getPieces(BLACK).size();
 
@@ -208,54 +207,52 @@ TEST_CASE( "check", "[board]" )
 	}
 }
 
-
 TEST_CASE( "executeMove for Castling", "[board]" )
 {
-
-    SECTION( "executeMove")
+	SECTION( "executeMove")
 	{
-        Board board("rnbqk2r/pppppppp/8/8/4P3/8/PPPP1PPP/R1BQK2R b KQkq e3 0 1");
+		Board board("rnbqk2r/pppppppp/8/8/4P3/8/PPPP1PPP/R1BQK2R b KQkq e3 0 1");
 
-        bool K = board.getCastling(2);
-        bool Q = board.getCastling(3);
-        Position position(4,7);
-        PiecePtr kingPtr= board.getPiecePtr(position);
+		bool K = board.getCastling(2);
+		bool Q = board.getCastling(3);
+		Position position(4,7);
+		PiecePtr kingPtr= board.getPiecePtr(position);
 
-        REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
+		REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
 
-        std::vector<Move> kingMoves = kingPtr->getPseudoLegalMoves(board) ;
-        Move theCastling(position,position);
+		std::vector<Move> kingMoves = kingPtr->getPseudoLegalMoves(board) ;
+		Move theCastling(position,position);
 
-        REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 2);
-        REQUIRE(K == true);
-        REQUIRE(Q == true);
+		REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 2);
+		REQUIRE(K == true);
+		REQUIRE(Q == true);
 
-        if ((kingMoves[0]).isCastling() == true)
-        {
-            theCastling = kingMoves[0];
-        }
-        else
-        {
-            theCastling = kingMoves[1];
-        }
+		if ((kingMoves[0]).isCastling() == true)
+		{
+			theCastling = kingMoves[0];
+		}
+		else
+		{
+			theCastling = kingMoves[1];
+		}
 
-        board.executeMove(theCastling);
+		board.executeMove(theCastling);
 
-        K = board.getCastling(2);
-        Q = board.getCastling(3);
-        kingMoves = kingPtr->getPseudoLegalMoves(board);
+		K = board.getCastling(2);
+		Q = board.getCastling(3);
+		kingMoves = kingPtr->getPseudoLegalMoves(board);
 
-        REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 1);
-        REQUIRE(K == false);
-        REQUIRE(Q == false);
+		REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 1);
+		REQUIRE(K == false);
+		REQUIRE(Q == false);
 
-        Position kingPostition(6,7);
-        Position rookPosition(5,7);
-        kingPtr = board.getPiecePtr(kingPostition);
-        PiecePtr rookPtr = board.getPiecePtr(rookPosition);
+		Position kingPostition(6,7);
+		Position rookPosition(5,7);
+		kingPtr = board.getPiecePtr(kingPostition);
+		PiecePtr rookPtr = board.getPiecePtr(rookPosition);
 
-        REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
-        REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
+		REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
+		REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
 	}
 
     SECTION( "undoMove")
@@ -263,61 +260,57 @@ TEST_CASE( "executeMove for Castling", "[board]" )
 
 
 	}
-
 }
 
 TEST_CASE( "executeMove for Promotion", "[board]" )
 {
-    SECTION("Promotion without capture")
+	SECTION("Promotion without capture")
     {
-        Board board("8/2P1k3/8/3K4/8/8/8/8 w - - 0 1");
-        /* Select the pawn */
-        Position position(2,6);
-        PiecePtr pawn(board.getPiecePtr(position));
-        Position destination(2,7);
+		Board board("8/2P1k3/8/3K4/8/8/8/8 w - - 0 1");
+		/* Select the pawn */
+		Position position(2,6);
+		PiecePtr pawn(board.getPiecePtr(position));
+		Position destination(2,7);
 
-        /* Set the Move */
-        Move promotionMove = Move(position,destination);
-        PiecePtr promotedPtr(new Queen(destination, board.getColorToPlay()));
-        REQUIRE(std::dynamic_pointer_cast<Queen>(promotedPtr) != nullptr);
-        promotionMove.setPromotedPiece(promotedPtr);
+		/* Set the Move */
+		Move promotionMove = Move(position,destination);
+		PiecePtr promotedPtr(new Queen(destination, board.getColorToPlay()));
+		REQUIRE(std::dynamic_pointer_cast<Queen>(promotedPtr) != nullptr);
+		promotionMove.setPromotedPiece(promotedPtr);
 
-        /* execute and test */
-        board.executeMove(promotionMove);
-        REQUIRE(board.getColorToPlay()==BLACK);
+		/* execute and test */
+		board.executeMove(promotionMove);
+		REQUIRE(board.getColorToPlay()==BLACK);
 
-        PiecePtr newPiece = board.getPiecePtr(destination);
-        REQUIRE(std::dynamic_pointer_cast<Queen>(newPiece) != nullptr);
+		PiecePtr newPiece = board.getPiecePtr(destination);
+		REQUIRE(std::dynamic_pointer_cast<Queen>(newPiece) != nullptr);
+	}
 
-    }
+	SECTION("Promotion with capture")
+	{
+		Board board("1r6/2P1k3/8/3K4/8/8/8/8 w - - 0 1");
+		/* Select the pawn */
+		Position position(2,6);
+		PiecePtr pawn(board.getPiecePtr(position));
+		/* Select the rook */
+		Position destination(1,7);
+		PiecePtr rookPtr = board.getPiecePtr(destination);
 
-    SECTION("Promotion with capture")
-    {
-        Board board("1r6/2P1k3/8/3K4/8/8/8/8 w - - 0 1");
-        /* Select the pawn */
-        Position position(2,6);
-        PiecePtr pawn(board.getPiecePtr(position));
-        /* Select the rook */
-        Position destination(1,7);
-        PiecePtr rookPtr = board.getPiecePtr(destination);
+		/* Set the Move */
+		Move promotionMove = Move(position,destination);
+		promotionMove.setCapturedPiece(rookPtr);
+		PiecePtr promotedPtr(new Bishop(destination, board.getColorToPlay()));
+		REQUIRE(std::dynamic_pointer_cast<Bishop>(promotedPtr) != nullptr);
+		promotionMove.setPromotedPiece(promotedPtr);
 
-        /* Set the Move */
-        Move promotionMove = Move(position,destination);
-        promotionMove.setCapturedPiece(rookPtr);
-        PiecePtr promotedPtr(new Bishop(destination, board.getColorToPlay()));
-        REQUIRE(std::dynamic_pointer_cast<Bishop>(promotedPtr) != nullptr);
-        promotionMove.setPromotedPiece(promotedPtr);
+		/* execute and test */
+		board.executeMove(promotionMove);
+		REQUIRE(board.getColorToPlay()==BLACK);
 
-        /* execute and test */
-        board.executeMove(promotionMove);
-        REQUIRE(board.getColorToPlay()==BLACK);
+		PiecePtr newPiece = board.getPiecePtr(destination);
+		REQUIRE(std::dynamic_pointer_cast<Bishop>(newPiece) != nullptr);
 
-        PiecePtr newPiece = board.getPiecePtr(destination);
-        REQUIRE(std::dynamic_pointer_cast<Bishop>(newPiece) != nullptr);
-
-        std::vector<PiecePtr> blackPieces = board.getEnemyPieces(WHITE);
-        REQUIRE(blackPieces.size() == 1);
-
+		std::vector<PiecePtr> blackPieces = board.getEnemyPieces(WHITE);
+		REQUIRE(blackPieces.size() == 1);
     }
 }
-
