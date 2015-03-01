@@ -46,6 +46,9 @@ public:
     void executeMove(Move move);
     void undoMove(Move move);
     void cancelCastlingRight(const int side);
+    void enableCastlingRight(const int side);
+    void updateCastlingRights(Move &move);
+    void rewindCastingRights();
     boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
     std::vector<Move> getLegalMoves();
     std::vector<Move> getLegalMoves(int color);
