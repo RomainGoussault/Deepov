@@ -138,18 +138,21 @@ void Board::executeMove(Move move)
 	if(move.isCastling())
 	{
 		movePiece(pieceToMove, destination);
-        if (destination.getX()== 6)
-        {
-            Position rookOrigin(7, destination.getY());
-            Position rookDestination(5, destination.getY());
-            movePiece(getPiecePtr(rookOrigin),rookDestination);
-        }
-        else if (destination.getX() == 2)
-        {
-            Position rookOrigin(7, destination.getY());
-            Position rookDestination(5, destination.getY());
-            movePiece(getPiecePtr(rookOrigin),rookDestination);
-        }
+		Position rookOrigin;
+		Position rookDestination;
+
+		if (destination.getX() == 6)
+		{
+			rookOrigin = Position(7, destination.getY());
+			rookDestination = Position(5, destination.getY());
+		}
+		else
+		{
+			rookOrigin = Position(0, destination.getY());
+			rookDestination = Position(3, destination.getY());
+		}
+
+		movePiece(getPiecePtr(rookOrigin),rookDestination);
 	}
 	else if(move.isPromotion())
 	{
