@@ -134,6 +134,8 @@ void Board::executeMove(Move move)
 	PiecePtr capturePiecePtr = move.getCapturedPiece();
 	bool isCaptureMove = capturePiecePtr!= nullptr;
 	PiecePtr pieceToMove = getPiecePtr(origin);
+    /* I put it here because after executeMove there is no pieceptr on origin position anymore */
+    updateCastlingRights(move);
 
 	if(move.isCastling())
 	{
@@ -176,8 +178,6 @@ void Board::executeMove(Move move)
 		//pieceToMove.incrementMoveCounter(); TODO???
 		movePiece(pieceToMove, destination);
 	}
-
-    this->updateCastlingRights(move);
 
 	myMoves.push_back(move);
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
