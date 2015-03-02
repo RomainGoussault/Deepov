@@ -25,6 +25,7 @@ public:
 	Position getDestination() const;
 	bool isPromotion() const;
 	bool isCastling() const;
+	bool getCancelledCastling(const int &side) const;
 	std::shared_ptr<Piece> getCapturedPiece();
 	std::shared_ptr<Piece> getPromotedPiece();
 
@@ -33,17 +34,17 @@ public:
 	//ALL SETS
 	void setCapturedPiece(std::shared_ptr<Piece> piece);
 	void setIsCastling();
+	void setCancelledCastling(const int &side);
 	void setPromotedPiece(std::shared_ptr<Piece> piece);
 
 private:
 
 	Position myOrigin;
 	Position myDestination;
-
 	std::shared_ptr<Piece> myCapturedPiece;
-
+    std::shared_ptr<Piece> myPromotedPiece;
 	bool myIsCastling;
-	std::shared_ptr<Piece> myPromotedPiece;
+	bool myCancelledCastling[2]; /* tab[0] for king side, tab[1] for queen side */
 
 };
 

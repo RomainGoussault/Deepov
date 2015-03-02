@@ -5,7 +5,7 @@
 #include <string>
 
 Move::Move(Position origin, Position destination) : myOrigin(origin), myDestination(destination),
-myCapturedPiece(nullptr), myIsCastling(false), myPromotedPiece('\0')
+myCapturedPiece(nullptr), myPromotedPiece('\0'), myIsCastling(false), myCancelledCastling{false,false}
 {
 }
 
@@ -41,6 +41,40 @@ void Move::setIsCastling()
 bool Move::isCastling() const
 {
 	return myIsCastling;
+}
+
+bool Move::getCancelledCastling(const int &side) const
+{
+    if (side == 0)
+    {
+        return myCancelledCastling[0];
+    }
+    else
+    {
+        return myCancelledCastling[1];
+    }
+    /* Same here, do i add this ? */
+//    else
+//    {
+//        throw std::runtime_error("setCancelledCastling out of bound" );
+//    }
+}
+
+void Move::setCancelledCastling(const int &side)
+{
+    if (side == 0)
+    {
+        myCancelledCastling[0]=true;
+    }
+    else if (side == 1)
+    {
+        myCancelledCastling[1]=true;
+    }
+    /* Do i add this ? */
+//    else
+//    {
+//        throw std::runtime_error("setCancelledCastling out of bound" );
+//    }
 }
 
 PiecePtr Move::getPromotedPiece()
