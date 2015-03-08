@@ -234,42 +234,42 @@ TEST_CASE( "executeMove and undoMove for Castling", "[board]" )
 			theCastling = kingMoves[1];
 		}
 
-//		board.executeMove(theCastling);
-//
-//		K = board.getCastling(2);
-//		Q = board.getCastling(3);
-//		kingMoves = kingPtr->getPseudoLegalMoves(board);
-//
-//		REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 1);
-//		REQUIRE(K == false);
-//		REQUIRE(Q == false);
-//
-//		Position kingPostition(6,7);
-//		Position rookPosition(5,7);
-//		kingPtr = board.getPiecePtr(kingPostition);
-//		PiecePtr rookPtr = board.getPiecePtr(rookPosition);
-//
-//		REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
-//		REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
-//
-//        /* Now test undoMove */
-//		board.undoMove(theCastling);
-//
-//        K = board.getCastling(2);
-//		Q = board.getCastling(3);
-//		kingMoves = kingPtr->getPseudoLegalMoves(board);
-//
-//      //  REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 2);
-//		REQUIRE(K == true);
-//		REQUIRE(Q == true);
-//
-//        kingPostition.deltaX(-2);
-//		rookPosition.deltaX(2);
-//		kingPtr = board.getPiecePtr(kingPostition);
-//		rookPtr = board.getPiecePtr(rookPosition);
-//
-//		REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
-//		REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
+		board.executeMove(theCastling);
+
+		K = board.getCastling(2);
+		Q = board.getCastling(3);
+		kingMoves = kingPtr->getPseudoLegalMoves(board);
+
+		REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 1);
+		REQUIRE(K == false);
+		REQUIRE(Q == false);
+
+		Position kingPosition(6,7);
+		Position rookPosition(5,7);
+		kingPtr = board.getPiecePtr(kingPosition);
+		PiecePtr rookPtr = board.getPiecePtr(rookPosition);
+
+		REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
+		REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
+
+        /* Now test undoMove */
+		board.undoMove(theCastling);
+
+        K = board.getCastling(2);
+		Q = board.getCastling(3);
+		kingMoves = kingPtr->getPseudoLegalMoves(board);
+
+      //  REQUIRE(kingPtr->getPseudoLegalMoves(board).size() == 2);
+		REQUIRE(K == true);
+		REQUIRE(Q == true);
+
+        kingPosition.deltaX(-2);
+		rookPosition.deltaX(2);
+		kingPtr = board.getPiecePtr(kingPosition);
+		rookPtr = board.getPiecePtr(rookPosition);
+
+		REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
+		REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
 
 }
 

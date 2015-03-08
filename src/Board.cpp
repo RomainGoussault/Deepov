@@ -127,7 +127,7 @@ bool Board::isFirstMove() const
 	}
 }
 
-void Board::executeMove(Move move)
+void Board::executeMove(Move &move)
 {
 	Position origin = move.getOrigin();
 	Position destination = move.getDestination();
@@ -183,7 +183,7 @@ void Board::executeMove(Move move)
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 }
 
-void Board::undoMove(Move move)
+void Board::undoMove(Move &move)
 {
 	Position origin = move.getOrigin();
 	Position destination = move.getDestination();
@@ -547,7 +547,7 @@ int Board::perft(int depth)
 
 	std::vector<Move> moves = getLegalMoves();
 
-	for (const auto move : moves)
+	for (auto &move : moves)
 	{
 		executeMove(move);
 		nodes += perft(depth - 1);
@@ -571,7 +571,7 @@ int Board::divide(int depth)
 	std::vector<Move> moves = getLegalMoves();
 	nMoves = moves.size();
 
-	for (const auto move : moves)
+	for (auto &move : moves)
 	{
 		std::cout << std::endl;
 		executeMove(move);
@@ -587,7 +587,7 @@ int Board::divide(int depth)
 	return nodes;
 }
 
-bool Board::isMoveLegal(const Move move)
+bool Board::isMoveLegal(Move move)
 {
 	bool isLegalMove = true;
 	int color = myColorToPlay;

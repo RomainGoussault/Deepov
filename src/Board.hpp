@@ -43,8 +43,8 @@ public:
 
     bool isFirstMove() const; // Use it to know if the position comes from FEN when you want an info on a previous move.
     void movePiece(PiecePtr piecePtr, Position destination);
-    void executeMove(Move move);
-    void undoMove(Move move);
+    void executeMove(Move &move);
+    void undoMove(Move &move);
     void cancelCastlingRight(const int side);
     void enableCastlingRight(const int side);
     void updateCastlingRights(Move &move);
@@ -83,7 +83,7 @@ public:
     int perft(int depth);
     int divide(int depth);
 
-    bool isMoveLegal(const Move move);
+    bool isMoveLegal(Move move);
     bool isCheck(const int color) const;
 
 private:
