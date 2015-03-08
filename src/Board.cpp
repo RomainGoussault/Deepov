@@ -192,6 +192,9 @@ void Board::undoMove(Move move)
 	bool isCaptureMove = capturePiecePtr!= nullptr;
 	PiecePtr pieceToMove = getPiecePtr(destination);
 
+	/* Be careful to get the valid move color  */
+	rewindCastlingRights(move, Utils::getOppositeColor(myColorToPlay));
+
 	if(move.isCastling())
 	{
         movePiece(pieceToMove,origin);
@@ -234,6 +237,7 @@ void Board::undoMove(Move move)
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
+
 }
 
 void Board::movePiece(PiecePtr piecePtr, Position destination)
@@ -339,31 +343,31 @@ void Board::updateCastlingRights(Move &move)
 
 }
 
-void Board::rewindCastingRights(Move &move)
+void Board::rewindCastlingRights(Move &move, const int &color)
 {
     bool isKingSideRightCancelled = move.getCancelledCastling(0);
     bool isQueenSideRightCancelled = move.getCancelledCastling(1);
 
-    if (myColorToPlay == WHITE)
+    if (color == WHITE)
     {
         if (isKingSideRightCancelled)
         {
-            myCastling[0] = true ;
+            enableCastlingRight(0);
         }
         if (isQueenSideRightCancelled)
         {
-            myCastling[1] = true ;
+            enableCastlingRight(1);
         }
     }
-    else if (myColorToPlay == BLACK)
+    else if (color == BLACK)
     {
         if (isKingSideRightCancelled)
         {
-            myCastling[2] = true ;
+            enableCastlingRight(2);
         }
         if (isQueenSideRightCancelled)
         {
-            myCastling[3] = true ;
+            enableCastlingRight(3);
         }
     }
 }
