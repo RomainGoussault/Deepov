@@ -289,7 +289,9 @@ void Board::updateCastlingRights(Move &move)
         if(kingPtr != nullptr)
         {
             cancelCastlingRight(0);
+            move.setCancelledCastling(0);
             cancelCastlingRight(1);
+            move.setCancelledCastling(1);
         }
 
         std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(pieceToMove);
@@ -299,10 +301,12 @@ void Board::updateCastlingRights(Move &move)
         if (origin == kingSide && rookPtr != nullptr)
         {
             cancelCastlingRight(0);
+            move.setCancelledCastling(0);
         }
         else if (origin == queenSide && rookPtr != nullptr)
         {
             cancelCastlingRight(1);
+            move.setCancelledCastling(1);
         }
     }
     /* Update castling rights for black */
@@ -312,7 +316,9 @@ void Board::updateCastlingRights(Move &move)
         if(kingPtr != nullptr)
         {
             cancelCastlingRight(2);
+            move.setCancelledCastling(0);
             cancelCastlingRight(3);
+            move.setCancelledCastling(1);
         }
 
         std::shared_ptr<Rook> rookPtr = std::dynamic_pointer_cast<Rook>(pieceToMove);
@@ -322,10 +328,12 @@ void Board::updateCastlingRights(Move &move)
         if (origin == kingSide && rookPtr != nullptr)
         {
             cancelCastlingRight(2);
+            move.setCancelledCastling(0);
         }
         else if (origin == queenSide && rookPtr != nullptr)
         {
             cancelCastlingRight(3);
+            move.setCancelledCastling(1);
         }
     }
 
