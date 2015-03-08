@@ -339,9 +339,33 @@ void Board::updateCastlingRights(Move &move)
 
 }
 
-void Board::rewindCastingRights()
+void Board::rewindCastingRights(Move &move)
 {
+    bool isKingSideRightCancelled = move.getCancelledCastling(0);
+    bool isQueenSideRightCancelled = move.getCancelledCastling(1);
 
+    if (myColorToPlay == WHITE)
+    {
+        if (isKingSideRightCancelled)
+        {
+            myCastling[0] = true ;
+        }
+        if (isQueenSideRightCancelled)
+        {
+            myCastling[1] = true ;
+        }
+    }
+    else if (myColorToPlay == BLACK)
+    {
+        if (isKingSideRightCancelled)
+        {
+            myCastling[2] = true ;
+        }
+        if (isQueenSideRightCancelled)
+        {
+            myCastling[3] = true ;
+        }
+    }
 }
 
 /*********************************** Get attributes **************************************/
