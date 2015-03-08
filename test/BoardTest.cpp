@@ -263,14 +263,11 @@ TEST_CASE( "executeMove and undoMove for Castling", "[board]" )
 		REQUIRE(K == true);
 		REQUIRE(Q == true);
 
-        kingPosition.deltaX(-2);
-		rookPosition.deltaX(2);
-		kingPtr = board.getPiecePtr(kingPosition);
-		rookPtr = board.getPiecePtr(rookPosition);
+		kingPtr = board.getPiecePtr(kingPosition.deltaX(-2));
+		rookPtr = board.getPiecePtr(rookPosition.deltaX(2));
 
 		REQUIRE(std::dynamic_pointer_cast<King>(kingPtr) != nullptr);
 		REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
-
 }
 
 TEST_CASE( "executeMove for Promotion", "[board]" )
