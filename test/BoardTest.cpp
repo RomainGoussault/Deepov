@@ -8,6 +8,7 @@
 #include "Piece.hpp"
 #include "King.hpp"
 #include "Move.hpp"
+#include "Pawn.hpp"
 
 
 TEST_CASE( "is position on Board test", "[board]" )
@@ -270,7 +271,7 @@ TEST_CASE( "executeMove and undoMove for Castling", "[board]" )
 		REQUIRE(std::dynamic_pointer_cast<Rook>(rookPtr) != nullptr);
 }
 
-TEST_CASE( "executeMove for Promotion", "[board]" )
+TEST_CASE( "executeMove and undoMove for Promotion", "[board]" )
 {
 	SECTION("Promotion without capture")
     {
@@ -292,6 +293,18 @@ TEST_CASE( "executeMove for Promotion", "[board]" )
 
 		PiecePtr newPiece = board.getPiecePtr(destination);
 		REQUIRE(std::dynamic_pointer_cast<Queen>(newPiece) != nullptr);
+		REQUIRE(board.getPiecePtr(position) == nullptr);
+
+		/* undo and test */
+
+		board.undoMove(promotionMove);
+        REQUIRE(board.getColorToPlay()==WHITE);
+
+        PiecePtr oldPiece = board.getPiecePtr(position);
+		REQUIRE(std::dynamic_pointer_cast<Pawn>(oldPiece) != nullptr);
+		REQUIRE(board.getPiecePtr(destination) == nullptr);
+
+
 	}
 
 	SECTION("Promotion with capture")
