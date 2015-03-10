@@ -217,15 +217,15 @@ void Board::undoMove(Move &move)
 	}
 	else if(move.isPromotion())
 	{
-		if(isCaptureMove)
+        removePiece(destination);
+        PiecePtr pawnPtr(new Pawn(origin, Utils::getOppositeColor(myColorToPlay)));
+        addPiece(pawnPtr);
+
+        if(isCaptureMove)
 		{
 			//add the captured piece
 			addPiece(capturePiecePtr);
 		}
-
-        removePiece(destination);
-        PiecePtr pawnPtr(new Pawn(origin, Utils::getOppositeColor(myColorToPlay)));
-        addPiece(pawnPtr);
 
 	}
 	else
