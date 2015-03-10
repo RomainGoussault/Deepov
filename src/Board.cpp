@@ -12,6 +12,7 @@
 #include "Utils.hpp"
 #include "King.hpp"
 #include "Rook.hpp"
+#include "Pawn.hpp"
 
 
 /*********************************** Constructor ****************************************/
@@ -175,7 +176,6 @@ void Board::executeMove(Move &move)
 			removePiece(capturePiecePtr->getPosition());
 		}
 
-		//pieceToMove.incrementMoveCounter(); TODO???
 		movePiece(pieceToMove, destination);
 	}
 
@@ -217,8 +217,16 @@ void Board::undoMove(Move &move)
 	}
 	else if(move.isPromotion())
 	{
-		//TODO
-		std::cout << " NOT IMPLEMENTED" << std::endl;
+		if(isCaptureMove)
+		{
+			//add the captured piece
+			addPiece(capturePiecePtr);
+		}
+
+        removePiece(destination);
+        PiecePtr pawnPtr(new Pawn(origin, Utils::getOppositeColor(myColorToPlay)));
+        addPiece(pawnPtr);
+
 	}
 	else
 	{
@@ -231,8 +239,6 @@ void Board::undoMove(Move &move)
 			addPiece(capturePiecePtr);
 		}
 	}
-
-	//updateCastlingRights();
 
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
