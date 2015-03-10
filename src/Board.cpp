@@ -16,7 +16,7 @@
 
 
 /*********************************** Constructor ****************************************/
-Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter(), myHalfMovesCounter()
+Board::Board() : myPieces(), myColorToPlay(WHITE), myMoves(), myEnPassant(), myCastling(), myMovesCounter(0), myHalfMovesCounter(0)
 {
 }
 
@@ -180,7 +180,14 @@ void Board::executeMove(Move &move)
 	}
 
 	myMoves.push_back(move);
+	if (myColorToPlay == BLACK)
+    {
+        myMovesCounter++;
+    }
+    myHalfMovesCounter++;
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
+
+
 }
 
 void Board::undoMove(Move &move)
@@ -242,6 +249,11 @@ void Board::undoMove(Move &move)
 
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
+    if (myColorToPlay == WHITE)
+    {
+        myMovesCounter--;
+    }
+    myHalfMovesCounter--;
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 
 }

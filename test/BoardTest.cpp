@@ -87,9 +87,12 @@ TEST_CASE( "getPieces", "[board]" )
 	REQUIRE(numberBlackPieces == 1);
 }
 
-TEST_CASE( "execute Move", "[board]" )
+TEST_CASE( "executeMove and undoMove", "[board]" )
 {
 	Board board;
+
+	REQUIRE(board.getHalfMovesCounter() == 0);
+    REQUIRE(board.getMovesCounter() == 0);
 
 	Position position1(0, 0);
 	Position position2(0, 1);
@@ -120,6 +123,11 @@ TEST_CASE( "execute Move", "[board]" )
 	REQUIRE(numberWhitePieces == 0);
 	REQUIRE(numberBlackPieces == 2);
 
+    REQUIRE(board.getHalfMovesCounter() == 1);
+    REQUIRE(board.getMovesCounter() == 0);
+    /* myMovesCounter is 0 because myColorToPlay is WHITE by default, although it is a black move
+    There is no setColorToPlay method ! */
+
 	board.undoMove(move);
 
 	numberWhitePieces = board.getPieces(WHITE).size();
@@ -127,6 +135,9 @@ TEST_CASE( "execute Move", "[board]" )
 
 	REQUIRE(numberWhitePieces == 1);
 	REQUIRE(numberBlackPieces == 2);
+
+    REQUIRE(board.getHalfMovesCounter() == 0);
+    REQUIRE(board.getMovesCounter() == 0);
 }
 
 TEST_CASE( "get Board from FEN", "[board]" )

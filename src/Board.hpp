@@ -71,7 +71,6 @@ public:
     int getHalfMovesCounter() const;
     int getMovesCounter() const;
 
-
     /******************************* Position manipulation ***********************************/
 
     bool isPositionFree(const Position position) const;
