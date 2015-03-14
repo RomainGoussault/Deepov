@@ -358,3 +358,34 @@ TEST_CASE( "executeMove and undoMove for Promotion", "[board]" )
 
     }
 }
+
+
+TEST_CASE( "Checkmate and stalemate", "[board]" )
+{
+    SECTION( "Checkmate")
+	{
+        Board board("rnbqkbnr/ppppp2p/5p2/6pQ/3PP3/8/PPP2PPP/RNB1KBNR b KQkq - 1 3");
+
+        std::vector<Move> blackMoves = board.getLegalMoves();
+        REQUIRE(blackMoves.empty());
+        REQUIRE(board.isCheck(BLACK));
+        REQUIRE(board.isMate(BLACK));
+        REQUIRE(board.isCheckmate(BLACK));
+        REQUIRE(!board.isStalemate(BLACK));
+        REQUIRE(board.perft(1)==0);
+	}
+
+    SECTION( "Stalemate")
+	{
+        Board board("6k1/8/5QK1/8/8/8/8/8 b - - 0 1");
+
+        std::vector<Move> blackMoves = board.getLegalMoves();
+        REQUIRE(blackMoves.empty());
+        REQUIRE(!board.isCheck(BLACK));
+        REQUIRE(board.isMate(BLACK));
+        REQUIRE(!board.isCheckmate(BLACK));
+        REQUIRE(board.isStalemate(BLACK));
+        REQUIRE(board.perft(1)==0);
+	}
+
+}

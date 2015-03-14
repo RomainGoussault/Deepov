@@ -565,6 +565,12 @@ int Board::perft(int depth)
 
 	std::vector<Move> moves = getLegalMoves();
 
+//	if (moves.empty())
+//    {
+//        std::cout << "Position is mate" <<std::endl;
+//        return 1;
+//    }
+
 	for (auto &move : moves)
 	{
 		executeMove(move);
@@ -642,7 +648,7 @@ bool Board::isCheck(const int color) const
 bool Board::isMate(const int color)
 {
     std::vector<Move> moves = getLegalMoves(color);
-    return moves.size()==0;
+    return moves.empty();
 }
 
 bool Board::isCheckmate(const int color)
@@ -652,5 +658,5 @@ bool Board::isCheckmate(const int color)
 
 bool Board::isStalemate(const int color)
 {
-    return (isMate(color) && isCheck(color));
+    return (isMate(color) && !isCheck(color));
 }
