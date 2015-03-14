@@ -51,7 +51,7 @@ public:
     void rewindCastlingRights(Move &move, const int &color);
     boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
     std::vector<Move> getLegalMoves();
-    std::vector<Move> getLegalMoves(int color);
+    std::vector<Move> getLegalMoves(const int color);
     bool isQueenSideCastlingAllowed(const int color) const;
     bool isKingSideCastlingAllowed(const int color) const;
     std::vector<Position> getAttackedPositions(const int color) const;
@@ -82,8 +82,11 @@ public:
     int perft(int depth);
     int divide(int depth);
 
-    bool isMoveLegal(Move move);
+    bool isMoveLegal(Move move); // uses executeMove and undoMove so it can't be const
     bool isCheck(const int color) const;
+    bool isMate(const int color);
+    bool isCheckmate(const int color);
+    bool isStalemate(const int color);
 
 private:
 

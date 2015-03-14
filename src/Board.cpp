@@ -505,7 +505,7 @@ std::vector<Move> Board::getLegalMoves()
 	return getLegalMoves(myColorToPlay);
 }
 
-std::vector<Move> Board::getLegalMoves(int color)
+std::vector<Move> Board::getLegalMoves(const int color)
 {
 	std::vector<PiecePtr> pieces = getPieces(color);
 	std::vector<Move> legalMoves;
@@ -637,4 +637,20 @@ bool Board::isCheck(const int color) const
 	{
 		return false;
 	}
+}
+
+bool Board::isMate(const int color)
+{
+    std::vector<Move> moves = getLegalMoves(color);
+    return moves.size()==0;
+}
+
+bool Board::isCheckmate(const int color)
+{
+    return (isMate(color) && isCheck(color));
+}
+
+bool Board::isStalemate(const int color)
+{
+    return (isMate(color) && isCheck(color));
 }
