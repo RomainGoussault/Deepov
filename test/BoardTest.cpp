@@ -386,6 +386,8 @@ TEST_CASE( "Checkmate and stalemate", "[board]" )
         REQUIRE(!board.isCheckmate(BLACK));
         REQUIRE(board.isStalemate(BLACK));
         REQUIRE(board.perft(1)==0);
+        REQUIRE(board.perft(2)==0);
+        board.divide(2);
 	}
 
 }

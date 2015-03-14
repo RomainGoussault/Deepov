@@ -565,11 +565,10 @@ int Board::perft(int depth)
 
 	std::vector<Move> moves = getLegalMoves();
 
-//	if (moves.empty())
-//    {
-//        std::cout << "Position is mate" <<std::endl;
-//        return 1;
-//    }
+	if (moves.empty())
+    {
+        std::cout << "Position is mate" <<std::endl;
+    }
 
 	for (auto &move : moves)
 	{
