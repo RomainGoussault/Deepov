@@ -146,6 +146,8 @@ TEST_CASE( "Is something wrong with EnPassant", "[perft]")
 	{
         Board board("k5n1/8/7p/6pP/8/8/3q4/K7 w - g6 0 1");
 
+        REQUIRE(board.perft(1)==2);
+
         Position whiteKingOrigin(0,0);
         Position whiteKingDestination(1,0);
         Position blackKingOrigin(0,7);
@@ -161,6 +163,13 @@ TEST_CASE( "Is something wrong with EnPassant", "[perft]")
         board.divide(1);
         REQUIRE(board.perft(1)==1);
         REQUIRE(whiteMoves.size()==1);
+
+        board.undoMove(blackMove);
+        board.undoMove(whiteMove);
+
+        REQUIRE(board.perft(1)==2);
+        whiteMoves = board.getLegalMoves();
+        REQUIRE(whiteMoves.size()==2);
 	}
 }
 
