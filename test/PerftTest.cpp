@@ -48,7 +48,9 @@ TEST_CASE( "Perft position 2", "[perft]")
     REQUIRE(board.perft(2) == 2039);
     // TODO
     // REQUIRE(board.perft(3) == 97862); // This one works
-    // REQUIRE(board.perft(4) == 4085603); // This one doesn't work, probably because checkmate is not implemented
+//    std::cout<<"Issue here :"<<std::endl;
+//    REQUIRE(board.perft(4) == 4085603); // This one still doesn't work
+//    std::cout<<"issue solved"<<std::endl;
 }
 
 
@@ -69,11 +71,10 @@ TEST_CASE( "Perft position 4", "[perft]")
 //    board.divide(1);
     REQUIRE(board.perft(1) == 6);
     REQUIRE(board.perft(2) == 264);
-    //TODO
 //    REQUIRE(board.perft(3) == 9467); // works till here
-//    std::cout<<"Issue here :"<<std::endl;
-//    REQUIRE(board.perft(4) == 422333); // Idm fails because no checkmate implemented
-//    std::cout<<"issue solved"<<std::endl;
+
+//    REQUIRE(board.perft(4) == 422333);
+        /* This issue is solved*/
 }
 
 // Position 5 from https://chessprogramming.wikispaces.com/Perft+Results
@@ -84,20 +85,7 @@ TEST_CASE( "Perft position 5", "[perft]")
     REQUIRE(board.perft(2) == 1352);
     //board.divide(3);
     REQUIRE(board.perft(3) == 53392);
-    /* fails,
-    This position was discussed on Talkchess and caught bugs in engines several years old at depth 3.*/
-    // No accurate data here, issue on castling probably ? We have to look more precisely
-//    Position origin(0,1);
-//    Position destination(0,3);
-//    Move a2a4(origin,destination);
-//    board.executeMove(a2a4);
-//    board.divide(2);
-//
-//    Position origin2(5,1);
-//    Position destination2(7,0);
-//    Move f2h1(origin2,destination2);
-//    board.executeMove(f2h1);
-//    board.divide(1);
+    /* This issue is solved*/
 }
 
 
