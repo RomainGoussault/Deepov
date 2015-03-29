@@ -6,6 +6,7 @@
  */
 
 #include "King.hpp"
+#include "Rook.hpp"
 #include <array>
 
 
@@ -111,6 +112,12 @@ bool King::isQueenSideCastlingPossible(const Board &board) const
 	iQSCP = iQSCP && board.isPositionFree(Position(2,y));
 	iQSCP = iQSCP && board.isPositionFree(Position(3,y));
 
+	Position rookPos = Position(0,y);
+	PiecePtr queenRook(board.getPiecePtr(rookPos));
+
+	iQSCP = iQSCP && (std::dynamic_pointer_cast<Rook>(queenRook) != nullptr);
+	iQSCP = iQSCP && (queenRook->getColor() != ennemyColor);
+
 	return iQSCP;
 }
 
@@ -130,6 +137,12 @@ bool King::isKingSideCastlingPossible(const Board &board) const
 
 	iKSCP = iKSCP && board.isPositionFree(Position(5,y));
 	iKSCP = iKSCP && board.isPositionFree(Position(6,y));
+
+    Position rookPos = Position(7,y);
+	PiecePtr kingRook(board.getPiecePtr(rookPos));
+
+	iKSCP = iKSCP && (std::dynamic_pointer_cast<Rook>(kingRook) != nullptr);
+	iKSCP = iKSCP && (kingRook->getColor() != ennemyColor);
 
 	return iKSCP;
 }
