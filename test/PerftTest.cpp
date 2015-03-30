@@ -46,6 +46,35 @@ TEST_CASE( "Perft position 2", "[perft]")
     Board board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
     REQUIRE(board.perft(1) == 48);
     REQUIRE(board.perft(2) == 2039);
+
+ Position origin(5,2);
+ Position destination(6,2);
+ Move f3g3(origin,destination);
+ board.executeMove(f3g3);
+ board.divide(1);
+
+ std::cout<<"f3g3 ok"<<std::endl;
+
+ board.undoMove(f3g3);
+
+std::cout<<"undo f3g3 ok"<<std::endl;
+
+ Position origin2(5,2);
+ Position destination2(7,2);
+ Move f3h3(origin2,destination2);
+ board.executeMove(f3h3);
+ //board.divide(3);
+
+  std::cout<<"f3h3 ok"<<std::endl;
+
+ Position origin3(0,5);
+ Position destination3(1,4);
+ Move a6b5(origin3,destination3);
+ board.executeMove(a6b5);
+ board.divide(2);
+
+
+    //board.divide(4);
     // TODO
     // REQUIRE(board.perft(3) == 97862); // This one works
 //    std::cout<<"Issue here :"<<std::endl;
@@ -53,13 +82,12 @@ TEST_CASE( "Perft position 2", "[perft]")
 //    std::cout<<"issue solved"<<std::endl;
 }
 
-
 // Position 3 from https://chessprogramming.wikispaces.com/Perft+Results
 TEST_CASE( "Perft position 3", "[perft]")
 {
     Board board("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -");
     REQUIRE(board.perft(1) == 14);
-    REQUIRE(board.perft(2) == 191);
+    //REQUIRE(board.perft(2) == 191);
     // REQUIRE(board.perft(3) == 2812);
     // REQUIRE(board.perft(4) == 43238); // All works ok
 }
@@ -84,7 +112,7 @@ TEST_CASE( "Perft position 5", "[perft]")
     REQUIRE(board.perft(1) == 42);
     REQUIRE(board.perft(2) == 1352);
     //board.divide(3);
-    REQUIRE(board.perft(3) == 53392);
+    //REQUIRE(board.perft(3) == 53392);
     /* This issue is solved*/
 }
 
