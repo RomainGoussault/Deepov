@@ -47,38 +47,13 @@ TEST_CASE( "Perft position 2", "[perft]")
     REQUIRE(board.perft(1) == 48);
     REQUIRE(board.perft(2) == 2039);
 
- Position origin(5,2);
- Position destination(6,2);
- Move f3g3(origin,destination);
- board.executeMove(f3g3);
- board.divide(1);
-
- std::cout<<"f3g3 ok"<<std::endl;
-
- board.undoMove(f3g3);
-
-std::cout<<"undo f3g3 ok"<<std::endl;
-
- Position origin2(5,2);
- Position destination2(7,2);
- Move f3h3(origin2,destination2);
- board.executeMove(f3h3);
- //board.divide(3);
-
-  std::cout<<"f3h3 ok"<<std::endl;
-
- Position origin3(0,5);
- Position destination3(1,4);
- Move a6b5(origin3,destination3);
- board.executeMove(a6b5);
- board.divide(2);
 
 
-    //board.divide(4);
+    board.divide(4);
     // TODO
-    // REQUIRE(board.perft(3) == 97862); // This one works
+     REQUIRE(board.perft(3) == 97862); // This one works
 //    std::cout<<"Issue here :"<<std::endl;
-//    REQUIRE(board.perft(4) == 4085603); // This one still doesn't work
+     	 	 //   REQUIRE(board.perft(4) == 4085603); // This one still doesn't work
 //    std::cout<<"issue solved"<<std::endl;
 }
 

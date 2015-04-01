@@ -96,6 +96,15 @@ Board::Board(std::string fen) : myPieces(), myColorToPlay(WHITE), myMoves(), myE
 void Board::addPiece(PiecePtr piecePtr, Position position)
 {
 	//A piece should be added on a FREE position only
+	if(!isPositionFree(position))
+	{
+		std::cout << *this << std::endl;
+		std::cout << *piecePtr << std::endl;
+		std::cout << position	 << std::endl;
+
+		std::cout << "gonna fail" << std::endl;
+	}
+
 	assert(isPositionFree(position));
 
 	myPieces[position.getX()][position.getY()] = piecePtr;
@@ -596,6 +605,10 @@ int Board::divide(int depth)
 
 	for (auto &move : moves)
 	{
+		std::cout << *this << std::endl;
+		Position position(7,2);
+		std::cout << "is Position free (7,2) : " << isPositionFree(position)<< std::endl;
+
 		std::cout << std::endl;
 		executeMove(move);
 		nodes = perft(depth - 1);
