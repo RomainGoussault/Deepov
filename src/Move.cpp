@@ -5,7 +5,7 @@
 #include <string>
 
 Move::Move(Position origin, Position destination) : myOrigin(origin), myDestination(destination),
-myCapturedPiece(nullptr), myPromotedPiece('\0'), myIsCastling(false), myCancelledCastling{false,false}
+myCapturedPiece(nullptr), myPromotedPiece(nullptr), myPromotedPawn(nullptr), myIsCastling(false), myCancelledCastling{false,false}
 {
 }
 
@@ -85,6 +85,16 @@ PiecePtr Move::getPromotedPiece()
 void Move::setPromotedPiece(PiecePtr piece)
 {
     myPromotedPiece = piece ;
+}
+
+PiecePtr Move::getPromotedPawn()
+{
+    return myPromotedPawn;
+}
+
+void Move::setPromotedPawn(PiecePtr pawn)
+{
+    myPromotedPawn = pawn ;
 }
 
 std::string Move::toShortString() const

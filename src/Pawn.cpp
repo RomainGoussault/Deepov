@@ -157,24 +157,28 @@ std::vector<Move> Pawn::getPromotionMoves(Position const& destination)
 
 	PiecePtr promotedPiecePtr(new Queen(destination, myColor));
 	possibleMove.setPromotedPiece(promotedPiecePtr);
+	possibleMove.setPromotedPawn(shared_from_this());
 	movesList.push_back(possibleMove);}
 
 	{Move possibleMove(myPosition,destination);
 
 	PiecePtr promotedPiecePtr(new Rook(destination, myColor));
 	possibleMove.setPromotedPiece(promotedPiecePtr);
+	possibleMove.setPromotedPawn(shared_from_this());
 	movesList.push_back(possibleMove);}
 
 	{Move possibleMove(myPosition,destination);
 
 	PiecePtr promotedPiecePtr(new Bishop(destination, myColor));
 	possibleMove.setPromotedPiece(promotedPiecePtr);
+	possibleMove.setPromotedPawn(shared_from_this());
 	movesList.push_back(possibleMove);}
 
 	{Move possibleMove(myPosition,destination);
 
 	PiecePtr promotedPiecePtr(new Knight(destination, myColor));
 	possibleMove.setPromotedPiece(promotedPiecePtr);
+	possibleMove.setPromotedPawn(shared_from_this());
 	movesList.push_back(possibleMove);}
 
 	return movesList;

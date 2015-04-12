@@ -100,7 +100,7 @@ void Board::addPiece(PiecePtr piecePtr, Position position)
 	{
 		std::cout << *this << std::endl;
 		std::cout << *piecePtr << std::endl;
-		std::cout << position	 << std::endl;
+		std::cout << position << std::endl;
 
 		std::cout << "gonna fail" << std::endl;
 	}
@@ -234,8 +234,9 @@ void Board::undoMove(Move &move)
 	else if(move.isPromotion())
 	{
         removePiece(destination);
-        PiecePtr pawnPtr(new Pawn(origin, Utils::getOppositeColor(myColorToPlay)));
-        addPiece(pawnPtr);
+//        PiecePtr pawnPtr(new Pawn(origin, Utils::getOppositeColor(myColorToPlay)));
+//        addPiece(pawnPtr);
+        addPiece(move.getPromotedPawn());
 
         if(isCaptureMove)
 		{

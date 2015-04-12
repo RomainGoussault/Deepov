@@ -28,6 +28,7 @@ public:
 	bool getCancelledCastling(const int &side) const;
 	std::shared_ptr<Piece> getCapturedPiece();
 	std::shared_ptr<Piece> getPromotedPiece();
+	std::shared_ptr<Piece> getPromotedPawn();
 
 	std::string toShortString() const;
 
@@ -36,6 +37,7 @@ public:
 	void setIsCastling();
 	void setCancelledCastling(const int &side);
 	void setPromotedPiece(std::shared_ptr<Piece> piece);
+	void setPromotedPawn(std::shared_ptr<Piece> pawn);
 
 private:
 
@@ -43,6 +45,7 @@ private:
 	Position myDestination;
 	std::shared_ptr<Piece> myCapturedPiece;
     std::shared_ptr<Piece> myPromotedPiece;
+    std::shared_ptr<Piece> myPromotedPawn;
 	bool myIsCastling;
 	bool myCancelledCastling[2]; /* tab[0] for king side, tab[1] for queen side */
 
