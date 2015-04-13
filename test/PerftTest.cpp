@@ -46,53 +46,11 @@ TEST_CASE( "Perft position 2", "[perft]")
     Board board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
     REQUIRE(board.perft(1) == 48);
     REQUIRE(board.perft(2) == 2039);
-//
-//    Position origin(5,2);
-//    Position destination(5,5);
-//    Move f3f6(origin,destination);
-//    PiecePtr theCapturedKnight = board.getPiecePtr(destination);
-//    f3f6.setCapturedPiece(theCapturedKnight);
-//    board.executeMove(f3f6);
-//  //  board.divide(1);
-//    std::cout << board << std::endl;
-//    std::cout<<"f3f6 ok"<<std::endl;
-//    board.undoMove(f3f6);
-//    std::cout << board << std::endl;
-//    std::cout<<"undo f3f6 ok"<<std::endl;
-
-    ////////////////////////////
-
-//    std::cout << board << std::endl;
-//    Position origin2(5,2);
-//    Position destination2(7,2);
-//    Move f3h3(origin2,destination2);
-//    PiecePtr theCapturedPiece = board.getPiecePtr(destination2);
-//    f3h3.setCapturedPiece(theCapturedPiece);
-//    board.executeMove(f3h3);
-//    std::cout<<"f3h3 executed"<<std::endl;
-//    std::cout << board << std::endl;
-//
-//    board.undoMove(f3h3);
-//
-//    std::cout<<"f3h3 ok"<<std::endl;
-//    std::cout << board << std::endl;
-//
-//    board.executeMove(f3h3);
-//    std::cout<<"f3h3 executed"<<std::endl;
-//    std::cout << board << std::endl;
-
-    board.divide(4);
-
-//    Position origin3(0,5);
-//    Position destination3(1,4);
-//    Move a6b5(origin3,destination3);
-//    board.executeMove(a6b5);
-//    board.divide(2);
-    // TODO
      //REQUIRE(board.perft(3) == 97862); // This one works
 //    std::cout<<"Issue here :"<<std::endl;
-     	 	 //   REQUIRE(board.perft(4) == 4085603); // This one still doesn't work
+    REQUIRE(board.perft(4) == 4085603); // This one still doesn't work
 //    std::cout<<"issue solved"<<std::endl;
+//    board.divide(4);
 }
 
 // Position 3 from https://chessprogramming.wikispaces.com/Perft+Results

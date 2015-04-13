@@ -297,6 +297,7 @@ TEST_CASE( "executeMove and undoMove for Promotion", "[board]" )
 		PiecePtr promotedPtr(new Queen(destination, board.getColorToPlay()));
 		REQUIRE(std::dynamic_pointer_cast<Queen>(promotedPtr) != nullptr);
 		promotionMove.setPromotedPiece(promotedPtr);
+		promotionMove.setPromotedPawn(pawn);
 
 		/* execute and test */
 		board.executeMove(promotionMove);
@@ -313,8 +314,6 @@ TEST_CASE( "executeMove and undoMove for Promotion", "[board]" )
         PiecePtr oldPiece = board.getPiecePtr(position);
 		REQUIRE(std::dynamic_pointer_cast<Pawn>(oldPiece) != nullptr);
 		REQUIRE(board.getPiecePtr(destination) == nullptr);
-
-
 	}
 
 	SECTION("Promotion with capture")
@@ -333,6 +332,7 @@ TEST_CASE( "executeMove and undoMove for Promotion", "[board]" )
 		PiecePtr promotedPtr(new Bishop(destination, board.getColorToPlay()));
 		REQUIRE(std::dynamic_pointer_cast<Bishop>(promotedPtr) != nullptr);
 		promotionMove.setPromotedPiece(promotedPtr);
+        promotionMove.setPromotedPawn(pawn);
 
 		/* execute and test */
 		board.executeMove(promotionMove);
@@ -355,7 +355,6 @@ TEST_CASE( "executeMove and undoMove for Promotion", "[board]" )
 		blackPieces = board.getEnemyPieces(WHITE);
 		REQUIRE(blackPieces.size() == 2);
         REQUIRE(std::dynamic_pointer_cast<Rook>(board.getPiecePtr(destination)) != nullptr);
-
     }
 }
 
