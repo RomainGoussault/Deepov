@@ -46,11 +46,8 @@ TEST_CASE( "Perft position 2", "[perft]")
     Board board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
     REQUIRE(board.perft(1) == 48);
     REQUIRE(board.perft(2) == 2039);
-     //REQUIRE(board.perft(3) == 97862); // This one works
-//    std::cout<<"Issue here :"<<std::endl;
-    REQUIRE(board.perft(4) == 4085603); // This one still doesn't work
-//    std::cout<<"issue solved"<<std::endl;
-//    board.divide(4);
+//    REQUIRE(board.perft(3) == 97862);
+//    REQUIRE(board.perft(4) == 4085603);
 }
 
 // Position 3 from https://chessprogramming.wikispaces.com/Perft+Results
@@ -60,20 +57,17 @@ TEST_CASE( "Perft position 3", "[perft]")
     REQUIRE(board.perft(1) == 14);
     //REQUIRE(board.perft(2) == 191);
     // REQUIRE(board.perft(3) == 2812);
-    // REQUIRE(board.perft(4) == 43238); // All works ok
+    // REQUIRE(board.perft(4) == 43238);
 }
 
 // Position 4 from https://chessprogramming.wikispaces.com/Perft+Results
 TEST_CASE( "Perft position 4", "[perft]")
 {
     Board board("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1");
-//    board.divide(1);
     REQUIRE(board.perft(1) == 6);
     REQUIRE(board.perft(2) == 264);
-//    REQUIRE(board.perft(3) == 9467); // works till here
-
+//    REQUIRE(board.perft(3) == 9467);
 //    REQUIRE(board.perft(4) == 422333);
-        /* This issue is solved*/
 }
 
 // Position 5 from https://chessprogramming.wikispaces.com/Perft+Results
@@ -82,9 +76,7 @@ TEST_CASE( "Perft position 5", "[perft]")
     Board board("rnbqkb1r/pp1p1ppp/2p5/4P3/2B5/8/PPP1NnPP/RNBQK2R w KQkq - 0 6");
     REQUIRE(board.perft(1) == 42);
     REQUIRE(board.perft(2) == 1352);
-    //board.divide(3);
     //REQUIRE(board.perft(3) == 53392);
-    /* This issue is solved*/
 }
 
 
@@ -158,7 +150,7 @@ TEST_CASE( "Is something wrong with EnPassant", "[perft]")
         board.executeMove(blackMove);
 
         std::vector<Move> whiteMoves = board.getLegalMoves();
-        //board.divide(1);
+
         REQUIRE(board.perft(1)==1);
         REQUIRE(whiteMoves.size()==1);
 
