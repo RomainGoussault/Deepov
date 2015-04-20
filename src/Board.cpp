@@ -577,7 +577,7 @@ int Board::perft(int depth)
 
 	if (moves.empty())
     {
-        std::cout << "Position is mate" <<std::endl;
+       // std::cout << "Position is mate" <<std::endl;
     }
 
 	for (auto &move : moves)
@@ -606,11 +606,6 @@ int Board::divide(int depth)
 
 	for (auto &move : moves)
 	{
-		std::cout << *this << std::endl;
-		Position position(7,2);
-		std::cout << "is Position free (7,2) : " << isPositionFree(position)<< std::endl;
-
-		std::cout << std::endl;
 		executeMove(move);
 		nodes = perft(depth - 1);
 		std::cout <<  move.toShortString() <<  " " << nodes << std::endl;

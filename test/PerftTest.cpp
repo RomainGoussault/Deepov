@@ -29,15 +29,12 @@ TEST_CASE( "Perft from initial position", "[perft]")
         // REQUIRE(board.perft(3) == 8902); // This one is ok
 	}
 
-
 	SECTION("Perft 4")
 	{
 		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		//REQUIRE(board.perft(4) == 197281); // This one is ok too
-		//REQUIRE(board.perft(5) == 4865609); // too  long for my patience but i guess it will fail
+		//REQUIRE(board.perft(4) == 197281); // Ok
+		//REQUIRE(board.perft(5) == 4865609); // Ok
 	}
-
-
 }
 
 // Position 2 from https://chessprogramming.wikispaces.com/Perft+Results
@@ -55,7 +52,7 @@ TEST_CASE( "Perft position 3", "[perft]")
 {
     Board board("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -");
     REQUIRE(board.perft(1) == 14);
-    //REQUIRE(board.perft(2) == 191);
+    REQUIRE(board.perft(2) == 191);
     // REQUIRE(board.perft(3) == 2812);
     // REQUIRE(board.perft(4) == 43238);
 }
@@ -100,13 +97,11 @@ TEST_CASE( "Is something wrong with LegalMoves", "[perft]")
     REQUIRE(board.perft(1) == 0);
     REQUIRE(board.perft(2) == 0);
     REQUIRE(board.perft(3) == 0);
-
 }
-
 
 TEST_CASE( "Is something wrong with EnPassant", "[perft]")
 {
-    SECTION( "Should not work")
+    SECTION( "Should not work") //TODO: Needs Renaming
 	{
         Board board("k5n1/8/7p/6pP/8/8/2q5/K7 w - g6 0 1");
         REQUIRE(board.perft(1) ==  1);
@@ -124,7 +119,7 @@ TEST_CASE( "Is something wrong with EnPassant", "[perft]")
         REQUIRE(board.perft(2) == 28);
 	}
 
-    SECTION( "Should work")
+    SECTION( "Should work") //TODO: Needs Renaming
 	{
         Board board("k5n1/8/7p/6pP/8/8/2q5/K7 w - - 0 1");
         REQUIRE(board.perft(1) ==  0);
@@ -162,5 +157,3 @@ TEST_CASE( "Is something wrong with EnPassant", "[perft]")
         REQUIRE(whiteMoves.size()==2);
 	}
 }
-
-
