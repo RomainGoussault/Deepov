@@ -24,27 +24,29 @@ public:
 //private:
 
 	U64 myWhitePawns;
-	U64 whiteKnights;
-	U64 whiteBishops;
-	U64 whiteRooks;
-	U64 whiteQueens;
-	U64 whiteKing;
+	U64 myWhiteKnights;
+	U64 myWhiteBishops;
+	U64 myWhiteRooks;
+	U64 myWhiteQueens;
+	U64 myWhiteKing;
 
-	U64 blackPawns;
-	U64 blackKnights;
-	U64 blackBishops;
-	U64 blackRooks;
-	U64 blackQueens;
-	U64 blackKing;
+	U64 myBlackPawns;
+	U64 myBlackKnights;
+	U64 myBlackBishops;
+	U64 myBlackRooks;
+	U64 myBlackQueens;
+	U64 myBlackKing;
 
-	U64 whitePieces;
-	U64 blackPieces;
-	U64 allPieces;
+	U64 myWhitePieces;
+	U64 myBlackPieces;
+	U64 myAllPieces;
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {
 	std::bitset<64> x(fastBoard.myWhitePawns);
+	std::bitset<64> y(fastBoard.myWhiteKnights);
 	strm << "FastBoard " << x << std::endl;
+	strm << "FastBoard " << y << std::endl;
 
 
 	return strm;
