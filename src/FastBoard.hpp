@@ -12,8 +12,8 @@
 #include <bitset>
 
 //#include "Utils.hpp"
-
-
+#define _RankSize_ 8
+#define _BoardSize_ 64  // rename afterBoard.hpp is removed
 typedef std::uint64_t U64;
 
 //Note: We should use Little-Endian Rank-File Mapping
