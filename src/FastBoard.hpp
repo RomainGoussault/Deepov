@@ -11,6 +11,8 @@
 #include <iostream>
 #include <bitset>
 
+//#include "Utils.hpp"
+
 
 typedef std::uint64_t U64;
 
@@ -47,7 +49,6 @@ inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) 
 	std::bitset<64> y(fastBoard.myWhiteKnights);
 	strm << "FastBoard " << x << std::endl;
 	strm << "FastBoard " << y << std::endl;
-
 
 	return strm;
 }
