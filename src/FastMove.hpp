@@ -1,16 +1,18 @@
 #ifndef FASTMOVE_H
 #define FASTMOVE_H
-#include <string>
-#include "Player.hpp"
-#include "Board.hpp"
 
-class FastMove {
+class FastMove
+{
+
 public:
-	FastMove(unsigned int from, unsigned int to, unsigned int flags);
-	unsigned int getTo() const {
+	FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
+{
+		myMove = ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
+}
+	unsigned int getDestination() const {
 		return myMove & 0x3f;
 	}
-	unsigned int getFrom() const {
+	unsigned int getOrigin() const {
 		return (myMove >> 6) & 0x3f;
 	}
 	unsigned int getFlags() const {
@@ -18,7 +20,7 @@ public:
 	}
 
 private:
-	int myMove;
+	int myMove; //Bits : Flags 4 bits ||  Origin 6 bits ||  Destination (6 bits)
 
 };
 
