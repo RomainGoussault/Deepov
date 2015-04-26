@@ -12,7 +12,6 @@ FastBoard::FastBoard() : myWhitePawns(0 | 0xFF << 8 ), myWhiteKnights(0 | (1 << 
 	/* Get the bitboards */
 
 U64 FastBoard::getWhitePawns() const{return myWhitePawns;}
-
 U64 FastBoard::getWhiteKnights() const{return myWhiteKnights ;}
 U64 FastBoard::getWhiteBishops() const{return myWhiteBishops;}
 U64 FastBoard::getWhiteRooks() const{return myWhiteRooks;}
@@ -34,7 +33,7 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
     /* Moves methods */
 
-U64 FastBoard::kingPseudoLegalMoves(int color,U64 kingPos, U64 ownSide) const
+U64 FastBoard::kingPseudoLegalMoves(const int color,const U64 kingPos) const
 {
     /* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
 	/* we can ignore the rank clipping since the overflow/underflow with
@@ -57,15 +56,14 @@ U64 FastBoard::kingPseudoLegalMoves(int color,U64 kingPos, U64 ownSide) const
 	U64 W(king_clip_file_a >> 1);
 
 	/* N = north, NW = North West, from King location, etc */
-
 	U64 kingMoves = NW | N | NE | E | SE | S |
                     	SW | W;
 
-	U64 KingValid = kingMoves & ~ownSide;
+	U64 kingValid = kingMoves & ~getPieces(color);
 
 	/* compute only the places where the king can move and attack. The caller
 		will interpret this as a white or black king. */
-	return KingValid;
+	return kingValid;
 }
 
 U64 FastBoard::queenPseudoLegalMoves(int color) const
@@ -97,5 +95,3 @@ std::vector<FastMove> FastBoard::getMoves() const
 {
     return myMoves;
 }
-	/* ************* */
-
