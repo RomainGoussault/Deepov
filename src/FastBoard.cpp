@@ -33,6 +33,36 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
 	/*  **********  */
 
     /* Moves methods */
+
+std::vector<FastMove> FastBoard::getKingPseudoLegalPseudoLegalMoves(int color) const
+{
+
+}
+
+std::vector<FastMove> FastBoard::getQueenPseudoLegalMoves(int color) const
+{
+
+}
+
+std::vector<FastMove> FastBoard::getBishopPseudoLegalMoves(int color) const
+{
+
+}
+
+std::vector<FastMove> FastBoard::getRookPseudoLegalMoves(int color) const
+{
+}
+
+std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(int color) const
+{
+}
+
+std::vector<FastMove> getPawnPseudoLegalMoves(int color) const
+{
+}
+
+
+
 std::vector<FastMove> getMoves() const
 {
     return myMoves;

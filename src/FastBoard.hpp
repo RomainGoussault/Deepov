@@ -46,7 +46,15 @@ public:
 	/*  **********  */
 
 	/* Moves methods */
-	 std::vector<FastMove> getMoves() const;
+
+    std::vector<FastMove> getKingPseudoLegalPseudoLegalMoves(int color) const;
+    std::vector<FastMove> getQueenPseudoLegalMoves(int color) const;
+    std::vector<FastMove> getBishopPseudoLegalMoves(int color) const;
+    std::vector<FastMove> getRookPseudoLegalMoves(int color) const;
+    std::vector<FastMove> getKnightPseudoLegalMoves(int color) const;
+    std::vector<FastMove> getPawnPseudoLegalMoves(int color) const;
+    std::vector<FastMove> getMoves() const;
+
 	/* ************* */
 
 private:
