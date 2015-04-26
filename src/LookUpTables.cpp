@@ -1,6 +1,6 @@
 #include "LookUpTables.hpp"
 
-    static const U64 MASK_RANK[]={0xFF,
+    const U64 LookUpTables::MASK_RANK[]={0xFF,
                                 0xFF00,
                                 0xFF0000,
                                 0xFF000000,
@@ -10,7 +10,7 @@
                                 0xFF00000000000000
                                 };
 
-    static const U64 MASK_FILE[]={0x0101010101010101,
+    const U64 LookUpTables::MASK_FILE[]={0x0101010101010101,
                                 0x202020202020202,
                                 0x404040404040404,
                                 0x808080808080808,
@@ -20,7 +20,7 @@
                                 0x8080808080808080
                                 };
 
-    static const U64 CLEAR_RANK[]={0xFFFFFFFFFFFFFF00,
+    const U64 LookUpTables::CLEAR_RANK[]={0xFFFFFFFFFFFFFF00,
                                 0xFFFFFFFFFFFF00FF,
                                 0xFFFFFFFFFF00FFFF,
                                 0xFFFFFFFF00FFFFFF,
@@ -30,7 +30,7 @@
                                 0x00FFFFFFFFFFFFFF
                                 };
 
-    static const U64 CLEAR_FILE[]={0xFEFEFEFEFEFEFEFE,
+    const U64 LookUpTables::CLEAR_FILE[]={0xFEFEFEFEFEFEFEFE,
                                 0xFDFDFDFDFDFDFDFD,
                                 0xFBFBFBFBFBFBFBFB,
                                 0xF7F7F7F7F7F7F7F7,
