@@ -34,36 +34,66 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
     /* Moves methods */
 
-std::vector<FastMove> FastBoard::getKingPseudoLegalPseudoLegalMoves(int color) const
+U64 FastBoard::kingPseudoLegalMoves(int color,U64 kingPos, U64 ownSide) const
 {
+    /* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
+	/* we can ignore the rank clipping since the overflow/underflow with
+		respect to rank simply vanishes. We only care about the file
+		overflow/underflow. */
 
+    U64	king_clip_file_h(kingPos & LookUpTables::CLEAR_FILE[7]);
+	U64 king_clip_file_a(kingPos & LookUpTables::CLEAR_FILE[0]);
+
+	/* remember the representation of the board in relation to the bitindex
+		when looking at these shifts.... */
+	U64 NW(king_clip_file_h << 7);
+	U64 N(kingPos << 8);
+	U64 NE(king_clip_file_h << 9);
+	U64 E(king_clip_file_h << 1);
+
+	U64 SE(king_clip_file_a >> 7);
+	U64 S(kingPos >> 8);
+	U64 SW(king_clip_file_a >> 9);
+	U64 W(king_clip_file_a >> 1);
+
+	/* N = north, NW = North West, from King location, etc */
+
+	U64 kingMoves = NW | N | NE | E | SE | S |
+                    	SW | W;
+
+	U64 KingValid = kingMoves & ~ownSide;
+
+	/* compute only the places where the king can move and attack. The caller
+		will interpret this as a white or black king. */
+	return KingValid;
 }
 
-std::vector<FastMove> FastBoard::getQueenPseudoLegalMoves(int color) const
+U64 FastBoard::queenPseudoLegalMoves(int color) const
 {
-
+    return 0;
 }
 
-std::vector<FastMove> FastBoard::getBishopPseudoLegalMoves(int color) const
+U64 FastBoard::bishopPseudoLegalMoves(int color) const
 {
-
+    return 0;
 }
 
-std::vector<FastMove> FastBoard::getRookPseudoLegalMoves(int color) const
+U64 FastBoard::rookPseudoLegalMoves(int color) const
 {
+    return 0;
 }
 
-std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(int color) const
+U64 FastBoard::knightPseudoLegalMoves(int color) const
 {
+    return 0;
 }
 
-std::vector<FastMove> getPawnPseudoLegalMoves(int color) const
+U64 FastBoard::pawnPseudoLegalMoves(int color) const
 {
+    return 0;
 }
 
-
-
-std::vector<FastMove> getMoves() const
+std::vector<FastMove> FastBoard::getMoves() const
 {
     return myMoves;
 }

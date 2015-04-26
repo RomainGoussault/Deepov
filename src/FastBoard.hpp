@@ -10,11 +10,15 @@
 #include <cstdint>
 #include <iostream>
 #include <bitset>
+#include <vector>
 
 //#include "Utils.hpp"
 #define _RankSize_ 8
 #define _BoardSize_ 64  // rename afterBoard.hpp is removed
 typedef std::uint64_t U64;
+
+#include "FastMove.hpp"
+#include "LookUpTables.hpp"
 
 //Note: We should use Little-Endian Rank-File Mapping
 
@@ -47,12 +51,12 @@ public:
 
 	/* Moves methods */
 
-    std::vector<FastMove> getKingPseudoLegalPseudoLegalMoves(int color) const;
-    std::vector<FastMove> getQueenPseudoLegalMoves(int color) const;
-    std::vector<FastMove> getBishopPseudoLegalMoves(int color) const;
-    std::vector<FastMove> getRookPseudoLegalMoves(int color) const;
-    std::vector<FastMove> getKnightPseudoLegalMoves(int color) const;
-    std::vector<FastMove> getPawnPseudoLegalMoves(int color) const;
+    U64 kingPseudoLegalMoves(int color,U64 kingPos, U64 ownSide) const;
+    U64 queenPseudoLegalMoves(int color) const;
+    U64 bishopPseudoLegalMoves(int color) const;
+    U64 rookPseudoLegalMoves(int color) const;
+    U64 knightPseudoLegalMoves(int color) const;
+    U64 pawnPseudoLegalMoves(int color) const;
     std::vector<FastMove> getMoves() const;
 
 	/* ************* */
