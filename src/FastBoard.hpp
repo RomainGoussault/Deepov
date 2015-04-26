@@ -45,6 +45,10 @@ public:
 
 	/*  **********  */
 
+	/* Moves methods */
+	 std::vector<FastMove> getMoves() const;
+	/* ************* */
+
 private:
 
 	U64 myWhitePawns;
@@ -64,6 +68,8 @@ private:
 	U64 myWhitePieces;
 	U64 myBlackPieces;
 	U64 myAllPieces;
+
+	std::vector<FastMove> myMoves;
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {

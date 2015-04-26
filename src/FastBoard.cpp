@@ -31,3 +31,11 @@ U64 FastBoard::getBlackPieces() const{return myBlackPieces;}
 U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
 	/*  **********  */
+
+    /* Moves methods */
+std::vector<FastMove> getMoves() const
+{
+    return myMoves;
+}
+	/* ************* */
+
