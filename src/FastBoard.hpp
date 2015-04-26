@@ -23,7 +23,29 @@ public:
 
 	FastBoard();
 
-//private:
+	/* Get the bitboards */
+
+    U64 getWhitePawns() const;
+	U64 getWhiteKnights() const;
+	U64 getWhiteBishops() const;
+	U64 getWhiteRooks() const;
+	U64 getWhiteQueens() const;
+	U64 getWhiteKing() const;
+
+	U64 getBlackPawns() const;
+	U64 getBlackKnights() const;
+	U64 getBlackBishops() const;
+	U64 getBlackRooks() const;
+	U64 getBlackQueens() const;
+	U64 getBlackKing() const;
+
+	U64 getWhitePieces() const;
+	U64 getBlackPieces() const;
+	U64 getAllPieces() const;
+
+	/*  **********  */
+
+private:
 
 	U64 myWhitePawns;
 	U64 myWhiteKnights;
@@ -45,8 +67,8 @@ public:
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {
-	std::bitset<64> x(fastBoard.myWhitePawns);
-	std::bitset<64> y(fastBoard.myWhiteKnights);
+	std::bitset<64> x(fastBoard.getWhitePawns());
+	std::bitset<64> y(fastBoard.getWhiteKnights());
 	strm << "FastBoard " << x << std::endl;
 	strm << "FastBoard " << y << std::endl;
 
