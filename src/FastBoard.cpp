@@ -33,7 +33,7 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
     /* Moves methods */
 
-U64 FastBoard::kingPseudoLegalMoves(const int color,const U64 kingPos) const
+U64 FastBoard::kingPseudoLegalMoves(const int& color, const U64& kingPos) const
 {
     /* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
 	/* we can ignore the rank clipping since the overflow/underflow with
@@ -66,27 +66,27 @@ U64 FastBoard::kingPseudoLegalMoves(const int color,const U64 kingPos) const
 	return kingValid;
 }
 
-U64 FastBoard::queenPseudoLegalMoves(int color) const
+U64 FastBoard::queenPseudoLegalMoves(const int& color, const U64& kingPos) const
 {
     return 0;
 }
 
-U64 FastBoard::bishopPseudoLegalMoves(int color) const
+U64 FastBoard::bishopPseudoLegalMoves(const int& color, const U64& kingPos) const
 {
     return 0;
 }
 
-U64 FastBoard::rookPseudoLegalMoves(int color) const
+U64 FastBoard::rookPseudoLegalMoves(const int& color, const U64& kingPos) const
 {
     return 0;
 }
 
-U64 FastBoard::knightPseudoLegalMoves(int color) const
+U64 FastBoard::knightPseudoLegalMoves(const int& color, const U64& kingPos) const
 {
     return 0;
 }
 
-U64 FastBoard::pawnPseudoLegalMoves(int color) const
+U64 FastBoard::pawnPseudoLegalMoves(const int& color, const U64& kingPos) const
 {
     return 0;
 }

@@ -52,12 +52,12 @@ public:
 
 	/* Moves methods */
 
-    U64 kingPseudoLegalMoves(const int color, const U64 kingPos) const;
-    U64 queenPseudoLegalMoves(int color) const;
-    U64 bishopPseudoLegalMoves(int color) const;
-    U64 rookPseudoLegalMoves(int color) const;
-    U64 knightPseudoLegalMoves(int color) const;
-    U64 pawnPseudoLegalMoves(int color) const;
+    U64 kingPseudoLegalMoves(const int& color, const U64& kingPos) const;
+    U64 queenPseudoLegalMoves(const int& color, const U64& kingPos) const;
+    U64 bishopPseudoLegalMoves(const int& color, const U64& kingPos) const;
+    U64 rookPseudoLegalMoves(const int& color, const U64& kingPos) const;
+    U64 knightPseudoLegalMoves(const int& color, const U64& kingPos) const;
+    U64 pawnPseudoLegalMoves(const int& color, const U64& kingPos) const;
     std::vector<FastMove> getMoves() const;
 
 	/* ************* */
