@@ -97,10 +97,24 @@ private:
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {
-	std::bitset<64> x(fastBoard.getWhitePawns());
+	std::bitset<64> x();
 	std::bitset<64> y(fastBoard.getWhiteKnights());
 	strm << "FastBoard " << x << std::endl;
 	strm << "FastBoard " << y << std::endl;
+
+	char c = ' ';
+
+	for(int i=0; i<8; i++)
+	{
+		for(int j=0; j<8; j++)
+		{
+			if(FastBoard::isBitSet(fastBoard.getWhitePawns(), i, j))
+			{
+				c = 'P';
+			}
+		}
+		
+	}
 
 	return strm;
 }
