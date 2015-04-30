@@ -35,6 +35,8 @@ public:
 
 	FastBoard();
 
+    static bool isBitSet(U64 bitBoard, const int x, const int y);
+
 	/* Get the bitboards */
 
     U64 getWhitePawns() const;
@@ -91,6 +93,7 @@ private:
 	U64 myAllPieces;
 
 	std::vector<FastMove> myMoves;
+
 };
 
 inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {

@@ -243,12 +243,3 @@ Move Utils::getUCIMove(std::string const& fenMove, Board &board)
 
     return theMove ;
 }
-
-bool Utils::isBitSet(U64 bitBoard, Position const& position) //TODO needs testing
-{
-	int x = position.getX();
-	int y = position.getY();
-	int shift = 8*y + x;
-
-	return (1 << shift) & bitBoard;
-}

@@ -125,3 +125,10 @@ std::vector<FastMove> FastBoard::getMoves() const
 {
     return myMoves;
 }
+
+bool FastBoard::isBitSet(U64 bitBoard, const int x, const int y) //TODO needs testing
+{
+	int shift = 8*y + x;
+
+	return (0 | 1 << shift) & bitBoard;
+}

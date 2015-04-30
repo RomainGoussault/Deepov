@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "Piece.hpp"
-#include "FastBoard.hpp"
 #include "Position.hpp"
 
 #include<math.h>
@@ -26,7 +25,6 @@ public:
     static Position getPosition(std::string const& fenSquare);
     static int convertStringToInt(std::string const& fenMoveCounter);
     static int getOppositeColor(const int color){return (1+color)%2;};
-    static bool isBitSet(U64 bitBoard, Position const& position);
 
 private:
 
