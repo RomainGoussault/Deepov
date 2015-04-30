@@ -66,22 +66,22 @@ U64 FastBoard::kingPseudoLegalMoves(const int& color, const U64& kingPos) const
 	return kingValid;
 }
 
-U64 FastBoard::queenPseudoLegalMoves(const int& color, const U64& kingPos) const
+U64 FastBoard::queenPseudoLegalMoves(const int& color, const U64& queenPos) const
 {
     return 0;
 }
 
-U64 FastBoard::bishopPseudoLegalMoves(const int& color, const U64& kingPos) const
+U64 FastBoard::bishopPseudoLegalMoves(const int& color, const U64& bishopPos) const
 {
     return 0;
 }
 
-U64 FastBoard::rookPseudoLegalMoves(const int& color, const U64& kingPos) const
+U64 FastBoard::rookPseudoLegalMoves(const int& color, const U64& rookPos) const
 {
     return 0;
 }
 
-U64 FastBoard::knightPseudoLegalMoves(const int& color, const U64& kingPos) const
+U64 FastBoard::knightPseudoLegalMoves(const int& color, const U64& knightPos) const
 {
 	/* we can ignore the rank clipping since the overflow/underflow with
 		respect to rank simply vanishes. We only care about the file
@@ -96,13 +96,13 @@ U64 FastBoard::knightPseudoLegalMoves(const int& color, const U64& kingPos) cons
 	/* remember the representation of the board in relation to the bitindex
 		when looknight at these shifts.... */
     U64 WNW(knight_clip_file_ab << 6);
-	U64 NNW(U64 knight_clip_file_a << 15);
-	U64 NNE(U64	knight_clip_file_h << 17);
-	U64 ENE(U64	knight_clip_file_gh << 10);
+	U64 NNW(knight_clip_file_a << 15);
+	U64 NNE(knight_clip_file_h << 17);
+	U64 ENE(knight_clip_file_gh << 10);
 
-	U64 ESE(U64	knight_clip_file_gh >> 6);
-    U64 SSE(U64	knight_clip_file_h >> 15);
-	U64 SSW(U64 knight_clip_file_a >> 17);
+	U64 ESE(knight_clip_file_gh >> 6);
+    U64 SSE(knight_clip_file_h >> 15);
+	U64 SSW(knight_clip_file_a >> 17);
 	U64 WSW(knight_clip_file_ab >> 10);
 
 
@@ -116,7 +116,7 @@ U64 FastBoard::knightPseudoLegalMoves(const int& color, const U64& kingPos) cons
 	return knightValid;
 }
 
-U64 FastBoard::pawnPseudoLegalMoves(const int& color, const U64& kingPos) const
+U64 FastBoard::pawnPseudoLegalMoves(const int& color, const U64& pawnPos) const
 {
     return 0;
 }
