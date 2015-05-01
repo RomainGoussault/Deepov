@@ -8,6 +8,8 @@ class FastMove
 
 public:
 
+	const static unsigned int CAPTURE_FLAG = 0b0100;
+
 	FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
 {
 		myMove = ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
