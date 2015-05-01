@@ -1,4 +1,5 @@
 #include "FastBoard.hpp"
+#include <boost/algorithm/string.hpp>
 
 
 
@@ -22,6 +23,83 @@ FastBoard::FastBoard() :
 		myColorToPlay(WHITE)
 {
 }
+
+FastBoard::FastBoard(const std::string fen)
+{
+		std::vector<std::string> spaceSplit;
+		std::vector<std::string> piecesByRank;
+
+		boost::split(spaceSplit, fen, boost::is_any_of(" "));
+		boost::split(piecesByRank, spaceSplit[0], boost::is_any_of("/"));
+
+		myWhitePawns = 0;
+		myWhiteKnights = 0;
+		myWhiteBishops = 0;
+		myWhiteRooks = 0;
+		myWhiteQueens = 0;
+		myWhiteKing = 0;
+		myBlackPawns = 0;
+		myBlackKnights = 0;
+		myBlackBishops = 0;
+		myBlackRooks = 0;
+		myBlackQueens = 0;
+		myBlackKing = 0;
+
+		int rank = 7;
+		for (int i=0; i<8; i++)
+		{
+			setBitBoards(piecesByRank[i], rank);
+			rank--;
+		}
+
+		if (spaceSplit[1][0] == 'w')
+		{
+			myColorToPlay = WHITE;
+		}
+		else if (spaceSplit[1][0] == 'b')
+		{
+			myColorToPlay = BLACK;
+		}
+
+		/*for (int i=0; i<3; ++i)
+		{
+			myCastling[i] = false;
+		}
+
+		Utils::getCastling(spaceSplit[2],myCastling);
+
+		if (spaceSplit[3][0] == '-')
+		{
+			myEnPassant=boost::optional<Position>();
+		}
+		else
+		{
+			myEnPassant=boost::optional<Position>(Utils::getPosition(spaceSplit[3]));
+		}
+
+		// I put a condition in case the FEN format doesn't include the move counters
+		if (spaceSplit.size() >= 5)
+		{
+		    myMovesCounter = Utils::convertStringToInt(spaceSplit[4]);
+	    // Waiting for a fix for windows
+		//	myMovesCounter = std::stoi(spaceSplit[4]);
+		}
+		else
+		{
+			myMovesCounter = 0;
+		}
+
+		if (spaceSplit.size() >= 6)
+		{
+		    myHalfMovesCounter = Utils::convertStringToInt(spaceSplit[5]);
+		//	myHalfMovesCounter = std::stoi(spaceSplit[5]);
+		}
+		else
+		{
+			myHalfMovesCounter = 0;
+		}*/
+}
+
 
 	/* Get the bitboards */
 
@@ -204,4 +282,76 @@ char FastBoard::getChar(const int file, const int rank) const
 	}
 
 	return c;
+}
+
+//This methods adds pieces to the board at the given rank and based on the give piecesString
+void FastBoard::setBitBoards(const std::string piecesString, const int rank)
+{
+	int x = -1;
+	int piecesCharSize = piecesString.size();
+	char piecesChar[piecesCharSize];
+	strcpy(piecesChar, piecesString.c_str());
+
+	for (int i=0; i<piecesCharSize; i++)
+	{
+		char pieceChar = piecesChar[i];
+
+		if(isdigit(pieceChar))
+		{
+			x += pieceChar - '0';
+		}
+		else
+		{
+			x++;
+
+			if (pieceChar == 'K')
+			{
+				myWhiteKing |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'R')
+			{
+				myWhiteRooks |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'B')
+			{
+				myWhiteBishops |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'Q')
+			{
+				myWhiteQueens |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'N')
+			{
+				myWhiteKnights |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'P')
+			{
+				myWhitePawns|= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'k')
+			{
+				myBlackKing |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'r')
+			{
+				myBlackRooks |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'b')
+			{
+				myBlackBishops |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'q')
+			{
+				myBlackQueens |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'n')
+			{
+				myBlackKnights |= 1LL << (8*rank + x);
+			}
+			else if (pieceChar == 'p')
+			{
+				myBlackPawns|= 1LL << (8*rank + x);
+			}
+		}
+	}
 }

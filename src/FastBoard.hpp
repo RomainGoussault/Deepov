@@ -37,6 +37,7 @@ class FastBoard {
 public:
 
 	FastBoard();
+	FastBoard(const std::string fen);
 
     static bool isBitSet(U64 bitBoard, const int x, const int y);
 
@@ -62,6 +63,8 @@ public:
 	U64 getPieces(const int color) const {return color == 0 ? getWhitePieces() : getBlackPieces();}
 
 	/*  **********  */
+
+	void setBitBoards(const std::string piecesString, const int rank);
 
 	/* Moves methods */
 
