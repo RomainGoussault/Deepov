@@ -69,7 +69,7 @@ public:
 
 	/* Moves methods */
 
-    U64 kingPseudoLegalMoves(const int& color) const;
+	std::vector<FastMove> getKingPseudoLegalMoves(const int& color);
     U64 queenPseudoLegalMoves(const int& color, const U64& queenPos) const;
     U64 bishopPseudoLegalMoves(const int& color, const U64& bishopPos) const;
     U64 rookPseudoLegalMoves(const int& color, const U64& rookPos) const;

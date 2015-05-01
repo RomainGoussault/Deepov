@@ -1,4 +1,5 @@
 #include "FastBoard.hpp"
+#include "Utils.hpp"
 #include <boost/algorithm/string.hpp>
 
 
@@ -127,7 +128,7 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
     /* Moves methods */
 
-U64 FastBoard::kingPseudoLegalMoves(const int& color) const
+std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color)
 {
 	U64 kingPos = color == WHITE ? myWhiteKing : myBlackKing;
 
@@ -152,15 +153,30 @@ U64 FastBoard::kingPseudoLegalMoves(const int& color) const
 	U64 W(king_clip_file_a >> 1);
 
 	/* N = north, NW = North West, from King location, etc */
-	U64 kingMoves = NW | N | NE | E | SE | S | SW | W;
+	U64 kingDestinations = NW | N | NE | E | SE | S | SW | W;
+	U64 kingValidDestinations = kingDestinations & ~getPieces(color);
 
-	U64 kingValid = kingMoves & ~getPieces(color);
+	int ennemyColor = Utils::getOppositeColor(color);
+	int kingIndex = 63 - __builtin_clzll(kingPos);
+	std::vector<FastMove> kingMoves;
 
-	/* compute only the places where the king can move and attack. The caller
-		will interpret this as a white or black king. */
-	return kingValid;
+	U64 kingCaptureDestination = kingValidDestinations & getPieces(ennemyColor);
+	U64 kingQuietDestination = kingValidDestinations | getPieces(ennemyColor);
+
+	while(kingQuietDestination)
+	{
+		int positionMsb = 63 - __builtin_clzll(kingQuietDestination);
+		kingQuietDestination = kingQuietDestination ^ ( 0 | 1LL << positionMsb);
+		FastMove move = FastMove(kingIndex, kingQuietDestination, 0);
+
+		kingMoves.push_back(move);
+	}
+
+	//TODO captureMove
+
+	return kingMoves;
 }
-
+/*
 U64 FastBoard::queenPseudoLegalMoves(const int& color, const U64& queenPos) const
 {
     return 0;
@@ -175,7 +191,7 @@ U64 FastBoard::rookPseudoLegalMoves(const int& color, const U64& rookPos) const
 {
     return 0;
 }
-
+*/
 U64 FastBoard::knightPseudoLegalMoves(const int& color, const U64& knightPos) const
 {
 	/* we can ignore the rank clipping since the overflow/underflow with
