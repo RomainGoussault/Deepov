@@ -19,6 +19,8 @@ typedef std::uint64_t U64;
 
 #include "FastMove.hpp"
 #include "LookUpTables.hpp"
+#include "Color.hpp"
+
 
 /*
 Note: We use Little-Endian Rank-File Mapping
