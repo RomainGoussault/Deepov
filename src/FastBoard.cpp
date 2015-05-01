@@ -144,10 +144,7 @@ bool FastBoard::isBitSet(U64 bitBoard, const int x, const int y)
 {
 	int shift = 8*y + x;
 
-	//We need this so '1' is cast to a 64 bitarray and not taken as a 32 bitarray
-	U64 one = 1;
-
-	return (0 | one << shift) & bitBoard;
+	return (0 | 1LL << shift) & bitBoard;
 }
 
 char FastBoard::getChar(const int file, const int rank) const
