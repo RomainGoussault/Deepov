@@ -18,7 +18,8 @@ FastBoard::FastBoard() :
 		myBlackKing(0 | (1LL<< 8*7+4)),
 		myWhitePieces(myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing),
 		myBlackPieces(myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing),
-		myAllPieces(myBlackPieces | myWhitePieces)
+		myAllPieces(myBlackPieces | myWhitePieces),
+		myColorToPlay(WHITE)
 {
 }
 

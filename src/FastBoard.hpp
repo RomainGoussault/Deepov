@@ -95,6 +95,8 @@ private:
 	U64 myBlackPieces;
 	U64 myAllPieces;
 
+	bool myColorToPlay;
+
 	std::vector<FastMove> myMoves;
 
 };
