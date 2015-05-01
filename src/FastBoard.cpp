@@ -234,6 +234,7 @@ bool FastBoard::isBitSet(U64 bitBoard, const int x, const int y)
 	return (0 | 1LL << shift) & bitBoard;
 }
 
+//This methods returns the char representing the piece at the given position (file,rank)
 char FastBoard::getChar(const int file, const int rank) const
 {
 	char c;
@@ -364,3 +365,25 @@ void FastBoard::setBitBoards(const std::string piecesString, const int rank)
 		}
 	}
 }
+
+std::string FastBoard::printBitBoard(const U64 &bitBoard)
+    {
+    	std::ostringstream strm;
+    	for(int rank = 7; rank >= 0 ; rank--)
+    	{
+    		strm << rank << "|  ";
+
+    		for(int file = 0; file < 8 ; file++)
+    		{
+    			char c = FastBoard::isBitSet(bitBoard, file, rank) ? 'X' : '*';
+    			strm << c << " ";
+    		}
+
+    		strm << std::endl;
+    	}
+
+    	strm << "   ________________" << std::endl;
+    	strm << "    0 1 2 3 4 5 6 7" << std::endl;
+
+    	return strm.str();
+    }

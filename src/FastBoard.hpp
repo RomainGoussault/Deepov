@@ -11,6 +11,8 @@
 #include <iostream>
 #include <bitset>
 #include <vector>
+#include <sstream>
+
 
 //#include "Utils.hpp"
 #define _RankSize_ 8
@@ -38,8 +40,6 @@ public:
 
 	FastBoard();
 	FastBoard(const std::string fen);
-
-    static bool isBitSet(U64 bitBoard, const int x, const int y);
 
 	/* Get the bitboards */
 
@@ -80,6 +80,10 @@ public:
 	/* ************* */
 
     char getChar(const int file, const int rank) const;
+
+    //Static functions
+    static bool isBitSet(U64 bitBoard, const int x, const int y);
+    static std::string printBitBoard(const U64 &bitBoard);
 
 private:
 
