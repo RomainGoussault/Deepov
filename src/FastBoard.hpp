@@ -95,27 +95,38 @@ private:
 
 	std::vector<FastMove> myMoves;
 
-};t
+};
 
 inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {
-	std::bitset<64> x();
-	std::bitset<64> y(fastBoard.getWhiteKnights());
-	strm << "FastBoard " << x << std::endl;
-	strm << "FastBoard " << y << std::endl;
 
-	char c = ' ';
 
-	for(int i=0; i<8; i++)
+	std::string boardStr;
+
+	std::string c = "";
+
+	for(int rank = 7; rank >= 0 ; rank--)
 	{
-		for(int j=0; j<8; j++)
+		strm << rank << "|  ";
+
+		for(int file = 0; file < 8 ; file++)
 		{
-			if(FastBoard::isBitSet(fastBoard.getWhitePawns(), i, j))
+			if(FastBoard::isBitSet(fastBoard.getWhitePawns(), file, rank))
 			{
-				c = 'P';
+				c = "P";
 			}
+			else
+			{
+				c = "*";
+			}
+
+			strm << c << " ";
 		}
-		
+
+		strm << std::endl;
 	}
+
+	strm << "   ________________" << std::endl;
+	strm << "    0 1 2 3 4 5 6 7" << std::endl;
 
 	return strm;
 }
