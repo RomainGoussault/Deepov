@@ -65,6 +65,7 @@ public:
 	/*  **********  */
 
 	void setBitBoards(const std::string piecesString, const int rank);
+	void updateConvenienceBitboards();
 
 	/* Moves methods */
 

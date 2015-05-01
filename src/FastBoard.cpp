@@ -52,6 +52,8 @@ FastBoard::FastBoard(const std::string fen)
 			rank--;
 		}
 
+		updateConvenienceBitboards();
+
 		if (spaceSplit[1][0] == 'w')
 		{
 			myColorToPlay = WHITE;
@@ -216,6 +218,13 @@ U64 FastBoard::pawnPseudoLegalMoves(const int& color, const U64& pawnPos) const
 std::vector<FastMove> FastBoard::getMoves() const
 {
     return myMoves;
+}
+
+void FastBoard::updateConvenienceBitboards()
+{
+	myWhitePieces = myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing;
+	myBlackPieces = myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing;
+	myAllPieces = myBlackPieces | myWhitePieces;
 }
 
 bool FastBoard::isBitSet(U64 bitBoard, const int x, const int y)
