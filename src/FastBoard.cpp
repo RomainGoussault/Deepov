@@ -126,9 +126,12 @@ std::vector<FastMove> FastBoard::getMoves() const
     return myMoves;
 }
 
-bool FastBoard::isBitSet(U64 bitBoard, const int x, const int y) //TODO needs testing
+bool FastBoard::isBitSet(U64 bitBoard, const int x, const int y)
 {
 	int shift = 8*y + x;
 
-	return (0 | 1 << shift) & bitBoard;
+	//We need this so '1' is cast to a 64 bitarray and not taken as a 32 bitarray
+	U64 one = 1;
+
+	return (0 | one << shift) & bitBoard;
 }
