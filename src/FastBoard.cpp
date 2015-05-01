@@ -127,13 +127,14 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
     /* Moves methods */
 
-U64 FastBoard::kingPseudoLegalMoves(const int& color, const U64& kingPos) const
+U64 FastBoard::kingPseudoLegalMoves(const int& color) const
 {
+	U64 kingPos = color == WHITE ? myWhiteKing : myBlackKing;
+
     /* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
 	/* we can ignore the rank clipping since the overflow/underflow with
 		respect to rank simply vanishes. We only care about the file
 		overflow/underflow. */
-
     U64	king_clip_file_h(kingPos & LookUpTables::CLEAR_FILE[7]);
 	U64 king_clip_file_a(kingPos & LookUpTables::CLEAR_FILE[0]);
 
@@ -367,23 +368,23 @@ void FastBoard::setBitBoards(const std::string piecesString, const int rank)
 }
 
 std::string FastBoard::printBitBoard(const U64 &bitBoard)
-    {
-    	std::ostringstream strm;
-    	for(int rank = 7; rank >= 0 ; rank--)
-    	{
-    		strm << rank << "|  ";
+{
+	std::ostringstream strm;
+	for(int rank = 7; rank >= 0 ; rank--)
+	{
+		strm << rank << "|  ";
 
-    		for(int file = 0; file < 8 ; file++)
-    		{
-    			char c = FastBoard::isBitSet(bitBoard, file, rank) ? 'X' : '*';
-    			strm << c << " ";
-    		}
+		for(int file = 0; file < 8 ; file++)
+		{
+			char c = FastBoard::isBitSet(bitBoard, file, rank) ? 'X' : '*';
+			strm << c << " ";
+		}
 
-    		strm << std::endl;
-    	}
+		strm << std::endl;
+	}
 
-    	strm << "   ________________" << std::endl;
-    	strm << "    0 1 2 3 4 5 6 7" << std::endl;
+	strm << "   ________________" << std::endl;
+	strm << "    0 1 2 3 4 5 6 7" << std::endl;
 
-    	return strm.str();
-    }
+	return strm.str();
+}

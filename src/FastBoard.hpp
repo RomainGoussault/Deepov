@@ -60,7 +60,7 @@ public:
 	U64 getWhitePieces() const;
 	U64 getBlackPieces() const;
 	U64 getAllPieces() const;
-	U64 getPieces(const int color) const {return color == 0 ? getWhitePieces() : getBlackPieces();}
+	U64 getPieces(const int color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
 
 	/*  **********  */
 
@@ -69,7 +69,7 @@ public:
 
 	/* Moves methods */
 
-    U64 kingPseudoLegalMoves(const int& color, const U64& kingPos) const;
+    U64 kingPseudoLegalMoves(const int& color) const;
     U64 queenPseudoLegalMoves(const int& color, const U64& queenPos) const;
     U64 bishopPseudoLegalMoves(const int& color, const U64& bishopPos) const;
     U64 rookPseudoLegalMoves(const int& color, const U64& rookPos) const;
