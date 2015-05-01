@@ -73,6 +73,8 @@ public:
 
 	/* ************* */
 
+    char getChar(const int file, const int rank) const;
+
 private:
 
 	U64 myWhitePawns;
@@ -97,12 +99,8 @@ private:
 
 };
 
+
 inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {
-
-
-	std::string boardStr;
-
-	std::string c = "";
 
 	for(int rank = 7; rank >= 0 ; rank--)
 	{
@@ -110,16 +108,7 @@ inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) 
 
 		for(int file = 0; file < 8 ; file++)
 		{
-			if(FastBoard::isBitSet(fastBoard.getWhitePawns(), file, rank))
-			{
-				c = "P";
-			}
-			else
-			{
-				c = "*";
-			}
-
-			strm << c << " ";
+			strm << fastBoard.getChar(file, rank) << " ";
 		}
 
 		strm << std::endl;

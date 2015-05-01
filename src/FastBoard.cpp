@@ -3,10 +3,23 @@
 
 
 
-FastBoard::FastBoard() : myWhitePawns(0 | 0xFF << 8 ), myWhiteKnights(0 | (1 << 1) | (1 << 6)), myWhiteBishops(0x0 | (1 << 1) | (1 << 6))
+FastBoard::FastBoard() :
+		myWhitePawns(0 | 0xFF << 8),
+		myWhiteKnights(0 | (1 << 1) | (1 << 6)),
+		myWhiteBishops(0 | (1 << 2) | (1 << 5)),
+		myWhiteRooks(0 | (1 << 0) | (1 << 7)),
+		myWhiteQueens(0 | (1 << 3)),
+		myWhiteKing(0 | (1 << 4)),
+		myBlackPawns(0 | 0xFFLL  <<8*6),
+		myBlackKnights(0 | (1LL<< 8*7+1) | (1LL<< 8*7+6)),
+		myBlackBishops(0 | (1LL<< 8*7+2) | (1LL<< 8*7+5)),
+		myBlackRooks(0 | (1LL<< 8*7+0) | (1LL<< 8*7+7)),
+		myBlackQueens(0 | (1LL<< 8*7+3)),
+		myBlackKing(0 | (1LL<< 8*7+4)),
+		myWhitePieces(myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing),
+		myBlackPieces(myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing),
+		myAllPieces(myBlackPieces | myWhitePieces)
 {
-	myWhitePieces = myWhitePawns | myWhiteKnights;
-	myAllPieces = myBlackPieces | myWhitePieces;
 }
 
 	/* Get the bitboards */
@@ -134,4 +147,63 @@ bool FastBoard::isBitSet(U64 bitBoard, const int x, const int y)
 	U64 one = 1;
 
 	return (0 | one << shift) & bitBoard;
+}
+
+char FastBoard::getChar(const int file, const int rank) const
+{
+	char c;
+
+	if (FastBoard::isBitSet(getWhitePawns(), file, rank))
+	{
+		c = 'P';
+	}
+	else if (FastBoard::isBitSet(getWhiteKnights(), file, rank))
+	{
+		c = 'N';
+	}
+	else if (FastBoard::isBitSet(getWhiteBishops(), file, rank))
+	{
+		c = 'B';
+	}
+	else if (FastBoard::isBitSet(getWhiteRooks(), file, rank))
+	{
+		c = 'R';
+	}
+	else if (FastBoard::isBitSet(getWhiteQueens(), file, rank))
+	{
+		c = 'Q';
+	}
+	else if (FastBoard::isBitSet(getWhiteKing(), file, rank))
+	{
+		c = 'K';
+	}
+	else if (FastBoard::isBitSet(getBlackPawns(), file, rank))
+	{
+		c = 'p';
+	}
+	else if (FastBoard::isBitSet(getBlackKnights(), file, rank))
+	{
+		c = 'n';
+	}
+	else if (FastBoard::isBitSet(getBlackBishops(), file, rank))
+	{
+		c = 'b';
+	}
+	else if (FastBoard::isBitSet(getBlackRooks(), file, rank))
+	{
+		c = 'r';
+	}
+	else if (FastBoard::isBitSet(getBlackQueens(), file, rank))
+	{
+		c = 'q';
+	}
+	else if (FastBoard::isBitSet(getBlackKing(), file, rank))
+	{
+		c = 'k';
+	}
+	else {
+		c = '*';
+	}
+
+	return c;
 }
