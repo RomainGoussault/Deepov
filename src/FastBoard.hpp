@@ -20,11 +20,12 @@ typedef std::uint64_t U64;
 #include "FastMove.hpp"
 #include "LookUpTables.hpp"
 
-/*Note: We use Little-Endian Rank-File Mapping
-// The bitboard (U64) in binary representation is  H8-G8-F8-....-C1-B1-A1
-// Left shift '<<' means +1 on the chessboard
-// Right shift '>>' means -1 on the chess board
-// The compass is
+/*
+Note: We use Little-Endian Rank-File Mapping
+The bitboard (U64) in binary representation is  H8-G8-F8-....-C1-B1-A1
+Left shift '<<' means +1 on the chessboard
+Right shift '>>' means -1 on the chess board
+The compass is:
     +7  +8  +9
     -1   0  +1
     -9  -8  -7
@@ -94,7 +95,7 @@ private:
 
 	std::vector<FastMove> myMoves;
 
-};
+};t
 
 inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {
 	std::bitset<64> x();
