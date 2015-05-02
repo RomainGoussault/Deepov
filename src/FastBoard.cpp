@@ -128,7 +128,7 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
     /* Moves methods */
 
-std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color)
+std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 {
 	U64 kingPos = color == WHITE ? myWhiteKing : myBlackKing;
 
@@ -205,42 +205,51 @@ U64 FastBoard::rookPseudoLegalMoves(const int& color, const U64& rookPos) const
     return 0;
 }
 */
-U64 FastBoard::knightPseudoLegalMoves(const int& color, const U64& knightPos) const
+std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) const
 {
-	/* we can ignore the rank clipping since the overflow/underflow with
+	std::vector<FastMove> knightMoves;
+
+	U64 knightPositions = color == WHITE ? myWhiteKnights : myBlackKnights;
+
+	//loop through the knights:
+	while(knightPositions)
+	{
+		int positionMsb = getMsbIndex(knightPositions);
+		U64 knightPos = 0 | 1LL << positionMsb;
+		knightPositions = knightPositions ^ ( 0 | 1LL << positionMsb);
+
+		/* we can ignore the rank clipping since the overflow/underflow with
 		respect to rank simply vanishes. We only care about the file
 		overflow/underflow. */
+		U64	knight_clip_file_h(knightPos & LookUpTables::CLEAR_FILE[7]);
+		U64 knight_clip_file_a(knightPos & LookUpTables::CLEAR_FILE[0]);
 
-    U64	knight_clip_file_h(knightPos & LookUpTables::CLEAR_FILE[7]);
-	U64 knight_clip_file_a(knightPos & LookUpTables::CLEAR_FILE[0]);
+		U64	knight_clip_file_gh(knightPos & LookUpTables::CLEAR_FILE[7] & LookUpTables::CLEAR_FILE[6]);
+		U64 knight_clip_file_ab(knightPos & LookUpTables::CLEAR_FILE[0] & LookUpTables::CLEAR_FILE[1]);
 
-    U64	knight_clip_file_gh(knightPos & LookUpTables::CLEAR_FILE[7] & LookUpTables::CLEAR_FILE[6]);
-	U64 knight_clip_file_ab(knightPos & LookUpTables::CLEAR_FILE[0] & LookUpTables::CLEAR_FILE[1]);
+		U64 WNW(knight_clip_file_ab << 6);
+		U64 NNW(knight_clip_file_a << 15);
+		U64 NNE(knight_clip_file_h << 17);
+		U64 ENE(knight_clip_file_gh << 10);
 
-	/* remember the representation of the board in relation to the bitindex
-		when looknight at these shifts.... */
-    U64 WNW(knight_clip_file_ab << 6);
-	U64 NNW(knight_clip_file_a << 15);
-	U64 NNE(knight_clip_file_h << 17);
-	U64 ENE(knight_clip_file_gh << 10);
+		U64 ESE(knight_clip_file_gh >> 6);
+		U64 SSE(knight_clip_file_h >> 15);
+		U64 SSW(knight_clip_file_a >> 17);
+		U64 WSW(knight_clip_file_ab >> 10);
 
-	U64 ESE(knight_clip_file_gh >> 6);
-    U64 SSE(knight_clip_file_h >> 15);
-	U64 SSW(knight_clip_file_a >> 17);
-	U64 WSW(knight_clip_file_ab >> 10);
+		/* N = north, NW = North West, from knight location, etc */
+		U64 knightMoves = WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW;
 
+		U64 knightValid = knightMoves & ~getPieces(color);
 
-	/* N = north, NW = North West, from knight location, etc */
-	U64 knightMoves = WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW;
-
-	U64 knightValid = knightMoves & ~getPieces(color);
-
-	/* compute only the places where the knight can move and attack. The caller
+		/* compute only the places where the knight can move and attack. The caller
 		will interpret this as a white or black knight. */
-	return knightValid;
+	}
+
+	return knightMoves;
 }
 
-U64 FastBoard::pawnPseudoLegalMoves(const int& color, const U64& pawnPos) const
+U64 FastBoard::pawnPseudoLegalMoves(const int& color) const
 {
     return 0;
 }
