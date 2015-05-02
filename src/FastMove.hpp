@@ -2,6 +2,7 @@
 #define FASTMOVE_H
 
 #include <iostream>
+#include <bitset>
 
 class FastMove
 {
@@ -11,9 +12,9 @@ public:
 	const static unsigned int CAPTURE_FLAG = 0b0100;
 
 	FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
-{
+	{
 		myMove = ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
-}
+	}
 
 	unsigned int getDestination() const {
 		return myMove & 0x3f;
@@ -33,8 +34,16 @@ private:
 
 inline std::ostream& operator<<(std::ostream &strm, const FastMove &fastmove) {
 
-	strm << "Origin: " << fastmove.getOrigin() << " Dest: "
-			<< fastmove.getDestination() << " Flags: " << fastmove.getFlags()
+	std::bitset<4> flags(fastmove.getFlags());
+	int xOrigin = fastmove.getOrigin() % 8;
+	int yOrigin = fastmove.getOrigin() / 8;
+
+	int xDestination = fastmove.getDestination() % 8;
+	int yDestination = fastmove.getDestination() / 8;
+
+
+	strm << "Origin: [" << xOrigin << ", " << yOrigin << "] Dest: ["
+			<< xDestination << ", " << yDestination << "] Flags: " << flags
 			<< std::endl;
 
 	return strm;
