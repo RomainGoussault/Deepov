@@ -4,7 +4,10 @@ Deepov
 C++ Chess Engine
 
 [![Build Status](https://travis-ci.org/RomainGoussault/Deepov.svg?branch=master)](https://travis-ci.org/RomainGoussault/Deepov)
-
+<a href="https://scan.coverity.com/projects/5010">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/5010/badge.svg"/>
+</a>
 
 ======
 
