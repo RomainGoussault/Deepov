@@ -66,6 +66,8 @@ public:
 
 	void setBitBoards(const std::string piecesString, const int rank);
 	void updateConvenienceBitboards();
+	inline int getMsbIndex(const U64 bitboard) const {return (63 - __builtin_clzll(bitboard));}
+
 
 	/* Moves methods */
 
