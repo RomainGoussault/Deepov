@@ -161,25 +161,29 @@ std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color)
 	std::vector<FastMove> kingMoves;
 
 	U64 kingCaptureDestinations = kingValidDestinations & getPieces(ennemyColor);
-	U64 kingQuietDestinations = kingValidDestinations | getPieces(ennemyColor);
+	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 
 	while(kingQuietDestinations)
 	{
+		//Getting the index of the MSB
 		int positionMsb = 63 - __builtin_clzll(kingQuietDestinations);
 
 		FastMove move = FastMove(kingIndex, positionMsb, 0);
 		kingMoves.push_back(move);
 
+		//Removing the MSB
 		kingQuietDestinations = kingQuietDestinations ^ ( 0 | 1LL << positionMsb);
 	}
 
 	while(kingCaptureDestinations)
 	{
+		//Getting the index of the MSB
 		int positionMsb = 63 - __builtin_clzll(kingCaptureDestinations);
 
 		FastMove move = FastMove(kingIndex, positionMsb, FastMove::CAPTURE_FLAG);
 		kingMoves.push_back(move);
 
+		//Removing the MSB
 		kingCaptureDestinations = kingCaptureDestinations ^ ( 0 | 1LL << positionMsb);
 	}
 

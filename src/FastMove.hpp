@@ -41,7 +41,6 @@ inline std::ostream& operator<<(std::ostream &strm, const FastMove &fastmove) {
 	int xDestination = fastmove.getDestination() % 8;
 	int yDestination = fastmove.getDestination() / 8;
 
-
 	strm << "Origin: [" << xOrigin << ", " << yOrigin << "] Dest: ["
 			<< xDestination << ", " << yDestination << "] Flags: " << flags
 			<< std::endl;
