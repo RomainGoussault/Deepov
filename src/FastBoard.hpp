@@ -66,7 +66,12 @@ public:
 
 	void setBitBoards(const std::string piecesString, const int rank);
 	void updateConvenienceBitboards();
-	inline int getMsbIndex(const U64 bitboard) const {return (63 - __builtin_clzll(bitboard));}
+
+	//Some relevant links on this function:
+	// https://chessprogramming.wikispaces.com/BitScan
+	// http://stackoverflow.com/questions/671815/
+	// http://stackoverflow.com/questions/20713017/
+	static inline int getMsbIndex(const U64 bitboard) {return (63 - __builtin_clzll(bitboard));}
 
 
 	/* Moves methods */
