@@ -163,6 +163,7 @@ std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 	U64 kingCaptureDestinations = kingValidDestinations & getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 
+	//TODO make function
 	while(kingQuietDestinations)
 	{
 		//Getting the index of the MSB
@@ -175,6 +176,7 @@ std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 		kingQuietDestinations = kingQuietDestinations ^ ( 0 | 1LL << positionMsb);
 	}
 
+	//TODO make function
 	while(kingCaptureDestinations)
 	{
 		//Getting the index of the MSB
@@ -205,7 +207,7 @@ U64 FastBoard::rookPseudoLegalMoves(const int& color, const U64& rookPos) const
     return 0;
 }
 */
-std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) const
+std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) const //TODO Write tests
 {
 	std::vector<FastMove> knightMoves;
 
@@ -214,9 +216,9 @@ std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) con
 	//loop through the knights:
 	while(knightPositions)
 	{
-		int positionMsb = getMsbIndex(knightPositions);
-		U64 knightPos = 0 | 1LL << positionMsb;
-		knightPositions = knightPositions ^ ( 0 | 1LL << positionMsb);
+		int knightIndex = getMsbIndex(knightPositions);
+		U64 knightPos = 0 | 1LL << knightIndex;
+		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
 
 		/* we can ignore the rank clipping since the overflow/underflow with
 		respect to rank simply vanishes. We only care about the file
@@ -238,12 +240,44 @@ std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) con
 		U64 WSW(knight_clip_file_ab >> 10);
 
 		/* N = north, NW = North West, from knight location, etc */
-		U64 knightMoves = WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW;
+		U64 knightDestionations = WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW;
 
-		U64 knightValid = knightMoves & ~getPieces(color);
+		U64 knightValidDestinations = knightDestionations & ~getPieces(color);
 
 		/* compute only the places where the knight can move and attack. The caller
 		will interpret this as a white or black knight. */
+
+		int ennemyColor = Utils::getOppositeColor(color);
+		std::vector<FastMove> kingMoves;
+
+		U64 knightCaptureDestinations = knightValidDestinations & getPieces(ennemyColor);
+		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
+
+		//TODO make function
+		while(knightQuietDestinations)
+		{
+			//Getting the index of the MSB
+			int positionMsb = getMsbIndex(knightQuietDestinations);
+
+			FastMove move = FastMove(knightIndex, positionMsb, 0);
+			knightMoves.push_back(move);
+
+			//Removing the MSB
+			knightQuietDestinations = knightQuietDestinations ^ ( 0 | 1LL << positionMsb);
+		}
+
+		//TODO make function
+		while(knightCaptureDestinations)
+		{
+			//Getting the index of the MSB
+			int positionMsb = getMsbIndex(knightCaptureDestinations);
+
+			FastMove move = FastMove(knightIndex, positionMsb, FastMove::CAPTURE_FLAG);
+			knightMoves.push_back(move);
+
+			//Removing the MSB
+			knightCaptureDestinations = knightCaptureDestinations ^ ( 0 | 1LL << positionMsb);
+		}
 	}
 
 	return knightMoves;
