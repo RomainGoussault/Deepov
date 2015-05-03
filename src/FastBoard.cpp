@@ -163,34 +163,41 @@ std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 	U64 kingCaptureDestinations = kingValidDestinations & getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 
-	//TODO make function
-	while(kingQuietDestinations)
-	{
-		//Getting the index of the MSB
-		int positionMsb = getMsbIndex(kingQuietDestinations);
-
-		FastMove move = FastMove(kingIndex, positionMsb, 0);
-		kingMoves.push_back(move);
-
-		//Removing the MSB
-		kingQuietDestinations = kingQuietDestinations ^ ( 0 | 1LL << positionMsb);
-	}
-
-	//TODO make function
-	while(kingCaptureDestinations)
-	{
-		//Getting the index of the MSB
-		int positionMsb = getMsbIndex(kingCaptureDestinations);
-
-		FastMove move = FastMove(kingIndex, positionMsb, FastMove::CAPTURE_FLAG);
-		kingMoves.push_back(move);
-
-		//Removing the MSB
-		kingCaptureDestinations = kingCaptureDestinations ^ ( 0 | 1LL << positionMsb);
-	}
+	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves);
+	addCaptureMoves(kingCaptureDestinations,kingIndex, kingMoves);
 
 	return kingMoves;
 }
+
+void FastBoard::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+{
+	while (quietDestinations)
+	{
+		//Getting the index of the MSB
+		int positionMsb = getMsbIndex(quietDestinations);
+
+		FastMove move = FastMove(pieceIndex, positionMsb, 0);
+		moves.push_back(move);
+
+		//Removing the MSB
+		quietDestinations = quietDestinations ^ (0 | 1LL << positionMsb);
+	}
+}
+
+void FastBoard::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+{
+	while (captureDestinations)
+	{
+		//Getting the index of the MSB
+		int positionMsb = getMsbIndex(captureDestinations);
+		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::CAPTURE_FLAG);
+		moves.push_back(move);
+
+		//Removing the MSB
+		captureDestinations = captureDestinations ^ (0 | 1LL << positionMsb);
+	}
+}
+
 /*
 U64 FastBoard::queenPseudoLegalMoves(const int& color, const U64& queenPos) const
 {
@@ -253,31 +260,8 @@ std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) con
 		U64 knightCaptureDestinations = knightValidDestinations & getPieces(ennemyColor);
 		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
 
-		//TODO make function
-		while(knightQuietDestinations)
-		{
-			//Getting the index of the MSB
-			int positionMsb = getMsbIndex(knightQuietDestinations);
-
-			FastMove move = FastMove(knightIndex, positionMsb, 0);
-			knightMoves.push_back(move);
-
-			//Removing the MSB
-			knightQuietDestinations = knightQuietDestinations ^ ( 0 | 1LL << positionMsb);
-		}
-
-		//TODO make function
-		while(knightCaptureDestinations)
-		{
-			//Getting the index of the MSB
-			int positionMsb = getMsbIndex(knightCaptureDestinations);
-
-			FastMove move = FastMove(knightIndex, positionMsb, FastMove::CAPTURE_FLAG);
-			knightMoves.push_back(move);
-
-			//Removing the MSB
-			knightCaptureDestinations = knightCaptureDestinations ^ ( 0 | 1LL << positionMsb);
-		}
+		addQuietMoves(knightQuietDestinations,knightIndex, knightMoves);
+		addCaptureMoves(knightCaptureDestinations,knightIndex, knightMoves);
 	}
 
 	return knightMoves;
