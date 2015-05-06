@@ -81,7 +81,8 @@ public:
     U64 bishopPseudoLegalMoves(const int& color, const U64& bishopPos) const;
     U64 rookPseudoLegalMoves(const int& color, const U64& rookPos) const;
     std::vector<FastMove> getKnightPseudoLegalMoves(const int& color) const;
-    U64 pawnPseudoLegalMoves(const int& color) const;
+    std::vector<FastMove> whitePawnPseudoLegalMoves() const;
+    std::vector<FastMove> blackPawnPseudoLegalMoves() const;
     std::vector<FastMove> getMoves() const;
 
 	/* ************* */

@@ -128,6 +128,36 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
     /* Moves methods */
 
+
+void FastBoard::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+{
+	while (quietDestinations)
+	{
+		//Getting the index of the MSB
+		int positionMsb = getMsbIndex(quietDestinations);
+
+		FastMove move = FastMove(pieceIndex, positionMsb, 0);
+		moves.push_back(move);
+
+		//Removing the MSB
+		quietDestinations = quietDestinations ^ (0 | 1LL << positionMsb);
+	}
+}
+
+void FastBoard::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+{
+	while (captureDestinations)
+	{
+		//Getting the index of the MSB
+		int positionMsb = getMsbIndex(captureDestinations);
+		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::CAPTURE_FLAG);
+		moves.push_back(move);
+
+		//Removing the MSB
+		captureDestinations = captureDestinations ^ (0 | 1LL << positionMsb);
+	}
+}
+
 std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 {
 	U64 kingPos = color == WHITE ? myWhiteKing : myBlackKing;
@@ -167,35 +197,6 @@ std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 	addCaptureMoves(kingCaptureDestinations,kingIndex, kingMoves);
 
 	return kingMoves;
-}
-
-void FastBoard::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves) const
-{
-	while (quietDestinations)
-	{
-		//Getting the index of the MSB
-		int positionMsb = getMsbIndex(quietDestinations);
-
-		FastMove move = FastMove(pieceIndex, positionMsb, 0);
-		moves.push_back(move);
-
-		//Removing the MSB
-		quietDestinations = quietDestinations ^ (0 | 1LL << positionMsb);
-	}
-}
-
-void FastBoard::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves) const
-{
-	while (captureDestinations)
-	{
-		//Getting the index of the MSB
-		int positionMsb = getMsbIndex(captureDestinations);
-		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::CAPTURE_FLAG);
-		moves.push_back(move);
-
-		//Removing the MSB
-		captureDestinations = captureDestinations ^ (0 | 1LL << positionMsb);
-	}
 }
 
 /*
@@ -247,15 +248,12 @@ std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) con
 		U64 WSW(knight_clip_file_ab >> 10);
 
 		/* N = north, NW = North West, from knight location, etc */
-		U64 knightDestionations = WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW;
-
-		U64 knightValidDestinations = knightDestionations & ~getPieces(color);
+		U64 knightValidDestinations = (WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW) & ~getPieces(color);
 
 		/* compute only the places where the knight can move and attack. The caller
 		will interpret this as a white or black knight. */
 
 		int ennemyColor = Utils::getOppositeColor(color);
-		std::vector<FastMove> kingMoves;
 
 		U64 knightCaptureDestinations = knightValidDestinations & getPieces(ennemyColor);
 		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
@@ -267,10 +265,60 @@ std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) con
 	return knightMoves;
 }
 
-U64 FastBoard::pawnPseudoLegalMoves(const int& color) const
+std::vector<FastMove> FastBoard::whitePawnPseudoLegalMoves() const
 {
-    return 0;
+	std::vector<FastMove> pawnMoves;
+    U64 pawnPositions = myWhitePawns;
+
+    while(pawnPositions)
+	{
+        int pawnIndex = getMsbIndex(pawnPositions);
+		U64 pawnPos = 0 | 1LL << pawnIndex;
+		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
+
+    /* check the single space in front of the white pawn */
+	U64 firstStep = (pawnPos << 8) & ~myAllPieces;
+
+	/* for all moves that came from rank 2 (home row), and passed the above
+		filter, thereby being on rank 3, ie. on MASK_RANK[2], check and see if I can move forward
+		one more */
+	U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[2]) << 8) & ~myAllPieces;
+
+	/* the union of the movements dictate the possible moves forward
+		available */
+
+	U64 whitePawnQuietMoves = firstStep | twoSteps ;
+
+	/* next we calculate the pawn attacks */
+
+	/* check the left side of the pawn, minding the underflow File A */
+	U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) << 7;
+
+	/* then check the right side of the pawn, minding the overflow File H */
+	U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) << 9;
+
+	/* the union of the left and right attacks together make up all the
+        possible attacks
+	   Calculate where I can _actually_ attack something */
+
+	U64 validAttacks = (leftAttack | rightAttack) & myBlackPieces;
+
+	/* then we combine the two situations in which a white pawn can legally
+		attack/move. */
+	// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
+
+    addQuietMoves(whitePawnQuietMoves,pawnIndex, pawnMoves);
+    addCaptureMoves(validAttacks,pawnIndex, pawnMoves);
+
+	}
+
+	return pawnMoves;
 }
+
+//std::vector<FastMove> FastBoard::blackPawnPseudoLegalMoves() const
+//{
+//
+//}
 
 std::vector<FastMove> FastBoard::getMoves() const
 {
