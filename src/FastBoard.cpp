@@ -315,10 +315,55 @@ std::vector<FastMove> FastBoard::whitePawnPseudoLegalMoves() const
 	return pawnMoves;
 }
 
-//std::vector<FastMove> FastBoard::blackPawnPseudoLegalMoves() const
-//{
-//
-//}
+std::vector<FastMove> FastBoard::blackPawnPseudoLegalMoves() const
+{
+	std::vector<FastMove> pawnMoves;
+    U64 pawnPositions = myBlackPawns;
+
+    while(pawnPositions)
+	{
+        int pawnIndex = getMsbIndex(pawnPositions);
+		U64 pawnPos = 0 | 1LL << pawnIndex;
+		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
+
+    /* check the single space in front of the white pawn */
+	U64 firstStep = (pawnPos >> 8) & ~myAllPieces;
+
+	/* for all moves that came from rank 7 (home row), and passed the above
+		filter, thereby being on rank 6, ie. on MASK_RANK[5], check and see if I can move forward
+		one more */
+	U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[5]) >> 8) & ~myAllPieces;
+
+	/* the union of the movements dictate the possible moves forward
+		available */
+
+	U64 blackPawnQuietMoves = firstStep | twoSteps ;
+
+	/* next we calculate the pawn attacks */
+
+	/* check the left side of the pawn, minding the underflow File A */
+	U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) >> 7;
+
+	/* then check the right side of the pawn, minding the overflow File H */
+	U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) >> 9;
+
+	/* the union of the left and right attacks together make up all the
+        possible attacks
+	   Calculate where I can _actually_ attack something */
+
+	U64 validAttacks = (leftAttack | rightAttack) & myWhitePieces;
+
+	/* then we combine the two situations in which a white pawn can legally
+		attack/move. */
+	// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
+
+    addQuietMoves(blackPawnQuietMoves,pawnIndex, pawnMoves);
+    addCaptureMoves(validAttacks,pawnIndex, pawnMoves);
+
+	}
+
+	return pawnMoves;
+}
 
 std::vector<FastMove> FastBoard::getMoves() const
 {
