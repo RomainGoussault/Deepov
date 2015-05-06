@@ -16,19 +16,41 @@ public:
 		myMove = ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
 	}
 
-	unsigned int getDestination() const {
+	inline unsigned int getDestination() const
+	{
 		return myMove & 0x3f;
 	}
-	unsigned int getOrigin() const {
+
+	inline unsigned int getOrigin() const
+	{
 		return (myMove >> 6) & 0x3f;
 	}
-	unsigned int getFlags() const {
+
+	inline unsigned int getFlags() const
+	{
 		return (myMove >> 12) & 0x0f;
 	}
 
 private:
-	int myMove; //Bits : Flags 4 bits ||  Origin 6 bits ||  Destination (6 bits)
 
+	int myMove; //Bits : Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
+	/* The MSB of the flags is the promotion bit, the bit after is the capture bit.
+	 * All the possibles flags combinations are represented below:
+		0	0	0	0	quiet moves
+		0	0	0	1	double pawn push
+		0	0	1	0	king castle
+		0	0	1	1	queen castle
+		0	1	0	0	captures
+		0	1	0	1	ep-capture
+		1	0	0	0	knight-promotion
+		1	0	0	1	bishop-promotion
+		1	0	1	0	rook-promotion
+		1	0	1	1	queen-promotion
+		1	1	0	0	knight-promo capture
+		1	1	0	1	bishop-promo capture
+		1	1	1	0	rook-promo capture
+		1	1	1	1	queen-promo capture
+	*/
 };
 
 
