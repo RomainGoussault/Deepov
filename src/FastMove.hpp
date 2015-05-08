@@ -47,7 +47,7 @@ public:
 	    myMove &= 0xfff; myMove |= ((flag & 0x3f) << 12);
 	}
 
-	inline bool isCapture()
+	inline bool isCapture() const
 	{
 	    return getFlags() & CAPTURE_FLAG;
 	}

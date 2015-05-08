@@ -84,7 +84,9 @@ public:
     std::vector<FastMove> getWhitePawnPseudoLegalMoves() const;
     std::vector<FastMove> getBlackPawnPseudoLegalMoves() const;
     std::vector<FastMove> getMoves() const;
-    void executeMove(FastMove &move);
+    void executeMove(const FastMove &move);
+    void movePiece(const int origin, const int destination);
+    void removePiece(const int index);
 
 	/* ************* */
 

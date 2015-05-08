@@ -480,15 +480,12 @@ std::vector<FastMove> FastBoard::getMoves() const
     return myMoves;
 }
 
-void FastBoard::executeMove(FastMove &move)
+void FastBoard::executeMove(const FastMove &move)
 {
-	/*Position origin = move.getOrigin();
-	Position destination = move.getDestination();
-	PiecePtr capturePiecePtr = move.getCapturedPiece();
-	bool isCaptureMove = capturePiecePtr!= nullptr;
-	PiecePtr pieceToMove = getPiecePtr(origin);
+	int origin = move.getOrigin();
+	int destination = move.getDestination();
 
-	if(move.isCastling())
+/*	if(move.isCastling())
 	{
 		movePiece(pieceToMove, destination);
 		Position rookOrigin;
@@ -519,26 +516,55 @@ void FastBoard::executeMove(FastMove &move)
         addPiece(move.getPromotedPiece());
 	}
 	else
-	{
-		if(isCaptureMove)
+	{*/
+		if(move.isCapture())
 		{
 			//remove the captured piece
-			removePiece(capturePiecePtr->getPosition());
+			removePiece(destination); //TODO does not work for en passsant
 		}
 
-		movePiece(pieceToMove, destination);
-	}
-*/
+		movePiece(origin, destination);
+
+
 	myMoves.push_back(move);
+
 	if (myColorToPlay == BLACK)
     {
         myMovesCounter++;
     }
+
     myHalfMovesCounter++;
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 
-
+	updateConvenienceBitboards();
 }
+
+void FastBoard::movePiece(const int origin, const int destination)
+{
+	if (myColorToPlay == WHITE)
+	{
+		if(myWhitePawns & (0 | 1LL << origin ))
+		{
+			myWhitePawns &= 1LL & (0 << origin);
+			myWhitePawns |= 0 | (1LL << destination);
+		}
+		else if(myWhiteKnights & (0 | 1LL << origin ))
+		{
+			myWhitePawns &= 1LL & (0 << origin);
+			myWhitePawns |= 0 | (1LL << destination);
+		}
+
+		//We have to loop through all the bitboards or use flags
+		//in the move object to know which bitboard has to be changed
+		//eg 0:pawn 1:knight 2:bishop etc...
+	}
+}
+
+void FastBoard::removePiece(const int index)
+{
+	//TODO imlplement
+}
+
 void FastBoard::updateConvenienceBitboards()
 {
 	myWhitePieces = myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing;
