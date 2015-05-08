@@ -1,5 +1,6 @@
 #include "FastBoard.hpp"
 #include "Utils.hpp"
+#include "MagicMoves.hpp"
 #include <boost/algorithm/string.hpp>
 
 
@@ -241,23 +242,29 @@ std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 	return kingMoves;
 }
 
-/*
-U64 FastBoard::queenPseudoLegalMoves(const int& color, const U64& queenPos) const
+
+std::vector<FastMove> FastBoard::getQueenPseudoLegalMoves(const int& color) const
 {
-    return 0;
+	std::vector<FastMove> queenMoves;
+
+    return queenMoves;
 }
 
-U64 FastBoard::bishopPseudoLegalMoves(const int& color, const U64& bishopPos) const
+std::vector<FastMove> FastBoard::getBishopPseudoLegalMoves(const int& color) const
 {
-    return 0;
+	std::vector<FastMove> bishopMoves;
+
+    return bishopMoves;
 }
 
-U64 FastBoard::rookPseudoLegalMoves(const int& color, const U64& rookPos) const
+std::vector<FastMove> FastBoard::getRookPseudoLegalMoves(const int& color) const
 {
-    return 0;
+	std::vector<FastMove> rookMoves;
+
+    return rookMoves;
 }
-*/
-std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) const //TODO Write tests
+
+std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) const
 {
 	std::vector<FastMove> knightMoves;
 
@@ -307,7 +314,7 @@ std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) con
 	return knightMoves;
 }
 
-std::vector<FastMove> FastBoard::whitePawnPseudoLegalMoves() const
+std::vector<FastMove> FastBoard::getWhitePawnPseudoLegalMoves() const
 {
 	std::vector<FastMove> pawnMoves;
     U64 pawnPositions = myWhitePawns;
@@ -359,7 +366,7 @@ std::vector<FastMove> FastBoard::whitePawnPseudoLegalMoves() const
 	return pawnMoves;
 }
 
-std::vector<FastMove> FastBoard::blackPawnPseudoLegalMoves() const
+std::vector<FastMove> FastBoard::getBlackPawnPseudoLegalMoves() const
 {
 	std::vector<FastMove> pawnMoves;
     U64 pawnPositions = myBlackPawns;

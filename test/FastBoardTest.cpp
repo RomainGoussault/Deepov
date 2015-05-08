@@ -27,7 +27,7 @@ TEST_CASE( "Move methods" )
     FastBoard board;
     board.printBitBoard(board.getAllPieces());
 
-    std::vector<FastMove> moveList = board.whitePawnPseudoLegalMoves();
+    std::vector<FastMove> moveList = board.getWhitePawnPseudoLegalMoves();
     REQUIRE(moveList.size()==16);
 
     moveList=board.getKingPseudoLegalMoves(WHITE);
