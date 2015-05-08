@@ -20,3 +20,4 @@ C++ Chess Engine
 * UCI protocol documentation: http://wbec-ridderkerk.nl/html/UCIProtocol.html
 * FEN editor: http://en.lichess.org/editor
 * Bit Twiddling Hacks: https://graphics.stanford.edu/~seander/bithacks.html
+* BitBoard Calculator: http://cinnamonchess.altervista.org/bitboard_calculator/Calc.html
