@@ -349,8 +349,10 @@ std::vector<FastMove> FastBoard::whitePawnPseudoLegalMoves() const
 		attack/move. */
 	// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-    addQuietMoves(whitePawnQuietMoves,pawnIndex, pawnMoves);
-    addCaptureMoves(validAttacks,pawnIndex, pawnMoves);
+    addQuietMoves(whitePawnQuietMoves & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves);
+    addPromotionMoves(whitePawnQuietMoves & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
+    addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves);
+    addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
 
 	}
 
@@ -399,8 +401,10 @@ std::vector<FastMove> FastBoard::blackPawnPseudoLegalMoves() const
 		attack/move. */
 	// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-    addQuietMoves(blackPawnQuietMoves,pawnIndex, pawnMoves);
-    addCaptureMoves(validAttacks,pawnIndex, pawnMoves);
+    addQuietMoves(blackPawnQuietMoves & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves);
+    addPromotionMoves(blackPawnQuietMoves & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
+    addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves);
+    addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
 
 	}
 
