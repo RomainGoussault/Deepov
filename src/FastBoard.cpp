@@ -242,7 +242,7 @@ std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 	return kingMoves;
 }
 
-
+/*
 std::vector<FastMove> FastBoard::getQueenPseudoLegalMoves(const int& color) const
 {
 	std::vector<FastMove> queenMoves;
@@ -256,12 +256,30 @@ std::vector<FastMove> FastBoard::getBishopPseudoLegalMoves(const int& color) con
 
     return bishopMoves;
 }
-
+*/
 std::vector<FastMove> FastBoard::getRookPseudoLegalMoves(const int& color) const
 {
 	std::vector<FastMove> rookMoves;
+	U64 rookPositions = color == WHITE ? myWhiteRooks : myBlackRooks;
 
-    return rookMoves;
+	//loop through the rooks:
+	while(rookPositions)
+	{
+		int rookIndex = getMsbIndex(rookPositions);
+		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
+
+		int ennemyColor = Utils::getOppositeColor(color);
+
+		U64 rookDestinations = Rmagic(rookIndex, myAllPieces) & ~getPieces(color);
+
+		U64 rookCaptureDestinations = rookDestinations & getPieces(ennemyColor);
+		U64 rookQuietDestinations = rookDestinations ^ rookCaptureDestinations;
+
+		addQuietMoves(rookQuietDestinations, rookIndex, rookMoves);
+		addCaptureMoves(rookCaptureDestinations, rookIndex, rookMoves);
+	}
+
+	return rookMoves;
 }
 
 std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) const
