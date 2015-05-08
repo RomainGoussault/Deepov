@@ -249,14 +249,32 @@ std::vector<FastMove> FastBoard::getQueenPseudoLegalMoves(const int& color) cons
 
     return queenMoves;
 }
-
+*/
 std::vector<FastMove> FastBoard::getBishopPseudoLegalMoves(const int& color) const
 {
 	std::vector<FastMove> bishopMoves;
+	U64 bishopPositions = color == WHITE ? myWhiteBishops : myBlackBishops;
 
-    return bishopMoves;
+	//loop through the bishops:
+	while(bishopPositions)
+	{
+		int bishopIndex = getMsbIndex(bishopPositions);
+		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
+
+		int ennemyColor = Utils::getOppositeColor(color);
+
+		U64 bishopDestinations = Bmagic(bishopIndex, myAllPieces) & ~getPieces(color);
+
+		U64 bishopCaptureDestinations = bishopDestinations & getPieces(ennemyColor);
+		U64 bishopQuietDestinations = bishopDestinations ^ bishopCaptureDestinations;
+
+		addQuietMoves(bishopQuietDestinations, bishopIndex, bishopMoves);
+		addCaptureMoves(bishopCaptureDestinations, bishopIndex, bishopMoves);
+	}
+
+	return bishopMoves;
 }
-*/
+
 std::vector<FastMove> FastBoard::getRookPseudoLegalMoves(const int& color) const
 {
 	std::vector<FastMove> rookMoves;
