@@ -11,19 +11,18 @@
 
 #include "Color.hpp"
 #include "FastBoard.hpp"
+#include "MagicMoves.hpp"
 
 int main() {
-	FastBoard fb = FastBoard("8/1b2kB2/7b/8/8/2qK4/8/8 w - -");
-
-	std::cout << FastBoard::printBitBoard(fb.getBlackBishops()) << std::endl;
+	FastBoard fb = FastBoard("r1bq1b2/pp2p1pp/3Bk3/2N5/3r3Q/1B6/PPPrPPPP/R3K2R w KQkq -");
 	std::cout << fb << std::endl;
 
-	std::vector<FastMove> v = fb.getKingPseudoLegalMoves(WHITE) ;
+	initmagicmoves();
 
-	for(std::vector<FastMove>::iterator it = v.begin(); it != v.end(); ++it)
-	{
-		std::cout << *it << std::endl;
-	}
+	int square = 27;
+	U64 occupancy = fb.getAllPieces();
+	U64 test = Rmagic(square, occupancy) & ~fb.getBlackPieces();
+	std::cout << FastBoard::printBitBoard(test) << std::endl;
 
 	return 0;
 }
