@@ -10,6 +10,7 @@ class FastMove
 public:
 
 	const static unsigned int CAPTURE_FLAG = 0b0100;
+	const static unsigned int PROMOTION_FLAG = 0b1000;
 
 	FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
 	{
@@ -29,6 +30,20 @@ public:
 	inline unsigned int getFlags() const
 	{
 		return (myMove >> 12) & 0x0f;
+	}
+
+    inline void setDestination(unsigned int destination)
+    {
+        myMove &= ~0x3f; myMove |= destination & 0x3f;
+    }
+    inline void setOrigin(unsigned int origin)
+    {
+        myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
+    }
+
+	inline void setFlag(int &flag)
+	{
+	    myMove &= 0xfff; myMove |= ((flag & 0x3f) << 12);
 	}
 
 private:

@@ -119,6 +119,7 @@ private:
 
 	void addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves) const;
 	void addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves) const;
+	void addPromotionMoves(U64 promotionDestination, int pieceIndex, std::vector<FastMove>& moves) const;
 };
 
 
