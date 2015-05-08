@@ -41,7 +41,7 @@ public:
         myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
     }
 
-	inline void setFlag(unsigned const int& flag)
+	inline void setFlags(unsigned const int& flag)
 	{
 	    myMove &= 0xfff; myMove |= ((flag & 0x3f) << 12);
 	}

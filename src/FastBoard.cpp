@@ -166,11 +166,11 @@ void FastBoard::addPromotionMoves(U64 promotionDestinations, int pieceIndex, std
 		int positionMsb = getMsbIndex(promotionDestinations);
 		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::PROMOTION_FLAG);
 		moves.push_back(move);
-		move.setFlag(FastMove::PROMOTION_FLAG+1);
+		move.setFlags(FastMove::PROMOTION_FLAG+1);
 		moves.push_back(move);
-		move.setFlag(FastMove::PROMOTION_FLAG+2);
+		move.setFlags(FastMove::PROMOTION_FLAG+2);
 		moves.push_back(move);
-		move.setFlag(FastMove::PROMOTION_FLAG+3);
+		move.setFlags(FastMove::PROMOTION_FLAG+3);
 		moves.push_back(move);
 
 		//Removing the MSB
