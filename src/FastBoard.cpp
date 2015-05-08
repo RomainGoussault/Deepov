@@ -178,6 +178,26 @@ void FastBoard::addPromotionMoves(U64 promotionDestinations, int pieceIndex, std
 	}
 }
 
+void FastBoard::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+{
+	while (promotionDestinations)
+	{
+		//Getting the index of the MSB
+		int positionMsb = getMsbIndex(promotionDestinations);
+		unsigned int flag = FastMove::PROMOTION_FLAG+FastMove::PROMOTION_FLAG;
+		FastMove move = FastMove(pieceIndex, positionMsb, flag);
+		moves.push_back(move);
+		move.setFlags(flag+1);
+		moves.push_back(move);
+		move.setFlags(flag+2);
+		moves.push_back(move);
+		move.setFlags(flag+3);
+		moves.push_back(move);
+
+		//Removing the MSB
+		promotionDestinations = promotionDestinations ^ (0 | 1LL << positionMsb);
+	}
+}
 
     /* Get moves methods */
 std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
