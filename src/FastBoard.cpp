@@ -22,7 +22,9 @@ FastBoard::FastBoard() :
 		myWhitePieces(myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing),
 		myBlackPieces(myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing),
 		myAllPieces(myBlackPieces | myWhitePieces),
-		myColorToPlay(WHITE)
+		myColorToPlay(WHITE),
+	    myMovesCounter(0),
+	    myHalfMovesCounter(0)
 {
 }
 
@@ -80,12 +82,12 @@ FastBoard::FastBoard(const std::string fen)
 		{
 			myEnPassant=boost::optional<Position>(Utils::getPosition(spaceSplit[3]));
 		}
-
+*/
 		// I put a condition in case the FEN format doesn't include the move counters
 		if (spaceSplit.size() >= 5)
 		{
 		    myMovesCounter = Utils::convertStringToInt(spaceSplit[4]);
-	    // Waiting for a fix for windows
+	    //  Waiting for a fix for windows! Ahaha a link to the error maybe?
 		//	myMovesCounter = std::stoi(spaceSplit[4]);
 		}
 		else
@@ -101,9 +103,8 @@ FastBoard::FastBoard(const std::string fen)
 		else
 		{
 			myHalfMovesCounter = 0;
-		}*/
+		}
 }
-
 
 	/* Get the bitboards */
 
@@ -479,6 +480,65 @@ std::vector<FastMove> FastBoard::getMoves() const
     return myMoves;
 }
 
+void FastBoard::executeMove(FastMove &move)
+{
+	/*Position origin = move.getOrigin();
+	Position destination = move.getDestination();
+	PiecePtr capturePiecePtr = move.getCapturedPiece();
+	bool isCaptureMove = capturePiecePtr!= nullptr;
+	PiecePtr pieceToMove = getPiecePtr(origin);
+
+	if(move.isCastling())
+	{
+		movePiece(pieceToMove, destination);
+		Position rookOrigin;
+		Position rookDestination;
+
+		if (destination.getX() == 6)
+		{
+			rookOrigin = Position(7, destination.getY());
+			rookDestination = Position(5, destination.getY());
+		}
+		else
+		{
+			rookOrigin = Position(0, destination.getY());
+			rookDestination = Position(3, destination.getY());
+		}
+
+		movePiece(getPiecePtr(rookOrigin),rookDestination);
+	}
+	else if(move.isPromotion())
+	{
+		if(isCaptureMove)
+		{
+			//remove the captured piece
+			removePiece(capturePiecePtr->getPosition());
+		}
+
+        removePiece(pieceToMove->getPosition());
+        addPiece(move.getPromotedPiece());
+	}
+	else
+	{
+		if(isCaptureMove)
+		{
+			//remove the captured piece
+			removePiece(capturePiecePtr->getPosition());
+		}
+
+		movePiece(pieceToMove, destination);
+	}
+*/
+	myMoves.push_back(move);
+	if (myColorToPlay == BLACK)
+    {
+        myMovesCounter++;
+    }
+    myHalfMovesCounter++;
+	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
+
+
+}
 void FastBoard::updateConvenienceBitboards()
 {
 	myWhitePieces = myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing;

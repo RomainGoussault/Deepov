@@ -36,6 +36,7 @@ public:
     {
         myMove &= ~0x3f; myMove |= destination & 0x3f;
     }
+
     inline void setOrigin(unsigned const int& origin)
     {
         myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
@@ -44,6 +45,11 @@ public:
 	inline void setFlags(unsigned const int& flag)
 	{
 	    myMove &= 0xfff; myMove |= ((flag & 0x3f) << 12);
+	}
+
+	inline bool isCapture()
+	{
+	    return getFlags() & CAPTURE_FLAG;
 	}
 
 private:

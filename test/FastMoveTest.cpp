@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "FastMove.hpp"
+#include "MagicMoves.hpp"
 
 
 TEST_CASE( "Constructor and methods" )
@@ -22,4 +23,15 @@ TEST_CASE( "Constructor and methods" )
     REQUIRE(move.getFlags() == 8);
 }
 
+TEST_CASE( "is capture" )
+{
+	initmagicmoves();
 
+	FastBoard board("8/8/3k4/8/8/8/n4K2/rR6 b - -");
+
+	FastMove move = board.getRookPseudoLegalMoves(BLACK)[0];
+    REQUIRE(move.isCapture() == true);
+
+	move = board.getKnightPseudoLegalMoves(BLACK)[0];
+    REQUIRE(move.isCapture() == false);
+}

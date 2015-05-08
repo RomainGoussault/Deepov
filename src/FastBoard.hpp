@@ -84,6 +84,7 @@ public:
     std::vector<FastMove> getWhitePawnPseudoLegalMoves() const;
     std::vector<FastMove> getBlackPawnPseudoLegalMoves() const;
     std::vector<FastMove> getMoves() const;
+    void executeMove(FastMove &move);
 
 	/* ************* */
 
@@ -114,6 +115,9 @@ private:
 	U64 myAllPieces;
 
 	bool myColorToPlay;
+
+    int myMovesCounter;
+    int myHalfMovesCounter;
 
 	std::vector<FastMove> myMoves;
 
