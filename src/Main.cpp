@@ -17,14 +17,11 @@ int main() {
 
 	initmagicmoves();
 
-	FastBoard fb = FastBoard("r1bq1b2/pp2p1pp/3Bk3/2N5/3r3Q/1B6/PPPrPPPP/R3K2R w KQkq -");
+	FastBoard fb = FastBoard("1bq1b2p/p2p1pp1/2Bk4/1N6/4r1Q1/B6P/PP1PPPP1/3K2R1 b K -");
 	std::cout << fb << std::endl;
 
-
-	int square = 27;
-	U64 occupancy = fb.getAllPieces();
-	U64 test = Rmagic(square, occupancy) & ~fb.getBlackPieces();
-	std::cout << FastBoard::printBitBoard(test) << std::endl;
+	int size = fb.getRookPseudoLegalMoves(WHITE).size();
+	std::cout << size << std::endl;
 
 	return 0;
 }
