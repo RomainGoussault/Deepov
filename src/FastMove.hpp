@@ -32,16 +32,16 @@ public:
 		return (myMove >> 12) & 0x0f;
 	}
 
-    inline void setDestination(unsigned int destination)
+    inline void setDestination(unsigned const int& destination)
     {
         myMove &= ~0x3f; myMove |= destination & 0x3f;
     }
-    inline void setOrigin(unsigned int origin)
+    inline void setOrigin(unsigned const int& origin)
     {
         myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
     }
 
-	inline void setFlag(int &flag)
+	inline void setFlag(unsigned const int& flag)
 	{
 	    myMove &= 0xfff; myMove |= ((flag & 0x3f) << 12);
 	}
