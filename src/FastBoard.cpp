@@ -536,7 +536,7 @@ void FastBoard::executeMove(const FastMove &move)
 			removePiece(destination); //TODO does not work for en passsant
 		}
 
-		movePiece(origin, destination, pieceType, myColorToPlay);
+	movePiece(origin, destination, pieceType, myColorToPlay);
 
 
 	myMoves.push_back(move);
@@ -579,8 +579,11 @@ void FastBoard::movePiece(const int origin, const int destination, const int pie
 
 void FastBoard::movePiece(const int origin, const int destination, U64 &bitBoard)
 {
-	bitBoard &= 1LL & (0 << origin);
-	bitBoard |= 0 | (1LL << destination);
+	//Remove piece from origin position
+	bitBoard &= ~(1LL << origin);
+
+	//Add piece to destination positions
+	bitBoard |=  1LL << destination;
 }
 
 void FastBoard::removePiece(const int index)
@@ -820,6 +823,7 @@ int FastBoard::perft(int depth)
 	for (auto &move : moves)
 	{
 		executeMove(move);
+
 		nodes += perft(depth - 1);
 		undoMove(move);
 	}
