@@ -25,7 +25,7 @@ public:
 
 	inline FastMove(unsigned int origin, unsigned int destination, unsigned int flags,unsigned int pieceType)
 	{
-		myMove = ((pieceType &0x7)<<20) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
+		myMove = ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
 	}
 
 	inline unsigned int getDestination() const
