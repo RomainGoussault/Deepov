@@ -688,6 +688,33 @@ void FastBoard::removePiece(const int index, const int color)
 	}
 }
 
+void FastBoard::addPiece(const int index, const int pieceType, const int color)
+{
+    switch (pieceType)
+	{
+	case FastMove::KNIGHT_TYPE:
+		color == WHITE ? addPiece(index, myWhiteKnights) : addPiece(index, myBlackKnights) ;
+		break;
+	case FastMove::PAWN_TYPE:
+		color == WHITE ? addPiece(index, myWhitePawns) : addPiece(index, myBlackPawns) ;
+		break;
+	case FastMove::BISHOP_TYPE:
+		color == WHITE ? addPiece(index, myWhiteBishops) : addPiece(index, myBlackBishops) ;
+		break;
+	case FastMove::ROOK_TYPE:
+		color == WHITE ? addPiece(index, myWhiteRooks) : addPiece(index, myBlackRooks) ;
+		break;
+	case FastMove::QUEEN_TYPE:
+		color == WHITE ? addPiece(index, myWhiteQueens) : addPiece(index, myBlackQueens) ;
+		break;
+	}
+}
+void FastBoard::addPiece(const int index, U64 &bitBoard)
+{
+	//Add piece to index positions
+	bitBoard |=  1LL << index;
+}
+
 void FastBoard::undoMove(const FastMove &move)
 {
 	int origin = move.getOrigin();
@@ -738,7 +765,8 @@ void FastBoard::undoMove(const FastMove &move)
 		if(move.isCapture())
 		{
 			//add the captured piece
-			//addPiece(capturePiecePtr); // TODO
+			int capturedPiece(move.getCapturedPieceType());
+			addPiece(destination, capturedPiece, myColorToPlay); // TODO
 		}
 
 	//Remove the last move from the myMoves list.
