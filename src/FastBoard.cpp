@@ -658,16 +658,8 @@ void FastBoard::movePiece(const int origin, const int destination, U64 &bitBoard
 	bitBoard |=  1LL << destination;
 }
 
-void FastBoard::removePiece(const int index, U64 &bitBoard)
+void FastBoard::removePiece(const int index, const int pieceType, const int color)
 {
-	//Remove piece from index position
-	bitBoard &= ~(1LL << index);
-}
-
-void FastBoard::removePiece(const int index, const int color)
-{
-    int pieceType(findPieceType(index, color));
-
     switch (pieceType)
 	{
 	case FastMove::KNIGHT_TYPE:
@@ -686,6 +678,12 @@ void FastBoard::removePiece(const int index, const int color)
 		color == WHITE ? removePiece(index, myWhiteQueens) : removePiece(index, myBlackQueens) ;
 		break;
 	}
+}
+
+void FastBoard::removePiece(const int index, U64 &bitBoard)
+{
+	//Remove piece from index position
+	bitBoard &= ~(1LL << index);
 }
 
 void FastBoard::addPiece(const int index, const int pieceType, const int color)

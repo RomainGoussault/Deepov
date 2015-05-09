@@ -139,9 +139,9 @@ private:
 
     void movePiece(const int origin, const int destination, const int pieceType, const int color);
     void movePiece(const int origin, const int destination, U64 &bitboard);
-    void removePiece(const int index,const int color);
+    void removePiece(const int index, const int pieceType, const int color);
     void removePiece(const int index, U64 &bitBoard);
-    void addPiece(const int index,const int pieceType, const int color);
+    void addPiece(const int index, const int pieceType, const int color);
     void addPiece(const int index, U64 &bitBoard);
 };
 
