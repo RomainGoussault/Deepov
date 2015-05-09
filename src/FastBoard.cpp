@@ -138,7 +138,7 @@ void FastBoard::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector
 		//Getting the index of the MSB
 		int positionMsb = getMsbIndex(quietDestinations);
 
-		FastMove move = FastMove(pieceIndex, positionMsb, 0);
+		FastMove move = FastMove(pieceIndex, positionMsb, 0, FastMove::KNIGHT_TYPE);
 		moves.push_back(move);
 
 		//Removing the MSB
@@ -364,8 +364,8 @@ std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) con
 		U64 knightCaptureDestinations = knightValidDestinations & getPieces(ennemyColor);
 		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
 
-		addQuietMoves(knightQuietDestinations,knightIndex, knightMoves);
-		addCaptureMoves(knightCaptureDestinations,knightIndex, knightMoves);
+		addQuietMoves(knightQuietDestinations, knightIndex, knightMoves);
+		addCaptureMoves(knightCaptureDestinations, knightIndex, knightMoves);
 	}
 
 	return knightMoves;
@@ -484,6 +484,7 @@ void FastBoard::executeMove(const FastMove &move)
 {
 	int origin = move.getOrigin();
 	int destination = move.getDestination();
+	int pieceType = move.getPieceType();
 
 /*	if(move.isCastling())
 	{
@@ -523,7 +524,7 @@ void FastBoard::executeMove(const FastMove &move)
 			removePiece(destination); //TODO does not work for en passsant
 		}
 
-		movePiece(origin, destination);
+		movePiece(origin, destination, pieceType);
 
 
 	myMoves.push_back(move);
@@ -539,30 +540,37 @@ void FastBoard::executeMove(const FastMove &move)
 	updateConvenienceBitboards();
 }
 
-void FastBoard::movePiece(const int origin, const int destination)
+void FastBoard::movePiece(const int origin, const int destination, const int pieceType)
 {
-	if (myColorToPlay == WHITE)
+/*
+	switch (pieceType)
 	{
-		if(myWhitePawns & (0 | 1LL << origin ))
-		{
-			myWhitePawns &= 1LL & (0 << origin);
-			myWhitePawns |= 0 | (1LL << destination);
-		}
-		else if(myWhiteKnights & (0 | 1LL << origin ))
-		{
-			myWhitePawns &= 1LL & (0 << origin);
-			myWhitePawns |= 0 | (1LL << destination);
-		}
+	case FastMove::KNIGHT_TYPE:
+		moveKnight(origin, destination);
+		break;
+	case 0:
+		break;
+	}*/
 
-		//We have to loop through all the bitboards or use flags
-		//in the move object to know which bitboard has to be changed
-		//eg 0:pawn 1:knight 2:bishop etc...
+	switch (pieceType)
+	{
+	case FastMove::KNIGHT_TYPE:
+		myColorToPlay == WHITE ? movePiece(origin, destination, myWhiteKnights) : movePiece(origin, destination, myBlackKnights) ;
+		break;
+	case 0:
+		break;
 	}
+}
+
+void FastBoard::movePiece(const int origin, const int destination, U64 &bitBoard)
+{
+	bitBoard &= 1LL & (0 << origin);
+	bitBoard |= 0 | (1LL << destination);
 }
 
 void FastBoard::removePiece(const int index)
 {
-	//TODO imlplement
+	//TODO implement
 }
 
 void FastBoard::updateConvenienceBitboards()

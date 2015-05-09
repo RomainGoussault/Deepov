@@ -11,17 +11,23 @@
 
 #include "Color.hpp"
 #include "FastBoard.hpp"
+#include "FastMove.hpp"
 #include "MagicMoves.hpp"
 
 int main() {
 
 	initmagicmoves();
 
-	FastBoard fb = FastBoard("1bq1b2p/p2p1pp1/2Bk4/1N6/4r1Q1/B6P/PP1PPPP1/3K2R1 b K -");
+	FastBoard fb = FastBoard("8/8/8/8/8/8/2Q5/N7 w - -");
 	std::cout << fb << std::endl;
 
-	int size = fb.getRookPseudoLegalMoves(WHITE).size();
+	int size = fb.getKnightPseudoLegalMoves(WHITE).size();
 	std::cout << size << std::endl;
+
+	FastMove move = fb.getKnightPseudoLegalMoves(WHITE)[0];
+	fb.executeMove(move);
+	std::cout << fb << std::endl;
+
 
 	return 0;
 }

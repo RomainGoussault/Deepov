@@ -11,10 +11,21 @@ public:
 
 	const static unsigned int CAPTURE_FLAG = 0b0100;
 	const static unsigned int PROMOTION_FLAG = 0b1000;
+	const static unsigned int PAWN_TYPE = 0;
+	const static unsigned int KNIGHT_TYPE = 1;
+	const static unsigned int BISHOP_TYPE = 2;
+	const static unsigned int ROOK_TYPE = 3;
+	const static unsigned int QUEEN_TYPE = 4;
+	const static unsigned int KING_TYPE = 5;
 
-	FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
+	inline FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
 	{
 		myMove = ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
+	}
+
+	inline FastMove(unsigned int origin, unsigned int destination, unsigned int flags,unsigned int pieceType)
+	{
+		myMove = ((pieceType &0x7)<<20) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
 	}
 
 	inline unsigned int getDestination() const
@@ -32,17 +43,22 @@ public:
 		return (myMove >> 12) & 0x0f;
 	}
 
-    inline void setDestination(unsigned const int& destination)
+	inline unsigned int getPieceType() const
+	{
+		return (myMove >> 20) & 0x7;
+	}
+
+    inline void setDestination(unsigned const int destination)
     {
         myMove &= ~0x3f; myMove |= destination & 0x3f;
     }
 
-    inline void setOrigin(unsigned const int& origin)
+    inline void setOrigin(unsigned const int origin)
     {
         myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
     }
 
-	inline void setFlags(unsigned const int& flag)
+	inline void setFlags(unsigned const int flag)
 	{
 	    myMove &= 0xfff; myMove |= ((flag & 0x3f) << 12);
 	}
@@ -54,8 +70,13 @@ public:
 
 private:
 
-	int myMove; //Bits : Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
-	/* The MSB of the flags is the promotion bit, the bit after is the capture bit.
+	int myMove; //Bits : Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
+	/*
+	 * PieceType:
+	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
+	 *
+	 * Flags:
+	 * The MSB of the flags is the promotion bit, the bit after is the capture bit.
 	 * All the possibles flags combinations are represented below:
 		0	0	0	0	quiet moves
 		0	0	0	1	double pawn push
