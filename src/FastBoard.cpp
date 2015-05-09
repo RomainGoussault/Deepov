@@ -797,6 +797,59 @@ void FastBoard::setBitBoards(const std::string piecesString, const int rank)
 	}
 }
 
+int FastBoard::perft(int depth)
+{
+	int nodes = 0;
+
+	if (depth == 0)
+	{
+		return 1;
+	}
+
+	std::vector<FastMove> moves = getLegalMoves();
+
+	if (moves.empty())
+    {
+       // std::cout << "Position is mate" <<std::endl;
+    }
+
+	for (auto &move : moves)
+	{
+		executeMove(move);
+		nodes += perft(depth - 1);
+		undoMove(move);
+	}
+
+	return nodes;
+}
+
+std::vector<FastMove> FastBoard::getLegalMoves()
+{
+	return getLegalMoves(myColorToPlay);
+}
+
+std::vector<FastMove> FastBoard::getLegalMoves(const int color)
+{
+	std::vector<FastMove> legalMoves;
+
+	//TODO we don't want to copy all the moves, better use a reference to the move vector
+	std::vector<FastMove> pawnLegalMoves = color == WHITE ? getWhitePawnPseudoLegalMoves() : getBlackPawnPseudoLegalMoves(); // ToDO Make function
+	std::vector<FastMove> knightLegalMoves = getKnightPseudoLegalMoves(color);
+	std::vector<FastMove> bishopLegalMoves = getBishopPseudoLegalMoves(color);
+	std::vector<FastMove> rookLegalMoves = getRookPseudoLegalMoves(color);
+	std::vector<FastMove> queenLegalMoves = getQueenPseudoLegalMoves(color);
+	std::vector<FastMove> kingLegalMoves = getKingPseudoLegalMoves(color);
+
+	legalMoves.insert(legalMoves.end(), pawnLegalMoves.begin(), pawnLegalMoves.end());
+	legalMoves.insert(legalMoves.end(), knightLegalMoves.begin(), knightLegalMoves.end());
+	legalMoves.insert(legalMoves.end(), bishopLegalMoves.begin(), bishopLegalMoves.end());
+	legalMoves.insert(legalMoves.end(), rookLegalMoves.begin(), rookLegalMoves.end());
+	legalMoves.insert(legalMoves.end(), queenLegalMoves.begin(), queenLegalMoves.end());
+	legalMoves.insert(legalMoves.end(), kingLegalMoves.begin(), kingLegalMoves.end());
+
+	return legalMoves;
+}
+
 std::string FastBoard::printBitBoard(const U64 &bitBoard)
 {
 	std::ostringstream strm;

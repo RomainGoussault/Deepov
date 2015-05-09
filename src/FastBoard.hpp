@@ -86,7 +86,9 @@ public:
     std::vector<FastMove> getMoves() const;
     void executeMove(const FastMove &move);
     void undoMove(FastMove &move);
-
+    int perft(int depth);
+    std::vector<FastMove> getLegalMoves();
+    std::vector<FastMove> getLegalMoves(const int color);
 
 
 	/* ************* */

@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "FastBoard.hpp"
+#include "MagicMoves.hpp"
 
 
 TEST_CASE( "is bit Set method" )
@@ -35,4 +36,32 @@ TEST_CASE( "Move methods" )
 
     moveList=board.getKnightPseudoLegalMoves(WHITE);
     REQUIRE(moveList.size()==4);
+}
+
+TEST_CASE( "Perft from initial position ", "[perft]")
+{
+
+	SECTION("Perft 0")
+	{
+		initmagicmoves();
+
+		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.perft(0) == 1);
+	}
+
+	SECTION("Perft 1")
+	{
+		initmagicmoves();
+
+		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.perft(1) == 20);
+	}
+
+	SECTION("Perft 2")
+	{
+		initmagicmoves();
+
+		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		//REQUIRE(board.perft(2) == 400);
+	}
 }
