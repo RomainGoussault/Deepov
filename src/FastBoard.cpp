@@ -653,10 +653,10 @@ void FastBoard::movePiece(const int origin, const int destination, const int pie
 void FastBoard::movePiece(const int origin, const int destination, U64 &bitBoard)
 {
 	//Remove piece from origin position
-	bitBoard &= ~(1LL << origin);
+	removePiece(origin, bitBoard);
 
 	//Add piece to destination positions
-	bitBoard |=  1LL << destination;
+	addPiece(destination, bitBoard);
 }
 
 void FastBoard::removePiece(const int index, const int pieceType, const int color)
@@ -681,12 +681,6 @@ void FastBoard::removePiece(const int index, const int pieceType, const int colo
 	}
 }
 
-void FastBoard::removePiece(const int index, U64 &bitBoard)
-{
-	//Remove piece from index position
-	bitBoard &= ~(1LL << index);
-}
-
 void FastBoard::addPiece(const int index, const int pieceType, const int color)
 {
     switch (pieceType)
@@ -707,11 +701,6 @@ void FastBoard::addPiece(const int index, const int pieceType, const int color)
 		color == WHITE ? addPiece(index, myWhiteQueens) : addPiece(index, myBlackQueens) ;
 		break;
 	}
-}
-void FastBoard::addPiece(const int index, U64 &bitBoard)
-{
-	//Add piece to index positions
-	bitBoard |=  1LL << index;
 }
 
 void FastBoard::undoMove(const FastMove &move)
