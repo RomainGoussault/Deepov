@@ -190,6 +190,9 @@ void FastBoard::addPromotionCaptureMoves(U64 promotionDestinations, int pieceInd
 		int positionMsb = getMsbIndex(promotionDestinations);
 		unsigned int flag = FastMove::PROMOTION_FLAG+FastMove::PROMOTION_FLAG;
 		FastMove move = FastMove(pieceIndex, positionMsb, flag, FastMove::PAWN_TYPE);
+        int capturedType(findPieceType(positionMsb,Utils::getOppositeColor(myColorToPlay)));
+		move.setCapturedPieceType(capturedType);
+
 		moves.push_back(move);
 		move.setFlags(flag+1);
 		moves.push_back(move);
