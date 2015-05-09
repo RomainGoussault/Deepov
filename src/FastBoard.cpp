@@ -605,7 +605,8 @@ void FastBoard::executeMove(const FastMove &move)
 		if(move.isCapture())
 		{
 			//remove the captured piece
-			removePiece(destination, myColorToPlay); //TODO does not work for en passsant
+			int type(move.getCapturedPieceType());
+			removePiece(destination, type, myColorToPlay); //TODO does not work for en passsant
 		}
 
 	movePiece(origin, destination, pieceType, myColorToPlay);
@@ -763,8 +764,8 @@ void FastBoard::undoMove(const FastMove &move)
 		if(move.isCapture())
 		{
 			//add the captured piece
-			int capturedPiece(move.getCapturedPieceType());
-			addPiece(destination, capturedPiece, myColorToPlay); // TODO
+			int type(move.getCapturedPieceType());
+			addPiece(destination, type, myColorToPlay); // TODO
 		}
 
 	//Remove the last move from the myMoves list.

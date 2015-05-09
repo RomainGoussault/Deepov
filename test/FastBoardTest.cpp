@@ -78,6 +78,6 @@ TEST_CASE( "Perft from initial position ", "[perft]")
 		initmagicmoves();
 
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		//REQUIRE(board.perft(4) == 197 281);
+		REQUIRE(board.perft(4) == 197281);
 	}
 }
