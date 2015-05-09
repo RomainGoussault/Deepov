@@ -48,14 +48,15 @@ public:
 		return (myMove >> 16) & 0x7;
 	}
 
-		inline unsigned int getCapturedPieceType() const
+    inline unsigned int getCapturedPieceType() const
 	{
 		return (myMove >> 19) & 0x7;
 	}
 
     inline void setDestination(unsigned const int destination)
     {
-        myMove &= ~0x3f; myMove |= destination & 0x3f;
+        myMove &= ~0x3f; // clear the first 6 bits
+        myMove |= (destination & 0x3f); // mask on the first 6 bits and OR it with myMoves
     }
 
     inline void setOrigin(unsigned const int origin)
@@ -65,7 +66,12 @@ public:
 
 	inline void setFlags(unsigned const int flag)
 	{
-	    myMove &= 0xfff; myMove |= ((flag & 0x3f) << 12);
+	    myMove &= ~0xf000; myMove |= ((flag & 0x3f) << 12);
+	}
+
+    inline void setCapturedPieceType(unsigned const int type)
+	{
+	    myMove &= ~0x380000; myMove |= ((type & 0x3f) << 19);
 	}
 
 	inline bool isCapture() const
