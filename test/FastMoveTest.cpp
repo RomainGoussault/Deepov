@@ -65,7 +65,6 @@ TEST_CASE( "undo Move" )
 	initmagicmoves();
 
 	FastBoard fb = FastBoard("8/8/8/8/8/8/6bn/5qr1 b - -");
-	std::cout << fb << std::endl;
 
 	int size = fb.getRookPseudoLegalMoves(BLACK).size();
     REQUIRE(size == 1);
