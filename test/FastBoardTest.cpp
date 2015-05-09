@@ -62,6 +62,22 @@ TEST_CASE( "Perft from initial position ", "[perft]")
 		initmagicmoves();
 
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		//REQUIRE(board.perft(2) == 400);
+		REQUIRE(board.perft(2) == 400);
+	}
+
+	SECTION("Perft 3")
+	{
+		initmagicmoves();
+
+		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.perft(3) == 8902);
+	}
+
+	SECTION("Perft 4")
+	{
+		initmagicmoves();
+
+		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		//REQUIRE(board.perft(4) == 197 281);
 	}
 }
