@@ -18,14 +18,19 @@ int main() {
 
 	initmagicmoves();
 
-	FastBoard fb = FastBoard("8/8/8/8/8/8/2Q5/N7 w - -");
+
+	FastBoard fb = FastBoard("8/8/8/8/8/8/6bn/5qr1 b - -");
+//	FastBoard fb = FastBoard("8/8/8/8/8/8/6NN/5QR1 w - -");
 	std::cout << fb << std::endl;
 
-	int size = fb.getKnightPseudoLegalMoves(WHITE).size();
+	int size = fb.getRookPseudoLegalMoves(BLACK).size();
 	std::cout << size << std::endl;
 
-	FastMove move = fb.getKnightPseudoLegalMoves(WHITE)[0];
+	FastMove move = fb.getRookPseudoLegalMoves(BLACK)[0];
 	fb.executeMove(move);
+	std::cout << fb << std::endl;
+
+	fb.undoMove(move);
 	std::cout << fb << std::endl;
 
 

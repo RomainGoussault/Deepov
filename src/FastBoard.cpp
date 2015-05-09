@@ -131,14 +131,14 @@ U64 FastBoard::getAllPieces() const{return myAllPieces;}
     /* Moves methods */
 
 
-void FastBoard::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+void FastBoard::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const
 {
 	while (quietDestinations)
 	{
 		//Getting the index of the MSB
 		int positionMsb = getMsbIndex(quietDestinations);
 
-		FastMove move = FastMove(pieceIndex, positionMsb, 0, FastMove::KNIGHT_TYPE);
+		FastMove move = FastMove(pieceIndex, positionMsb, 0, pieceType);
 		moves.push_back(move);
 
 		//Removing the MSB
@@ -146,13 +146,13 @@ void FastBoard::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector
 	}
 }
 
-void FastBoard::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+void FastBoard::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const
 {
 	while (captureDestinations)
 	{
 		//Getting the index of the MSB
 		int positionMsb = getMsbIndex(captureDestinations);
-		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::CAPTURE_FLAG);
+		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::CAPTURE_FLAG, pieceType);
 		moves.push_back(move);
 
 		//Removing the MSB
@@ -166,7 +166,7 @@ void FastBoard::addPromotionMoves(U64 promotionDestinations, int pieceIndex, std
 	{
 		//Getting the index of the MSB
 		int positionMsb = getMsbIndex(promotionDestinations);
-		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::PROMOTION_FLAG);
+		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::PROMOTION_FLAG, FastMove::PAWN_TYPE);
 		moves.push_back(move);
 		move.setFlags(FastMove::PROMOTION_FLAG+1);
 		moves.push_back(move);
@@ -187,7 +187,7 @@ void FastBoard::addPromotionCaptureMoves(U64 promotionDestinations, int pieceInd
 		//Getting the index of the MSB
 		int positionMsb = getMsbIndex(promotionDestinations);
 		unsigned int flag = FastMove::PROMOTION_FLAG+FastMove::PROMOTION_FLAG;
-		FastMove move = FastMove(pieceIndex, positionMsb, flag);
+		FastMove move = FastMove(pieceIndex, positionMsb, flag, FastMove::PAWN_TYPE);
 		moves.push_back(move);
 		move.setFlags(flag+1);
 		moves.push_back(move);
@@ -237,8 +237,8 @@ std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 	U64 kingCaptureDestinations = kingValidDestinations & getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 
-	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves);
-	addCaptureMoves(kingCaptureDestinations,kingIndex, kingMoves);
+	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
+	addCaptureMoves(kingCaptureDestinations,kingIndex, kingMoves, FastMove::KING_TYPE);
 
 	return kingMoves;
 }
@@ -264,8 +264,8 @@ std::vector<FastMove> FastBoard::getQueenPseudoLegalMoves(const int& color) cons
 		U64 queenCaptureDestinations = queenDestinations & getPieces(ennemyColor);
 		U64 queenQuietDestinations = queenDestinations ^ queenCaptureDestinations;
 
-		addQuietMoves(queenQuietDestinations, queenIndex, queenMoves);
-		addCaptureMoves(queenCaptureDestinations, queenIndex, queenMoves);
+		addQuietMoves(queenQuietDestinations, queenIndex, queenMoves, FastMove::QUEEN_TYPE);
+		addCaptureMoves(queenCaptureDestinations, queenIndex, queenMoves, FastMove::QUEEN_TYPE);
 	}
 
 	return queenMoves;
@@ -289,8 +289,8 @@ std::vector<FastMove> FastBoard::getBishopPseudoLegalMoves(const int& color) con
 		U64 bishopCaptureDestinations = bishopDestinations & getPieces(ennemyColor);
 		U64 bishopQuietDestinations = bishopDestinations ^ bishopCaptureDestinations;
 
-		addQuietMoves(bishopQuietDestinations, bishopIndex, bishopMoves);
-		addCaptureMoves(bishopCaptureDestinations, bishopIndex, bishopMoves);
+		addQuietMoves(bishopQuietDestinations, bishopIndex, bishopMoves, FastMove::BISHOP_TYPE);
+		addCaptureMoves(bishopCaptureDestinations, bishopIndex, bishopMoves, FastMove::BISHOP_TYPE);
 	}
 
 	return bishopMoves;
@@ -314,8 +314,8 @@ std::vector<FastMove> FastBoard::getRookPseudoLegalMoves(const int& color) const
 		U64 rookCaptureDestinations = rookDestinations & getPieces(ennemyColor);
 		U64 rookQuietDestinations = rookDestinations ^ rookCaptureDestinations;
 
-		addQuietMoves(rookQuietDestinations, rookIndex, rookMoves);
-		addCaptureMoves(rookCaptureDestinations, rookIndex, rookMoves);
+		addQuietMoves(rookQuietDestinations, rookIndex, rookMoves, FastMove::ROOK_TYPE);
+		addCaptureMoves(rookCaptureDestinations, rookIndex, rookMoves, FastMove::ROOK_TYPE);
 	}
 
 	return rookMoves;
@@ -364,8 +364,8 @@ std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) con
 		U64 knightCaptureDestinations = knightValidDestinations & getPieces(ennemyColor);
 		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
 
-		addQuietMoves(knightQuietDestinations, knightIndex, knightMoves);
-		addCaptureMoves(knightCaptureDestinations, knightIndex, knightMoves);
+		addQuietMoves(knightQuietDestinations, knightIndex, knightMoves, FastMove::KNIGHT_TYPE);
+		addCaptureMoves(knightCaptureDestinations, knightIndex, knightMoves, FastMove::KNIGHT_TYPE);
 	}
 
 	return knightMoves;
@@ -413,9 +413,9 @@ std::vector<FastMove> FastBoard::getWhitePawnPseudoLegalMoves() const
 		attack/move. */
 	// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-    addQuietMoves(whitePawnQuietMoves & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves);
+    addQuietMoves(whitePawnQuietMoves & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
     addPromotionMoves(whitePawnQuietMoves & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
-    addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves);
+    addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
     addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
 
 	}
@@ -465,9 +465,9 @@ std::vector<FastMove> FastBoard::getBlackPawnPseudoLegalMoves() const
 		attack/move. */
 	// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-    addQuietMoves(blackPawnQuietMoves & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves);
+    addQuietMoves(blackPawnQuietMoves & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
     addPromotionMoves(blackPawnQuietMoves & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
-    addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves);
+    addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
     addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
 
 	}
@@ -524,7 +524,7 @@ void FastBoard::executeMove(const FastMove &move)
 			removePiece(destination); //TODO does not work for en passsant
 		}
 
-		movePiece(origin, destination, pieceType);
+		movePiece(origin, destination, pieceType, myColorToPlay);
 
 
 	myMoves.push_back(move);
@@ -540,7 +540,7 @@ void FastBoard::executeMove(const FastMove &move)
 	updateConvenienceBitboards();
 }
 
-void FastBoard::movePiece(const int origin, const int destination, const int pieceType)
+void FastBoard::movePiece(const int origin, const int destination, const int pieceType, const int color)
 {
 /*
 	switch (pieceType)
@@ -555,9 +555,22 @@ void FastBoard::movePiece(const int origin, const int destination, const int pie
 	switch (pieceType)
 	{
 	case FastMove::KNIGHT_TYPE:
-		myColorToPlay == WHITE ? movePiece(origin, destination, myWhiteKnights) : movePiece(origin, destination, myBlackKnights) ;
+		color == WHITE ? movePiece(origin, destination, myWhiteKnights) : movePiece(origin, destination, myBlackKnights) ;
 		break;
-	case 0:
+	case FastMove::PAWN_TYPE:
+		color == WHITE ? movePiece(origin, destination, myWhitePawns) : movePiece(origin, destination, myBlackPawns) ;
+		break;
+	case FastMove::BISHOP_TYPE:
+		color == WHITE ? movePiece(origin, destination, myWhiteBishops) : movePiece(origin, destination, myBlackBishops) ;
+		break;
+	case FastMove::ROOK_TYPE:
+		color == WHITE ? movePiece(origin, destination, myWhiteRooks) : movePiece(origin, destination, myBlackRooks) ;
+		break;
+	case FastMove::QUEEN_TYPE:
+		color == WHITE ? movePiece(origin, destination, myWhiteQueens) : movePiece(origin, destination, myBlackQueens) ;
+		break;
+	case FastMove::KING_TYPE:
+		color == WHITE ? movePiece(origin, destination, myWhiteKing) : movePiece(origin, destination, myBlackKing) ;
 		break;
 	}
 }
@@ -571,6 +584,71 @@ void FastBoard::movePiece(const int origin, const int destination, U64 &bitBoard
 void FastBoard::removePiece(const int index)
 {
 	//TODO implement
+}
+
+void FastBoard::undoMove(FastMove &move)
+{
+	int origin = move.getOrigin();
+	int destination = move.getDestination();
+	int pieceType = move.getPieceType();
+/*
+	// Be careful to get the valid move color
+	rewindCastlingRights(move, Utils::getOppositeColor(myColorToPlay));
+
+	if(move.isCastling())
+	{
+        movePiece(pieceToMove,origin);
+
+        Position rookOrigin;
+		Position rookDestination;
+
+		if (destination.getX() == 6)
+		{
+			rookOrigin = Position(7, destination.getY());
+			rookDestination = Position(5, destination.getY());
+		}
+		else
+		{
+			rookOrigin = Position(0, destination.getY());
+			rookDestination = Position(3, destination.getY());
+		}
+
+		movePiece(getPiecePtr(rookDestination),rookOrigin);
+	}
+	else if(move.isPromotion())
+	{
+        removePiece(destination);
+//        PiecePtr pawnPtr(new Pawn(origin, Utils::getOppositeColor(myColorToPlay)));
+//        addPiece(pawnPtr);
+        addPiece(move.getPromotedPawn());
+
+        if(isCaptureMove)
+		{
+			//add the captured piece
+			addPiece(capturePiecePtr);
+		}
+
+	}
+	else
+	{*/
+	movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
+
+		if(move.isCapture())
+		{
+			//add the captured piece
+			//addPiece(capturePiecePtr); // TODO
+		}
+
+	//Remove the last move from the myMoves list.
+	myMoves.pop_back();
+
+    if (myColorToPlay == WHITE)
+    {
+        myMovesCounter--;
+    }
+
+    myHalfMovesCounter--;
+	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 }
 
 void FastBoard::updateConvenienceBitboards()

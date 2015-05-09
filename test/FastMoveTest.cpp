@@ -8,11 +8,13 @@ TEST_CASE( "Constructor and methods" )
     unsigned int origin = 4;
     unsigned int destination = 5;
     unsigned int flags = 6;
-    FastMove move(origin, destination, flags);
+    unsigned int pieceType = 3;
+    FastMove move(origin, destination, flags, pieceType);
 
     REQUIRE(move.getOrigin() == origin);
     REQUIRE(move.getDestination() == destination);
     REQUIRE(move.getFlags() == flags);
+    REQUIRE(move.getPieceType() == pieceType);
 
     move.setDestination(3);
     move.setOrigin(22);
@@ -56,4 +58,32 @@ TEST_CASE( "execute Move" )
 
     REQUIRE(FastBoard::isBitSet(bb, 0, 0) == false);
     REQUIRE(FastBoard::isBitSet(bb, 1, 2) == true);
+}
+
+TEST_CASE( "undo Move" )
+{
+	initmagicmoves();
+
+	FastBoard fb = FastBoard("8/8/8/8/8/8/6bn/5qr1 b - -");
+	std::cout << fb << std::endl;
+
+	int size = fb.getRookPseudoLegalMoves(BLACK).size();
+    REQUIRE(size == 1);
+
+	U64 bb = fb.getBlackRooks();
+    REQUIRE(FastBoard::isBitSet(bb, 6, 0) == true);
+    REQUIRE(FastBoard::isBitSet(bb, 7, 0) == false);
+
+	FastMove move = fb.getRookPseudoLegalMoves(BLACK)[0];
+	fb.executeMove(move);
+
+	bb = fb.getBlackRooks();
+    REQUIRE(FastBoard::isBitSet(bb, 6, 0) == false);
+    REQUIRE(FastBoard::isBitSet(bb, 7, 0) == true);
+
+	fb.undoMove(move);
+
+	bb = fb.getBlackRooks();
+    REQUIRE(FastBoard::isBitSet(bb, 6, 0) == true);
+    REQUIRE(FastBoard::isBitSet(bb, 7, 0) == false);
 }

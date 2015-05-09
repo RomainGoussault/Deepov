@@ -18,10 +18,10 @@ public:
 	const static unsigned int QUEEN_TYPE = 4;
 	const static unsigned int KING_TYPE = 5;
 
-	inline FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
+	/*inline FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
 	{
 		myMove = ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
-	}
+	}*/
 
 	inline FastMove(unsigned int origin, unsigned int destination, unsigned int flags,unsigned int pieceType)
 	{

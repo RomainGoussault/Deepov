@@ -85,10 +85,9 @@ public:
     std::vector<FastMove> getBlackPawnPseudoLegalMoves() const;
     std::vector<FastMove> getMoves() const;
     void executeMove(const FastMove &move);
-    void movePiece(const int origin, const int destination, const int pieceType);
-    void movePiece(const int origin, const int destination, U64 &bitboard);
+    void undoMove(FastMove &move);
 
-    void removePiece(const int index);
+
 
 	/* ************* */
 
@@ -125,10 +124,14 @@ private:
 
 	std::vector<FastMove> myMoves;
 
-	void addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves) const;
-	void addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves) const;
+	void addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const;
+	void addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const;
 	void addPromotionMoves(U64 promotionDestinations, int pieceIndex, std::vector<FastMove>& moves) const;
 	void addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex, std::vector<FastMove>& moves) const;
+
+    void movePiece(const int origin, const int destination, const int pieceType, const int color);
+    void movePiece(const int origin, const int destination, U64 &bitboard);
+    void removePiece(const int index);
 };
 
 
