@@ -203,7 +203,7 @@ void FastBoard::addPromotionCaptureMoves(U64 promotionDestinations, int pieceInd
 	}
 }
 
-int FastBoard::findPieceType(const int position, const int color)
+int FastBoard::findBlackPieceType(const int position)
 {
     if ((myBlackPawns&(1LL << position))>>position==1)
     {
@@ -229,6 +229,39 @@ int FastBoard::findPieceType(const int position, const int color)
     {
         return 6;
     }
+}
+
+int FastBoard::findWhitePieceType(const int position)
+{
+    if ((myBlackPawns&(1LL << position))>>position==1)
+    {
+        return 0;
+    }
+    else if ((myBlackKnights&(1LL << position))>>position==1)
+    {
+        return 1;
+    }
+    else if ((myBlackBishops&(1LL << position))>>position==1)
+    {
+        return 2;
+    }
+    else if ((myBlackRooks&(1LL << position))>>position==1)
+    {
+        return 3;
+    }
+    else if ((myBlackQueens&(1LL << position))>>position==1)
+    {
+        return 4;
+    }
+    else
+    {
+        return 6;
+    }
+}
+
+int FastBoard::findPieceType(const int position, const int color)
+{
+
 }
     /* Get moves methods */
 std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const

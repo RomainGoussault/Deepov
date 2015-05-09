@@ -15,8 +15,8 @@
 
 
 //#include "Utils.hpp"
-#define _RankSize_ 8
-#define _BoardSize_ 64  // rename afterBoard.hpp is removed
+//#define Rank_Size 8
+//#define Board_Size 64  // to be renamed after Board.hpp is removed
 typedef std::uint64_t U64;
 
 #include "FastMove.hpp"
@@ -28,7 +28,7 @@ typedef std::uint64_t U64;
 Note: We use Little-Endian Rank-File Mapping
 The bitboard (U64) in binary representation is  H8-G8-F8-....-C1-B1-A1
 Left shift '<<' means +1 on the chessboard
-Right shift '>>' means -1 on the chess board
+Right shift '>>' means -1 on the chessboard
 The compass is:
     +7  +8  +9
     -1   0  +1
@@ -92,6 +92,8 @@ public:
     std::vector<FastMove> getLegalMoves(const int color);
 
     int findPieceType(const int position, const int color);
+    int findWhitePieceType(const int position);
+    int findBlackPieceType(const int position);
     // the position is the MSB index, it returns an int between 0 and 5
 
 
