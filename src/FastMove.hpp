@@ -45,7 +45,12 @@ public:
 
 	inline unsigned int getPieceType() const
 	{
-		return (myMove >> 20) & 0x7;
+		return (myMove >> 16) & 0x7;
+	}
+
+		inline unsigned int getCapturedPieceType() const
+	{
+		return (myMove >> 19) & 0x7;
 	}
 
     inline void setDestination(unsigned const int destination)
@@ -70,10 +75,11 @@ public:
 
 private:
 
-	int myMove; //Bits : Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
+	int myMove; //Bits : Captured Piece 3 bits || Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
 	/*
 	 * PieceType:
 	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
+	 * For captured piece 0 no capture, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 Pawn
 	 *
 	 * Flags:
 	 * The MSB of the flags is the promotion bit, the bit after is the capture bit.
