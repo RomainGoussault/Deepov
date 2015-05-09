@@ -605,7 +605,7 @@ void FastBoard::executeMove(const FastMove &move)
 		if(move.isCapture())
 		{
 			//remove the captured piece
-			removePiece(destination); //TODO does not work for en passsant
+			removePiece(destination, myColorToPlay); //TODO does not work for en passsant
 		}
 
 	movePiece(origin, destination, pieceType, myColorToPlay);
@@ -658,9 +658,34 @@ void FastBoard::movePiece(const int origin, const int destination, U64 &bitBoard
 	bitBoard |=  1LL << destination;
 }
 
-void FastBoard::removePiece(const int index)
+void FastBoard::removePiece(const int index, U64 &bitBoard)
 {
-	//TODO implement
+	//Remove piece from index position
+	bitBoard &= ~(1LL << index);
+}
+
+void FastBoard::removePiece(const int index, const int color)
+{
+    int pieceType(findPieceType(index, color));
+
+    switch (pieceType)
+	{
+	case FastMove::KNIGHT_TYPE:
+		color == WHITE ? removePiece(index, myWhiteKnights) : removePiece(index, myBlackKnights) ;
+		break;
+	case FastMove::PAWN_TYPE:
+		color == WHITE ? removePiece(index, myWhitePawns) : removePiece(index, myBlackPawns) ;
+		break;
+	case FastMove::BISHOP_TYPE:
+		color == WHITE ? removePiece(index, myWhiteBishops) : removePiece(index, myBlackBishops) ;
+		break;
+	case FastMove::ROOK_TYPE:
+		color == WHITE ? removePiece(index, myWhiteRooks) : removePiece(index, myBlackRooks) ;
+		break;
+	case FastMove::QUEEN_TYPE:
+		color == WHITE ? removePiece(index, myWhiteQueens) : removePiece(index, myBlackQueens) ;
+		break;
+	}
 }
 
 void FastBoard::undoMove(const FastMove &move)
