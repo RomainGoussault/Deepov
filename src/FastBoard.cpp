@@ -153,8 +153,8 @@ void FastBoard::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::ve
 		//Getting the index of the MSB
 		int positionMsb = getMsbIndex(captureDestinations);
 		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::CAPTURE_FLAG, pieceType);
-
-		//move.setCapturedPieceType(capturedType);
+        int capturedType(findPieceType(positionMsb,Utils::getOppositeColor(myColorToPlay)));
+		move.setCapturedPieceType(capturedType);
 		moves.push_back(move);
 
 		//Removing the MSB
