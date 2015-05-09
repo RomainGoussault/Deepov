@@ -85,7 +85,7 @@ private:
 	/*
 	 * PieceType:
 	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
-	 * For captured piece 0 no capture, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 Pawn
+	 * For captured piece 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen
 	 *
 	 * Flags:
 	 * The MSB of the flags is the promotion bit, the bit after is the capture bit.

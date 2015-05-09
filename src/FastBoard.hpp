@@ -91,6 +91,9 @@ public:
     std::vector<FastMove> getLegalMoves();
     std::vector<FastMove> getLegalMoves(const int color);
 
+    int findPieceType(const int position, const int color);
+    // the position is the MSB index, it returns an int between 0 and 5
+
 
 	/* ************* */
 

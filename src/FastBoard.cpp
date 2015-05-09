@@ -153,6 +153,8 @@ void FastBoard::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::ve
 		//Getting the index of the MSB
 		int positionMsb = getMsbIndex(captureDestinations);
 		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::CAPTURE_FLAG, pieceType);
+
+		//move.setCapturedPieceType(capturedType);
 		moves.push_back(move);
 
 		//Removing the MSB
@@ -201,6 +203,33 @@ void FastBoard::addPromotionCaptureMoves(U64 promotionDestinations, int pieceInd
 	}
 }
 
+int FastBoard::findPieceType(const int position, const int color)
+{
+    if ((myBlackPawns&(1LL << position))>>position==1)
+    {
+        return 0;
+    }
+    else if ((myBlackKnights&(1LL << position))>>position==1)
+    {
+        return 1;
+    }
+    else if ((myBlackBishops&(1LL << position))>>position==1)
+    {
+        return 2;
+    }
+    else if ((myBlackRooks&(1LL << position))>>position==1)
+    {
+        return 3;
+    }
+    else if ((myBlackQueens&(1LL << position))>>position==1)
+    {
+        return 4;
+    }
+    else
+    {
+        return 6;
+    }
+}
     /* Get moves methods */
 std::vector<FastMove> FastBoard::getKingPseudoLegalMoves(const int& color) const
 {
