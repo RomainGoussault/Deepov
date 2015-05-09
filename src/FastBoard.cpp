@@ -321,6 +321,18 @@ std::vector<FastMove> FastBoard::getRookPseudoLegalMoves(const int& color) const
 	return rookMoves;
 }
 
+std::vector<FastMove> FastBoard::getPawnPseudoLegalMoves(const int& color) const
+{
+	if(color == WHITE)
+	{
+		return getWhitePawnPseudoLegalMoves();
+	}
+	else
+	{
+		return getBlackPawnPseudoLegalMoves();
+	}
+}
+
 std::vector<FastMove> FastBoard::getKnightPseudoLegalMoves(const int& color) const
 {
 	std::vector<FastMove> knightMoves;
@@ -542,16 +554,6 @@ void FastBoard::executeMove(const FastMove &move)
 
 void FastBoard::movePiece(const int origin, const int destination, const int pieceType, const int color)
 {
-/*
-	switch (pieceType)
-	{
-	case FastMove::KNIGHT_TYPE:
-		moveKnight(origin, destination);
-		break;
-	case 0:
-		break;
-	}*/
-
 	switch (pieceType)
 	{
 	case FastMove::KNIGHT_TYPE:
@@ -586,7 +588,7 @@ void FastBoard::removePiece(const int index)
 	//TODO implement
 }
 
-void FastBoard::undoMove(FastMove &move)
+void FastBoard::undoMove(const FastMove &move)
 {
 	int origin = move.getOrigin();
 	int destination = move.getDestination();
@@ -649,6 +651,8 @@ void FastBoard::undoMove(FastMove &move)
 
     myHalfMovesCounter--;
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
+
+	updateConvenienceBitboards();
 }
 
 void FastBoard::updateConvenienceBitboards()
@@ -833,7 +837,7 @@ std::vector<FastMove> FastBoard::getLegalMoves(const int color)
 	std::vector<FastMove> legalMoves;
 
 	//TODO we don't want to copy all the moves, better use a reference to the move vector
-	std::vector<FastMove> pawnLegalMoves = color == WHITE ? getWhitePawnPseudoLegalMoves() : getBlackPawnPseudoLegalMoves(); // ToDO Make function
+	std::vector<FastMove> pawnLegalMoves = getPawnPseudoLegalMoves(color);
 	std::vector<FastMove> knightLegalMoves = getKnightPseudoLegalMoves(color);
 	std::vector<FastMove> bishopLegalMoves = getBishopPseudoLegalMoves(color);
 	std::vector<FastMove> rookLegalMoves = getRookPseudoLegalMoves(color);

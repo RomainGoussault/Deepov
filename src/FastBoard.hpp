@@ -81,11 +81,12 @@ public:
 	std::vector<FastMove> getBishopPseudoLegalMoves(const int& color) const;
 	std::vector<FastMove> getRookPseudoLegalMoves(const int& color) const;
     std::vector<FastMove> getKnightPseudoLegalMoves(const int& color) const;
+    std::vector<FastMove> getPawnPseudoLegalMoves(const int& color) const;
     std::vector<FastMove> getWhitePawnPseudoLegalMoves() const;
     std::vector<FastMove> getBlackPawnPseudoLegalMoves() const;
     std::vector<FastMove> getMoves() const;
     void executeMove(const FastMove &move);
-    void undoMove(FastMove &move);
+    void undoMove(const FastMove &move);
     int perft(int depth);
     std::vector<FastMove> getLegalMoves();
     std::vector<FastMove> getLegalMoves(const int color);
