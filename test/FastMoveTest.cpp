@@ -35,3 +35,25 @@ TEST_CASE( "is capture" )
 	move = board.getKnightPseudoLegalMoves(BLACK)[0];
     REQUIRE(move.isCapture() == false);
 }
+
+TEST_CASE( "execute Move" )
+{
+	initmagicmoves();
+
+	FastBoard fb = FastBoard("8/8/8/8/8/8/2Q5/N7 w - -");
+
+	U64 bb = fb.getWhiteKnights();
+
+    REQUIRE(FastBoard::isBitSet(bb, 0, 0) == true);
+    REQUIRE(FastBoard::isBitSet(bb, 1, 2) == false);
+
+	int size = fb.getKnightPseudoLegalMoves(WHITE).size();
+    REQUIRE(size == 1);
+
+	FastMove move = fb.getKnightPseudoLegalMoves(WHITE)[0];
+	fb.executeMove(move);
+	bb = fb.getWhiteKnights();
+
+    REQUIRE(FastBoard::isBitSet(bb, 0, 0) == false);
+    REQUIRE(FastBoard::isBitSet(bb, 1, 2) == true);
+}
