@@ -944,6 +944,35 @@ int FastBoard::perft(int depth)
 	return nodes;
 }
 
+int FastBoard::divide(int depth)
+{
+	int nMoves;
+	int nodes = 0;
+	int nodeTotal = 0;
+
+	if (depth == 0)
+	{
+		return 1;
+	}
+
+	std::vector<FastMove> moves = getLegalMoves();
+	nMoves = moves.size();
+
+	for (auto &move : moves)
+	{
+		executeMove(move);
+		nodes = perft(depth - 1);
+		std::cout <<  move.toShortString() <<  " " << nodes << std::endl;
+		nodeTotal += nodes;
+		undoMove(move);
+	}
+
+	std::cout << std::endl;
+	std::cout << "Total nodes: " << nodeTotal << std::endl;
+	std::cout << "Total moves: " << nMoves << std::endl;
+	return nodes;
+}
+
 std::vector<FastMove> FastBoard::getLegalMoves()
 {
 	return getLegalMoves(myColorToPlay);

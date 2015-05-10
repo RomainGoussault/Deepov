@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <bitset>
+#include <string>
+#include <array>
 
 class FastMove
 {
@@ -77,6 +79,22 @@ public:
 	inline bool isCapture() const
 	{
 	    return getFlags() & CAPTURE_FLAG;
+	}
+
+	std::string toShortString() const
+	{
+		std::array<std::string,8> letters = {{"a", "b", "c", "d", "e", "f", "g", "h"}};
+
+		int xOrigin = getOrigin() % 8;
+		int yOrigin = (getOrigin() / 8)+1;
+
+		int xDestination = getDestination() % 8;
+		int yDestination = (getDestination() / 8)+1;
+
+		std::stringstream ss;
+		ss << letters[xOrigin] << yOrigin << letters[xDestination] << yDestination;
+
+		return ss.str();
 	}
 
 private:
