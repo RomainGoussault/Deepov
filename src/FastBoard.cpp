@@ -606,7 +606,7 @@ void FastBoard::executeMove(const FastMove &move)
 		{
 			//remove the captured piece
 			int type(move.getCapturedPieceType());
-			removePiece(destination, type, myColorToPlay); //TODO does not work for en passsant
+			removePiece(destination, type, Utils::getOppositeColor(myColorToPlay)); //TODO does not work for en passsant
 		}
 
 	movePiece(origin, destination, pieceType, myColorToPlay);
