@@ -12,6 +12,7 @@
 #include <bitset>
 #include <vector>
 #include <sstream>
+#include <boost/optional.hpp>
 
 
 //#include "Utils.hpp"
@@ -91,6 +92,7 @@ public:
     int divide(int depth);
     std::vector<FastMove> getLegalMoves();
     std::vector<FastMove> getLegalMoves(const int color);
+    boost::optional<FastMove> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
     int findPieceType(const int position, const int color) const;
     int findWhitePieceType(const int position) const;

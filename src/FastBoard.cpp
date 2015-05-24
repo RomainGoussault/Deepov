@@ -1000,6 +1000,18 @@ std::vector<FastMove> FastBoard::getLegalMoves(const int color)
 	return legalMoves;
 }
 
+boost::optional<FastMove> FastBoard::getEnemyLastMove() const
+{
+	if (myMoves.size()>0)
+	{
+		return boost::optional<FastMove>(myMoves[myMoves.size()-1]);
+	}
+	else
+	{
+		return boost::optional<FastMove>();
+	}
+}
+
 std::string FastBoard::printBitBoard(const U64 &bitBoard)
 {
 	std::ostringstream strm;
