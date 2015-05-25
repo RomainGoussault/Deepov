@@ -13,6 +13,8 @@
 #include <vector>
 #include <sstream>
 #include <boost/optional.hpp>
+#include <boost/algorithm/string.hpp>
+#include <memory>
 
 
 //#include "Utils.hpp"
@@ -36,7 +38,9 @@ The compass is:
     -9  -8  -7
 */
 
-class FastBoard {
+
+class FastBoard : public std::enable_shared_from_this<FastBoard>
+{
 public:
 
 	FastBoard();
@@ -63,6 +67,8 @@ public:
 	U64 getAllPieces() const;
 	U64 getPieces(const int color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
 
+	inline bool getColorToPlay() const {return myColorToPlay;};
+
 	/*  **********  */
 
 	void setBitBoards(const std::string piecesString, const int rank);
@@ -83,6 +89,8 @@ public:
     void undoMove(const FastMove &move);
     int perft(int depth);
     int divide(int depth);
+    boost::optional<FastMove> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
+
 
     int findPieceType(const int position, const int color) const;
     int findWhitePieceType(const int position) const;

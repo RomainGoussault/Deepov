@@ -1,7 +1,9 @@
 #include "FastBoard.hpp"
 #include "Utils.hpp"
 #include "MagicMoves.hpp"
-#include <boost/algorithm/string.hpp>
+#include "MoveGen.hpp"
+
+
 
 
 
@@ -560,7 +562,8 @@ int FastBoard::perft(int depth)
 		return 1;
 	}
 
-	std::vector<FastMove> moves = getLegalMoves();
+    MoveGen movegen(shared_from_this());
+	std::vector<FastMove> moves(movegen.getMoves());
 
 	if (moves.empty())
     {
@@ -589,7 +592,8 @@ int FastBoard::divide(int depth)
 		return 1;
 	}
 
-	std::vector<FastMove> moves = getLegalMoves();
+    MoveGen movegen(shared_from_this());
+	std::vector<FastMove> moves(movegen.getMoves());
 	nMoves = moves.size();
 
 	for (auto &move : moves)
@@ -605,33 +609,6 @@ int FastBoard::divide(int depth)
 	std::cout << "Total nodes: " << nodeTotal << std::endl;
 	std::cout << "Total moves: " << nMoves << std::endl;
 	return nodes;
-}
-
-std::vector<FastMove> FastBoard::getLegalMoves()
-{
-	return getLegalMoves(myColorToPlay);
-}
-
-std::vector<FastMove> FastBoard::getLegalMoves(const int color)
-{
-	std::vector<FastMove> legalMoves;
-
-	//TODO we don't want to copy all the moves, better use a reference to the move vector
-	std::vector<FastMove> pawnLegalMoves = getPawnPseudoLegalMoves(color);
-	std::vector<FastMove> knightLegalMoves = getKnightPseudoLegalMoves(color);
-	std::vector<FastMove> bishopLegalMoves = getBishopPseudoLegalMoves(color);
-	std::vector<FastMove> rookLegalMoves = getRookPseudoLegalMoves(color);
-	std::vector<FastMove> queenLegalMoves = getQueenPseudoLegalMoves(color);
-	std::vector<FastMove> kingLegalMoves = getKingPseudoLegalMoves(color);
-
-	legalMoves.insert(legalMoves.end(), pawnLegalMoves.begin(), pawnLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), knightLegalMoves.begin(), knightLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), bishopLegalMoves.begin(), bishopLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), rookLegalMoves.begin(), rookLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), queenLegalMoves.begin(), queenLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), kingLegalMoves.begin(), kingLegalMoves.end());
-
-	return legalMoves;
 }
 
 boost::optional<FastMove> FastBoard::getEnemyLastMove() const
