@@ -14,6 +14,7 @@ public:
 
     MoveGen();
     MoveGen(std::shared_ptr<FastBoard> board);
+    MoveGen(FastBoard board);
 
     /* Get Attributes */
     inline std::vector<FastMove> getMoves() {return getLegalMoves();};

@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "FastBoard.hpp"
 #include "MagicMoves.hpp"
+#include "MoveGen.hpp"
 
 
 TEST_CASE( "is bit Set method" )
@@ -26,18 +27,45 @@ TEST_CASE( "is bit Set method" )
 TEST_CASE( "Move methods" )
 {
     FastBoard board;
-    board.printBitBoard(board.getAllPieces());
+    MoveGen moveGen(board);
 
-    std::vector<FastMove> moveList = board.getWhitePawnPseudoLegalMoves();
-    REQUIRE(moveList.size()==16);
+    std::vector<FastMove> moveList = moveGen.getWhitePawnPseudoLegalMoves();
+    REQUIRE(moveList.size() == 16);
 
-    moveList=board.getKingPseudoLegalMoves(WHITE);
-    REQUIRE(moveList.size()==0);
+    moveList = moveGen.getKingPseudoLegalMoves(WHITE);
+    REQUIRE(moveList.size() == 0);
 
-    moveList=board.getKnightPseudoLegalMoves(WHITE);
-    REQUIRE(moveList.size()==4);
+    moveList = moveGen.getKnightPseudoLegalMoves(WHITE);
+    REQUIRE(moveList.size() == 4);
 }
+/*
+TEST_CASE( "execute Move with capture" )
+{
+	initmagicmoves();
 
+	FastBoard fb = FastBoard("8/8/8/8/8/8/3n4/2Nrb3 b - -");
+
+	int size = fb.getRookPseudoLegalMoves(BLACK).size();
+    REQUIRE(size == 1);
+
+	U64 bb = fb.getBlackRooks();
+    REQUIRE(FastBoard::isBitSet(bb, 6, 0) == true);
+    REQUIRE(FastBoard::isBitSet(bb, 7, 0) == false);
+
+	FastMove move = fb.getRookPseudoLegalMoves(BLACK)[0];
+	fb.executeMove(move);
+
+	bb = fb.getBlackRooks();
+    REQUIRE(FastBoard::isBitSet(bb, 6, 0) == false);
+    REQUIRE(FastBoard::isBitSet(bb, 7, 0) == true);
+
+	fb.undoMove(move);
+
+	bb = fb.getBlackRooks();
+    REQUIRE(FastBoard::isBitSet(bb, 6, 0) == true);
+    REQUIRE(FastBoard::isBitSet(bb, 7, 0) == false);
+}
+*/
 TEST_CASE( "Perft from initial position ", "[perft]")
 {
 

@@ -1,5 +1,7 @@
 #include "MoveGen.hpp"
 #include "MagicMoves.hpp"
+#include <memory>
+
 
 /* Constructor */
 
@@ -10,6 +12,11 @@ MoveGen::MoveGen() : myBoard(nullptr)
 MoveGen::MoveGen(std::shared_ptr<FastBoard> board) : myBoard(board)
 {
 }
+
+MoveGen::MoveGen(FastBoard board) : myBoard(std::make_shared<FastBoard>(board) )
+{
+}
+
 
 /* Moves private methods */
 
