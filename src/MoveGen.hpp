@@ -16,7 +16,7 @@ public:
     MoveGen(std::shared_ptr<FastBoard> board);
 
     /* Get Attributes */
-    inline std::vector<FastMove> getMoves() const {return myLegalMoves;};
+    inline std::vector<FastMove> getMoves() {return getLegalMoves();};
 
     /* Pseudo Legal Moves */
     std::vector<FastMove> getKingPseudoLegalMoves(const int& color) const;
@@ -36,7 +36,6 @@ public:
 private:
 
     std::shared_ptr<FastBoard> myBoard;
-    std::vector<FastMove> myLegalMoves;
 
 	void addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const;
 	void addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const;

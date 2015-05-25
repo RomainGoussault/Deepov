@@ -9,7 +9,6 @@ MoveGen::MoveGen() : myBoard(nullptr)
 
 MoveGen::MoveGen(std::shared_ptr<FastBoard> board) : myBoard(board)
 {
-    myLegalMoves(getLegalMoves());
 }
 
 /* Moves private methods */
