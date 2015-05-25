@@ -73,26 +73,16 @@ public:
 	// http://stackoverflow.com/questions/671815/
 	// http://stackoverflow.com/questions/20713017/
 	static inline int getMsbIndex(const U64 bitboard) {return (63 - __builtin_clzll(bitboard));}
+	/* TODO : put this is Utils ?? */
 
 
 	/* Moves methods */
 
-	std::vector<FastMove> getKingPseudoLegalMoves(const int& color) const;
-	std::vector<FastMove> getQueenPseudoLegalMoves(const int& color) const;
-	std::vector<FastMove> getBishopPseudoLegalMoves(const int& color) const;
-	std::vector<FastMove> getRookPseudoLegalMoves(const int& color) const;
-    std::vector<FastMove> getKnightPseudoLegalMoves(const int& color) const;
-    std::vector<FastMove> getPawnPseudoLegalMoves(const int& color) const;
-    std::vector<FastMove> getWhitePawnPseudoLegalMoves() const;
-    std::vector<FastMove> getBlackPawnPseudoLegalMoves() const;
-    std::vector<FastMove> getMoves() const;
+
     void executeMove(const FastMove &move);
     void undoMove(const FastMove &move);
     int perft(int depth);
     int divide(int depth);
-    std::vector<FastMove> getLegalMoves();
-    std::vector<FastMove> getLegalMoves(const int color);
-    boost::optional<FastMove> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
     int findPieceType(const int position, const int color) const;
     int findWhitePieceType(const int position) const;
@@ -133,12 +123,7 @@ private:
     int myMovesCounter;
     int myHalfMovesCounter;
 
-	std::vector<FastMove> myMoves;
-
-	void addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const;
-	void addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const;
-	void addPromotionMoves(U64 promotionDestinations, int pieceIndex, std::vector<FastMove>& moves) const;
-	void addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex, std::vector<FastMove>& moves) const;
+    std::vector<FastMove> myMoves;
 
     void movePiece(const int origin, const int destination, const int pieceType, const int color);
     void movePiece(const int origin, const int destination, U64 &bitboard);
