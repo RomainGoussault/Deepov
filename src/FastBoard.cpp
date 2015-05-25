@@ -562,7 +562,7 @@ int FastBoard::perft(int depth)
 		return 1;
 	}
 
-    MoveGen movegen(shared_from_this());
+    MoveGen movegen(*this);
 	std::vector<FastMove> moves(movegen.getMoves());
 
 	if (moves.empty())
@@ -592,7 +592,7 @@ int FastBoard::divide(int depth)
 		return 1;
 	}
 
-    MoveGen movegen(shared_from_this());
+    MoveGen movegen(*this);
 	std::vector<FastMove> moves(movegen.getMoves());
 	nMoves = moves.size();
 
