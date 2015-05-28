@@ -68,6 +68,7 @@ public:
 	U64 getPieces(const int color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
 
 	inline bool getColorToPlay() const {return myColorToPlay;};
+	inline std::vector<FastMove> getMovesHistory() const {return myMoves;};
 
 	/*  **********  */
 
