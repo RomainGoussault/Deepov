@@ -25,6 +25,21 @@ void MoveGen::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<F
 	}
 }
 
+void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+{
+    while (pawnDestinations)
+    {
+        //Getting the index of the MSB
+		int positionMsb = FastBoard::getMsbIndex(pawnDestinations);
+
+        FastMove move = FastMove(pieceIndex, positionMsb, FastMove::DOUBLEPAWNPUSH_FLAG, FastMove::PAWN_TYPE);
+		moves.push_back(move);
+
+        //Removing the MSB
+		pawnDestinations = pawnDestinations ^ (0 | 1LL << positionMsb);
+    }
+}
+
 void MoveGen::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const
 {
 	while (captureDestinations)
