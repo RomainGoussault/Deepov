@@ -2,6 +2,7 @@
 #define MOVEGEN_HPP_INCLUDED
 
 #include <vector>
+#include <cmath>
 
 #include "FastBoard.hpp"
 #include "FastMove.hpp"
@@ -16,6 +17,10 @@ public:
 
     /* Get Attributes */
     inline std::vector<FastMove> getMoves() {return getLegalMoves();};
+
+        /* Special Moves */
+    std::vector<FastMove> getWhiteEnPassantMoves() const;
+    std::vector<FastMove> getBlackEnPassantMoves() const;
 
     /* Pseudo Legal Moves */
     std::vector<FastMove> getKingPseudoLegalMoves(const int& color) const;

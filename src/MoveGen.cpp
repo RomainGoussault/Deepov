@@ -67,7 +67,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex
 	{
 		//Getting the index of the MSB
 		int positionMsb = FastBoard::getMsbIndex(promotionDestinations);
-		unsigned int flag = FastMove::PROMOTION_FLAG+FastMove::PROMOTION_FLAG;
+		unsigned int flag = FastMove::PROMOTION_FLAG+FastMove::PROMOTION_FLAG; // ERROR HERE
 		FastMove move = FastMove(pieceIndex, positionMsb, flag, FastMove::PAWN_TYPE);
         int capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
@@ -399,4 +399,55 @@ std::vector<FastMove> MoveGen::getLegalMoves(const int color)
 	return legalMoves;
 }
 
+  /* Special Moves */
+std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
+{
+    std::vector<FastMove> enPassantMoves;
+    U64 validPawns = (myBoard->getWhitePawns() & LookUpTables::MASK_RANK[4]);
 
+    /* Easiest test first */
+    if (validPawns == 0) {return enPassantMoves;}
+
+    if (myBoard->getMovesHistory().size() == 0) /* If position comes from FEN i won't have a lastMove in the
+        move vector. Ultimately with UCI we will only use this case. */
+    {
+        return enPassantMoves;
+    }
+    else
+    {
+        boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+
+        // TODO : implement DOUBLEPAWNPUSH flag in pawn getpseudolegals
+        if (enemyLastMove->getFlags() == DOUBLEPAWNPUSH_FLAG)
+        {
+            while (validPawns)
+            {
+                unsigned int enemyDestination = enemyLastMove->getDestination();
+                int validPawnIndex = FastBoard::getMsbIndex(validPawns);
+                U64 pawnPos = 0 | 1LL << validPawnIndex;
+                validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
+
+                if (abs(validPawnIndex - enemyDestination) == 1)
+                {
+                    FastMove epMove(validPawnIndex,enemyDestination+8,EPCAPTURE_FLAG,PAWN_TYPE);
+                    epMove.setCapturedPieceType(PAWN_TYPE);
+                    enPassantMoves.push_back(epMove);
+                }
+            }
+        }
+        return enPassantMoves;
+    }
+}
+std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
+{
+    if (board.getMoves().size() == 0) /* If position comes from FEN i won't have a lastMove in the
+        move vector. Ultimately with UCI we will only use this case. */
+    {
+
+    }
+    else if
+    {
+        boost::optional<Move> enemyLastMove(board.getEnemyLastMove());
+    }
+    U64 validPawns
+}
