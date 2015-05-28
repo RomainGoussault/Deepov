@@ -67,7 +67,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex
 	{
 		//Getting the index of the MSB
 		int positionMsb = FastBoard::getMsbIndex(promotionDestinations);
-		unsigned int flag = FastMove::PROMOTION_FLAG+FastMove::PROMOTION_FLAG; // ERROR HERE
+		unsigned int flag = FastMove::PROMOTION_FLAG+FastMove::CAPTURE_FLAG;
 		FastMove move = FastMove(pieceIndex, positionMsb, flag, FastMove::PAWN_TYPE);
         int capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
