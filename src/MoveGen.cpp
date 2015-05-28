@@ -301,11 +301,6 @@ std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
 		one more */
 	U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces();
 
-	/* the union of the movements dictate the possible moves forward
-		available */
-
-	U64 whitePawnQuietMoves = firstStep | twoSteps ;
-
 	/* next we calculate the pawn attacks */
 
 	/* check the left side of the pawn, minding the underflow File A */
@@ -324,8 +319,9 @@ std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
 		attack/move. */
 	// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-    addQuietMoves(whitePawnQuietMoves & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-    addPromotionMoves(whitePawnQuietMoves & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
+    addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+    addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves);
+    addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
     addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
     addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
 
@@ -353,11 +349,6 @@ std::vector<FastMove> MoveGen::getBlackPawnPseudoLegalMoves() const
 		one more */
 	U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces();
 
-	/* the union of the movements dictate the possible moves forward
-		available */
-
-	U64 blackPawnQuietMoves = firstStep | twoSteps ;
-
 	/* next we calculate the pawn attacks */
 
 	/* check the left side of the pawn, minding the underflow File A */
@@ -376,8 +367,9 @@ std::vector<FastMove> MoveGen::getBlackPawnPseudoLegalMoves() const
 		attack/move. */
 	// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-    addQuietMoves(blackPawnQuietMoves & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-    addPromotionMoves(blackPawnQuietMoves & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
+    addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+    addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves);
+    addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
     addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
     addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
 
