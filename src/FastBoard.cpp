@@ -237,8 +237,9 @@ U64 FastBoard::getAttackedPositions(const int color) const
 {
 	U64 knightAttackedDestinations = getKnightAttackedPositions(color);
 	U64 rookAttackedPosition = getRookAttackedPositions(color);
+	U64 bishopAttackedPosition = getBishopAttackedPositions(color);
 
-	U64 attackedPositions = knightAttackedDestinations | rookAttackedPosition;
+	U64 attackedPositions = knightAttackedDestinations | rookAttackedPosition | bishopAttackedPosition;
 	return attackedPositions;
 }
 
@@ -277,6 +278,24 @@ U64 FastBoard::getRookAttackedPositions(const int& color) const
 	}
 
 	return rookAttackedDestinations;
+}
+
+U64 FastBoard::getBishopAttackedPositions(const int& color) const
+{
+	U64 bishopAttackedDestinations = 0LL;
+	U64 bishopPositions = color == WHITE ? getWhiteBishops() : getBlackBishops();
+
+	//loop through the bishops:
+	while(bishopPositions)
+	{
+		int bishopIndex = FastBoard::getMsbIndex(bishopPositions);
+		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
+
+		U64 bishopDestinations = Bmagic(bishopIndex, getAllPieces()) & ~getPieces(color);
+		bishopAttackedDestinations |= bishopDestinations;
+	}
+
+	return bishopAttackedDestinations;
 }
 
 
