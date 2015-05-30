@@ -49,4 +49,14 @@ TEST_CASE( "king check" )
 	REQUIRE(fb.isCheck(WHITE) == true);
 }
 
+TEST_CASE( "pawn check" )
+{
+	FastBoard fb = FastBoard("8/8/8/8/2k2p2/6K1/2P5/8 w - -");
+	REQUIRE(fb.isCheck(BLACK) == false);
+	REQUIRE(fb.isCheck(WHITE) == true);
+
+	fb = FastBoard("2k5/3P3p/6K1/8/8/8/8/8 w - -");
+	REQUIRE(fb.isCheck(BLACK) == true);
+	REQUIRE(fb.isCheck(WHITE) == true);
+}
 

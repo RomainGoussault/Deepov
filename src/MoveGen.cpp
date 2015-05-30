@@ -275,12 +275,11 @@ std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
 		attack/move. */
 		// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves);
-		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
-		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
-
+		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves);
+		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7], pawnIndex, pawnMoves);
+		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7], pawnIndex, pawnMoves);
 	}
 
 	return pawnMoves;
@@ -323,17 +322,15 @@ std::vector<FastMove> MoveGen::getBlackPawnPseudoLegalMoves() const
 		attack/move. */
 		// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves);
-		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
-		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
-
+		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves);
+		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0], pawnIndex, pawnMoves);
+		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0], pawnIndex, pawnMoves);
 	}
 
 	return pawnMoves;
 }
-
 
 std::vector<FastMove> MoveGen::getPseudoLegalMoves()
 {

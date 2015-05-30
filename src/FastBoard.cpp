@@ -234,14 +234,16 @@ bool FastBoard::isCheck(const int color) const
 }
 
 U64 FastBoard::getAttackedPositions(const int color) const {
-	U64 knightAttackedDestinations = getKnightAttackedPositions(color);
+	U64 kingAttackedPosition = getKingAttackedPositions(color);
+	U64 queenAttackedPosition = getQueenAttackedPositions(color);
 	U64 rookAttackedPosition = getRookAttackedPositions(color);
 	U64 bishopAttackedPosition = getBishopAttackedPositions(color);
-	U64 queenAttackedPosition = getQueenAttackedPositions(color);
-	U64 kingAttackedPosition = getKingAttackedPositions(color);
+	U64 knightAttackedDestinations = getKnightAttackedPositions(color);
+	U64 pawnAttackedPosition = getPawnAttackedPositions(color);
 
 	U64 attackedPositions = knightAttackedDestinations | rookAttackedPosition
-			| bishopAttackedPosition | queenAttackedPosition | kingAttackedPosition;
+			| bishopAttackedPosition | queenAttackedPosition
+			| kingAttackedPosition | pawnAttackedPosition;
 	return attackedPositions;
 }
 
@@ -356,6 +358,69 @@ U64 FastBoard::getQueenAttackedPositions(const int& color) const
 	return queenAttackedDestinations;
 }
 
+U64 FastBoard::getWhitePawnAttackedPositions() const
+{
+	U64 pawnAttackedDestinations = 0LL;
+	U64 pawnPositions = getWhitePawns();
+
+	//loop through the pawns:
+	while(pawnPositions)
+	{
+		int pawnIndex = FastBoard::getMsbIndex(pawnPositions);
+		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
+		U64 pawnPos = 0 | 1LL << pawnIndex;
+
+		/* check the left side of the pawn, minding the underflow File A */
+		U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) << 7;
+
+		/* then check the right side of the pawn, minding the overflow File H */
+		U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) << 9;
+
+		U64 pawnDestinations = leftAttack | rightAttack;
+		U64 pawnValidDestinations = pawnDestinations & ~getWhitePieces();
+		pawnAttackedDestinations |= pawnValidDestinations;
+	}
+
+	return pawnAttackedDestinations;
+}
+
+U64 FastBoard::getBlackPawnAttackedPositions() const
+{
+	U64 pawnAttackedDestinations = 0LL;
+	U64 pawnPositions = getBlackPawns();
+
+	//loop through the pawns:
+	while(pawnPositions)
+	{
+		int pawnIndex = FastBoard::getMsbIndex(pawnPositions);
+		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
+		U64 pawnPos = 0 | 1LL << pawnIndex;
+
+		/* check the left side of the pawn, minding the underflow File A */
+		U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) >> 7;
+
+		/* then check the right side of the pawn, minding the overflow File H */
+		U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) >> 9;
+
+		U64 pawnDestinations = leftAttack | rightAttack;
+		U64 pawnValidDestinations = pawnDestinations & ~getBlackPieces();
+		pawnAttackedDestinations |= pawnValidDestinations;
+	}
+
+	return pawnAttackedDestinations;
+}
+
+U64 FastBoard::getPawnAttackedPositions(const int& color) const
+{
+	if(color == WHITE)
+	{
+		return getWhitePawnAttackedPositions();
+	}
+	else
+	{
+		return getBlackPawnAttackedPositions();
+	}
+}
 
 U64 FastBoard::getKnightDestinations(const int knightIndex, const int& color) const
 {
