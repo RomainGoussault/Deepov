@@ -244,18 +244,29 @@ bool FastBoard::isCheck(const int color) const
 
 U64 FastBoard::getAttackedPositions(const int color) const
 {
+	U64 knightAttackedDestinations = getKnightAttackedPositions(color);
 
+	U64 attackedPositions = knightAttackedDestinations;
+	return attackedPositions;
+}
 
-	/*std::vector<PiecePtr> piecePtrs = getPieces(color);
-	std::vector<Position> attackedPositions;
+U64 FastBoard::getKnightAttackedPositions(const int& color) const
+{
+	U64 knightAttackedDestinations = 0LL;
 
-	for (const auto ennemyPiecePtr : piecePtrs)
+	U64 knightPositions = color == WHITE ? getWhiteKnights() : getBlackKnights();
+
+	//loop through the knights:
+	while(knightPositions)
 	{
-		std::vector<Position> pieceAttackedPositions = ennemyPiecePtr->getAttackedPositions(*this);
-		attackedPositions.insert(attackedPositions.end(), pieceAttackedPositions.begin(), pieceAttackedPositions.end());
+		const int knightIndex = FastBoard::getMsbIndex(knightPositions);
+		U64 knightValidDestinations = getKnightDestinations(knightIndex, color);
+		knightAttackedDestinations |= knightValidDestinations;
+
+		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
 	}
-*/
-	return 0;
+
+	return knightAttackedDestinations;
 }
 
 U64 FastBoard::getKnightDestinations(const int knightIndex, const int& color) const
