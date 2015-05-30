@@ -224,6 +224,9 @@ bool FastBoard::isMoveLegal(FastMove &move)
 bool FastBoard::isCheck(const int color) const
 {
 	int ennemyColor = Utils::getOppositeColor(color);
+	U64 ennemyAttackingPositions = getAttackedPositions(ennemyColor);
+
+
 
 /*	std::vector<Position> ennemyAttackingPositions = getAttackedPositions(ennemyColor);
 	Position kingPosition = getKingPosition(color);
@@ -237,6 +240,51 @@ bool FastBoard::isCheck(const int color) const
 		return false;
 	}*/
 	return false;
+}
+
+U64 FastBoard::getAttackedPositions(const int color) const
+{
+
+
+	/*std::vector<PiecePtr> piecePtrs = getPieces(color);
+	std::vector<Position> attackedPositions;
+
+	for (const auto ennemyPiecePtr : piecePtrs)
+	{
+		std::vector<Position> pieceAttackedPositions = ennemyPiecePtr->getAttackedPositions(*this);
+		attackedPositions.insert(attackedPositions.end(), pieceAttackedPositions.begin(), pieceAttackedPositions.end());
+	}
+*/
+	return 0;
+}
+
+U64 FastBoard::getKnightDestinations(const int knightIndex, const int& color) const
+{
+	const U64 knightPos = 0 | 1LL << knightIndex;
+
+	/* we can ignore the rank clipping since the overflow/underflow with
+		respect to rank simply vanishes. We only care about the file
+		overflow/underflow. */
+	U64	knight_clip_file_h(knightPos & LookUpTables::CLEAR_FILE[7]);
+	U64 knight_clip_file_a(knightPos & LookUpTables::CLEAR_FILE[0]);
+
+	U64	knight_clip_file_gh(knightPos & LookUpTables::CLEAR_FILE[7] & LookUpTables::CLEAR_FILE[6]);
+	U64 knight_clip_file_ab(knightPos & LookUpTables::CLEAR_FILE[0] & LookUpTables::CLEAR_FILE[1]);
+
+	U64 WNW(knight_clip_file_ab << 6);
+	U64 NNW(knight_clip_file_a << 15);
+	U64 NNE(knight_clip_file_h << 17);
+	U64 ENE(knight_clip_file_gh << 10);
+
+	U64 ESE(knight_clip_file_gh >> 6);
+	U64 SSE(knight_clip_file_h >> 15);
+	U64 SSW(knight_clip_file_a >> 17);
+	U64 WSW(knight_clip_file_ab >> 10);
+
+	/* N = north, NW = North West, from knight location, etc */
+	U64 knightValidDestinations = (WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW) & ~getPieces(color);
+
+	return knightValidDestinations;
 }
 
 void FastBoard::executeMove(const FastMove &move)

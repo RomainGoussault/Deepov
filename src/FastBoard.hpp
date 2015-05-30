@@ -98,6 +98,10 @@ public:
     //Check methods
     bool isCheck(const int color) const;
 
+    //Attacked positions
+    U64 getAttackedPositions(const int color) const;
+    U64 getKnightDestinations(const int knightIndex, const int& color) const;
+
 
 	/* ************* */
     char getChar(const int file, const int rank) const;

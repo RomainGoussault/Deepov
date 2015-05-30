@@ -241,32 +241,8 @@ std::vector<FastMove> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 	//loop through the knights:
 	while(knightPositions)
 	{
-		int knightIndex = FastBoard::getMsbIndex(knightPositions);
-		U64 knightPos = 0 | 1LL << knightIndex;
-		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
-
-		/* we can ignore the rank clipping since the overflow/underflow with
-		respect to rank simply vanishes. We only care about the file
-		overflow/underflow. */
-		U64	knight_clip_file_h(knightPos & LookUpTables::CLEAR_FILE[7]);
-		U64 knight_clip_file_a(knightPos & LookUpTables::CLEAR_FILE[0]);
-
-		U64	knight_clip_file_gh(knightPos & LookUpTables::CLEAR_FILE[7] & LookUpTables::CLEAR_FILE[6]);
-		U64 knight_clip_file_ab(knightPos & LookUpTables::CLEAR_FILE[0] & LookUpTables::CLEAR_FILE[1]);
-
-		U64 WNW(knight_clip_file_ab << 6);
-		U64 NNW(knight_clip_file_a << 15);
-		U64 NNE(knight_clip_file_h << 17);
-		U64 ENE(knight_clip_file_gh << 10);
-
-		U64 ESE(knight_clip_file_gh >> 6);
-		U64 SSE(knight_clip_file_h >> 15);
-		U64 SSW(knight_clip_file_a >> 17);
-		U64 WSW(knight_clip_file_ab >> 10);
-
-		/* N = north, NW = North West, from knight location, etc */
-		U64 knightValidDestinations = (WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW) & ~myBoard->getPieces(color);
-
+		const int knightIndex = FastBoard::getMsbIndex(knightPositions);
+		U64 knightValidDestinations = myBoard->getKnightDestinations(knightIndex, color);
 		/* compute only the places where the knight can move and attack. The caller
 		will interpret this as a white or black knight. */
 
@@ -277,6 +253,8 @@ std::vector<FastMove> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 
 		addQuietMoves(knightQuietDestinations, knightIndex, knightMoves, FastMove::KNIGHT_TYPE);
 		addCaptureMoves(knightCaptureDestinations, knightIndex, knightMoves, FastMove::KNIGHT_TYPE);
+
+		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
 	}
 
 	return knightMoves;
