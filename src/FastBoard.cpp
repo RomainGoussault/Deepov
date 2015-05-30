@@ -227,19 +227,20 @@ bool FastBoard::isCheck(const int color) const
 	U64 ennemyAttackingPositions = getAttackedPositions(ennemyColor);
 
 	U64 kingPosition = color == WHITE ? getWhiteKing() : getBlackKing();
-
+	//std::cout << printBitBoard(ennemyAttackingPositions);
 	bool isCheck = ennemyAttackingPositions & kingPosition;
 
 	return isCheck;
 }
 
-U64 FastBoard::getAttackedPositions(const int color) const
-{
+U64 FastBoard::getAttackedPositions(const int color) const {
 	U64 knightAttackedDestinations = getKnightAttackedPositions(color);
 	U64 rookAttackedPosition = getRookAttackedPositions(color);
 	U64 bishopAttackedPosition = getBishopAttackedPositions(color);
+	U64 queenAttackedPosition = getQueenAttackedPositions(color);
 
-	U64 attackedPositions = knightAttackedDestinations | rookAttackedPosition | bishopAttackedPosition;
+	U64 attackedPositions = knightAttackedDestinations | rookAttackedPosition
+			| bishopAttackedPosition | queenAttackedPosition;
 	return attackedPositions;
 }
 
@@ -296,6 +297,25 @@ U64 FastBoard::getBishopAttackedPositions(const int& color) const
 	}
 
 	return bishopAttackedDestinations;
+}
+
+U64 FastBoard::getQueenAttackedPositions(const int& color) const
+{
+	U64 queenAttackedDestinations = 0LL;
+	U64 queenPositions = color == WHITE ? getWhiteQueens() : getBlackQueens();
+
+	//loop through the queens:
+	while(queenPositions)
+	{
+		int queenIndex = FastBoard::getMsbIndex(queenPositions);
+		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
+
+		U64 queenDestinations = Rmagic(queenIndex, getAllPieces()) | Bmagic(queenIndex, getAllPieces());
+		U64 queenValidDestinations = queenDestinations & ~getPieces(color);
+		queenAttackedDestinations |= queenValidDestinations;
+	}
+
+	return queenAttackedDestinations;
 }
 
 

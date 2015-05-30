@@ -28,3 +28,14 @@ TEST_CASE( "bishop check" )
 	REQUIRE(fb.isCheck(BLACK) == false);
 	REQUIRE(fb.isCheck(WHITE) == true);
 }
+
+TEST_CASE( "queen check" )
+{
+	initmagicmoves();
+
+	FastBoard fb = FastBoard("6q1/6q1/6q1/6q1/8/2k2K2/8/Q7 w - -");
+	REQUIRE(fb.isCheck(BLACK) == true);
+	REQUIRE(fb.isCheck(WHITE) == false);
+}
+
+
