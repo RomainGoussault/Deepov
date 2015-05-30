@@ -32,8 +32,9 @@ public:
     std::vector<FastMove> getWhitePawnPseudoLegalMoves() const;
     std::vector<FastMove> getBlackPawnPseudoLegalMoves() const;
 
-
-    /* Legal Moves */
+    /* Moves */
+    std::vector<FastMove> getPseudoLegalMoves();
+    std::vector<FastMove> getPseudoLegalMoves(const int color);
     std::vector<FastMove> getLegalMoves();
     std::vector<FastMove> getLegalMoves(const int color);
 

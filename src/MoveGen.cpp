@@ -379,12 +379,12 @@ std::vector<FastMove> MoveGen::getBlackPawnPseudoLegalMoves() const
 }
 
 
-std::vector<FastMove> MoveGen::getLegalMoves()
+std::vector<FastMove> MoveGen::getPseudoLegalMoves()
 {
 	return getLegalMoves(myBoard->getColorToPlay());
 }
 
-std::vector<FastMove> MoveGen::getLegalMoves(const int color)
+std::vector<FastMove> MoveGen::getPseudoLegalMoves(const int color)
 {
 	std::vector<FastMove> legalMoves;
 
@@ -404,6 +404,23 @@ std::vector<FastMove> MoveGen::getLegalMoves(const int color)
 	legalMoves.insert(legalMoves.end(), kingLegalMoves.begin(), kingLegalMoves.end());
 
 	return legalMoves;
+}
+
+std::vector<FastMove> MoveGen::getLegalMoves()
+{
+	return getLegalMoves(myBoard->getColorToPlay());
+}
+
+std::vector<FastMove> MoveGen::getLegalMoves(const int color)
+{
+	std::vector<FastMove> moves = getPseudoLegalMoves(color);
+
+	moves.erase(std::remove_if(moves.begin(), moves.end(),
+			[&](FastMove move) mutable { return !myBoard->isMoveLegal(move); }), moves.end());
+	//TODO make this easier to understand..
+
+
+	return moves;
 }
 
   /* Special Moves */

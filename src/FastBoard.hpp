@@ -47,7 +47,6 @@ public:
 	FastBoard(const std::string fen);
 
 	/* Get the bitboards */
-
     U64 getWhitePawns() const;
 	U64 getWhiteKnights() const;
 	U64 getWhiteBishops() const;
@@ -84,23 +83,23 @@ public:
 
 
 	/* Moves methods */
-
-
+    bool isMoveLegal(FastMove &move); // uses executeMove and undoMove so it can't be const
     void executeMove(const FastMove &move);
     void undoMove(const FastMove &move);
     int perft(int depth);
     int divide(int depth);
     boost::optional<FastMove> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
-
+    //PieceType method
     int findPieceType(const int position, const int color) const;
     int findWhitePieceType(const int position) const;
     int findBlackPieceType(const int position) const;
-    // the position is the MSB index, it returns an int between 0 and 5
+
+    //Check methods
+    bool isCheck(const int color) const;
 
 
 	/* ************* */
-
     char getChar(const int file, const int rank) const;
 
     //Static functions

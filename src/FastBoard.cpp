@@ -187,6 +187,11 @@ int FastBoard::findWhitePieceType(const int position) const
     }
 }
 
+/**
+ * This method returns an int between 0 and 5 representing the type
+ *  of the piece at the given position (MSB index) and for the given
+ *  color.
+ */
 int FastBoard::findPieceType(const int position, const int color) const
 {
 	if(color == WHITE)
@@ -199,6 +204,40 @@ int FastBoard::findPieceType(const int position, const int color) const
 	}
 }
 
+bool FastBoard::isMoveLegal(FastMove &move)
+{
+	bool isLegalMove = true;
+	int color = myColorToPlay;
+
+	executeMove(move);
+
+	if(isCheck(color))
+	{
+		isLegalMove = false;
+	}
+
+	undoMove(move);
+
+	return isLegalMove;
+}
+
+bool FastBoard::isCheck(const int color) const
+{
+	int ennemyColor = Utils::getOppositeColor(color);
+
+/*	std::vector<Position> ennemyAttackingPositions = getAttackedPositions(ennemyColor);
+	Position kingPosition = getKingPosition(color);
+
+	if(std::find(ennemyAttackingPositions.begin(), ennemyAttackingPositions.end(), kingPosition) != ennemyAttackingPositions.end())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}*/
+	return false;
+}
 
 void FastBoard::executeMove(const FastMove &move)
 {
