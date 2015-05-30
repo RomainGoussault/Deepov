@@ -241,45 +241,45 @@ std::vector<FastMove> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
 {
 	std::vector<FastMove> pawnMoves;
-    U64 pawnPositions = myBoard->getWhitePawns();
+	U64 pawnPositions = myBoard->getWhitePawns();
 
-    while(pawnPositions)
+	while(pawnPositions)
 	{
-        int pawnIndex = FastBoard::getMsbIndex(pawnPositions);
+		int pawnIndex = FastBoard::getMsbIndex(pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
-    /* check the single space in front of the white pawn */
-	U64 firstStep = (pawnPos << 8) & ~myBoard->getAllPieces();
+		/* check the single space in front of the white pawn */
+		U64 firstStep = (pawnPos << 8) & ~myBoard->getAllPieces();
 
-	/* for all moves that came from rank 2 (home row), and passed the above
+		/* for all moves that came from rank 2 (home row), and passed the above
 		filter, thereby being on rank 3, ie. on MASK_RANK[2], check and see if I can move forward
 		one more */
-	U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces();
+		U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces();
 
-	/* next we calculate the pawn attacks */
+		/* next we calculate the pawn attacks */
 
-	/* check the left side of the pawn, minding the underflow File A */
-	U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) << 7;
+		/* check the left side of the pawn, minding the underflow File A */
+		U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) << 7;
 
-	/* then check the right side of the pawn, minding the overflow File H */
-	U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) << 9;
+		/* then check the right side of the pawn, minding the overflow File H */
+		U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) << 9;
 
-	/* the union of the left and right attacks together make up all the
+		/* the union of the left and right attacks together make up all the
         possible attacks
 	   Calculate where I can _actually_ attack something */
 
-	U64 validAttacks = (leftAttack | rightAttack) & myBoard->getBlackPieces();
+		U64 validAttacks = (leftAttack | rightAttack) & myBoard->getBlackPieces();
 
-	/* then we combine the two situations in which a white pawn can legally
+		/* then we combine the two situations in which a white pawn can legally
 		attack/move. */
-	// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
+		// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-    addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-    addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves);
-    addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
-    addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-    addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
+		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves);
+		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
+		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7],pawnIndex, pawnMoves);
 
 	}
 
@@ -289,45 +289,45 @@ std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
 std::vector<FastMove> MoveGen::getBlackPawnPseudoLegalMoves() const
 {
 	std::vector<FastMove> pawnMoves;
-    U64 pawnPositions = myBoard->getBlackPawns();
+	U64 pawnPositions = myBoard->getBlackPawns();
 
-    while(pawnPositions)
+	while(pawnPositions)
 	{
-        int pawnIndex = FastBoard::getMsbIndex(pawnPositions);
+		int pawnIndex = FastBoard::getMsbIndex(pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
-    /* check the single space in front of the white pawn */
-	U64 firstStep = (pawnPos >> 8) & ~myBoard->getAllPieces();
+		/* check the single space in front of the white pawn */
+		U64 firstStep = (pawnPos >> 8) & ~myBoard->getAllPieces();
 
-	/* for all moves that came from rank 7 (home row), and passed the above
+		/* for all moves that came from rank 7 (home row), and passed the above
 		filter, thereby being on rank 6, ie. on MASK_RANK[5], check and see if I can move forward
 		one more */
-	U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces();
+		U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces();
 
-	/* next we calculate the pawn attacks */
+		/* next we calculate the pawn attacks */
 
-	/* check the left side of the pawn, minding the underflow File A */
-	U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) >> 7;
+		/* check the left side of the pawn, minding the underflow File A */
+		U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) >> 7;
 
-	/* then check the right side of the pawn, minding the overflow File H */
-	U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) >> 9;
+		/* then check the right side of the pawn, minding the overflow File H */
+		U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) >> 9;
 
-	/* the union of the left and right attacks together make up all the
+		/* the union of the left and right attacks together make up all the
         possible attacks
 	   Calculate where I can _actually_ attack something */
 
-	U64 validAttacks = (leftAttack | rightAttack) & myBoard->getWhitePieces();
+		U64 validAttacks = (leftAttack | rightAttack) & myBoard->getWhitePieces();
 
-	/* then we combine the two situations in which a white pawn can legally
+		/* then we combine the two situations in which a white pawn can legally
 		attack/move. */
-	// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
+		// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-    addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-    addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves);
-    addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
-    addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
-    addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
+		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves);
+		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
+		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0],pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0],pawnIndex, pawnMoves);
 
 	}
 
@@ -375,82 +375,82 @@ std::vector<FastMove> MoveGen::getLegalMoves(const int color)
 			[&](FastMove move) mutable { return !myBoard->isMoveLegal(move); }), moves.end());
 	//TODO make this easier to understand..
 
-
 	return moves;
 }
 
   /* Special Moves */
 std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 {
-    std::vector<FastMove> enPassantMoves;
-    U64 validPawns = (myBoard->getWhitePawns() & LookUpTables::MASK_RANK[4]);
+	std::vector<FastMove> enPassantMoves;
+	U64 validPawns = (myBoard->getWhitePawns() & LookUpTables::MASK_RANK[4]);
 
-    /* Easiest test first */
-    if (validPawns == 0) {return enPassantMoves;}
+	/* Easiest test first */
+	if (validPawns == 0) {return enPassantMoves;}
 
-    if (myBoard->getMovesHistory().size() == 0) /* If position comes from FEN i won't have a lastMove in the
+	if (myBoard->getMovesHistory().size() == 0) /* If position comes from FEN i won't have a lastMove in the
         move vector. Ultimately with UCI we will only use this case. */
-    {
-        return enPassantMoves;
-    }
-    else
-    {
-        boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+	{
+		return enPassantMoves;
+	}
+	else
+	{
+		boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
 
-        // TODO : implement DOUBLEPAWNPUSH flag in pawn getpseudolegals
-        if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
-        {
-            while (validPawns)
-            {
-                unsigned int enemyDestination = enemyLastMove->getDestination();
-                int validPawnIndex = FastBoard::getMsbIndex(validPawns);
-                validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
+		// TODO : implement DOUBLEPAWNPUSH flag in pawn getpseudolegals
+		if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
+		{
+			while (validPawns)
+			{
+				unsigned int enemyDestination = enemyLastMove->getDestination();
+				int validPawnIndex = FastBoard::getMsbIndex(validPawns);
+				validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
 
-                if (abs(validPawnIndex - enemyDestination) == 1)
-                {
-                    FastMove epMove(validPawnIndex,enemyDestination+8,FastMove::EPCAPTURE_FLAG,FastMove::PAWN_TYPE);
-                    epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
-                    enPassantMoves.push_back(epMove);
-                }
-            }
-        }
-        return enPassantMoves;
-    }
+				if (abs(validPawnIndex - enemyDestination) == 1)
+				{
+					FastMove epMove(validPawnIndex,enemyDestination+8,FastMove::EPCAPTURE_FLAG,FastMove::PAWN_TYPE);
+					epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
+					enPassantMoves.push_back(epMove);
+				}
+			}
+		}
+		return enPassantMoves;
+	}
 }
+
 std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 {
-     std::vector<FastMove> enPassantMoves;
-    U64 validPawns = (myBoard->getBlackPawns() & LookUpTables::MASK_RANK[3]);
+	std::vector<FastMove> enPassantMoves;
+	U64 validPawns = (myBoard->getBlackPawns() & LookUpTables::MASK_RANK[3]);
 
-    /* Easiest test first */
-    if (validPawns == 0) {return enPassantMoves;}
+	/* Easiest test first */
+	if (validPawns == 0) {return enPassantMoves;}
 
-    if (myBoard->getMovesHistory().size() == 0) /* If position comes from FEN i won't have a lastMove in the
+	if (myBoard->getMovesHistory().size() == 0) /* If position comes from FEN i won't have a lastMove in the
         move vector. Ultimately with UCI we will only use this case. */
-    {
-        return enPassantMoves;
-    }
-    else
-    {
-        boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+	{
+		return enPassantMoves;
+	}
+	else
+	{
+		boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
 
-        // TODO : implement DOUBLEPAWNPUSH flag in pawn getpseudolegals
-        if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
-        {
-            while (validPawns)
-            {
-                unsigned int enemyDestination = enemyLastMove->getDestination();
-                int validPawnIndex = FastBoard::getMsbIndex(validPawns);
-                validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
+		// TODO : implement DOUBLEPAWNPUSH flag in pawn getpseudolegals
+		if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
+		{
+			while (validPawns)
+			{
+				unsigned int enemyDestination = enemyLastMove->getDestination();
+				int validPawnIndex = FastBoard::getMsbIndex(validPawns);
+				validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
 
-                if (abs(validPawnIndex - enemyDestination) == 1)
-                {
-                    FastMove epMove(validPawnIndex,enemyDestination-8,FastMove::EPCAPTURE_FLAG,FastMove::PAWN_TYPE);
-                    epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
-                    enPassantMoves.push_back(epMove);
-                }
-            }
-        }
-        return enPassantMoves;
-    }
+				if (abs(validPawnIndex - enemyDestination) == 1)
+				{
+					FastMove epMove(validPawnIndex,enemyDestination-8,FastMove::EPCAPTURE_FLAG,FastMove::PAWN_TYPE);
+					epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
+					enPassantMoves.push_back(epMove);
+				}
+			}
+		}
+		return enPassantMoves;
+	}
 }
