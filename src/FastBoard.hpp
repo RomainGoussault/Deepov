@@ -100,11 +100,13 @@ public:
 
     //Attacked positions
     U64 getAttackedPositions(const int color) const;
-    U64 getKnightDestinations(const int knightIndex, const int& color) const;
-    U64 getKnightAttackedPositions(const int& color) const;
+    U64 getKingAttackedPositions(const int& color) const;
+    U64 getKingDestinations(const U64 kingPos, const int& color) const;
+    U64 getQueenAttackedPositions(const int& color) const;
     U64 getRookAttackedPositions(const int& color) const;
     U64 getBishopAttackedPositions(const int& color) const;
-    U64 getQueenAttackedPositions(const int& color) const;
+    U64 getKnightDestinations(const int knightIndex, const int& color) const;
+    U64 getKnightAttackedPositions(const int& color) const;
 
 
 	/* ************* */

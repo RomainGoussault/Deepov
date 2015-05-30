@@ -238,9 +238,10 @@ U64 FastBoard::getAttackedPositions(const int color) const {
 	U64 rookAttackedPosition = getRookAttackedPositions(color);
 	U64 bishopAttackedPosition = getBishopAttackedPositions(color);
 	U64 queenAttackedPosition = getQueenAttackedPositions(color);
+	U64 kingAttackedPosition = getKingAttackedPositions(color);
 
 	U64 attackedPositions = knightAttackedDestinations | rookAttackedPosition
-			| bishopAttackedPosition | queenAttackedPosition;
+			| bishopAttackedPosition | queenAttackedPosition | kingAttackedPosition;
 	return attackedPositions;
 }
 
@@ -261,6 +262,43 @@ U64 FastBoard::getKnightAttackedPositions(const int& color) const
 	}
 
 	return knightAttackedDestinations;
+}
+
+U64 FastBoard::getKingAttackedPositions(const int& color) const
+{
+	U64 kingPosition = color == WHITE ? getWhiteKing() : getBlackKing();
+	U64 kingAttackedDestinations = getKingDestinations(kingPosition, color);
+
+	return kingAttackedDestinations;
+}
+
+U64 FastBoard::getKingDestinations(const U64 kingPos, const int& color) const
+{
+	/* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
+	/* we can ignore the rank clipping since the overflow/underflow with
+	respect to rank simply vanishes. We only care about the file
+	overflow/underflow. */
+	U64	king_clip_file_h(kingPos & LookUpTables::CLEAR_FILE[7]);
+	U64 king_clip_file_a(kingPos & LookUpTables::CLEAR_FILE[0]);
+
+	/* remember the representation of the board in relation to the bitindex
+	when looking at these shifts.... There is an error in the source link
+	the code is copied from !! */
+	U64 NW(king_clip_file_a << 7);
+	U64 N(kingPos << 8);
+	U64 NE(king_clip_file_h << 9);
+	U64 E(king_clip_file_h << 1);
+
+	U64 SE(king_clip_file_h >> 7);
+	U64 S(kingPos >> 8);
+	U64 SW(king_clip_file_a >> 9);
+	U64 W(king_clip_file_a >> 1);
+
+	/* N = north, NW = North West, from King location, etc */
+	U64 kingDestinations = NW | N | NE | E | SE | S | SW | W;
+	U64 kingValidDestinations = kingDestinations & ~getPieces(color);
+
+	return kingValidDestinations;
 }
 
 U64 FastBoard::getRookAttackedPositions(const int& color) const

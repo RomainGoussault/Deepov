@@ -38,4 +38,15 @@ TEST_CASE( "queen check" )
 	REQUIRE(fb.isCheck(WHITE) == false);
 }
 
+TEST_CASE( "king check" )
+{
+	FastBoard fb = FastBoard("8/8/1k6/8/8/3K4/8/8 w - -");
+	REQUIRE(fb.isCheck(BLACK) == false);
+	REQUIRE(fb.isCheck(WHITE) == false);
+
+	fb = FastBoard("8/8/8/8/2k5/3K4/8/8 w - -");
+	REQUIRE(fb.isCheck(BLACK) == true);
+	REQUIRE(fb.isCheck(WHITE) == true);
+}
+
 

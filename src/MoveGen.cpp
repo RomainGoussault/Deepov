@@ -105,29 +105,7 @@ std::vector<FastMove> MoveGen::getKingPseudoLegalMoves(const int& color) const
 {
 	U64 kingPos = color == WHITE ? myBoard->getWhiteKing() : myBoard->getBlackKing();
 
-    /* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
-	/* we can ignore the rank clipping since the overflow/underflow with
-		respect to rank simply vanishes. We only care about the file
-		overflow/underflow. */
-    U64	king_clip_file_h(kingPos & LookUpTables::CLEAR_FILE[7]);
-	U64 king_clip_file_a(kingPos & LookUpTables::CLEAR_FILE[0]);
-
-	/* remember the representation of the board in relation to the bitindex
-		when looking at these shifts.... There is an error in the source link
-		the code is copied from !! */
-	U64 NW(king_clip_file_a << 7);
-	U64 N(kingPos << 8);
-	U64 NE(king_clip_file_h << 9);
-	U64 E(king_clip_file_h << 1);
-
-	U64 SE(king_clip_file_h >> 7);
-	U64 S(kingPos >> 8);
-	U64 SW(king_clip_file_a >> 9);
-	U64 W(king_clip_file_a >> 1);
-
-	/* N = north, NW = North West, from King location, etc */
-	U64 kingDestinations = NW | N | NE | E | SE | S | SW | W;
-	U64 kingValidDestinations = kingDestinations & ~myBoard->getPieces(color);
+	U64 kingValidDestinations = myBoard->getKingDestinations(kingPos, color);
 
 	int ennemyColor = Utils::getOppositeColor(color);
 	int kingIndex = FastBoard::getMsbIndex(kingPos);
@@ -137,7 +115,7 @@ std::vector<FastMove> MoveGen::getKingPseudoLegalMoves(const int& color) const
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 
 	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
-	addCaptureMoves(kingCaptureDestinations,kingIndex, kingMoves, FastMove::KING_TYPE);
+	addCaptureMoves(kingCaptureDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
 
 	return kingMoves;
 }
