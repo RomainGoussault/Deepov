@@ -451,3 +451,25 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 		return enPassantMoves;
 	}
 }
+
+bool MoveGen::isQueenSideCastlingPossible(const int color) const
+{
+	//This return false if the queen side rook or the king has already moved
+	bool iQSCP = true; //board.isQueenSideCastlingAllowed(myColor); TODO
+
+	if(!iQSCP) return false;
+
+	int y = color == WHITE ? 0 : 7 ;
+	int ennemyColor = color == WHITE ? BLACK : WHITE;
+	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
+
+	//check if positions between the rook and the king are attacked
+	const U64 rockBitBoardWhite = 28; //TODO find a better name, add if for black
+	iQSCP &= !(rockBitBoardWhite & attackedPositions);
+
+	//check if positions between the rook and the king are free
+	const U64 rockBitBoardWhiteFree = 14; //TODO find a better name, add if for black
+	iQSCP &= !(rockBitBoardWhiteFree & myBoard->getAllPieces());
+
+	return iQSCP;
+}

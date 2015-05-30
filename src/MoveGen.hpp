@@ -38,6 +38,10 @@ public:
     std::vector<FastMove> getLegalMoves();
     std::vector<FastMove> getLegalMoves(const int color);
 
+    //Castling
+	bool isQueenSideCastlingPossible(const int color) const;
+
+
 private:
 
     std::shared_ptr<FastBoard> myBoard;
