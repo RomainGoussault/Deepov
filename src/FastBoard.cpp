@@ -489,12 +489,18 @@ void FastBoard::executeMove(const FastMove &move)
 	}
 	else
 	{*/
-		if(move.isCapture())
-		{
-			//remove the captured piece
-			int type(move.getCapturedPieceType());
-			removePiece(destination, type, Utils::getOppositeColor(myColorToPlay)); //TODO does not work for en passsant
-		}
+	if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
+    {
+        unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+        removePiece(capturedPawnIndex, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
+    }
+    else if(move.isCapture())
+    {
+        //remove the captured piece
+        int type(move.getCapturedPieceType());
+        removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
+    }
+
 
 	movePiece(origin, destination, pieceType, myColorToPlay);
 
