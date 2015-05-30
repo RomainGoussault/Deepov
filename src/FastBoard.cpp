@@ -643,12 +643,17 @@ void FastBoard::undoMove(const FastMove &move)
 	{*/
 	movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
 
-		if(move.isCapture())
-		{
-			//add the captured piece
-			int type(move.getCapturedPieceType());
-			addPiece(destination, type, myColorToPlay); // TODO
-		}
+    if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
+    {
+        unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+        addPiece(capturedPawnIndex, FastMove::PAWN_TYPE, myColorToPlay);
+    }
+    else if(move.isCapture())
+    {
+        //add the captured piece
+        int type(move.getCapturedPieceType());
+        addPiece(destination, type, myColorToPlay);
+    }
 
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
