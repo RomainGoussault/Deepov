@@ -102,6 +102,7 @@ public:
     U64 getAttackedPositions(const int color) const;
     U64 getKnightDestinations(const int knightIndex, const int& color) const;
     U64 getKnightAttackedPositions(const int& color) const;
+    U64 getRookAttackedPositions(const int& color) const;
 
 
 	/* ************* */

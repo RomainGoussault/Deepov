@@ -236,8 +236,9 @@ bool FastBoard::isCheck(const int color) const
 U64 FastBoard::getAttackedPositions(const int color) const
 {
 	U64 knightAttackedDestinations = getKnightAttackedPositions(color);
+	U64 rookAttackedPosition = getRookAttackedPositions(color);
 
-	U64 attackedPositions = knightAttackedDestinations;
+	U64 attackedPositions = knightAttackedDestinations | rookAttackedPosition;
 	return attackedPositions;
 }
 
@@ -259,6 +260,25 @@ U64 FastBoard::getKnightAttackedPositions(const int& color) const
 
 	return knightAttackedDestinations;
 }
+
+U64 FastBoard::getRookAttackedPositions(const int& color) const
+{
+	U64 rookAttackedDestinations = 0LL;
+	U64 rookPositions = color == WHITE ? getWhiteRooks() : getBlackRooks();
+
+	//loop through the rooks:
+	while(rookPositions)
+	{
+		int rookIndex = FastBoard::getMsbIndex(rookPositions);
+		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
+
+		U64 rookDestinations = Rmagic(rookIndex, getAllPieces()) & ~getPieces(color);
+		rookAttackedDestinations |= rookDestinations;
+	}
+
+	return rookAttackedDestinations;
+}
+
 
 U64 FastBoard::getKnightDestinations(const int knightIndex, const int& color) const
 {
