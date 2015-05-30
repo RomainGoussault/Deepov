@@ -226,20 +226,11 @@ bool FastBoard::isCheck(const int color) const
 	int ennemyColor = Utils::getOppositeColor(color);
 	U64 ennemyAttackingPositions = getAttackedPositions(ennemyColor);
 
+	U64 kingPosition = color == WHITE ? getWhiteKing() : getBlackKing();
 
+	bool isCheck = ennemyAttackingPositions & kingPosition;
 
-/*	std::vector<Position> ennemyAttackingPositions = getAttackedPositions(ennemyColor);
-	Position kingPosition = getKingPosition(color);
-
-	if(std::find(ennemyAttackingPositions.begin(), ennemyAttackingPositions.end(), kingPosition) != ennemyAttackingPositions.end())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}*/
-	return false;
+	return isCheck;
 }
 
 U64 FastBoard::getAttackedPositions(const int color) const
