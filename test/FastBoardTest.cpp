@@ -109,11 +109,11 @@ TEST_CASE( "Perft from initial position ", "[perft]")
 		REQUIRE(board.perft(4) == 197281);
 	}
 
-	SECTION("Perft 5")
+	/*SECTION("Perft 5") working but slow
 	{
 		initmagicmoves();
 
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		REQUIRE(board.perft(5) == 4865609);
-	}
+	}*/
 }
