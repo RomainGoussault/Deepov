@@ -240,7 +240,7 @@ std::vector<FastMove> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 
 std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
 {
-	std::vector<FastMove> pawnMoves;
+	std::vector<FastMove> pawnMoves(getWhiteEnPassantMoves());
 	U64 pawnPositions = myBoard->getWhitePawns();
 
 	while(pawnPositions)
@@ -287,7 +287,7 @@ std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
 
 std::vector<FastMove> MoveGen::getBlackPawnPseudoLegalMoves() const
 {
-	std::vector<FastMove> pawnMoves;
+	std::vector<FastMove> pawnMoves(getBlackEnPassantMoves());
 	U64 pawnPositions = myBoard->getBlackPawns();
 
 	while(pawnPositions)

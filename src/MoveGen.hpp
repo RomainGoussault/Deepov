@@ -18,7 +18,7 @@ public:
     /* Get Attributes */
     inline std::vector<FastMove> getMoves() {return getLegalMoves();};
 
-        /* Special Moves */
+    /* Special Moves */
     std::vector<FastMove> getWhiteEnPassantMoves() const;
     std::vector<FastMove> getBlackEnPassantMoves() const;
 
