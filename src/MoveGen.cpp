@@ -384,34 +384,25 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 	/* Easiest test first */
 	if (validPawns == 0) {return enPassantMoves;}
 
-	if (myBoard->getMovesHistory().size() == 0) /* If position comes from FEN i won't have a lastMove in the
-        move vector. Ultimately with UCI we will only use this case. */
-	{
-		return enPassantMoves;
-	}
-	else
-	{
-		boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+    boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+    if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
+    {
+        while (validPawns)
+        {
+            unsigned int enemyDestination = enemyLastMove->getDestination();
+            int validPawnIndex = FastBoard::getMsbIndex(validPawns);
+            validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
 
-		// TODO : implement DOUBLEPAWNPUSH flag in pawn getpseudolegals
-		if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
-		{
-			while (validPawns)
-			{
-				unsigned int enemyDestination = enemyLastMove->getDestination();
-				int validPawnIndex = FastBoard::getMsbIndex(validPawns);
-				validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
+            if (abs(validPawnIndex - enemyDestination) == 1)
+            {
+                FastMove epMove(validPawnIndex,enemyDestination+8,FastMove::EPCAPTURE_FLAG,FastMove::PAWN_TYPE);
+                epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
+                enPassantMoves.push_back(epMove);
+            }
+        }
+    }
 
-				if (abs(validPawnIndex - enemyDestination) == 1)
-				{
-					FastMove epMove(validPawnIndex,enemyDestination+8,FastMove::EPCAPTURE_FLAG,FastMove::PAWN_TYPE);
-					epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
-					enPassantMoves.push_back(epMove);
-				}
-			}
-		}
-		return enPassantMoves;
-	}
+    return enPassantMoves;
 }
 
 std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
