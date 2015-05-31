@@ -40,3 +40,46 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 		REQUIRE(epSize == 1);
 	}
 }
+
+TEST_CASE( "Castling" )
+{
+	SECTION("Castling possible")
+	{
+		FastBoard board("r3k2r/pppppppp/8/2nqn3/1NBQ1N2/8/PPPPPPPP/R3K2R w KQkq -");
+	    MoveGen moveGen(board);
+	    REQUIRE(moveGen.isQueenSideCastlingPossible(WHITE) == true);
+	    REQUIRE(moveGen.isQueenSideCastlingPossible(BLACK) == true);
+	    REQUIRE(moveGen.isKingSideCastlingPossible(WHITE) == true);
+	    REQUIRE(moveGen.isKingSideCastlingPossible(BLACK) == true);
+	}
+
+	SECTION("Castling not possible because pieces are in the middle")
+	{
+		FastBoard board("r2nkq1r/pppppppp/8/2B5/3Q4/8/PPPPPPPP/RN2K1NR w KQkq -");
+	    MoveGen moveGen(board);
+	    REQUIRE(moveGen.isQueenSideCastlingPossible(WHITE) == false);
+	    REQUIRE(moveGen.isQueenSideCastlingPossible(BLACK) == false);
+	    REQUIRE(moveGen.isKingSideCastlingPossible(WHITE) == false);
+	    REQUIRE(moveGen.isKingSideCastlingPossible(BLACK) == false);
+	}
+
+	SECTION("Castling not possible because pieces attacking")
+	{
+		FastBoard board("r3k2r/pp1ppppp/4nqN1/N7/1P1Q1N2/b3rP1P/P1RP1PP1/R3K2R w KQkq -");
+	    MoveGen moveGen(board);
+	    REQUIRE(moveGen.isQueenSideCastlingPossible(WHITE) == false);
+	    REQUIRE(moveGen.isQueenSideCastlingPossible(BLACK) == false);
+	    REQUIRE(moveGen.isKingSideCastlingPossible(WHITE) == false);
+	    REQUIRE(moveGen.isKingSideCastlingPossible(BLACK) == false);
+	}
+
+	SECTION("Random castling test")
+	{
+		FastBoard board("r3k2r/Q3ppp1/4n3/Nppp2pR/1RP3P1/b3q1rP/P3N3/R3K2R w KQkq -");
+	    MoveGen moveGen(board);
+	    REQUIRE(moveGen.isQueenSideCastlingPossible(WHITE) == false);
+	    REQUIRE(moveGen.isQueenSideCastlingPossible(BLACK) == true);
+	    REQUIRE(moveGen.isKingSideCastlingPossible(WHITE) == false);
+	    REQUIRE(moveGen.isKingSideCastlingPossible(BLACK) == true);
+	}
+}
