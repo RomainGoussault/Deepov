@@ -448,6 +448,7 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 				}
 			}
 		}
+
 		return enPassantMoves;
 	}
 }
@@ -459,17 +460,37 @@ bool MoveGen::isQueenSideCastlingPossible(const int color) const
 
 	if(!iQSCP) return false;
 
-	int y = color == WHITE ? 0 : 7 ;
 	int ennemyColor = color == WHITE ? BLACK : WHITE;
 	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
 
-	//check if positions between the rook and the king are attacked
-	const U64 rockBitBoardWhite = 28; //TODO find a better name, add if for black
-	iQSCP &= !(rockBitBoardWhite & attackedPositions);
+	//check if positions between the rook and the king are not attacked
+	const U64 bitBoardNotTobeAttacked = color == WHITE ? 28 : 2017612633061982208LL; //TODO find a better name, add if for black
+	iQSCP &= !(bitBoardNotTobeAttacked & attackedPositions);
 
 	//check if positions between the rook and the king are free
-	const U64 rockBitBoardWhiteFree = 14; //TODO find a better name, add if for black
-	iQSCP &= !(rockBitBoardWhiteFree & myBoard->getAllPieces());
+	const U64 bitBoardToBeFree = color == WHITE ? 14 : 1008806316530991104LL; //TODO find a better name, add if for black
+	iQSCP &= !(bitBoardToBeFree & myBoard->getAllPieces());
 
 	return iQSCP;
+}
+
+bool MoveGen::isKingSideCastlingPossible(const int color) const
+{
+	//This return false if the king side rook or the king has already moved
+	bool iKSCP = true; //board.isKingSideCastlingAllowed(myColor); TODO
+
+	if(!iKSCP) return false;
+
+	int ennemyColor = color == WHITE ? BLACK : WHITE;
+	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
+
+	//check if positions between the rook and the king are not attacked
+	const U64 bitBoardNotTobeAttacked = color == WHITE ? 112 : 8070450532247928832LL; //TODO find a better name, add if for black
+	iKSCP &= !(bitBoardNotTobeAttacked & attackedPositions);
+
+	//check if positions between the rook and the king are free
+	const U64 bitBoardToBeFree = color == WHITE ? 96 : 6917529027641081856LL; //TODO find a better name, add if for black
+	iKSCP &= !(bitBoardToBeFree & myBoard->getAllPieces());
+
+	return iKSCP;
 }

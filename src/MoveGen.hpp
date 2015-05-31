@@ -40,6 +40,7 @@ public:
 
     //Castling
 	bool isQueenSideCastlingPossible(const int color) const;
+	bool isKingSideCastlingPossible(const int color) const;
 
 
 private:
