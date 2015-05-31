@@ -386,9 +386,10 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 
     boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
 
-    if (myBoard->getMovesHistory().size() == 0)
+    if (!enemyLastMove)
     {
-        std::cout << "No last move" << std::endl;
+        std::cout << "ERROR : No enemyLastMove move" << std::endl;
+        return enPassantMoves;
     }
     else if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
     {
@@ -418,9 +419,10 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 	/* Easiest test first */
 	if (validPawns == 0) {return enPassantMoves;}
 
-    if (myBoard->getMovesHistory().size() == 0)
+    if ((myBoard->getMovesHistory()).size() == 0)
     {
-        std::cout << "No last move" << std::endl;
+        std::cout << "ERROR : No enemyLastMove move" << std::endl;
+        return enPassantMoves;
     }
 	else
 	{
