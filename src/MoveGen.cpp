@@ -464,11 +464,11 @@ bool MoveGen::isQueenSideCastlingPossible(const int color) const
 	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
 
 	//check if positions between the rook and the king are not attacked
-	const U64 bitBoardNotTobeAttacked = color == WHITE ? 28 : 2017612633061982208LL; //TODO find a better name, add if for black
+	const U64 bitBoardNotTobeAttacked = color == WHITE ? 28 : 2017612633061982208LL;
 	iQSCP &= !(bitBoardNotTobeAttacked & attackedPositions);
 
 	//check if positions between the rook and the king are free
-	const U64 bitBoardToBeFree = color == WHITE ? 14 : 1008806316530991104LL; //TODO find a better name, add if for black
+	const U64 bitBoardToBeFree = color == WHITE ? 14 : 1008806316530991104LL;
 	iQSCP &= !(bitBoardToBeFree & myBoard->getAllPieces());
 
 	return iQSCP;
@@ -485,11 +485,11 @@ bool MoveGen::isKingSideCastlingPossible(const int color) const
 	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
 
 	//check if positions between the rook and the king are not attacked
-	const U64 bitBoardNotTobeAttacked = color == WHITE ? 112 : 8070450532247928832LL; //TODO find a better name, add if for black
+	const U64 bitBoardNotTobeAttacked = color == WHITE ? 112 : 8070450532247928832LL;
 	iKSCP &= !(bitBoardNotTobeAttacked & attackedPositions);
 
 	//check if positions between the rook and the king are free
-	const U64 bitBoardToBeFree = color == WHITE ? 96 : 6917529027641081856LL; //TODO find a better name, add if for black
+	const U64 bitBoardToBeFree = color == WHITE ? 96 : 6917529027641081856LL;
 	iKSCP &= !(bitBoardToBeFree & myBoard->getAllPieces());
 
 	return iKSCP;

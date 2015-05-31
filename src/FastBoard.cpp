@@ -26,7 +26,8 @@ FastBoard::FastBoard() :
 		myAllPieces(myBlackPieces | myWhitePieces),
 		myColorToPlay(WHITE),
 	    myMovesCounter(0),
-	    myHalfMovesCounter(0)
+	    myHalfMovesCounter(0),
+	    myCastling()
 {
 }
 
@@ -69,11 +70,11 @@ FastBoard::FastBoard(const std::string fen)
 			myColorToPlay = BLACK;
 		}
 
-		/*for (int i=0; i<3; ++i)
+		for (int i=0; i<3; ++i)
 		{
 			myCastling[i] = false;
 		}
-
+/*
 		Utils::getCastling(spaceSplit[2],myCastling);
 
 		if (spaceSplit[3][0] == '-')

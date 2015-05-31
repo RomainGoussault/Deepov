@@ -141,7 +141,7 @@ private:
 	U64 myAllPieces;
 
 	bool myColorToPlay;
-
+    bool myCastling[4] ; // Same order as FEN : white king side, white queen side, black king side, black queen side
     int myMovesCounter;
     int myHalfMovesCounter;
 
