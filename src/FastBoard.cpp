@@ -75,9 +75,9 @@ FastBoard::FastBoard(const std::string fen)
 			myCastling[i] = false;
 		}
 /*
-		Utils::getCastling(spaceSplit[2],myCastling);
+		Utils::getCastling(spaceSplit[2],myCastling); */
 
-		if (spaceSplit[3][0] == '-')
+		if (spaceSplit[3][0] != '-')
 		{
 			myEnPassant=boost::optional<Position>();
 		}
@@ -85,7 +85,7 @@ FastBoard::FastBoard(const std::string fen)
 		{
 			myEnPassant=boost::optional<Position>(Utils::getPosition(spaceSplit[3]));
 		}
-*/
+
 		// I put a condition in case the FEN format doesn't include the move counters
 		if (spaceSplit.size() >= 5)
 		{
@@ -742,6 +742,15 @@ char FastBoard::getChar(const int file, const int rank) const
 	}
 
 	return c;
+}
+
+// This method takes a position as a string (e.g. e4) and returns the index in Little-Endian
+// It will replace Utils::getPosition(), this version should be much better
+int FastBoard::getIndexFromChar(const std::string position) const
+{
+/* convert from char to int. In our board model row starts at index 0.
+    a will be 0 and h will be 7 */
+	return(position[0] - 'a'+8*(position[1] - '0'-1));
 }
 
 //This methods adds pieces to the board at the given rank and based on the give piecesString
