@@ -385,7 +385,12 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 	if (validPawns == 0) {return enPassantMoves;}
 
     boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
-    if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
+
+    if (myBoard->getMovesHistory().size() == 0)
+    {
+        std::cout << "No last move" << std::endl;
+    }
+    else if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
     {
         while (validPawns)
         {
@@ -413,11 +418,10 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 	/* Easiest test first */
 	if (validPawns == 0) {return enPassantMoves;}
 
-	if (myBoard->getMovesHistory().size() == 0) /* If position comes from FEN i won't have a lastMove in the
-        move vector. Ultimately with UCI we will only use this case. */
-	{
-		return enPassantMoves;
-	}
+    if (myBoard->getMovesHistory().size() == 0)
+    {
+        std::cout << "No last move" << std::endl;
+    }
 	else
 	{
 		boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
