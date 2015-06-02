@@ -19,7 +19,7 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 		REQUIRE(epSize == 1);
     }
 
-    SECTION("EnPassant after execute move")
+    SECTION("EnPassant after execute/undo move")
 	{
 		FastBoard board("rnbqkbnr/1ppppppp/p7/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
 		int origin = 53; // F7
@@ -38,6 +38,20 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 		std::vector<FastMove> epMoves = moveGen.getWhiteEnPassantMoves();
         int epSize = epMoves.size();
 		REQUIRE(epSize == 1);
+
+		std::cout << "Before EP" << std::endl;
+		std::cout << board << std::endl;
+
+		board.executeMove(epMoves[0]);
+
+		std::cout << "After EP" << std::endl;
+        std::cout << board << std::endl;
+
+		board.undoMove(epMoves[0]);
+
+		std::cout << "After undoMove of EP" << std::endl;
+		std::cout << board << std::endl;
+
 	}
 }
 

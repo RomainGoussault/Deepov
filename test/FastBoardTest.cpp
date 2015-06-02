@@ -67,52 +67,47 @@ TEST_CASE( "execute Move with capture" )
 */
 TEST_CASE( "Perft from initial position ", "[perft]")
 {
+    initmagicmoves();
 
 	SECTION("Perft 0")
 	{
-		initmagicmoves();
-
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		REQUIRE(board.perft(0) == 1);
 	}
 
 	SECTION("Perft 1")
 	{
-		initmagicmoves();
-
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		REQUIRE(board.perft(1) == 20);
 	}
 
 	SECTION("Perft 2")
 	{
-		initmagicmoves();
-
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		REQUIRE(board.perft(2) == 400);
 	}
 
 	SECTION("Perft 3")
 	{
-		initmagicmoves();
-
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		REQUIRE(board.perft(3) == 8902);
 	}
 
 	SECTION("Perft 4")
 	{
-		initmagicmoves();
-
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		REQUIRE(board.perft(4) == 197281);
 	}
 
 	/*SECTION("Perft 5") working but slow
 	{
-		initmagicmoves();
-
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		REQUIRE(board.perft(5) == 4865609);
 	}*/
+
+//SECTION("Perft 6")
+//	{
+//		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+//		REQUIRE(board.perft(6) == 119060324);
+//	}
 }

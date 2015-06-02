@@ -646,7 +646,7 @@ void FastBoard::undoMove(const FastMove &move)
 
     if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
     {
-        unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+        unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*Utils::getOppositeColor(myColorToPlay);
         addPiece(capturedPawnIndex, FastMove::PAWN_TYPE, myColorToPlay);
     }
     else if(move.isCapture())
