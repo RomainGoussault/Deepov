@@ -4,7 +4,7 @@
 
 
 /* Constructor */
-MoveGen::MoveGen(FastBoard board) : myBoard(std::make_shared<FastBoard>(board) )
+MoveGen::MoveGen(FastBoard* board) : myBoard(board)
 {
 }
 

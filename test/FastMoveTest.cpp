@@ -31,7 +31,7 @@ TEST_CASE( "is capture" )
 	initmagicmoves();
 
 	FastBoard board("8/8/3k4/8/8/8/n4K2/rR6 b - -");
-	MoveGen moveGen(board);
+	MoveGen moveGen(&board);
 
 	FastMove move = moveGen.getRookPseudoLegalMoves(BLACK)[0];
     REQUIRE(move.isCapture() == true);
@@ -45,7 +45,7 @@ TEST_CASE( "execute Move" )
 	initmagicmoves();
 
 	FastBoard fb = FastBoard("8/8/8/8/8/8/2Q5/N7 w - -");
-	MoveGen moveGen(fb);
+	MoveGen moveGen(&fb);
 
 	U64 bb = fb.getWhiteKnights();
 
@@ -68,7 +68,7 @@ TEST_CASE( "undo Move" )
 	initmagicmoves();
 
 	FastBoard fb = FastBoard("8/8/8/8/8/8/6bn/5qr1 b - -");
-	MoveGen moveGen(fb);
+	MoveGen moveGen(&fb);
 
 	int size = moveGen.getRookPseudoLegalMoves(BLACK).size();
     REQUIRE(size == 1);

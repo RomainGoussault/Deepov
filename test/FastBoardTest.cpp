@@ -26,7 +26,7 @@ TEST_CASE( "is bit Set method" )
 TEST_CASE( "Move methods" )
 {
     FastBoard board;
-    MoveGen moveGen(board);
+    MoveGen moveGen(&board);
 
     std::vector<FastMove> moveList = moveGen.getWhitePawnPseudoLegalMoves();
     REQUIRE(moveList.size() == 16);
@@ -99,15 +99,15 @@ TEST_CASE( "Perft from initial position ", "[perft]")
 		REQUIRE(board.perft(4) == 197281);
 	}
 
-	/*SECTION("Perft 5") working but slow
+	/*SECTION("Perft 5") // working but slow
 	{
 		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		REQUIRE(board.perft(5) == 4865609);
 	}*/
 
-//SECTION("Perft 6")
-//	{
-//		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-//		REQUIRE(board.perft(6) == 119060324);
-//	}
+    /*SECTION("Perft 6") // works fine
+	{
+		FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		REQUIRE(board.perft(6) == 119060324);
+	}*/
 }
