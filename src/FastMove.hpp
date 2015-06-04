@@ -77,10 +77,8 @@ public:
 	    myMove &= ~0x380000; myMove |= ((type & 0x3f) << 19);
 	}
 
-	inline bool isCapture() const
-	{
-	    return getFlags() & CAPTURE_FLAG;
-	}
+	inline bool isCapture() const {return getFlags() & CAPTURE_FLAG;}
+	inline bool isPromotion() const {return getFlags() & PROMOTION_FLAG;}
 
 	std::string toShortString() const
 	{

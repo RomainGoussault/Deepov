@@ -476,35 +476,37 @@ void FastBoard::executeMove(const FastMove &move)
 		}
 
 		movePiece(getPiecePtr(rookOrigin),rookDestination);
-	}
-	else if(move.isPromotion())
+	} */
+
+    if (move.isPromotion())
 	{
-		if(isCaptureMove)
+	    int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG + 1 ; // +1 because 0 is PAWN_TYPE
+		if(move.isCapture())
 		{
+		    promotedType -= FastMove::CAPTURE_FLAG;
 			//remove the captured piece
-			removePiece(capturePiecePtr->getPosition());
+			int type(move.getCapturedPieceType());
+			removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
 		}
 
-        removePiece(pieceToMove->getPosition());
-        addPiece(move.getPromotedPiece());
+        removePiece(origin, FastMove::PAWN_TYPE, myColorToPlay);
+        addPiece(destination, promotedType, myColorToPlay);
 	}
 	else
-	{*/
-	if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
     {
-        unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
-        removePiece(capturedPawnIndex, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
+        if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
+        {
+            unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+            removePiece(capturedPawnIndex, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
+        }
+        else if(move.isCapture())
+        {
+            //remove the captured piece
+            int type(move.getCapturedPieceType());
+            removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
+        }
+        movePiece(origin, destination, pieceType, myColorToPlay);
     }
-    else if(move.isCapture())
-    {
-        //remove the captured piece
-        int type(move.getCapturedPieceType());
-        removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
-    }
-
-
-	movePiece(origin, destination, pieceType, myColorToPlay);
-
 
 	myMoves.push_back(move);
 
