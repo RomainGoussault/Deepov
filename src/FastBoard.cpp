@@ -627,37 +627,37 @@ void FastBoard::undoMove(const FastMove &move)
 		}
 
 		movePiece(getPiecePtr(rookDestination),rookOrigin);
-	}
-	else if(move.isPromotion())
+	} */
+
+	if(move.isPromotion())
 	{
-        removePiece(destination);
-//        PiecePtr pawnPtr(new Pawn(origin, Utils::getOppositeColor(myColorToPlay)));
-//        addPiece(pawnPtr);
-        addPiece(move.getPromotedPawn());
-
-        if(isCaptureMove)
+	    int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG + 1;
+        if(move.isCapture())
 		{
-			//add the captured piece
-			addPiece(capturePiecePtr);
+            promotedType -= FastMove::CAPTURE_FLAG;
+            //add the captured piece
+            int type(move.getCapturedPieceType());
+            addPiece(destination, type, myColorToPlay);
 		}
-
+        removePiece(destination, promotedType, Utils::getOppositeColor(myColorToPlay));
+        addPiece(origin, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
 	}
 	else
-	{*/
-	movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
+	{
+        movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
 
-    if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
-    {
-        unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*Utils::getOppositeColor(myColorToPlay);
-        addPiece(capturedPawnIndex, FastMove::PAWN_TYPE, myColorToPlay);
-    }
-    else if(move.isCapture())
-    {
-        //add the captured piece
-        int type(move.getCapturedPieceType());
-        addPiece(destination, type, myColorToPlay);
-    }
-
+        if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
+        {
+            unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*Utils::getOppositeColor(myColorToPlay);
+            addPiece(capturedPawnIndex, FastMove::PAWN_TYPE, myColorToPlay);
+        }
+        else if(move.isCapture())
+        {
+            //add the captured piece
+            int type(move.getCapturedPieceType());
+            addPiece(destination, type, myColorToPlay);
+        }
+	}
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
 
