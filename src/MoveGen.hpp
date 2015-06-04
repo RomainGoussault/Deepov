@@ -14,7 +14,7 @@ class MoveGen {
 public:
 
     MoveGen(FastBoard board);
-    MoveGen(std::shared_ptr<FastBoard> b);
+    MoveGen(std::shared_ptr<FastBoard> boardPtr);
 
     /* Get Attributes */
     inline std::vector<FastMove> getMoves() {return getLegalMoves();};
@@ -42,9 +42,6 @@ public:
     //Castling
 	bool isQueenSideCastlingPossible(const int color) const;
 	bool isKingSideCastlingPossible(const int color) const;
-
-	inline std::vector<FastMove> getMovesHistory() const {return myBoard->getMovesHistory();};
-
 
 
 private:

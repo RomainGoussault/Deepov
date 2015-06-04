@@ -8,9 +8,9 @@ MoveGen::MoveGen(FastBoard board) : myBoard(std::make_shared<FastBoard>(board) )
 {
 }
 
-MoveGen::MoveGen(std::shared_ptr<FastBoard> b)
+MoveGen::MoveGen(std::shared_ptr<FastBoard> boardPtr)
 {
-	myBoard = b;
+	myBoard = boardPtr;
 }
 
 /* Moves private methods */

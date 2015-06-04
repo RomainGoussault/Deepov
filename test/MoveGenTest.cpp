@@ -21,37 +21,29 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 
     SECTION("EnPassant after execute/undo move")
 	{
-		FastBoard board("rnbqkbnr/1ppppppp/p7/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
+    	std::shared_ptr<FastBoard> boardPtr = std::make_shared<FastBoard>("rnbqkbnr/1ppppppp/p7/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
+        MoveGen moveGen(boardPtr);
 		int origin = 53; // F7
 		int destination = 37; // F5
 
 		FastMove move(origin, destination, FastMove::DOUBLEPAWNPUSH_FLAG, FastMove::PAWN_TYPE);
-		board.executeMove(move);
-		REQUIRE((board.getMovesHistory()).size() == 1);
+		boardPtr->executeMove(move);
+		REQUIRE((boardPtr->getMovesHistory()).size() == 1);
 
-		boost::optional<FastMove> lastMove(board.getEnemyLastMove());
+		boost::optional<FastMove> lastMove(boardPtr->getEnemyLastMove());
 		REQUIRE(lastMove);
 
-        MoveGen moveGen(board);
-		REQUIRE((board.getMovesHistory()).size() == 1);
+		REQUIRE((boardPtr->getMovesHistory()).size() == 1);
 
 		std::vector<FastMove> epMoves = moveGen.getWhiteEnPassantMoves();
         int epSize = epMoves.size();
 		REQUIRE(epSize == 1);
 
-		std::cout << "Before EP" << std::endl;
-		std::cout << board << std::endl;
+		boardPtr->executeMove(epMoves[0]);
 
-		board.executeMove(epMoves[0]);
+        boardPtr->undoMove(epMoves[0]);
 
-		std::cout << "After EP" << std::endl;
-        std::cout << board << std::endl;
-
-		board.undoMove(epMoves[0]);
-
-		std::cout << "After undoMove of EP" << std::endl;
-		std::cout << board << std::endl;
-
+        //TODO: Test something maybe?
 	}
 }
 
