@@ -8,6 +8,11 @@ MoveGen::MoveGen(FastBoard board) : myBoard(std::make_shared<FastBoard>(board) )
 {
 }
 
+MoveGen::MoveGen(std::shared_ptr<FastBoard> b)
+{
+	myBoard = b;
+}
+
 /* Moves private methods */
 
 void MoveGen::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const
