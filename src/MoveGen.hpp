@@ -13,7 +13,8 @@ class MoveGen {
 
 public:
 
-    MoveGen(FastBoard* board);
+    MoveGen(FastBoard board);
+    MoveGen(std::shared_ptr<FastBoard> boardPtr);
 
     /* Get Attributes */
     inline std::vector<FastMove> getMoves() {return getLegalMoves();};
@@ -45,7 +46,7 @@ public:
 
 private:
 
-    FastBoard* myBoard;
+    std::shared_ptr<FastBoard> myBoard;
 
 	void addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const;
 	void addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::vector<FastMove>& moves) const;

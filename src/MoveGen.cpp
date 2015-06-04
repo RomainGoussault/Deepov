@@ -4,8 +4,13 @@
 
 
 /* Constructor */
-MoveGen::MoveGen(FastBoard* board) : myBoard(board)
+MoveGen::MoveGen(FastBoard board) : myBoard(std::make_shared<FastBoard>(board) )
 {
+}
+
+MoveGen::MoveGen(std::shared_ptr<FastBoard> boardPtr)
+{
+	myBoard = boardPtr;
 }
 
 /* Moves private methods */
