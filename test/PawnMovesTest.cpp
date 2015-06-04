@@ -54,11 +54,13 @@ TEST_CASE( "Pawn promotions", "[pawn]" )
 		int size = moveGen.getWhitePawnPseudoLegalMoves().size();
 		REQUIRE(size == 8);
 
+        //You can remove this part once it's sure there is no bug
         std::cout << board << std::endl;
-		FastMove promtionCapture(50,57,FastMove::PROMOTION_FLAG + FastMove::CAPTURE_FLAG, FastMove::PAWN_TYPE);
-		board.executeMove(promtionCapture);
+		FastMove promotionCapture(50,57,FastMove::PROMOTION_FLAG + FastMove::CAPTURE_FLAG, FastMove::PAWN_TYPE);
+		promotionCapture.setCapturedPieceType(FastMove::ROOK_TYPE);
+		board.executeMove(promotionCapture);
 		std::cout << board << std::endl;
-		board.undoMove(promtionCapture);
+		board.undoMove(promotionCapture);
 		std::cout << board << std::endl;
 	}
 
