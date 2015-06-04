@@ -24,7 +24,7 @@ TEST_CASE( "Pawn moves", "[pawn]" )
 		int whiteSize = moveGen.getWhitePawnPseudoLegalMoves().size();
 		REQUIRE(whiteSize == 4);
 	}
-	
+
 	SECTION("blocked pawns")
 	{
 		FastBoard board("8/8/1p2p3/qqq1r3/8/8/3P4/1q6 w - -");
@@ -34,5 +34,39 @@ TEST_CASE( "Pawn moves", "[pawn]" )
 		int blackSize = moveGen.getBlackPawnPseudoLegalMoves().size();
 		REQUIRE(whiteSize == 2);
 		REQUIRE(blackSize == 0);
+	}
+}
+
+TEST_CASE( "Pawn promotions", "[pawn]" )
+{
+    SECTION("Promotion")
+	{
+		FastBoard board("8/2P1k3/8/3K4/8/8/8/8 w - - 0 1");
+        MoveGen moveGen(board);
+		int size = moveGen.getWhitePawnPseudoLegalMoves().size();
+		REQUIRE(size == 4);
+	}
+
+	SECTION("Promotion with capture")
+	{
+		FastBoard board("1r6/2P1k3/8/3K4/8/8/8/8 w - - 0 1");
+		MoveGen moveGen(board);
+		int size = moveGen.getWhitePawnPseudoLegalMoves().size();
+		REQUIRE(size == 8);
+
+        std::cout << board << std::endl;
+		FastMove promtionCapture(50,57,FastMove::PROMOTION_FLAG + FastMove::CAPTURE_FLAG, FastMove::PAWN_TYPE);
+		board.executeMove(promtionCapture);
+		std::cout << board << std::endl;
+		board.undoMove(promtionCapture);
+		std::cout << board << std::endl;
+	}
+
+	SECTION("Promotion with double capture")
+	{
+		FastBoard board("3r1r2/4P3/8/k7/8/8/8/1K6 w - - 0 1");
+		MoveGen moveGen(board);
+		int size = moveGen.getWhitePawnPseudoLegalMoves().size();
+		REQUIRE(size == 12);
 	}
 }
