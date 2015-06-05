@@ -21,6 +21,8 @@ public:
 	const static unsigned int QUEEN_TYPE = 4;
 	const static unsigned int KING_TYPE = 5;
 	const static unsigned int PROMOTION_TYPE_MAGIC = - FastMove::PROMOTION_FLAG + 1 - FastMove::CAPTURE_FLAG; //TODO: Rename
+	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
+	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
 
 	/*inline FastMove(unsigned int origin, unsigned int destination, unsigned int flags)
 	{

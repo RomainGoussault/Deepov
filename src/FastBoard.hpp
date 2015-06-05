@@ -90,6 +90,11 @@ public:
     int divide(int depth);
     boost::optional<FastMove> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
+    //Castling Methods
+    bool isQueenSideCastlingAllowed(const int color) const {return myCastling[1 + 2*color];}
+    bool isKingSideCastlingAllowed(const int color) const {return myCastling[2*color];}
+
+
     //PieceType method
     int findPieceType(const int position, const int color) const;
     int findWhitePieceType(const int position) const;
@@ -110,8 +115,6 @@ public:
     U64 getPawnAttackedPositions(const int& color) const;
     U64 getWhitePawnAttackedPositions() const;
     U64 getBlackPawnAttackedPositions() const;
-
-
 
 	/* ************* */
     char getChar(const int file, const int rank) const;

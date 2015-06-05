@@ -40,6 +40,8 @@ public:
     std::vector<FastMove> getLegalMoves(const int color);
 
     //Castling
+    void addKingSideCastlingMove(int color, int kingIndex, std::vector<FastMove>& moves) const;
+    void addQueenSideCastlingMove(int color, int kingIndex, std::vector<FastMove>& moves) const;
 	bool isQueenSideCastlingPossible(const int color) const;
 	bool isKingSideCastlingPossible(const int color) const;
 

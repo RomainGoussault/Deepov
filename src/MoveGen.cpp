@@ -121,10 +121,31 @@ std::vector<FastMove> MoveGen::getKingPseudoLegalMoves(const int& color) const
 
 	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
 	addCaptureMoves(kingCaptureDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
+	//addKingSideCastlingMove(color, kingIndex, kingMoves);
+	//addQueenSideCastlingMove(color, kingIndex, kingMoves);
 
 	return kingMoves;
 }
 
+void MoveGen::addKingSideCastlingMove(int color, int kingIndex, std::vector<FastMove>& moves) const
+{
+	if(isKingSideCastlingPossible(color))
+	{
+		int destination = color == WHITE ? 64 : 4611686018427387904;
+		FastMove move = FastMove(kingIndex, destination, FastMove::KING_SIDE_CASTLING, FastMove::KING_TYPE);
+		moves.push_back(move);
+	}
+}
+
+void MoveGen::addQueenSideCastlingMove(int color, int kingIndex, std::vector<FastMove>& moves) const
+{
+	if(isQueenSideCastlingPossible(color))
+	{
+		int destination = color == WHITE ? 4 : 288230376151711744;
+		FastMove move = FastMove(kingIndex, destination, FastMove::KING_SIDE_CASTLING, FastMove::KING_TYPE);
+		moves.push_back(move);
+	}
+}
 
 std::vector<FastMove> MoveGen::getQueenPseudoLegalMoves(const int& color) const
 {
@@ -458,7 +479,7 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 bool MoveGen::isQueenSideCastlingPossible(const int color) const
 {
 	//This return false if the queen side rook or the king has already moved
-	bool iQSCP = true; //board.isQueenSideCastlingAllowed(myColor); TODO
+	bool iQSCP = myBoard->isQueenSideCastlingAllowed(color); //TODO
 
 	if(!iQSCP) return false;
 
@@ -479,7 +500,7 @@ bool MoveGen::isQueenSideCastlingPossible(const int color) const
 bool MoveGen::isKingSideCastlingPossible(const int color) const
 {
 	//This return false if the king side rook or the king has already moved
-	bool iKSCP = true; //board.isKingSideCastlingAllowed(myColor); TODO
+	bool iKSCP = myBoard->isKingSideCastlingAllowed(color);
 
 	if(!iKSCP) return false;
 

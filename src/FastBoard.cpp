@@ -74,8 +74,8 @@ FastBoard::FastBoard(const std::string fen)
 		{
 			myCastling[i] = false;
 		}
-/*
-		Utils::getCastling(spaceSplit[2],myCastling); */
+
+		Utils::getCastling(spaceSplit[2], myCastling);
 
 		if ((spaceSplit[3][0] != '-') && (getMovesHistory().size() == 0))
 		{
@@ -505,6 +505,7 @@ void FastBoard::executeMove(const FastMove &move)
             int type(move.getCapturedPieceType());
             removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
         }
+
         movePiece(origin, destination, pieceType, myColorToPlay);
     }
 
