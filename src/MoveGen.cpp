@@ -121,8 +121,8 @@ std::vector<FastMove> MoveGen::getKingPseudoLegalMoves(const int& color) const
 
 	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
 	addCaptureMoves(kingCaptureDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
-	//addKingSideCastlingMove(color, kingIndex, kingMoves);
-	//addQueenSideCastlingMove(color, kingIndex, kingMoves);
+	addKingSideCastlingMove(color, kingIndex, kingMoves);
+	addQueenSideCastlingMove(color, kingIndex, kingMoves);
 
 	return kingMoves;
 }
@@ -142,7 +142,7 @@ void MoveGen::addQueenSideCastlingMove(int color, int kingIndex, std::vector<Fas
 	if(isQueenSideCastlingPossible(color))
 	{
 		int destination = color == WHITE ? 4 : 288230376151711744;
-		FastMove move = FastMove(kingIndex, destination, FastMove::KING_SIDE_CASTLING, FastMove::KING_TYPE);
+		FastMove move = FastMove(kingIndex, destination, FastMove::QUEEN_SIDE_CASTLING, FastMove::KING_TYPE);
 		moves.push_back(move);
 	}
 }
