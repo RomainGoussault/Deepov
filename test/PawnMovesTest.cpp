@@ -54,14 +54,16 @@ TEST_CASE( "Pawn promotions", "[pawn]" )
 		int size = moveGen.getWhitePawnPseudoLegalMoves().size();
 		REQUIRE(size == 8);
 
-        //You can remove this part once it's sure there is no bug
-        std::cout << board << std::endl;
-		FastMove promotionCapture(50,57,FastMove::PROMOTION_FLAG + FastMove::CAPTURE_FLAG, FastMove::PAWN_TYPE);
+        U64 pawnBitboard = board.getWhitePawns();
+
+        FastMove promotionCapture(50,57,FastMove::PROMOTION_FLAG + FastMove::CAPTURE_FLAG, FastMove::PAWN_TYPE);
 		promotionCapture.setCapturedPieceType(FastMove::ROOK_TYPE);
+
 		board.executeMove(promotionCapture);
-		std::cout << board << std::endl;
+		REQUIRE(pawnBitboard != board.getWhitePawns());
+
 		board.undoMove(promotionCapture);
-		std::cout << board << std::endl;
+		REQUIRE(pawnBitboard == board.getWhitePawns());
 	}
 
 	SECTION("Promotion with double capture")
