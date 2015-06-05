@@ -393,7 +393,7 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 
     if (!enemyLastMove)
     {
-        std::cout << "ERROR : No enemyLastMove move" << std::endl;
+//        std::cout << "ERROR : No enemyLastMove move" << std::endl; This is a valid case?
         return enPassantMoves;
     }
     else if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
@@ -426,7 +426,7 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 
     if ((myBoard->getMovesHistory()).size() == 0)
     {
-        std::cout << "ERROR : No enemyLastMove move" << std::endl;
+//        std::cout << "ERROR : No enemyLastMove move" << std::endl; This is a valid case?
         return enPassantMoves;
     }
 	else
