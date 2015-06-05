@@ -31,7 +31,8 @@ int main() {
 	std::chrono::high_resolution_clock::time_point t1 =
 			std::chrono::high_resolution_clock::now();
 
-	std::cout << fb.perft(4) << std::endl;
+	std::cout << fb.perft(5) << std::endl;
+	//Romain 4.4 sec
 
 	std::chrono::high_resolution_clock::time_point t2 =
 			std::chrono::high_resolution_clock::now();
