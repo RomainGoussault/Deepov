@@ -10,8 +10,8 @@ class FastMove
 {
 
 public:
-    const static unsigned int EPCAPTURE_FLAG = 0b0101;
-    const static unsigned int DOUBLEPAWNPUSH_FLAG =0b0001;
+    const static unsigned int EP_CAPTURE_FLAG = 0b0101;
+    const static unsigned int DOUBLE_PAWN_PUSH_FLAG =0b0001;
 	const static unsigned int CAPTURE_FLAG = 0b0100;
 	const static unsigned int PROMOTION_FLAG = 0b1000;
 	const static unsigned int PAWN_TYPE = 0;

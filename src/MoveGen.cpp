@@ -37,7 +37,7 @@ void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::
         //Getting the index of the MSB
 		int positionMsb = FastBoard::getMsbIndex(pawnDestinations);
 
-        FastMove move = FastMove(pieceIndex, positionMsb, FastMove::DOUBLEPAWNPUSH_FLAG, FastMove::PAWN_TYPE);
+        FastMove move = FastMove(pieceIndex, positionMsb, FastMove::DOUBLE_PAWN_PUSH_FLAG, FastMove::PAWN_TYPE);
 		moves.push_back(move);
 
         //Removing the MSB
@@ -396,7 +396,7 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 //        std::cout << "ERROR : No enemyLastMove move" << std::endl; This is a valid case?
         return enPassantMoves;
     }
-    else if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
+    else if (enemyLastMove->getFlags() == FastMove::DOUBLE_PAWN_PUSH_FLAG)
     {
         while (validPawns)
         {
@@ -406,7 +406,7 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
-                FastMove epMove(validPawnIndex,enemyDestination+8,FastMove::EPCAPTURE_FLAG,FastMove::PAWN_TYPE);
+                FastMove epMove(validPawnIndex,enemyDestination+8,FastMove::EP_CAPTURE_FLAG,FastMove::PAWN_TYPE);
                 epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
                 enPassantMoves.push_back(epMove);
             }
@@ -434,7 +434,7 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 		boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
 
 		// TODO : implement DOUBLEPAWNPUSH flag in pawn getpseudolegals
-		if (enemyLastMove->getFlags() == FastMove::DOUBLEPAWNPUSH_FLAG)
+		if (enemyLastMove->getFlags() == FastMove::DOUBLE_PAWN_PUSH_FLAG)
 		{
 			while (validPawns)
 			{
@@ -444,7 +444,7 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 
 				if (abs(validPawnIndex - enemyDestination) == 1)
 				{
-					FastMove epMove(validPawnIndex,enemyDestination-8,FastMove::EPCAPTURE_FLAG,FastMove::PAWN_TYPE);
+					FastMove epMove(validPawnIndex,enemyDestination-8,FastMove::EP_CAPTURE_FLAG,FastMove::PAWN_TYPE);
 					epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
 					enPassantMoves.push_back(epMove);
 				}

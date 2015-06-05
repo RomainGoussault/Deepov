@@ -26,7 +26,7 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 		int origin = 53; // F7
 		int destination = 37; // F5
 
-		FastMove move(origin, destination, FastMove::DOUBLEPAWNPUSH_FLAG, FastMove::PAWN_TYPE);
+		FastMove move(origin, destination, FastMove::DOUBLE_PAWN_PUSH_FLAG, FastMove::PAWN_TYPE);
 		boardPtr->executeMove(move);
 		REQUIRE((boardPtr->getMovesHistory()).size() == 1);
 

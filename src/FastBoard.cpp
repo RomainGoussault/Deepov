@@ -82,7 +82,7 @@ FastBoard::FastBoard(const std::string fen)
 			int epIndex = getIndexFromChar(spaceSplit[3]);
 			int origin = epIndex + 8 - 16*myColorToPlay;
 			int destination = epIndex - 8 + 16*myColorToPlay;
-			FastMove lastMove(origin, destination, FastMove::DOUBLEPAWNPUSH_FLAG, FastMove::PAWN_TYPE);
+			FastMove lastMove(origin, destination, FastMove::DOUBLE_PAWN_PUSH_FLAG, FastMove::PAWN_TYPE);
 			myMoves.push_back(lastMove);
 		}
 
@@ -494,7 +494,7 @@ void FastBoard::executeMove(const FastMove &move)
 	}
 	else
     {
-        if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
+        if (move.getFlags() == FastMove::EP_CAPTURE_FLAG) // watch out ep capture is a capture
         {
             unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
             removePiece(capturedPawnIndex, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
@@ -647,7 +647,7 @@ void FastBoard::undoMove(const FastMove &move)
 	{
         movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
 
-        if (move.getFlags() == FastMove::EPCAPTURE_FLAG) // watch out ep capture is a capture
+        if (move.getFlags() == FastMove::EP_CAPTURE_FLAG) // watch out ep capture is a capture
         {
             unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*Utils::getOppositeColor(myColorToPlay);
             addPiece(capturedPawnIndex, FastMove::PAWN_TYPE, myColorToPlay);
