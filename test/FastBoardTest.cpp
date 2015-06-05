@@ -111,7 +111,7 @@ TEST_CASE( "Perft from initial position ", "[perft]")
 		REQUIRE(board.perft(6) == 119060324);
 	}*/
 }
-
+/*
 TEST_CASE( "Perft position 3 ", "[perft]")
 {
 	initmagicmoves();
@@ -146,12 +146,12 @@ TEST_CASE( "Perft position 3 ", "[perft]")
 		REQUIRE(board.perft(4) == 43238);
 	}
 
-	/*SECTION("Perft 5") working but slow for unit test
+	SECTION("Perft 5") working but slow for unit test
 	{
 		FastBoard board("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -");
 		REQUIRE(board.perft(5) == 674624);
-	}*/
-}
+	}
+}*/
 
 TEST_CASE( "Perft position 6 ", "[perft]")
 {
