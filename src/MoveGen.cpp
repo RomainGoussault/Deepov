@@ -414,7 +414,7 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 
     if (!enemyLastMove)
     {
-//        std::cout << "ERROR : No enemyLastMove move" << std::endl; This is a valid case?
+        std::cout << "ERROR : No enemyLastMove move" << std::endl;
         return enPassantMoves;
     }
     else if (enemyLastMove->getFlags() == FastMove::DOUBLE_PAWN_PUSH_FLAG)
