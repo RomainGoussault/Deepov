@@ -480,10 +480,10 @@ void FastBoard::executeMove(const FastMove &move)
 
     if (move.isPromotion())
 	{
-	    int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG + 1 ; // +1 because 0 is PAWN_TYPE
-		if(move.isCapture())
+	    int promotedType = move.getFlags() + FastMove::PROMOTION_TYPE_MAGIC;
+
+	    if(move.isCapture())
 		{
-		    promotedType -= FastMove::CAPTURE_FLAG;
 			//remove the captured piece
 			int type(move.getCapturedPieceType());
 			removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
@@ -631,14 +631,15 @@ void FastBoard::undoMove(const FastMove &move)
 
 	if(move.isPromotion())
 	{
-	    int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG + 1;
+	    int promotedType = move.getFlags() + FastMove::PROMOTION_TYPE_MAGIC;
+
         if(move.isCapture())
 		{
-            promotedType -= FastMove::CAPTURE_FLAG;
             //add the captured piece
             int type(move.getCapturedPieceType());
             addPiece(destination, type, myColorToPlay);
 		}
+
         removePiece(destination, promotedType, Utils::getOppositeColor(myColorToPlay));
         addPiece(origin, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
 	}
