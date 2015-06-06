@@ -453,27 +453,29 @@ void FastBoard::executeMove(const FastMove &move)
 	int destination = move.getDestination();
 	int pieceType = move.getPieceType();
 
-/*	if(move.isCastling())
+	if(move.isCastling())
 	{
-		movePiece(pieceToMove, destination);
-		Position rookOrigin;
-		Position rookDestination;
+		//move King
+        movePiece(origin, destination, pieceType, myColorToPlay);
 
-		if (destination.getX() == 6)
-		{
-			rookOrigin = Position(7, destination.getY());
-			rookDestination = Position(5, destination.getY());
-		}
-		else
-		{
-			rookOrigin = Position(0, destination.getY());
-			rookDestination = Position(3, destination.getY());
-		}
+        int rookOrigin = 0;
+        int rookDestination = 0;
 
-		movePiece(getPiecePtr(rookOrigin),rookDestination);
-	} */
+        if(move.isKingSideCastling())
+        {
+        	rookOrigin = myColorToPlay == WHITE ? 7 : 63;
+        	rookDestination = myColorToPlay == WHITE ? 5 : 61;
+        }
+        else // QueenSideCastling
+        {
+        	rookOrigin = myColorToPlay == WHITE ? 0 : 56;
+        	rookDestination =  myColorToPlay == WHITE ? 3 : 59;
+        }
 
-    if (move.isPromotion())
+		//move rook
+        movePiece(rookOrigin, rookDestination, FastMove::ROOK_TYPE, myColorToPlay);
+	}
+	else if (move.isPromotion())
 	{
 	    int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG +1;
 

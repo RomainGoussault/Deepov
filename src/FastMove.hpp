@@ -81,6 +81,9 @@ public:
 
 	inline bool isCapture() const {return getFlags() & CAPTURE_FLAG;}
 	inline bool isPromotion() const {return getFlags() & PROMOTION_FLAG;}
+	inline bool isQueenSideCastling() const {return getFlags() == QUEEN_SIDE_CASTLING;}
+	inline bool isKingSideCastling() const {return getFlags() == KING_SIDE_CASTLING;}
+	inline bool isCastling() const {return isKingSideCastling() || isQueenSideCastling();} // TODO something faster/smarter surely possible
 
 	std::string toShortString() const
 	{
