@@ -899,20 +899,19 @@ void FastBoard::updateCastlingRights(FastMove &move)
         if(move.getPieceType() == FastMove::KING_TYPE)
         {
             setCastlingRight(0,false);
-//            move.setCancelledCastling(0);
             setCastlingRight(1,false);
-//            move.setCancelledCastling(1);
+            move.setCastlingRightChange(0b11); // Cancels both sides
         }
 
         if (move.getOrigin() == 7 && move.getPieceType() == FastMove::ROOK_TYPE)
         {
             setCastlingRight(0,false);
-//            move.setCancelledCastling(0);
+            move.setCastlingRightChange(0b01); // Cancels king side right
         }
         else if (move.getOrigin() == 0 && move.getPieceType() == FastMove::ROOK_TYPE)
         {
             setCastlingRight(1,false);
-//            move.setCancelledCastling(1);
+            move.setCastlingRightChange(0b10);  // Cancels queen side
         }
     }
     /* Update castling rights for black */
@@ -921,23 +920,21 @@ void FastBoard::updateCastlingRights(FastMove &move)
         if(move.getPieceType() == FastMove::KING_TYPE)
         {
             setCastlingRight(2,false);
-//            move.setCancelledCastling(0);
             setCastlingRight(3,false);
-//            move.setCancelledCastling(1);
+            move.setCastlingRightChange(0b11); // Cancels both sides
         }
 
         if (move.getOrigin() == 63 && move.getPieceType() == FastMove::ROOK_TYPE)
         {
             setCastlingRight(2,false);
-//            move.setCancelledCastling(0);
+            move.setCastlingRightChange(0b01); // Cancels king side right
         }
         else if (move.getOrigin() == 56 && move.getPieceType() == FastMove::ROOK_TYPE)
         {
             setCastlingRight(3,false);
-//            move.setCancelledCastling(1);
+            move.setCastlingRightChange(0b10);  // Cancels queen side
         }
     }
-
 }
 //
 //void Board::rewindCastlingRights(Move &move, const int &color)
