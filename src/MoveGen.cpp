@@ -131,7 +131,7 @@ void MoveGen::addKingSideCastlingMove(int color, int kingIndex, std::vector<Fast
 {
 	if(isKingSideCastlingPossible(color))
 	{
-		int destination = color == WHITE ? 64 : 4611686018427387904;
+		int destination = color == WHITE ? 6 : 62;
 		FastMove move = FastMove(kingIndex, destination, FastMove::KING_SIDE_CASTLING, FastMove::KING_TYPE);
 		moves.push_back(move);
 	}
@@ -141,7 +141,7 @@ void MoveGen::addQueenSideCastlingMove(int color, int kingIndex, std::vector<Fas
 {
 	if(isQueenSideCastlingPossible(color))
 	{
-		int destination = color == WHITE ? 4 : 288230376151711744;
+		int destination = color == WHITE ? 2 : 58;
 		FastMove move = FastMove(kingIndex, destination, FastMove::QUEEN_SIDE_CASTLING, FastMove::KING_TYPE);
 		moves.push_back(move);
 	}
