@@ -93,6 +93,9 @@ public:
     //Castling Methods
     bool isQueenSideCastlingAllowed(const int color) const {return myCastling[1 + 2*color];}
     bool isKingSideCastlingAllowed(const int color) const {return myCastling[2*color];}
+    inline void setCastlingRight(const int side, const bool state) { myCastling[side] = state;};
+    void updateCastlingRights(FastMove &move);
+    void rewindCastlingRights(FastMove &move, const int &color);
 
 
     //PieceType method

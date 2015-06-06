@@ -890,6 +890,85 @@ boost::optional<FastMove> FastBoard::getEnemyLastMove() const
 	}
 }
 
+void FastBoard::updateCastlingRights(FastMove &move)
+{
+    /* Update Castling rights for white */
+	if ((myCastling[0] == true || myCastling[1] == true) && myColorToPlay == WHITE )
+    {
+
+        if(move.getPieceType() == FastMove::KING_TYPE)
+        {
+            setCastlingRight(0,false);
+//            move.setCancelledCastling(0);
+            setCastlingRight(1,false);
+//            move.setCancelledCastling(1);
+        }
+
+        if (move.getOrigin() == 7 && move.getPieceType() == FastMove::ROOK_TYPE)
+        {
+            setCastlingRight(0,false);
+//            move.setCancelledCastling(0);
+        }
+        else if (move.getOrigin() == 0 && move.getPieceType() == FastMove::ROOK_TYPE)
+        {
+            setCastlingRight(1,false);
+//            move.setCancelledCastling(1);
+        }
+    }
+    /* Update castling rights for black */
+	else if ((myCastling[2] == true || myCastling[3] == true) && myColorToPlay == BLACK )
+    {
+        if(move.getPieceType() == FastMove::KING_TYPE)
+        {
+            setCastlingRight(2,false);
+//            move.setCancelledCastling(0);
+            setCastlingRight(3,false);
+//            move.setCancelledCastling(1);
+        }
+
+        if (move.getOrigin() == 63 && move.getPieceType() == FastMove::ROOK_TYPE)
+        {
+            setCastlingRight(2,false);
+//            move.setCancelledCastling(0);
+        }
+        else if (move.getOrigin() == 56 && move.getPieceType() == FastMove::ROOK_TYPE)
+        {
+            setCastlingRight(3,false);
+//            move.setCancelledCastling(1);
+        }
+    }
+
+}
+//
+//void Board::rewindCastlingRights(Move &move, const int &color)
+//{
+//    bool isKingSideRightCancelled = move.getCancelledCastling(0);
+//    bool isQueenSideRightCancelled = move.getCancelledCastling(1);
+//
+//    if (color == WHITE)
+//    {
+//        if (isKingSideRightCancelled)
+//        {
+//            enableCastlingRight(0);
+//        }
+//        if (isQueenSideRightCancelled)
+//        {
+//            enableCastlingRight(1);
+//        }
+//    }
+//    else if (color == BLACK)
+//    {
+//        if (isKingSideRightCancelled)
+//        {
+//            enableCastlingRight(2);
+//        }
+//        if (isQueenSideRightCancelled)
+//        {
+//            enableCastlingRight(3);
+//        }
+//    }
+//}
+
 std::string FastBoard::printBitBoard(const U64 &bitBoard)
 {
 	std::ostringstream strm;
