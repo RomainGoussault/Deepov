@@ -31,7 +31,7 @@ FastBoard::FastBoard() :
 {
 }
 
-FastBoard::FastBoard(const std::string fen)
+FastBoard::FastBoard(const std::string fen) :  myCastling()
 {
 		std::vector<std::string> spaceSplit;
 		std::vector<std::string> piecesByRank;
@@ -68,11 +68,6 @@ FastBoard::FastBoard(const std::string fen)
 		else if (spaceSplit[1][0] == 'b')
 		{
 			myColorToPlay = BLACK;
-		}
-
-		for (int i=0; i<=3; ++i)
-		{
-			myCastling[i] = false;
 		}
 
 		Utils::getCastling(spaceSplit[2], myCastling);
