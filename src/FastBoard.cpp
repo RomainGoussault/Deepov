@@ -9,102 +9,102 @@
 
 
 FastBoard::FastBoard() :
-		myWhitePawns(0 | 0xFF << 8),
-		myWhiteKnights(0 | (1 << 1) | (1 << 6) ),
-		myWhiteBishops(0 | (1 << 2) | (1 << 5) ),
-		myWhiteRooks(0 | (1 << 0) | (1 << 7) ),
-		myWhiteQueens(0 | (1 << 3)),
-		myWhiteKing(0 | (1 << 4)),
-		myBlackPawns(0 | 0xFFLL  << 8*6),
-		myBlackKnights(0 | (1LL << (8*7+1)) | (1LL<< (8*7+6)) ),
-		myBlackBishops(0 | (1LL << (8*7+2)) | (1LL<< (8*7+5)) ),
-		myBlackRooks(0 | (1LL << (8*7+0)) | (1LL<< (8*7+7)) ),
-		myBlackQueens(0 | (1LL << (8*7+3)) ),
-		myBlackKing(0 | (1LL << (8*7+4)) ),
-		myWhitePieces(myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing),
-		myBlackPieces(myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing),
-		myAllPieces(myBlackPieces | myWhitePieces),
-		myColorToPlay(WHITE),
-	    myMovesCounter(0),
-	    myHalfMovesCounter(0),
-	    myCastling()
+myWhitePawns(0 | 0xFF << 8),
+myWhiteKnights(0 | (1 << 1) | (1 << 6) ),
+myWhiteBishops(0 | (1 << 2) | (1 << 5) ),
+myWhiteRooks(0 | (1 << 0) | (1 << 7) ),
+myWhiteQueens(0 | (1 << 3)),
+myWhiteKing(0 | (1 << 4)),
+myBlackPawns(0 | 0xFFLL  << 8*6),
+myBlackKnights(0 | (1LL << (8*7+1)) | (1LL<< (8*7+6)) ),
+myBlackBishops(0 | (1LL << (8*7+2)) | (1LL<< (8*7+5)) ),
+myBlackRooks(0 | (1LL << (8*7+0)) | (1LL<< (8*7+7)) ),
+myBlackQueens(0 | (1LL << (8*7+3)) ),
+myBlackKing(0 | (1LL << (8*7+4)) ),
+myWhitePieces(myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing),
+myBlackPieces(myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing),
+myAllPieces(myBlackPieces | myWhitePieces),
+myColorToPlay(WHITE),
+myMovesCounter(0),
+myHalfMovesCounter(0),
+myCastling()
 {
 }
 
 FastBoard::FastBoard(const std::string fen) :  myCastling()
 {
-		std::vector<std::string> spaceSplit;
-		std::vector<std::string> piecesByRank;
+	std::vector<std::string> spaceSplit;
+	std::vector<std::string> piecesByRank;
 
-		boost::split(spaceSplit, fen, boost::is_any_of(" "));
-		boost::split(piecesByRank, spaceSplit[0], boost::is_any_of("/"));
+	boost::split(spaceSplit, fen, boost::is_any_of(" "));
+	boost::split(piecesByRank, spaceSplit[0], boost::is_any_of("/"));
 
-		myWhitePawns = 0;
-		myWhiteKnights = 0;
-		myWhiteBishops = 0;
-		myWhiteRooks = 0;
-		myWhiteQueens = 0;
-		myWhiteKing = 0;
-		myBlackPawns = 0;
-		myBlackKnights = 0;
-		myBlackBishops = 0;
-		myBlackRooks = 0;
-		myBlackQueens = 0;
-		myBlackKing = 0;
+	myWhitePawns = 0;
+	myWhiteKnights = 0;
+	myWhiteBishops = 0;
+	myWhiteRooks = 0;
+	myWhiteQueens = 0;
+	myWhiteKing = 0;
+	myBlackPawns = 0;
+	myBlackKnights = 0;
+	myBlackBishops = 0;
+	myBlackRooks = 0;
+	myBlackQueens = 0;
+	myBlackKing = 0;
 
-		int rank = 7;
-		for (int i=0; i<8; i++)
-		{
-			setBitBoards(piecesByRank[i], rank);
-			rank--;
-		}
+	int rank = 7;
+	for (int i=0; i<8; i++)
+	{
+		setBitBoards(piecesByRank[i], rank);
+		rank--;
+	}
 
-		updateConvenienceBitboards();
+	updateConvenienceBitboards();
 
-		if (spaceSplit[1][0] == 'w')
-		{
-			myColorToPlay = WHITE;
-		}
-		else if (spaceSplit[1][0] == 'b')
-		{
-			myColorToPlay = BLACK;
-		}
+	if (spaceSplit[1][0] == 'w')
+	{
+		myColorToPlay = WHITE;
+	}
+	else if (spaceSplit[1][0] == 'b')
+	{
+		myColorToPlay = BLACK;
+	}
 
-		Utils::getCastling(spaceSplit[2], myCastling);
+	Utils::getCastling(spaceSplit[2], myCastling);
 
-		if ((spaceSplit[3][0] != '-') && (getMovesHistory().size() == 0))
-		{
-			int epIndex = getIndexFromChar(spaceSplit[3]);
-			int origin = epIndex + 8 - 16*myColorToPlay;
-			int destination = epIndex - 8 + 16*myColorToPlay;
-			FastMove lastMove(origin, destination, FastMove::DOUBLE_PAWN_PUSH_FLAG, FastMove::PAWN_TYPE);
-			myMoves.push_back(lastMove);
-		}
+	if ((spaceSplit[3][0] != '-') && (getMovesHistory().size() == 0))
+	{
+		int epIndex = getIndexFromChar(spaceSplit[3]);
+		int origin = epIndex + 8 - 16*myColorToPlay;
+		int destination = epIndex - 8 + 16*myColorToPlay;
+		FastMove lastMove(origin, destination, FastMove::DOUBLE_PAWN_PUSH_FLAG, FastMove::PAWN_TYPE);
+		myMoves.push_back(lastMove);
+	}
 
-		// I put a condition in case the FEN format doesn't include the move counters
-		if (spaceSplit.size() >= 5)
-		{
-		    myMovesCounter = Utils::convertStringToInt(spaceSplit[4]);
-	    //  Waiting for a fix for windows! Ahaha a link to the error maybe?
+	// I put a condition in case the FEN format doesn't include the move counters
+	if (spaceSplit.size() >= 5)
+	{
+		myMovesCounter = Utils::convertStringToInt(spaceSplit[4]);
+		//  Waiting for a fix for windows! Ahaha a link to the error maybe?
 		//	myMovesCounter = std::stoi(spaceSplit[4]);
-		}
-		else
-		{
-			myMovesCounter = 0;
-		}
+	}
+	else
+	{
+		myMovesCounter = 0;
+	}
 
-		if (spaceSplit.size() >= 6)
-		{
-		    myHalfMovesCounter = Utils::convertStringToInt(spaceSplit[5]);
+	if (spaceSplit.size() >= 6)
+	{
+		myHalfMovesCounter = Utils::convertStringToInt(spaceSplit[5]);
 		//	myHalfMovesCounter = std::stoi(spaceSplit[5]);
-		}
-		else
-		{
-			myHalfMovesCounter = 0;
-		}
+	}
+	else
+	{
+		myHalfMovesCounter = 0;
+	}
 }
 
-	/* Get the bitboards */
+/* Get the bitboards */
 
 U64 FastBoard::getWhitePawns() const{return myWhitePawns;}
 U64 FastBoard::getWhiteKnights() const{return myWhiteKnights ;}
@@ -124,63 +124,63 @@ U64 FastBoard::getWhitePieces() const{return myWhitePieces;}
 U64 FastBoard::getBlackPieces() const{return myBlackPieces;}
 U64 FastBoard::getAllPieces() const{return myAllPieces;}
 
-	/*  **********  */
+/*  **********  */
 
 
 int FastBoard::findBlackPieceType(const int position) const
 {
-    if ((myBlackPawns&(1LL << position))>>position==1)
-    {
-        return 0;
-    }
-    else if ((myBlackKnights&(1LL << position))>>position==1)
-    {
-        return 1;
-    }
-    else if ((myBlackBishops&(1LL << position))>>position==1)
-    {
-        return 2;
-    }
-    else if ((myBlackRooks&(1LL << position))>>position==1)
-    {
-        return 3;
-    }
-    else if ((myBlackQueens&(1LL << position))>>position==1)
-    {
-        return 4;
-    }
-    else
-    {
-        return 6;
-    }
+	if ((myBlackPawns&(1LL << position))>>position==1)
+	{
+		return 0;
+	}
+	else if ((myBlackKnights&(1LL << position))>>position==1)
+	{
+		return 1;
+	}
+	else if ((myBlackBishops&(1LL << position))>>position==1)
+	{
+		return 2;
+	}
+	else if ((myBlackRooks&(1LL << position))>>position==1)
+	{
+		return 3;
+	}
+	else if ((myBlackQueens&(1LL << position))>>position==1)
+	{
+		return 4;
+	}
+	else
+	{
+		return 6;
+	}
 }
 
 int FastBoard::findWhitePieceType(const int position) const
 {
-    if ((myWhitePawns&(1LL << position))>>position==1)
-    {
-        return 0;
-    }
-    else if ((myWhiteKnights&(1LL << position))>>position==1)
-    {
-        return 1;
-    }
-    else if ((myWhiteBishops&(1LL << position))>>position==1)
-    {
-        return 2;
-    }
-    else if ((myWhiteRooks&(1LL << position))>>position==1)
-    {
-        return 3;
-    }
-    else if ((myWhiteQueens&(1LL << position))>>position==1)
-    {
-        return 4;
-    }
-    else
-    {
-        return 6;
-    }
+	if ((myWhitePawns&(1LL << position))>>position==1)
+	{
+		return 0;
+	}
+	else if ((myWhiteKnights&(1LL << position))>>position==1)
+	{
+		return 1;
+	}
+	else if ((myWhiteBishops&(1LL << position))>>position==1)
+	{
+		return 2;
+	}
+	else if ((myWhiteRooks&(1LL << position))>>position==1)
+	{
+		return 3;
+	}
+	else if ((myWhiteQueens&(1LL << position))>>position==1)
+	{
+		return 4;
+	}
+	else
+	{
+		return 6;
+	}
 }
 
 /**
@@ -456,65 +456,65 @@ void FastBoard::executeMove(const FastMove &move)
 	if(move.isCastling())
 	{
 		//move King
-        movePiece(origin, destination, pieceType, myColorToPlay);
+		movePiece(origin, destination, pieceType, myColorToPlay);
 
-        int rookOrigin = 0;
-        int rookDestination = 0;
+		int rookOrigin = 0;
+		int rookDestination = 0;
 
-        if(move.isKingSideCastling())
-        {
-        	rookOrigin = myColorToPlay == WHITE ? 7 : 63;
-        	rookDestination = myColorToPlay == WHITE ? 5 : 61;
-        }
-        else // QueenSideCastling
-        {
-        	rookOrigin = myColorToPlay == WHITE ? 0 : 56;
-        	rookDestination =  myColorToPlay == WHITE ? 3 : 59;
-        }
+		if(move.isKingSideCastling())
+		{
+			rookOrigin = myColorToPlay == WHITE ? 7 : 63;
+			rookDestination = myColorToPlay == WHITE ? 5 : 61;
+		}
+		else // QueenSideCastling
+		{
+			rookOrigin = myColorToPlay == WHITE ? 0 : 56;
+			rookDestination =  myColorToPlay == WHITE ? 3 : 59;
+		}
 
 		//move rook
-        movePiece(rookOrigin, rookDestination, FastMove::ROOK_TYPE, myColorToPlay);
+		movePiece(rookOrigin, rookDestination, FastMove::ROOK_TYPE, myColorToPlay);
 	}
 	else if (move.isPromotion())
 	{
-	    int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG +1;
+		int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG +1;
 
-	    if(move.isCapture())
+		if(move.isCapture())
 		{
-		    promotedType -= FastMove::CAPTURE_FLAG;
+			promotedType -= FastMove::CAPTURE_FLAG;
 			//remove the captured piece
 			int type(move.getCapturedPieceType());
 			removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
 		}
 
-        removePiece(origin, FastMove::PAWN_TYPE, myColorToPlay);
-        addPiece(destination, promotedType, myColorToPlay);
+		removePiece(origin, FastMove::PAWN_TYPE, myColorToPlay);
+		addPiece(destination, promotedType, myColorToPlay);
 	}
 	else
-    {
-        if (move.getFlags() == FastMove::EP_CAPTURE_FLAG) // watch out ep capture is a capture
-        {
-            unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
-            removePiece(capturedPawnIndex, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
-        }
-        else if(move.isCapture())
-        {
-            //remove the captured piece
-            int type(move.getCapturedPieceType());
-            removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
-        }
+	{
+		if (move.getFlags() == FastMove::EP_CAPTURE_FLAG) // watch out ep capture is a capture
+		{
+			unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+			removePiece(capturedPawnIndex, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
+		}
+		else if(move.isCapture())
+		{
+			//remove the captured piece
+			int type(move.getCapturedPieceType());
+			removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
+		}
 
-        movePiece(origin, destination, pieceType, myColorToPlay);
-    }
+		movePiece(origin, destination, pieceType, myColorToPlay);
+	}
 
 	myMoves.push_back(move);
 
 	if (myColorToPlay == BLACK)
-    {
-        myMovesCounter++;
-    }
+	{
+		myMovesCounter++;
+	}
 
-    myHalfMovesCounter++;
+	myHalfMovesCounter++;
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 
 	updateConvenienceBitboards();
@@ -556,7 +556,7 @@ void FastBoard::movePiece(const int origin, const int destination, U64 &bitBoard
 
 void FastBoard::removePiece(const int index, const int pieceType, const int color)
 {
-    switch (pieceType)
+	switch (pieceType)
 	{
 	case FastMove::KNIGHT_TYPE:
 		color == WHITE ? removePiece(index, myWhiteKnights) : removePiece(index, myBlackKnights) ;
@@ -578,7 +578,7 @@ void FastBoard::removePiece(const int index, const int pieceType, const int colo
 
 void FastBoard::addPiece(const int index, const int pieceType, const int color)
 {
-    switch (pieceType)
+	switch (pieceType)
 	{
 	case FastMove::KNIGHT_TYPE:
 		color == WHITE ? addPiece(index, myWhiteKnights) : addPiece(index, myBlackKnights) ;
@@ -603,71 +603,72 @@ void FastBoard::undoMove(const FastMove &move)
 	int origin = move.getOrigin();
 	int destination = move.getDestination();
 	int pieceType = move.getPieceType();
-/*
+
 	// Be careful to get the valid move color
-	rewindCastlingRights(move, Utils::getOppositeColor(myColorToPlay));
+	//TODO: rewindCastlingRights(move, Utils::getOppositeColor(myColorToPlay));
 
 	if(move.isCastling())
 	{
-        movePiece(pieceToMove,origin);
+		//move King
+		movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
 
-        Position rookOrigin;
-		Position rookDestination;
+		int rookOrigin = 0;
+		int rookDestination = 0;
 
-		if (destination.getX() == 6)
+		if(move.isKingSideCastling())
 		{
-			rookOrigin = Position(7, destination.getY());
-			rookDestination = Position(5, destination.getY());
+			rookOrigin = Utils::getOppositeColor(myColorToPlay) == WHITE ? 7 : 63;
+			rookDestination = Utils::getOppositeColor(myColorToPlay) == WHITE ? 5 : 61;
 		}
-		else
+		else // QueenSideCastling
 		{
-			rookOrigin = Position(0, destination.getY());
-			rookDestination = Position(3, destination.getY());
+			rookOrigin = Utils::getOppositeColor(myColorToPlay) == WHITE ? 0 : 56;
+			rookDestination =  Utils::getOppositeColor(myColorToPlay) == WHITE ? 3 : 59;
 		}
 
-		movePiece(getPiecePtr(rookDestination),rookOrigin);
-	} */
-
-	if(move.isPromotion())
+		//move rook
+		movePiece(rookDestination, rookOrigin, FastMove::ROOK_TYPE, Utils::getOppositeColor(myColorToPlay));
+	}
+	else if(move.isPromotion())
 	{
-	    int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG +1;
+		int promotedType = move.getFlags() - FastMove::PROMOTION_FLAG +1;
 
-        if(move.isCapture())
+		if(move.isCapture())
 		{
-            promotedType -= FastMove::CAPTURE_FLAG;
-            //add the captured piece
-            int type(move.getCapturedPieceType());
-            addPiece(destination, type, myColorToPlay);
+			promotedType -= FastMove::CAPTURE_FLAG;
+			//add the captured piece
+			int type(move.getCapturedPieceType());
+			addPiece(destination, type, myColorToPlay);
 		}
 
-        removePiece(destination, promotedType, Utils::getOppositeColor(myColorToPlay));
-        addPiece(origin, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
+		removePiece(destination, promotedType, Utils::getOppositeColor(myColorToPlay));
+		addPiece(origin, FastMove::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
 	}
 	else
 	{
-        movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
+		movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
 
-        if (move.getFlags() == FastMove::EP_CAPTURE_FLAG) // watch out ep capture is a capture
-        {
-            unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*Utils::getOppositeColor(myColorToPlay);
-            addPiece(capturedPawnIndex, FastMove::PAWN_TYPE, myColorToPlay);
-        }
-        else if(move.isCapture())
-        {
-            //add the captured piece
-            int type(move.getCapturedPieceType());
-            addPiece(destination, type, myColorToPlay);
-        }
+		if (move.getFlags() == FastMove::EP_CAPTURE_FLAG) // watch out ep capture is a capture
+		{
+			unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*Utils::getOppositeColor(myColorToPlay);
+			addPiece(capturedPawnIndex, FastMove::PAWN_TYPE, myColorToPlay);
+		}
+		else if(move.isCapture())
+		{
+			//add the captured piece
+			int type(move.getCapturedPieceType());
+			addPiece(destination, type, myColorToPlay);
+		}
 	}
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
 
-    if (myColorToPlay == WHITE)
-    {
-        myMovesCounter--;
-    }
+	if (myColorToPlay == WHITE)
+	{
+		myMovesCounter--;
+	}
 
-    myHalfMovesCounter--;
+	myHalfMovesCounter--;
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 
 	updateConvenienceBitboards();
@@ -828,13 +829,13 @@ int FastBoard::perft(int depth)
 		return 1;
 	}
 
-    MoveGen movegen(*this);
+	MoveGen movegen(*this);
 	std::vector<FastMove> moves(movegen.getMoves());
 
 	if (moves.empty())
-    {
-       // std::cout << "Position is mate" <<std::endl;
-    }
+	{
+		// std::cout << "Position is mate" <<std::endl;
+	}
 
 	for (auto &move : moves)
 	{
@@ -858,7 +859,7 @@ int FastBoard::divide(int depth)
 		return 1;
 	}
 
-    MoveGen movegen(*this);
+	MoveGen movegen(*this);
 	std::vector<FastMove> moves(movegen.getMoves());
 	nMoves = moves.size();
 

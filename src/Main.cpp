@@ -24,14 +24,17 @@ int main() {
 
 	initmagicmoves();
 
-	FastBoard board("r3k2r/pppp1ppp/8/4b1n1/1n1NQbN1/3BB3/PPPPPPPP/R3K2R w k -");
+	FastBoard board("r3kb1r/pppppppp/8/2qn4/2b3n1/8/PPPPPPPP/RNBQKBNR b KQkq -");
 	MoveGen moveGen(board);
 
-	int blackSize = moveGen.getKingPseudoLegalMoves(BLACK).size();
-//	int blackSize = moveGen.getKingPseudoLegalMoves(BLACK).size();
-	std::cout << " 4 = " << blackSize << std::endl;
-	//should be 3. When debugging I think the issue is in Movegen l487: 	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
+	std::vector<FastMove>  moves = moveGen.getKingPseudoLegalMoves(BLACK);
+	std::cout << board << std::endl;
 
+	board.executeMove(moves[1]);
+	std::cout << board << std::endl;
+
+	board.undoMove(moves[1]);
+	std::cout << board << std::endl;
 
 
 //	std::cout << blackSize << std::endl;
