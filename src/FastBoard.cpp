@@ -70,7 +70,7 @@ FastBoard::FastBoard(const std::string fen)
 			myColorToPlay = BLACK;
 		}
 
-		for (int i=0; i<3; ++i)
+		for (int i=0; i<=3; ++i)
 		{
 			myCastling[i] = false;
 		}
