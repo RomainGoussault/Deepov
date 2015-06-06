@@ -58,6 +58,11 @@ public:
 		return (myMove >> 19) & 0x7;
 	}
 
+	inline unsigned int getCastlingRightChange() const
+	{
+	    return (myMove >> 22) & 0x3;
+	}
+
     inline void setDestination(unsigned const int destination)
     {
         myMove &= ~0x3f; // clear the first 6 bits
