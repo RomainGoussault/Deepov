@@ -936,35 +936,34 @@ void FastBoard::updateCastlingRights(FastMove &move)
         }
     }
 }
-//
-//void Board::rewindCastlingRights(Move &move, const int &color)
-//{
-//    bool isKingSideRightCancelled = move.getCancelledCastling(0);
-//    bool isQueenSideRightCancelled = move.getCancelledCastling(1);
-//
-//    if (color == WHITE)
-//    {
-//        if (isKingSideRightCancelled)
-//        {
-//            enableCastlingRight(0);
-//        }
-//        if (isQueenSideRightCancelled)
-//        {
-//            enableCastlingRight(1);
-//        }
-//    }
-//    else if (color == BLACK)
-//    {
-//        if (isKingSideRightCancelled)
-//        {
-//            enableCastlingRight(2);
-//        }
-//        if (isQueenSideRightCancelled)
-//        {
-//            enableCastlingRight(3);
-//        }
-//    }
-//}
+
+void FastBoard::rewindCastlingRights(FastMove &move, const int &color)
+{
+    unsigned int castlingRightChanges = move.getCastlingRightChange();
+
+    if (color == WHITE)
+    {
+        if (castlingRightChanges & 0x1)
+        {
+            setCastlingRight(0,true);
+        }
+        if (castlingRightChanges & 0x2)
+        {
+            setCastlingRight(1,true);
+        }
+    }
+    else if (color == BLACK)
+    {
+        if (castlingRightChanges & 0x1)
+        {
+            setCastlingRight(2,true);
+        }
+        if (castlingRightChanges & 0x2)
+        {
+            setCastlingRight(3,true);
+        }
+    }
+}
 
 std::string FastBoard::printBitBoard(const U64 &bitBoard)
 {
