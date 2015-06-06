@@ -84,8 +84,8 @@ public:
 
 	/* Moves methods */
     bool isMoveLegal(FastMove &move); // uses executeMove and undoMove so it can't be const
-    void executeMove(const FastMove &move);
-    void undoMove(const FastMove &move);
+    void executeMove(FastMove &move);
+    void undoMove(FastMove &move);
     int perft(int depth);
     int divide(int depth);
     boost::optional<FastMove> getEnemyLastMove() const; // I use boost::optional in case there is no move to return

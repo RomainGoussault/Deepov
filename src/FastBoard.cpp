@@ -447,11 +447,12 @@ U64 FastBoard::getKnightDestinations(const int knightIndex, const int& color) co
 	return knightValidDestinations;
 }
 
-void FastBoard::executeMove(const FastMove &move)
+void FastBoard::executeMove(FastMove &move)
 {
 	int origin = move.getOrigin();
 	int destination = move.getDestination();
 	int pieceType = move.getPieceType();
+    updateCastlingRights(move);
 
 	if(move.isCastling())
 	{
@@ -598,14 +599,14 @@ void FastBoard::addPiece(const int index, const int pieceType, const int color)
 	}
 }
 
-void FastBoard::undoMove(const FastMove &move)
+void FastBoard::undoMove(FastMove &move)
 {
 	int origin = move.getOrigin();
 	int destination = move.getDestination();
 	int pieceType = move.getPieceType();
 
-	// Be careful to get the valid move color
-	//TODO: rewindCastlingRights(move, Utils::getOppositeColor(myColorToPlay));
+	/* Be careful to get the valid move color  */
+	rewindCastlingRights(move, Utils::getOppositeColor(myColorToPlay));
 
 	if(move.isCastling())
 	{
