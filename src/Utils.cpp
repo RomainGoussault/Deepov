@@ -102,6 +102,7 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 
 void Utils::getCastling(std::string const& castleString, bool (&castleBool)[4])
 {
+	std::cout << "castleString :" << castleString << std::endl;
     if (castleString[0] == '-')
     {
         return;
@@ -113,18 +114,24 @@ void Utils::getCastling(std::string const& castleString, bool (&castleBool)[4])
             if (castleString[i]=='K')
             {
                 castleBool[0]=true;
+                std::cout << "K true " << std::endl;
+
             }
             else if (castleString[i]=='Q')
             {
                 castleBool[1]=true;
+                std::cout << "Q true " << std::endl;
             }
             else if (castleString[i]=='k')
             {
                 castleBool[2]=true;
+                std::cout << "k true " << std::endl;
             }
             else if (castleString[i]=='q')
             {
                 castleBool[3]=true;
+                std::cout << "q true " << std::endl;
+
             }
             else
             {

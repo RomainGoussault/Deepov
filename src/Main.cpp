@@ -22,12 +22,14 @@
 
 int main() {
 
-	FastBoard board("1nbqk2r/pppp1ppp/8/2p1bn2/5N2/1B1Q4/P1rPPPPP/R3K2R w KQkq -");
+	initmagicmoves();
+
+	FastBoard board("r3k2r/pppp1ppp/8/4b1n1/1n1NQbN1/3BB3/PPPPPPPP/R3K2R w k -");
 	MoveGen moveGen(board);
 
-	int whiteSize = moveGen.getKingPseudoLegalMoves(WHITE).size();
+	int blackSize = moveGen.getKingPseudoLegalMoves(BLACK).size();
 //	int blackSize = moveGen.getKingPseudoLegalMoves(BLACK).size();
-	std::cout << " 3 = " << whiteSize << std::endl;
+	std::cout << " 4 = " << blackSize << std::endl;
 	//should be 3. When debugging I think the issue is in Movegen l487: 	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
 
 
