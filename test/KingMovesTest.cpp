@@ -33,13 +33,7 @@ TEST_CASE( "KingCastldsing1", "[king]" )
 		REQUIRE(blackSize == 3);
 	}
 
-}
-
-TEST_CASE( "KingCastling2", "[king]" )
-{
-	initmagicmoves();
-
-	SECTION("gfdgfdgfdg")
+	SECTION("Test Castling 2")
 	{
 		FastBoard board("r3k2r/pppp1ppp/8/4b1n1/1n1NQbN1/3BB3/PPPPPPPP/R3K2R w k -");
 		MoveGen moveGen(board);
