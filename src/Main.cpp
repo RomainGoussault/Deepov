@@ -24,10 +24,18 @@ int main() {
 
 	initmagicmoves();
 
-	FastBoard board("r3kb1r/pppppppp/8/2qn4/2b3n1/8/PPPPPPPP/RNBQKBNR b KQkq -");
+	FastBoard board("r3k3/p1ppqpbr/bn2pnp1/3PN3/1p2P3/P1N2Q1p/1PPBBPPP/1R2K2R b KQkq -");
 	MoveGen moveGen(board);
+	Board b = Board("r3k3/p1ppqpbr/bn2pnp1/3PN3/1p2P3/P1N2Q1p/1PPBBPPP/1R2K2R b KQkq -");
+	std::cout << board.divide(1) << std::endl;
+	std::cout << b.divide(1) << std::endl;
 
-	std::vector<FastMove>  moves = moveGen.getKingPseudoLegalMoves(BLACK);
+	//NOte FastBoard adds e8g8 (castling kingSide) as a legalMove but the king side rook has already moved away!
+
+
+
+	/*
+	std::vector<FastMove>  moves = moveGen.getKingPseudoLegalMoves(WHITE);
 	std::cout << board << std::endl;
 
 	board.executeMove(moves[1]);
