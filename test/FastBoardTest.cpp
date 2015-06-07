@@ -112,7 +112,7 @@ TEST_CASE( "Perft from initial position ", "[perft]")
 	}*/
 }
 
-TEST_CASE( "Perft position 2 ", "[perft]")
+TEST_CASE( "Perft position 2 (Kiwipete)", "[perft]")
 {
 	initmagicmoves();
     FastBoard board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
@@ -131,11 +131,16 @@ TEST_CASE( "Perft position 2 ", "[perft]")
 	{
 		REQUIRE(board.perft(3) == 97862);
 	}
-    /* THIS ONE FAILS*/
-	SECTION("Perft 4")
+
+	/*SECTION("Perft 4") //working but slow for unit test
 	{
 		REQUIRE(board.perft(4) == 4085603);
 	}
+
+	SECTION("Perft 5") working but slow for unit test
+	{
+		REQUIRE(board.perft(5) == 193690690);
+	}*/
 }
 
 TEST_CASE( "Perft position 3 ", "[perft]")
@@ -171,12 +176,77 @@ TEST_CASE( "Perft position 3 ", "[perft]")
 		FastBoard board("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -");
 		REQUIRE(board.perft(4) == 43238);
 	}
-    /*
+	/*
 	SECTION("Perft 5") //working but slow for unit test
 	{
 		FastBoard board("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -");
 		REQUIRE(board.perft(5) == 674624);
 	}*/
+}
+
+TEST_CASE( "Perft position 4 ", "[perft]")
+{
+	initmagicmoves();
+	FastBoard board("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1");
+	FastBoard boardMirrored("r2q1rk1/pP1p2pp/Q4n2/bbp1p3/Np6/1B3NBn/pPPP1PPP/R3K2R b KQ - 0 1");
+
+
+	SECTION("Perft 0")
+	{
+		REQUIRE(board.perft(0) == 1);
+		REQUIRE(boardMirrored.perft(0) == 1);
+	}
+
+	SECTION("Perft 1")
+	{
+		REQUIRE(board.perft(1) == 6);
+		REQUIRE(boardMirrored.perft(1) == 6);
+	}
+
+	SECTION("Perft 2")
+	{
+		REQUIRE(board.perft(2) == 264);
+		REQUIRE(boardMirrored.perft(2) == 264);
+	}
+
+	SECTION("Perft 3")
+	{
+		REQUIRE(board.perft(3) == 9467);
+		REQUIRE(boardMirrored.perft(3) == 9467);
+	}
+
+	/*SECTION("Perft 4") //working but slow for unit test
+	{
+		REQUIRE(board.perft(4) == 422333);
+		REQUIRE(boardMirrored.perft(4) == 422333);
+	}
+
+	SECTION("Perft 5") //working but slow for unit test
+	{
+		REQUIRE(board.perft(5) == 15833292);
+		REQUIRE(boardMirrored.perft(5) == 15833292);
+	}*/
+}
+
+TEST_CASE( "Perft position 5 ", "[perft]") //Note The ChessProgramming website gives another FEN for this position
+{
+	initmagicmoves();
+    FastBoard board("rnbqkb1r/pp1p1ppp/2p5/4P3/2B5/8/PPP1NnPP/RNBQK2R w KQkq - 0 6");
+
+	SECTION("Perft 1")
+	{
+		REQUIRE(board.perft(1) == 42);
+	}
+
+	SECTION("Perft 2")
+	{
+		REQUIRE(board.perft(2) == 1352);
+	}
+
+	SECTION("Perft 3")
+	{
+		REQUIRE(board.perft(3) == 53392);
+	}
 }
 
 TEST_CASE( "Perft position 6 ", "[perft]")
