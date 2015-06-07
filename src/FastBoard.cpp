@@ -893,7 +893,7 @@ boost::optional<FastMove> FastBoard::getEnemyLastMove() const
 
 void FastBoard::updateCastlingRights(FastMove &move)
 {
-    move.setPreviousCastlingRights(myCastling & 0xf); // store for undoMove
+    move.setPreviousCastlingRights(myCastling); // store for undoMove
 
     /* Update Castling rights for king move */
     int isKingMove(move.getPieceType() == FastMove::KING_TYPE);
