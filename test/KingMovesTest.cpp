@@ -18,7 +18,7 @@ TEST_CASE( "King moves", "[king]" )
 	}
 }
 
-TEST_CASE( "KingCastldsing1", "[king]" )
+TEST_CASE( "KingCastling1", "[king]" )
 {
 	initmagicmoves();
 
@@ -43,4 +43,54 @@ TEST_CASE( "KingCastldsing1", "[king]" )
 		REQUIRE(blackSize == 4);
 		REQUIRE(whiteSize == 2);
 	}
+}
+
+TEST_CASE( "CastlingRights", "[king]" )
+{
+    initmagicmoves();
+    FastBoard board("r3k2r/8/8/8/3B4/8/8/R3K2R w KQkq - 0 1");
+
+
+	SECTION("Test 1 Castling")
+	{
+        MoveGen moveGen(board);
+		int whiteSize = moveGen.getKingPseudoLegalMoves(WHITE).size();
+		int blackSize = moveGen.getKingPseudoLegalMoves(BLACK).size();
+		REQUIRE(whiteSize == 7);
+		REQUIRE(blackSize == 7);
+    }
+
+    SECTION("Test 2 King move")
+	{
+        FastMove whiteKingMove(4,5,0,FastMove::KING_TYPE);
+        board.executeMove(whiteKingMove);
+        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
+        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 0);
+        board.undoMove(whiteKingMove);
+        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
+        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+    }
+
+    SECTION("Test 3 Rook Move")
+	{
+        FastMove whiteRookMove(0,16,0,FastMove::ROOK_TYPE);
+        board.executeMove(whiteRookMove);
+        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
+        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+        board.undoMove(whiteRookMove);
+        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
+        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+    }
+
+    SECTION("Test 4 Rook Capture")
+	{
+        FastMove captureMove(27,63,FastMove::CAPTURE_FLAG,FastMove::BISHOP_TYPE);
+        captureMove.setCapturedPieceType(FastMove::ROOK_TYPE);
+        board.executeMove(captureMove);
+        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 0);
+        board.undoMove(captureMove);
+        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+    }
 }

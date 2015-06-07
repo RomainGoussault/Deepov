@@ -606,7 +606,7 @@ void FastBoard::undoMove(FastMove &move)
 	int pieceType = move.getPieceType();
 
 	/* Be careful to get the valid move color  */
-	rewindCastlingRights(move, Utils::getOppositeColor(myColorToPlay));
+	rewindCastlingRights(move);
 
 	if(move.isCastling())
 	{
@@ -908,8 +908,8 @@ void FastBoard::updateCastlingRights(FastMove &move)
     /* isRookMove = 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
 
     /* Update Castling Rights for rook capture */
-    int isRookCapture(move.isCapture() & move.getCapturedPieceType() == FastMove::ROOK_TYPE);
-    int side(move.getDestination()&0b1);
+    int isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
+    side = move.getDestination()&0b1;
     castlingMask &= ~(isRookCapture << (~side + 2*myColorToPlay));
 
     myCastling &= castlingMask;

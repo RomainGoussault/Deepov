@@ -134,6 +134,41 @@ void Utils::getCastling(std::string const& castleString, bool (&castleBool)[4])
     }
 }
 
+void Utils::getCastling(std::string const& castleString, int &castlingRights)
+{
+    castlingRights = 0b0000;
+    if (castleString[0] == '-')
+    {
+        return;
+    }
+    else
+    {
+        for (unsigned int i=0; i<castleString.size(); ++i)
+        {
+            if (castleString[i]=='K')
+            {
+                castlingRights |= 0x1;
+            }
+            else if (castleString[i]=='Q')
+            {
+                castlingRights |= 0x2;
+            }
+            else if (castleString[i]=='k')
+            {
+                castlingRights |= 0x4;
+            }
+            else if (castleString[i]=='q')
+            {
+                castlingRights |= 0x8;
+            }
+            else
+            {
+            	throw std::runtime_error("");
+            }
+        }
+    }
+}
+
 Position Utils::getPosition(std::string const& stringPosition)
 {
 	int row = stringPosition[1] - '0'; //convert from char to int
