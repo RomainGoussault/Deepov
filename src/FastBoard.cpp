@@ -452,7 +452,6 @@ void FastBoard::executeMove(FastMove &move)
 	int origin = move.getOrigin();
 	int destination = move.getDestination();
 	int pieceType = move.getPieceType();
-    updateCastlingRights(move);
 
 	if(move.isCastling())
 	{
@@ -509,6 +508,7 @@ void FastBoard::executeMove(FastMove &move)
 	}
 
 	myMoves.push_back(move);
+    updateCastlingRights(move);
 
 	if (myColorToPlay == BLACK)
 	{
@@ -902,15 +902,17 @@ void FastBoard::updateCastlingRights(FastMove &move)
     /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 
     /* Update Castling Rights for rook moves */
-    int isRookMove(move.getPieceType() == FastMove::ROOK_TYPE);
-    int side(move.getOrigin()&0b1); // King side ends by bit 1, queen side ends by bit 0
-    castlingMask &= ~(isRookMove << (~side + 2*myColorToPlay));
+    bool isFromRookInitialPos(((1LL << move.getOrigin()) & LookUpTables::ROOK_INITIAL_POS)!=0);
+    bool isRookMove(move.getPieceType() == FastMove::ROOK_TYPE);
+    int side(~(move.getOrigin()&0b1)); // King side produces bit 0, queen side produces bit 1
+    castlingMask &= ~((isRookMove&isFromRookInitialPos) << (side + 2*myColorToPlay));
     /* isRookMove = 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
 
     /* Update Castling Rights for rook capture */
-    int isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
-    side = move.getDestination()&0b1;
-    castlingMask &= ~(isRookCapture << (~side + 2*myColorToPlay));
+    bool isToRookInitialPos(((1LL << move.getDestination()) & LookUpTables::ROOK_INITIAL_POS)!=0);
+    bool isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
+    side = ~(move.getDestination()&0b1);
+    castlingMask &= ~((isRookCapture&isToRookInitialPos)<< (side + 2*myColorToPlay));
 
     myCastling &= castlingMask;
 //    /* Update Castling rights for white */

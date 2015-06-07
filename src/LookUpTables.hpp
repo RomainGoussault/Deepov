@@ -15,6 +15,8 @@ public:
     static const U64 CLEAR_FILE[8];
     static const U64 MASK_FILE[8];
 
+    static const U64 ROOK_INITIAL_POS;
+
 private:
 
 };

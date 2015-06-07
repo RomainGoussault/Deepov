@@ -91,8 +91,8 @@ public:
     boost::optional<FastMove> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
     //Castling Methods
-    bool isQueenSideCastlingAllowed(const int color) const {return (myCastling >> (1+2*color)) & 0b1;}
-    bool isKingSideCastlingAllowed(const int color) const {return (myCastling >> 2*color) & 0b1;}
+    bool isQueenSideCastlingAllowed(const int color) const {return ((myCastling >> (1+2*color)) & 0x1);}
+    bool isKingSideCastlingAllowed(const int color) const {return ((myCastling >> 2*color) & 0x1);}
     void updateCastlingRights(FastMove &move);
     void rewindCastlingRights(FastMove &move);
 
