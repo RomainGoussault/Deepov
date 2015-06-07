@@ -249,6 +249,27 @@ TEST_CASE( "Perft position 5 ", "[perft]") //Note The ChessProgramming website g
 	}
 }
 
+TEST_CASE( "Perft position 5 bis", "[perft]") //Results from stockfish
+{
+	initmagicmoves();
+    FastBoard board("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8");
+
+	SECTION("Perft 1")
+	{
+		REQUIRE(board.perft(1) == 44);
+	}
+
+	SECTION("Perft 2")
+	{
+		REQUIRE(board.perft(2) == 1486);
+	}
+
+	SECTION("Perft 3")
+	{
+		REQUIRE(board.perft(3) ==  62379);
+	}
+}
+
 TEST_CASE( "Perft position 6 ", "[perft]")
 {
 	initmagicmoves();
