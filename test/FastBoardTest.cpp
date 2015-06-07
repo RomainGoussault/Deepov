@@ -283,3 +283,39 @@ TEST_CASE( "Perft position 6 ", "[perft]")
 		REQUIRE(board.perft(4) == 3894594);
 	}*/
 }
+
+TEST_CASE( "Perft Promotion", "[perft]") //Taken from http://www.rocechess.ch/perft.html
+{
+	initmagicmoves();
+    FastBoard board("n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1");
+
+	SECTION("Perft 1")
+	{
+		REQUIRE(board.perft(1) == 24);
+	}
+
+	SECTION("Perft 2")
+	{
+		REQUIRE(board.perft(2) == 496);
+	}
+
+	SECTION("Perft 3")
+	{
+		REQUIRE(board.perft(3) == 9483);
+	}
+	/*
+	SECTION("Perft 4") /working but slow for unit test
+	{
+		REQUIRE(board.perft(4) == 182838);
+	}
+
+	SECTION("Perft 5") //working but slow for unit test
+	{
+		REQUIRE(board.perft(5) == 3605103);
+	}
+
+	SECTION("Perft 6") //working but slow for unit test
+	{
+		REQUIRE(board.perft(6) == 71179139);
+	}*/
+}
