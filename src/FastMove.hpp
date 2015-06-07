@@ -58,9 +58,9 @@ public:
 		return (myMove >> 19) & 0x7;
 	}
 
-	inline unsigned int getCastlingRightChange() const
+	inline unsigned int getPreviousCastlingRights() const
 	{
-	    return (myMove >> 22) & 0x3;
+	    return (myMove >> 22) & 0xf;
 	}
 
     inline void setDestination(unsigned const int destination)
@@ -84,9 +84,9 @@ public:
 	    myMove &= ~0x380000; myMove |= ((type & 0x7) << 19); // Mask on the first 3 bits
 	}
 
-    inline void setCastlingRightChange(unsigned const int state) // State contains the 2 bits
+    inline void setPreviousCastlingRights(unsigned const int state) // State contains the 4 bits
     {
-        myMove &= ~0xc00000; myMove |= ((state & 0x3) << 22);
+        myMove &= ~0x3c00000; myMove |= ((state & 0xf) << 22);
     }
 
 	inline bool isCapture() const {return getFlags() & CAPTURE_FLAG;}
@@ -113,7 +113,7 @@ public:
 
 private:
 
-	int myMove; //Bits : Castling Right Modification 2 bits || Captured Piece 3 bits || Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
+	int myMove; //Bits : Castling Right BEFORE the move 4 bits || Captured Piece 3 bits || Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
 	/*
 	 * PieceType:
 	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
@@ -138,9 +138,8 @@ private:
 		1	1	1	1	queen-promo capture
 
 
-		Castling Right Modification 2 bits
-		Left bit is queen side. 1 if it has been cancelled with this move , else 0
-		Right bit is king side. 1 if it has been cancelled with this move , else 0
+		Castling Rights BEFORE the move 4 bits
+		// Same order as FEN : LEFT bit bool[3]: black queen side > black king side > white queen side > RIGHT BIT bool[0] : white king side
 	*/
 };
 
