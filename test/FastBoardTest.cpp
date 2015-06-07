@@ -131,11 +131,11 @@ TEST_CASE( "Perft position 2 ", "[perft]")
 	{
 		REQUIRE(board.perft(3) == 97862);
 	}
-    /* THIS ONE FAILS
+    /* THIS ONE FAILS*/
 	SECTION("Perft 4")
 	{
 		REQUIRE(board.perft(4) == 4085603);
-	}*/
+	}
 }
 
 TEST_CASE( "Perft position 3 ", "[perft]")

@@ -894,27 +894,73 @@ boost::optional<FastMove> FastBoard::getEnemyLastMove() const
 void FastBoard::updateCastlingRights(FastMove &move)
 {
     move.setPreviousCastlingRights(myCastling & 0xf); // store for undoMove
-    int castlingMask(0b1111);
 
     /* Update Castling rights for king move */
     int isKingMove(move.getPieceType() == FastMove::KING_TYPE);
-    castlingMask &= ~((isKingMove*3) << (myColorToPlay*2));
+    myCastling &= ~((isKingMove*3) << (myColorToPlay*2));
     /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 
-    /* Update Castling Rights for rook moves */
-    bool isFromRookInitialPos(((1LL << move.getOrigin()) & LookUpTables::ROOK_INITIAL_POS)!=0);
-    bool isRookMove(move.getPieceType() == FastMove::ROOK_TYPE);
-    int side(~(move.getOrigin()&0b1)); // King side produces bit 0, queen side produces bit 1
-    castlingMask &= ~((isRookMove&isFromRookInitialPos) << (side + 2*myColorToPlay));
-    /* isRookMove = 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
+//    /* Update Castling Rights for rook moves */
+//    bool isFromRookInitialPos(((1LL << move.getOrigin()) & LookUpTables::ROOK_INITIAL_POS)!=0);
+//    bool isRookMove(move.getPieceType() == FastMove::ROOK_TYPE);
+//    if (isRookMove&isFromRookInitialPos)
+//    int side(~(move.getOrigin()&0b1)); // King side produces bit 0, queen side produces bit 1
+//    myCastling &= ~((isRookMove&isFromRookInitialPos) << (side + 2*myColorToPlay));
+//    /* isRookMove = 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
 
-    /* Update Castling Rights for rook capture */
-    bool isToRookInitialPos(((1LL << move.getDestination()) & LookUpTables::ROOK_INITIAL_POS)!=0);
-    bool isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
-    side = ~(move.getDestination()&0b1);
-    castlingMask &= ~((isRookCapture&isToRookInitialPos)<< (side + 2*myColorToPlay));
+    if (move.getOrigin() == 0)
+    {
+        myCastling &=0x0d;
+    }
+    if (move.getOrigin() == 7)
+    {
+        myCastling &=0x0e;
+    }
+    if (move.getOrigin() == 56)
+    {
+        myCastling &=0x07;
+    }
+    if (move.getOrigin() == 63)
+    {
+        myCastling &=0x0b;
+    }
 
-    myCastling &= castlingMask;
+//    /* Update Castling Rights for rook capture */
+//    bool isToRookInitialPos(((1LL << move.getDestination()) & LookUpTables::ROOK_INITIAL_POS)!=0);
+//    bool isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
+//    int side = ~(move.getDestination()&0b1);
+//    myCastling &= ~((isRookCapture&isToRookInitialPos)<< (side + 2*myColorToPlay));
+
+
+    if (move.getDestination() == 0)
+    {
+        myCastling &=0x0d;
+    }
+    if (move.getDestination() == 7)
+    {
+        myCastling &=0x0e;
+    }
+    if (move.getDestination() == 56)
+    {
+        myCastling &=0x07;
+    }
+    if (move.getDestination() == 63)
+    {
+        myCastling &=0x0b;
+    }
+//    /* Update Castling Rights for rook moves */
+//    bool isFromRookInitialPos(((1LL << move.getOrigin()) & LookUpTables::ROOK_INITIAL_POS)!=0);
+//    bool isRookMove(move.getPieceType() == FastMove::ROOK_TYPE);
+//    int side(~(move.getOrigin()&0b1)); // King side produces bit 0, queen side produces bit 1
+//    myCastling &= ~((isRookMove&isFromRookInitialPos) << (side + 2*myColorToPlay));
+//    /* isRookMove = 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
+//
+//    /* Update Castling Rights for rook capture */
+//    bool isToRookInitialPos(((1LL << move.getDestination()) & LookUpTables::ROOK_INITIAL_POS)!=0);
+//    bool isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
+//    side = ~(move.getDestination()&0b1);
+//    myCastling &= ~((isRookCapture&isToRookInitialPos)<< (side + 2*myColorToPlay));
+
 //    /* Update Castling rights for white */
 //	if ((myCastling[0] == true || myCastling[1] == true) && myColorToPlay == WHITE )
 //    {
