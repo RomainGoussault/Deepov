@@ -154,7 +154,9 @@ private:
 	bool myColorToPlay;
     int myMovesCounter;
     int myHalfMovesCounter;
-    bool myCastling[4] ; // Same order as FEN : white king side, white queen side, black king side, black queen side
+    int myCastling; /* Same order as FEN
+    RIGHT BIT : white king side, white queen side, black king side, black queen side : LEFT BIT
+    e.g. the order is 1111 = qkQK */
 
     std::vector<FastMove> myMoves;
 

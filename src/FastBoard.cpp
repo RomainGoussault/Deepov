@@ -893,49 +893,69 @@ boost::optional<FastMove> FastBoard::getEnemyLastMove() const
 
 void FastBoard::updateCastlingRights(FastMove &move)
 {
-    /* Update Castling rights for white */
-	if ((myCastling[0] == true || myCastling[1] == true) && myColorToPlay == WHITE )
-    {
+    move.setPreviousCastlingRights(myCastling & 0xf); // store for undoMove
+    int castlingMask(0b1111);
 
-        if(move.getPieceType() == FastMove::KING_TYPE)
-        {
-            setCastlingRight(0,false);
-            setCastlingRight(1,false);
-            move.setCastlingRightChange(0b11); // Cancels both sides
-        }
+    /* Update Castling rights for king move */
+    int isKingMove(move.getPieceType() == FastMove::KING_TYPE);
+    castlingMask &= ~((isKingMove*3) << (myColorToPlay*2));
+    /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 
-        if (move.getOrigin() == 7 && move.getPieceType() == FastMove::ROOK_TYPE)
-        {
-            setCastlingRight(0,false);
-            move.setCastlingRightChange(0b01); // Cancels king side right
-        }
-        else if (move.getOrigin() == 0 && move.getPieceType() == FastMove::ROOK_TYPE)
-        {
-            setCastlingRight(1,false);
-            move.setCastlingRightChange(0b10);  // Cancels queen side
-        }
-    }
-    /* Update castling rights for black */
-	else if ((myCastling[2] == true || myCastling[3] == true) && myColorToPlay == BLACK )
-    {
-        if(move.getPieceType() == FastMove::KING_TYPE)
-        {
-            setCastlingRight(2,false);
-            setCastlingRight(3,false);
-            move.setCastlingRightChange(0b11); // Cancels both sides
-        }
+    /* Update Castling Rights for rook moves */
+    int isRookMove(move.getPieceType() == FastMove::ROOK_TYPE);
+    int side(move.getOrigin()&0b1); // King side ends by bit 1, queen side ends by bit 0
+    castlingMask &= ~(isRookMove << (~side + 2*myColorToPlay));
+    /* isRookMove = 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
 
-        if (move.getOrigin() == 63 && move.getPieceType() == FastMove::ROOK_TYPE)
-        {
-            setCastlingRight(2,false);
-            move.setCastlingRightChange(0b01); // Cancels king side right
-        }
-        else if (move.getOrigin() == 56 && move.getPieceType() == FastMove::ROOK_TYPE)
-        {
-            setCastlingRight(3,false);
-            move.setCastlingRightChange(0b10);  // Cancels queen side
-        }
-    }
+    /* Update Castling Rights for rook capture */
+    int isRookCapture(move.isCapture() & move.getCapturedPieceType() == FastMove::ROOK_TYPE);
+    int side(move.getDestination()&0b1);
+    castlingMask &= ~(isRookCapture << (~side + 2*myColorToPlay));
+
+    myCastling &= castlingMask;
+//    /* Update Castling rights for white */
+//	if ((myCastling[0] == true || myCastling[1] == true) && myColorToPlay == WHITE )
+//    {
+//
+//        if(move.getPieceType() == FastMove::KING_TYPE)
+//        {
+//            setCastlingRight(0,false);
+//            setCastlingRight(1,false);
+//            move.setCastlingRightChange(0b11); // Cancels both sides
+//        }
+//
+//        if (move.getOrigin() == 7 && move.getPieceType() == FastMove::ROOK_TYPE)
+//        {
+//            setCastlingRight(0,false);
+//            move.setCastlingRightChange(0b01); // Cancels king side right
+//        }
+//        else if (move.getOrigin() == 0 && move.getPieceType() == FastMove::ROOK_TYPE)
+//        {
+//            setCastlingRight(1,false);
+//            move.setCastlingRightChange(0b10);  // Cancels queen side
+//        }
+//    }
+//    /* Update castling rights for black */
+//	else if ((myCastling[2] == true || myCastling[3] == true) && myColorToPlay == BLACK )
+//    {
+//        if(move.getPieceType() == FastMove::KING_TYPE)
+//        {
+//            setCastlingRight(2,false);
+//            setCastlingRight(3,false);
+//            move.setCastlingRightChange(0b11); // Cancels both sides
+//        }
+//
+//        if (move.getOrigin() == 63 && move.getPieceType() == FastMove::ROOK_TYPE)
+//        {
+//            setCastlingRight(2,false);
+//            move.setCastlingRightChange(0b01); // Cancels king side right
+//        }
+//        else if (move.getOrigin() == 56 && move.getPieceType() == FastMove::ROOK_TYPE)
+//        {
+//            setCastlingRight(3,false);
+//            move.setCastlingRightChange(0b10);  // Cancels queen side
+//        }
+//    }
 }
 
 void FastBoard::rewindCastlingRights(FastMove &move, const int &color)
