@@ -2,6 +2,7 @@
 #include "FastBoard.hpp"
 #include "MoveGen.hpp"
 #include "MagicMoves.hpp"
+#include <bitset>
 
 
 TEST_CASE( "King moves", "[king]" )
@@ -73,13 +74,30 @@ TEST_CASE( "CastlingRights", "[king]" )
 
     SECTION("Test 3 Rook Move")
 	{
+        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
+        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
         FastMove whiteRookMove(0,16,0,FastMove::ROOK_TYPE);
         board.executeMove(whiteRookMove);
+        board.updateCastlingRights(whiteRookMove);
+        int origin = whiteRookMove.getOrigin();
+        int isOnInitialPos = (1LL << origin)&LookUpTables::ROOK_INITIAL_POS;
+        unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
+        unsigned int mask = ~(0b0001 << shift);
+        std::cout << origin << std::endl;
+        std::cout << isOnInitialPos << std::endl;
+        std::cout << shift << std::endl;
+        std::cout << std::bitset<16>(mask) << std::endl;
         REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
         REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
         board.undoMove(whiteRookMove);
         REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
         REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
     }
 
     SECTION("Test 4 Rook Capture")

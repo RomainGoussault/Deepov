@@ -900,30 +900,34 @@ void FastBoard::updateCastlingRights(FastMove &move)
     myCastling &= ~((isKingMove*3) << (myColorToPlay*2));
     /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 
-//    /* Update Castling Rights for rook moves */
-//    bool isFromRookInitialPos(((1LL << move.getOrigin()) & LookUpTables::ROOK_INITIAL_POS)!=0);
-//    bool isRookMove(move.getPieceType() == FastMove::ROOK_TYPE);
-//    if (isRookMove&isFromRookInitialPos)
-//    int side(~(move.getOrigin()&0b1)); // King side produces bit 0, queen side produces bit 1
-//    myCastling &= ~((isRookMove&isFromRookInitialPos) << (side + 2*myColorToPlay));
-//    /* isRookMove = 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
+    /* Update Castling Rights for rook moves */
+    int origin = move.getOrigin();
+    if (((1LL << origin)&LookUpTables::ROOK_INITIAL_POS)!=0)
+    {
+        // King side produces bit 0, queen side produces bit 1
+        unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
+        unsigned int mask = ~(0b0001 << shift);
+        myCastling &= mask;
+        /* 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
+    }
 
-    if (move.getOrigin() == 0)
-    {
-        myCastling &=0x0d;
-    }
-    if (move.getOrigin() == 7)
-    {
-        myCastling &=0x0e;
-    }
-    if (move.getOrigin() == 56)
-    {
-        myCastling &=0x07;
-    }
-    if (move.getOrigin() == 63)
-    {
-        myCastling &=0x0b;
-    }
+
+//    if (move.getOrigin() == 0)
+//    {
+//        myCastling &=0x0d;
+//    }
+//    if (move.getOrigin() == 7)
+//    {
+//        myCastling &=0x0e;
+//    }
+//    if (move.getOrigin() == 56)
+//    {
+//        myCastling &=0x07;
+//    }
+//    if (move.getOrigin() == 63)
+//    {
+//        myCastling &=0x0b;
+//    }
 
 //    /* Update Castling Rights for rook capture */
 //    bool isToRookInitialPos(((1LL << move.getDestination()) & LookUpTables::ROOK_INITIAL_POS)!=0);
@@ -960,50 +964,6 @@ void FastBoard::updateCastlingRights(FastMove &move)
 //    bool isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
 //    side = ~(move.getDestination()&0b1);
 //    myCastling &= ~((isRookCapture&isToRookInitialPos)<< (side + 2*myColorToPlay));
-
-//    /* Update Castling rights for white */
-//	if ((myCastling[0] == true || myCastling[1] == true) && myColorToPlay == WHITE )
-//    {
-//
-//        if(move.getPieceType() == FastMove::KING_TYPE)
-//        {
-//            setCastlingRight(0,false);
-//            setCastlingRight(1,false);
-//            move.setCastlingRightChange(0b11); // Cancels both sides
-//        }
-//
-//        if (move.getOrigin() == 7 && move.getPieceType() == FastMove::ROOK_TYPE)
-//        {
-//            setCastlingRight(0,false);
-//            move.setCastlingRightChange(0b01); // Cancels king side right
-//        }
-//        else if (move.getOrigin() == 0 && move.getPieceType() == FastMove::ROOK_TYPE)
-//        {
-//            setCastlingRight(1,false);
-//            move.setCastlingRightChange(0b10);  // Cancels queen side
-//        }
-//    }
-//    /* Update castling rights for black */
-//	else if ((myCastling[2] == true || myCastling[3] == true) && myColorToPlay == BLACK )
-//    {
-//        if(move.getPieceType() == FastMove::KING_TYPE)
-//        {
-//            setCastlingRight(2,false);
-//            setCastlingRight(3,false);
-//            move.setCastlingRightChange(0b11); // Cancels both sides
-//        }
-//
-//        if (move.getOrigin() == 63 && move.getPieceType() == FastMove::ROOK_TYPE)
-//        {
-//            setCastlingRight(2,false);
-//            move.setCastlingRightChange(0b01); // Cancels king side right
-//        }
-//        else if (move.getOrigin() == 56 && move.getPieceType() == FastMove::ROOK_TYPE)
-//        {
-//            setCastlingRight(3,false);
-//            move.setCastlingRightChange(0b10);  // Cancels queen side
-//        }
-//    }
 }
 
 void FastBoard::rewindCastlingRights(FastMove &move)
