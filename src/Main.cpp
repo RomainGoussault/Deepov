@@ -23,16 +23,68 @@
 int main() {
 
 	initmagicmoves();
+	FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
-	FastBoard board("r3k3/p1ppqpbr/bn2pnp1/3PN3/1p2P3/P1N2Q1p/1PPBBPPP/1R2K2R b KQkq -");
+	U64 dec = 8100000000000081LL; // = LookUpTables::ROOK_INITIAL_POS
+	 std::string binary = std::bitset<100>(dec).to_string(); //to binary
+	    std::cout<<binary<<"\n";
+
+	U64 bin = 0b011100110001101110100000110110101011100100000001010001; // = LookUpTables::ROOK_INITIAL_POS
+
+	int origin = 7; //"white rook king side"
+	std::cout << "(1LL << origin) " << (1LL << origin) << std::endl;
+
+
+	std::cout << "bin  " << bin << std::endl;
+	std::cout << "dec  " << dec << std::endl;
+
+	//Calculation for isOnitialPos
+	U64 c = 8100000000000081LL & 128LL;
+	U64 d = 0b011100110001101110100000110110101011100100000001010001 & 128LL;
+
+	std::cout << "c " << c << std::endl; // = 0
+	std::cout << "d " << d << std::endl; // = 0
+
+
+
+	//This should be >1 when the king side white rook moves but it's not.
+	//The constant LookUpTables::ROOK_INITIAL_POS is wrong I guess
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*  110000010001111001111010000000
+&                           10000000
+   =                        10000000
+	 */
+
+
+	/*
 	MoveGen moveGen(board);
-	Board b = Board("r3k3/p1ppqpbr/bn2pnp1/3PN3/1p2P3/P1N2Q1p/1PPBBPPP/1R2K2R b KQkq -");
-	std::cout << board.divide(1) << std::endl;
-	std::cout << b.divide(1) << std::endl;
-	//NOte FastBoard adds e8g8 (castling kingSide) as a legalMove but the king side rook has already moved away!
+	std::chrono::high_resolution_clock::time_point t1 =
+				std::chrono::high_resolution_clock::now();
 
+		std::cout << board.perft(5) << std::endl;
+		//Romain 4.4 sec
 
+		std::chrono::high_resolution_clock::time_point t2 =
+				std::chrono::high_resolution_clock::now();
 
+		std::chrono::duration<double> time_span = std::chrono::duration_cast<
+				std::chrono::duration<double>>(t2 - t1);
+
+		std::cout << "It took me " << time_span.count() << " seconds.";
+		std::cout << std::endl;
+	 */
 	/*
 	std::vector<FastMove>  moves = moveGen.getKingPseudoLegalMoves(WHITE);
 	std::cout << board << std::endl;
