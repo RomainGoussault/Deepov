@@ -80,7 +80,6 @@ TEST_CASE( "CastlingRights", "[king]" )
         REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
         FastMove whiteRookMove(0,16,0,FastMove::ROOK_TYPE);
         board.executeMove(whiteRookMove);
-        board.updateCastlingRights(whiteRookMove);
         int origin = whiteRookMove.getOrigin();
         int isOnInitialPos = (1LL << origin)&LookUpTables::ROOK_INITIAL_POS;
         unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
