@@ -8,7 +8,7 @@
 TEST_CASE( "King moves", "[king]" )
 {
 	SECTION("Test pseudo-legal moves")
-	{
+					{
 		FastBoard board("rnbq1b1r/ppp1np1p/4p1p1/3p2k1/3P2P1/8/PPPKPP1P/RNBQ1BNR w kq -");
 		MoveGen moveGen(board);
 
@@ -16,7 +16,7 @@ TEST_CASE( "King moves", "[king]" )
 		int blackSize = moveGen.getKingPseudoLegalMoves(BLACK).size();
 		REQUIRE(whiteSize == 4);
 		REQUIRE(blackSize == 7);
-	}
+					}
 }
 
 TEST_CASE( "KingCastling1", "[king]" )
@@ -48,106 +48,110 @@ TEST_CASE( "KingCastling1", "[king]" )
 
 TEST_CASE( "CastlingRights", "[king]" )
 {
-    initmagicmoves();
-    FastBoard board("r3k2r/8/8/8/3B4/8/8/R3K2R w KQkq - 0 1");
+	initmagicmoves();
+	FastBoard board("r3k2r/8/8/8/3B4/8/8/R3K2R w KQkq - 0 1");
 
 
 	SECTION("Test 1 Castling")
 	{
-        MoveGen moveGen(board);
+		MoveGen moveGen(board);
 		int whiteSize = moveGen.getKingPseudoLegalMoves(WHITE).size();
 		int blackSize = moveGen.getKingPseudoLegalMoves(BLACK).size();
 		REQUIRE(whiteSize == 7);
 		REQUIRE(blackSize == 7);
-    }
+	}
 
-    SECTION("Test 2 King move")
+	SECTION("Test 2 King move")
 	{
-        FastMove whiteKingMove(4,5,0,FastMove::KING_TYPE);
-        board.executeMove(whiteKingMove);
-        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
-        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 0);
-        board.undoMove(whiteKingMove);
-        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
-    }
+		FastMove whiteKingMove(4,5,0,FastMove::KING_TYPE);
+		board.executeMove(whiteKingMove);
+		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 0);
+		board.undoMove(whiteKingMove);
+		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+	}
 
-    SECTION("Test 3 Rook Move")
+	SECTION("Test 3 Rook Move")
 	{
-        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
-        FastMove whiteRookMove(0,16,0,FastMove::ROOK_TYPE);
-        board.executeMove(whiteRookMove);
-        int origin = whiteRookMove.getOrigin();
-        int isOnInitialPos = (1LL << origin)&LookUpTables::ROOK_INITIAL_POS;
-        unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
-        unsigned int mask = ~(0b0001 << shift);
-        std::cout << origin << std::endl;
-        std::cout << isOnInitialPos << std::endl;
-        std::cout << shift << std::endl;
-        std::cout << std::bitset<16>(mask) << std::endl;
-        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
-        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
-        board.undoMove(whiteRookMove);
-        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
-    }
+		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+		FastMove whiteRookMove(0,16,0,FastMove::ROOK_TYPE);
+		board.executeMove(whiteRookMove);
+		int origin = whiteRookMove.getOrigin();
+		int isOnInitialPos = (1LL << origin)&LookUpTables::ROOK_INITIAL_POS;
+		unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
+		unsigned int mask = ~(0b0001 << shift);
+		std::cout << origin << std::endl;
+		std::cout << isOnInitialPos << std::endl;
+		std::cout << shift << std::endl;
+		std::cout << std::bitset<16>(mask) << std::endl;
+		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+		board.undoMove(whiteRookMove);
+		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+	}
 
-    SECTION("Test 3 Rook Move2")
+	SECTION("Test 3 Rook Move2")
 	{
-        std::cout << "=====" << std::endl;
-       std::cout << "castling: " << board.getCastling() << std::endl;
+		std::cout << "=====" << std::endl;
+		std::cout << "castling: " << board.getCastling() << std::endl;
 
-        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
-        FastMove whiteRookMove(07,23,0,FastMove::ROOK_TYPE);
-        board.executeMove(whiteRookMove);
-        int origin = whiteRookMove.getOrigin();
-        std::cout << "after exe castling: " << board.getCastling() << std::endl;
-        std::cout << board << std::endl;
-        std::cout << "(1LL << origin) " << (1LL << origin) << std::endl;
-        U64 a = 128LL;
-        U64 c = LookUpTables::ROOK_INITIAL_POS & a;
-        std::cout << "isOnInitialPos " << c << std::endl;
+		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
 
-        int isOnInitialPos = (1LL << origin)&LookUpTables::ROOK_INITIAL_POS;
-        unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
-        unsigned int mask = ~(0b0001 << shift);
-        std::cout << origin << std::endl;
-        std::cout << isOnInitialPos << std::endl;
-        std::cout << shift << std::endl;
-        std::cout << std::bitset<16>(mask) << std::endl;
-        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == true);
-        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == false);
-        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+		FastMove whiteRookMove(07,23,0,FastMove::ROOK_TYPE);
+		board.executeMove(whiteRookMove);
 
-        board.undoMove(whiteRookMove);
-        REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
-        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
-     std::cout << "after undo castling: " << board.getCastling()<< std::endl;
+		int origin = whiteRookMove.getOrigin();
+		std::cout << "after exe castling: " << board.getCastling() << std::endl;
+		std::cout << board << std::endl;
+		std::cout << "(1LL << origin) " << (1LL << origin) << std::endl;
+		U64 a = 128LL;
+		U64 c = LookUpTables::ROOK_INITIAL_POS & a;
+		std::cout << "isOnInitialPos " << c << std::endl;
 
-    }
+		int isOnInitialPos = (1LL << origin)&LookUpTables::ROOK_INITIAL_POS;
+		unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
+		unsigned int mask = ~(0b0001 << shift);
+		std::cout << origin << std::endl;
+		std::cout << isOnInitialPos << std::endl;
+		std::cout << shift << std::endl;
+		std::cout << std::bitset<16>(mask) << std::endl;
 
-    SECTION("Test 4 Rook Capture")
+		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == true);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == false);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+
+		board.undoMove(whiteRookMove);
+
+		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 1);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+
+		std::cout << "after undo castling: " << board.getCastling()<< std::endl;
+	}
+
+	SECTION("Test 4 Rook Capture")
 	{
-        FastMove captureMove(27,63,FastMove::CAPTURE_FLAG,FastMove::BISHOP_TYPE);
-        captureMove.setCapturedPieceType(FastMove::ROOK_TYPE);
-        board.executeMove(captureMove);
-        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 0);
-        board.undoMove(captureMove);
-        REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
-        REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
-    }
+		FastMove captureMove(27,63,FastMove::CAPTURE_FLAG,FastMove::BISHOP_TYPE);
+		captureMove.setCapturedPieceType(FastMove::ROOK_TYPE);
+		board.executeMove(captureMove);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 0);
+		board.undoMove(captureMove);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
+		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+	}
 }
