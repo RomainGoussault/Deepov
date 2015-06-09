@@ -25,7 +25,9 @@ int main() {
 
 	Utils::getPerformanceIndicator();
 	Utils::getPerformanceIndicator();
-	//Romain : 9sec = 995556 Nodes per sec
+	//Romain : 9sec = 995 556 Nodes/sec
+	// -O3 1.6sec 5 609 501 Nodes/sec
+	//Stockfish 180 385 601Nodes/sec
 
 
 

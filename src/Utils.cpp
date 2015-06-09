@@ -15,6 +15,7 @@
 #include "Piece.hpp"
 #include "MoveGen.hpp"
 #include "FastBoard.hpp"
+#include "MagicMoves.hpp"
 
 #include "math.h"
 #include <iostream>
