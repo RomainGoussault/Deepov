@@ -27,6 +27,7 @@ int main() {
 	Utils::getPerformanceIndicator();
 	//Romain : 9sec = 995 556 Nodes/sec
 	// -O3 1.6sec 5 609 501 Nodes/sec
+	// Navid -O3 9sec 100 000 N/sec
 	//Stockfish 180 385 601Nodes/sec
 
 
@@ -145,6 +146,7 @@ int main() {
 	 fb.undoMove(move);
 
 	 std::cout << fb << std::endl;*/
-
+    std::string str;
+    std::cin >> str;
 	return 0;
 }
