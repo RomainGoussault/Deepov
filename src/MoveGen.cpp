@@ -414,7 +414,6 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
 
     if (!enemyLastMove)
     {
-        std::cout << "ERROR : No enemyLastMove move" << std::endl;
         return enPassantMoves;
     }
     else if (enemyLastMove->getFlags() == FastMove::DOUBLE_PAWN_PUSH_FLAG)
@@ -445,32 +444,27 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 	/* Easiest test first */
 	if (validPawns == 0) {return enPassantMoves;}
 
-    if ((myBoard->getMovesHistory()).size() == 0)
+    boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+
+    if (!enemyLastMove)
     {
-//        std::cout << "ERROR : No enemyLastMove move" << std::endl; This is a valid case?
         return enPassantMoves;
     }
-	else
+	else if (enemyLastMove->getFlags() == FastMove::DOUBLE_PAWN_PUSH_FLAG)
 	{
-		boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+        while (validPawns)
+        {
+            unsigned int enemyDestination = enemyLastMove->getDestination();
+            int validPawnIndex = FastBoard::getMsbIndex(validPawns);
+            validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
 
-		// TODO : implement DOUBLEPAWNPUSH flag in pawn getpseudolegals
-		if (enemyLastMove->getFlags() == FastMove::DOUBLE_PAWN_PUSH_FLAG)
-		{
-			while (validPawns)
-			{
-				unsigned int enemyDestination = enemyLastMove->getDestination();
-				int validPawnIndex = FastBoard::getMsbIndex(validPawns);
-				validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
-
-				if (abs(validPawnIndex - enemyDestination) == 1)
-				{
-					FastMove epMove(validPawnIndex,enemyDestination-8,FastMove::EP_CAPTURE_FLAG,FastMove::PAWN_TYPE);
-					epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
-					enPassantMoves.push_back(epMove);
-				}
-			}
-		}
+            if (abs(validPawnIndex - enemyDestination) == 1)
+            {
+                FastMove epMove(validPawnIndex,enemyDestination-8,FastMove::EP_CAPTURE_FLAG,FastMove::PAWN_TYPE);
+                epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
+                enPassantMoves.push_back(epMove);
+            }
+        }
 
 		return enPassantMoves;
 	}
