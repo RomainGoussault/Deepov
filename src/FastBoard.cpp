@@ -928,42 +928,33 @@ void FastBoard::updateCastlingRights(FastMove &move)
 //    {
 //        myCastling &=0x0b;
 //    }
+    int destination =move.getDestination();
+    if (((1LL << destination)&LookUpTables::ROOK_INITIAL_POS)!=0)
+    {
+        /* Update Castling Rights for rook capture */
+        unsigned int shift(((~destination)&0b0001) + 2*((destination&0b1000)>>3));
+        unsigned int mask = ~(0b0001 << shift);
+        myCastling &= mask;
+    }
 
-//    /* Update Castling Rights for rook capture */
-//    bool isToRookInitialPos(((1LL << move.getDestination()) & LookUpTables::ROOK_INITIAL_POS)!=0);
-//    bool isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
-//    int side = ~(move.getDestination()&0b1);
-//    myCastling &= ~((isRookCapture&isToRookInitialPos)<< (side + 2*myColorToPlay));
 
 
-    if (move.getDestination() == 0)
-    {
-        myCastling &=0x0d;
-    }
-    if (move.getDestination() == 7)
-    {
-        myCastling &=0x0e;
-    }
-    if (move.getDestination() == 56)
-    {
-        myCastling &=0x07;
-    }
-    if (move.getDestination() == 63)
-    {
-        myCastling &=0x0b;
-    }
-//    /* Update Castling Rights for rook moves */
-//    bool isFromRookInitialPos(((1LL << move.getOrigin()) & LookUpTables::ROOK_INITIAL_POS)!=0);
-//    bool isRookMove(move.getPieceType() == FastMove::ROOK_TYPE);
-//    int side(~(move.getOrigin()&0b1)); // King side produces bit 0, queen side produces bit 1
-//    myCastling &= ~((isRookMove&isFromRookInitialPos) << (side + 2*myColorToPlay));
-//    /* isRookMove = 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
-//
-//    /* Update Castling Rights for rook capture */
-//    bool isToRookInitialPos(((1LL << move.getDestination()) & LookUpTables::ROOK_INITIAL_POS)!=0);
-//    bool isRookCapture(move.isCapture() & (move.getCapturedPieceType() == FastMove::ROOK_TYPE));
-//    side = ~(move.getDestination()&0b1);
-//    myCastling &= ~((isRookCapture&isToRookInitialPos)<< (side + 2*myColorToPlay));
+//    if (move.getDestination() == 0)
+//    {
+//        myCastling &=0x0d;
+//    }
+//    if (move.getDestination() == 7)
+//    {
+//        myCastling &=0x0e;
+//    }
+//    if (move.getDestination() == 56)
+//    {
+//        myCastling &=0x07;
+//    }
+//    if (move.getDestination() == 63)
+//    {
+//        myCastling &=0x0b;
+//    }
 }
 
 void FastBoard::rewindCastlingRights(FastMove &move)
