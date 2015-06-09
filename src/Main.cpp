@@ -22,53 +22,17 @@
 
 int main() {
 
-	initmagicmoves();
-	FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
-	U64 dec = 8100000000000081LL; // = LookUpTables::ROOK_INITIAL_POS
-	 std::string binary = std::bitset<100>(dec).to_string(); //to binary
-	    std::cout<<binary<<"\n";
+	Utils::getPerformanceIndicator();
+	Utils::getPerformanceIndicator();
+	//Romain : 9sec = 995556 Nodes per sec
 
-	U64 bin = 0b011100110001101110100000110110101011100100000001010001; // = LookUpTables::ROOK_INITIAL_POS
-
-	int origin = 7; //"white rook king side"
-	std::cout << "(1LL << origin) " << (1LL << origin) << std::endl;
-
-
-	std::cout << "bin  " << bin << std::endl;
-	std::cout << "dec  " << dec << std::endl;
-
-	//Calculation for isOnitialPos
-	U64 c = 8100000000000081LL & 128LL;
-	U64 d = 0b011100110001101110100000110110101011100100000001010001 & 128LL;
-
-	std::cout << "c " << c << std::endl; // = 0
-	std::cout << "d " << d << std::endl; // = 0
-
-
-
-	//This should be >1 when the king side white rook moves but it's not.
-	//The constant LookUpTables::ROOK_INITIAL_POS is wrong I guess
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*  110000010001111001111010000000
-&                           10000000
-   =                        10000000
-	 */
 
 
 	/*
+	initmagicmoves();
+	FastBoard board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+
 	MoveGen moveGen(board);
 	std::chrono::high_resolution_clock::time_point t1 =
 				std::chrono::high_resolution_clock::now();
@@ -84,7 +48,6 @@ int main() {
 
 		std::cout << "It took me " << time_span.count() << " seconds.";
 		std::cout << std::endl;
-	 */
 	/*
 	std::vector<FastMove>  moves = moveGen.getKingPseudoLegalMoves(WHITE);
 	std::cout << board << std::endl;

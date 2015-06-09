@@ -12,8 +12,15 @@
 #include "Knight.hpp"
 #include "Pawn.hpp"
 #include "Piece.hpp"
+#include "Piece.hpp"
+#include "MoveGen.hpp"
+#include "FastBoard.hpp"
 
 #include "math.h"
+#include <iostream>
+#include <chrono>
+#include <ctime>
+#include <ratio>
 #include <boost/algorithm/string.hpp>
 
 
@@ -86,7 +93,7 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 				PiecePtr piecePtr(new Knight(position, color));
 				piecePtrs.push_back(piecePtr);
 			}
-            else if (pieceChar == 'p')
+			else if (pieceChar == 'p')
 			{
 				PiecePtr piecePtr(new Pawn(position, color));
 				piecePtrs.push_back(piecePtr);
@@ -102,71 +109,71 @@ std::vector<PiecePtr> Utils::getPieces(std::string piecesString, int rank)
 
 void Utils::getCastling(std::string const& castleString, bool (&castleBool)[4])
 {
-    if (castleString[0] == '-')
-    {
-        return;
-    }
-    else
-    {
-        for (unsigned int i=0; i<castleString.size(); ++i)
-        {
-            if (castleString[i]=='K')
-            {
-                castleBool[0]=true;
-            }
-            else if (castleString[i]=='Q')
-            {
-                castleBool[1]=true;
-            }
-            else if (castleString[i]=='k')
-            {
-                castleBool[2]=true;
-            }
-            else if (castleString[i]=='q')
-            {
-                castleBool[3]=true;
-            }
-            else
-            {
-            	throw std::runtime_error("");
-            }
-        }
-    }
+	if (castleString[0] == '-')
+	{
+		return;
+	}
+	else
+	{
+		for (unsigned int i=0; i<castleString.size(); ++i)
+		{
+			if (castleString[i]=='K')
+			{
+				castleBool[0]=true;
+			}
+			else if (castleString[i]=='Q')
+			{
+				castleBool[1]=true;
+			}
+			else if (castleString[i]=='k')
+			{
+				castleBool[2]=true;
+			}
+			else if (castleString[i]=='q')
+			{
+				castleBool[3]=true;
+			}
+			else
+			{
+				throw std::runtime_error("");
+			}
+		}
+	}
 }
 
 void Utils::getCastling(std::string const& castleString, int &castlingRights)
 {
-    castlingRights = 0b0000;
-    if (castleString[0] == '-')
-    {
-        return;
-    }
-    else
-    {
-        for (unsigned int i=0; i<castleString.size(); ++i)
-        {
-            if (castleString[i]=='K')
-            {
-                castlingRights |= 0x1;
-            }
-            else if (castleString[i]=='Q')
-            {
-                castlingRights |= 0x2;
-            }
-            else if (castleString[i]=='k')
-            {
-                castlingRights |= 0x4;
-            }
-            else if (castleString[i]=='q')
-            {
-                castlingRights |= 0x8;
-            }
-            else
-            {
-            	throw std::runtime_error("");
-            }
-        }
-    }
+	castlingRights = 0b0000;
+	if (castleString[0] == '-')
+	{
+		return;
+	}
+	else
+	{
+		for (unsigned int i=0; i<castleString.size(); ++i)
+		{
+			if (castleString[i]=='K')
+			{
+				castlingRights |= 0x1;
+			}
+			else if (castleString[i]=='Q')
+			{
+				castlingRights |= 0x2;
+			}
+			else if (castleString[i]=='k')
+			{
+				castlingRights |= 0x4;
+			}
+			else if (castleString[i]=='q')
+			{
+				castlingRights |= 0x8;
+			}
+			else
+			{
+				throw std::runtime_error("");
+			}
+		}
+	}
 }
 
 Position Utils::getPosition(std::string const& stringPosition)
@@ -213,68 +220,95 @@ Position Utils::getPosition(std::string const& stringPosition)
 //Waiting to have a fix for stoi
 int Utils::convertStringToInt(std::string const& fenMoveCounter)
 {
-    int counter = 0;
-    for (unsigned int i=0; fenMoveCounter[i] != '\0';++i)
-    {
-        counter = counter*10 + (fenMoveCounter[i]- '0') ;
-    }
-    return counter;
+	int counter = 0;
+	for (unsigned int i=0; fenMoveCounter[i] != '\0';++i)
+	{
+		counter = counter*10 + (fenMoveCounter[i]- '0') ;
+	}
+	return counter;
 }
 
 Move Utils::getUCIMove(std::string const& fenMove, Board &board)
 {
-    std::string subMove = fenMove.substr(0,2) ;
-    Position origin = getPosition(subMove) ;
-    subMove = fenMove.substr(2,2) ;
-    Position destination = getPosition(subMove) ;
+	std::string subMove = fenMove.substr(0,2) ;
+	Position origin = getPosition(subMove) ;
+	subMove = fenMove.substr(2,2) ;
+	Position destination = getPosition(subMove) ;
 
-    Move theMove(origin,destination);
+	Move theMove(origin,destination);
 
-    if (fenMove.size() >= 5)
-    {
-    	switch (fenMove[5])
+	if (fenMove.size() >= 5)
+	{
+		switch (fenMove[5])
 		{
-			case 'k' :
-			{
-				PiecePtr promotedPtr(new Knight(destination, board.getColorToPlay()));
-				theMove.setPromotedPiece(promotedPtr);
-				break;
-			}
-			case 'b' :
-			{
-				PiecePtr promotedPtr(new Bishop(destination, board.getColorToPlay()));
-				theMove.setPromotedPiece(promotedPtr);
-				break;
-			}
-			case 'r' :
-			{
-				PiecePtr promotedPtr(new Rook(destination, board.getColorToPlay()));
-				theMove.setPromotedPiece(promotedPtr);
-				break;
-			}
-			case 'q' :
-			{
-				PiecePtr promotedPtr(new Queen(destination, board.getColorToPlay()));
-				theMove.setPromotedPiece(promotedPtr);
-				break;
-			}
-			default :
-			{
-				throw std::invalid_argument("");
-			}
-    	}
-    }
+		case 'k' :
+		{
+			PiecePtr promotedPtr(new Knight(destination, board.getColorToPlay()));
+			theMove.setPromotedPiece(promotedPtr);
+			break;
+		}
+		case 'b' :
+		{
+			PiecePtr promotedPtr(new Bishop(destination, board.getColorToPlay()));
+			theMove.setPromotedPiece(promotedPtr);
+			break;
+		}
+		case 'r' :
+		{
+			PiecePtr promotedPtr(new Rook(destination, board.getColorToPlay()));
+			theMove.setPromotedPiece(promotedPtr);
+			break;
+		}
+		case 'q' :
+		{
+			PiecePtr promotedPtr(new Queen(destination, board.getColorToPlay()));
+			theMove.setPromotedPiece(promotedPtr);
+			break;
+		}
+		default :
+		{
+			throw std::invalid_argument("");
+		}
+		}
+	}
 
-    if (!board.isPositionFree(destination))
-    {
-        theMove.setCapturedPiece(board.getPiecePtr(destination));
-    }
+	if (!board.isPositionFree(destination))
+	{
+		theMove.setCapturedPiece(board.getPiecePtr(destination));
+	}
 
-    if (abs(origin.getX()-destination.getX()) == 2 &&
-        std::dynamic_pointer_cast<King>(board.getPiecePtr(origin)) != nullptr)
-    {
-        theMove.setIsCastling();
-    }
+	if (abs(origin.getX()-destination.getX()) == 2 &&
+			std::dynamic_pointer_cast<King>(board.getPiecePtr(origin)) != nullptr)
+	{
+		theMove.setIsCastling();
+	}
 
-    return theMove ;
+	return theMove ;
+}
+
+void Utils::getPerformanceIndicator()
+{
+	initmagicmoves();
+
+    FastBoard board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+	MoveGen moveGen(board);
+
+	std::chrono::high_resolution_clock::time_point t1 =
+			std::chrono::high_resolution_clock::now();
+
+	int n = board.perft(4);
+	board = FastBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	n += board.perft(5);
+
+	std::chrono::high_resolution_clock::time_point t2 =
+			std::chrono::high_resolution_clock::now();
+
+	std::chrono::duration<double> time_span = std::chrono::duration_cast<
+			std::chrono::duration<double>>(t2 - t1);
+
+	int nodesPerSec = n/time_span.count();
+	std::cout << "It took me " << time_span.count() << " seconds.";
+	std::cout << "Nodes per sec: " << nodesPerSec;
+
+	std::cout << std::endl;
 }

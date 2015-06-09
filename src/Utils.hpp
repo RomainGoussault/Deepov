@@ -26,6 +26,7 @@ public:
     static Position getPosition(std::string const& fenSquare);
     static int convertStringToInt(std::string const& fenMoveCounter);
     static int getOppositeColor(const int color){return (1+color)%2;};
+    static void getPerformanceIndicator();
 
 private:
 
