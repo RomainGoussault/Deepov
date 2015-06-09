@@ -41,5 +41,5 @@
                                 };
 
 
-    const U64 LookUpTables::ROOK_INITIAL_POS = {8100000000000081};
+    const U64 LookUpTables::ROOK_INITIAL_POS = {0x8100000000000081};
 
