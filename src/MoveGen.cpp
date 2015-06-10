@@ -468,6 +468,8 @@ std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
 
 		return enPassantMoves;
 	}
+
+	return enPassantMoves;
 }
 
 bool MoveGen::isQueenSideCastlingPossible(const int color) const

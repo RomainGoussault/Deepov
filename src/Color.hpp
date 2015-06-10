@@ -1,14 +1,13 @@
 /*
  * Color.hpp
  *
- *  Created on: 31 août 2014
+ *  Created on: 31 aoï¿½t 2014
  *      Author: Romain
  */
 
 #ifndef COLOR_HPP_
 #define COLOR_HPP_
 
-#include "Piece.hpp"
 
 #define WHITE 0
 #define BLACK 1
