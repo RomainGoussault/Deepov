@@ -74,7 +74,7 @@
 
 #ifndef _magicmovesh
 #define _magicmovesh
-#include "FastBoard.hpp"
+#include "Board.hpp"
 
 /*********MODIFY THE FOLLOWING IF NECESSARY********/
 //the default configuration is the best

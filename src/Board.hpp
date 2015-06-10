@@ -1,11 +1,11 @@
 /*
- * FastBoard.hpp
+ * Board.hpp
  *
  *  Created on: 4 oct. 2014
  *      Author: Romain & Navid
  */
-#ifndef FASTBOARD_HPP_
-#define FASTBOARD_HPP_
+#ifndef Board_HPP_
+#define Board_HPP_
 
 #include <cstdint>
 #include <iostream>
@@ -22,7 +22,7 @@
 //#define Board_Size 64  // to be renamed after Board.hpp is removed
 typedef std::uint64_t U64;
 
-#include "FastMove.hpp"
+#include "Move.hpp"
 #include "LookUpTables.hpp"
 #include "Color.hpp"
 
@@ -39,12 +39,12 @@ The compass is:
 */
 
 
-class FastBoard : public std::enable_shared_from_this<FastBoard>
+class Board : public std::enable_shared_from_this<Board>
 {
 public:
 
-	FastBoard();
-	FastBoard(const std::string fen);
+	Board();
+	Board(const std::string fen);
 
 	/* Get the bitboards */
     U64 getWhitePawns() const;
@@ -67,7 +67,7 @@ public:
 	U64 getPieces(const int color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
 
 	inline bool getColorToPlay() const {return myColorToPlay;};
-	inline std::vector<FastMove> getMovesHistory() const {return myMoves;};
+	inline std::vector<Move> getMovesHistory() const {return myMoves;};
 
 	/*  **********  */
 
@@ -83,18 +83,18 @@ public:
 
 
 	/* Moves methods */
-    bool isMoveLegal(FastMove &move); // uses executeMove and undoMove so it can't be const
-    void executeMove(FastMove &move);
-    void undoMove(FastMove &move);
+    bool isMoveLegal(Move &move); // uses executeMove and undoMove so it can't be const
+    void executeMove(Move &move);
+    void undoMove(Move &move);
     int perft(int depth);
     int divide(int depth);
-    boost::optional<FastMove> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
+    boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
     //Castling Methods
     bool isQueenSideCastlingAllowed(const int color) const {return ((myCastling >> (1+2*color)) & 0x1);}
     bool isKingSideCastlingAllowed(const int color) const {return ((myCastling >> 2*color) & 0x1);}
-    void updateCastlingRights(FastMove &move);
-    void rewindCastlingRights(FastMove &move);
+    void updateCastlingRights(Move &move);
+    void rewindCastlingRights(Move &move);
 
 
     //PieceType method
@@ -157,7 +157,7 @@ private:
     RIGHT BIT : white king side, white queen side, black king side, black queen side : LEFT BIT
     e.g. the order is 1111 = qkQK */
 
-    std::vector<FastMove> myMoves;
+    std::vector<Move> myMoves;
 
     void movePiece(const int origin, const int destination, const int pieceType, const int color);
     void movePiece(const int origin, const int destination, U64 &bitboard);
@@ -169,7 +169,7 @@ private:
 };
 
 
-inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) {
+inline std::ostream& operator<<(std::ostream &strm, const Board &Board) {
 
 	for(int rank = 7; rank >= 0 ; rank--)
 	{
@@ -177,7 +177,7 @@ inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) 
 
 		for(int file = 0; file < 8 ; file++)
 		{
-			strm << fastBoard.getChar(file, rank) << " ";
+			strm << Board.getChar(file, rank) << " ";
 		}
 
 		strm << std::endl;
@@ -189,4 +189,4 @@ inline std::ostream& operator<<(std::ostream &strm, const FastBoard &fastBoard) 
 	return strm;
 }
 
-#endif /* FASTBOARD_HPP_ */
+#endif /* Board_HPP_ */

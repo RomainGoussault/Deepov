@@ -6,7 +6,7 @@
 #include "Utils.hpp"
 #include "Color.hpp"
 #include "MoveGen.hpp"
-#include "FastBoard.hpp"
+#include "Board.hpp"
 #include "MagicMoves.hpp"
 
 #include "math.h"
@@ -100,14 +100,14 @@ void Utils::getPerformanceIndicator()
 {
 	initmagicmoves();
 
-    FastBoard board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+    Board board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
 	MoveGen moveGen(board);
 
 	std::chrono::high_resolution_clock::time_point t1 =
 			std::chrono::high_resolution_clock::now();
 
 	int n = board.perft(4);
-	board = FastBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 	n += board.perft(5);
 
 	std::chrono::high_resolution_clock::time_point t2 =

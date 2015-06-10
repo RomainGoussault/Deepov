@@ -1,10 +1,10 @@
-#include "Eval.h"
+#include "Eval.hpp"
 
-Eval::Eval(FastBoard board) : myBoard(std::make_shared<FastBoard>(board))
+Eval::Eval(Board board) : myBoard(std::make_shared<Board>(board))
 {
 }
 
-Eval::Eval(std::shared_ptr<FastBoard> boardPtr)
+Eval::Eval(std::shared_ptr<Board> boardPtr)
 {
     myBoard = boardPtr;
 }

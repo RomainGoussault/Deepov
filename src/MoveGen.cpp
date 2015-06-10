@@ -4,25 +4,25 @@
 
 
 /* Constructor */
-MoveGen::MoveGen(FastBoard board) : myBoard(std::make_shared<FastBoard>(board) )
+MoveGen::MoveGen(Board board) : myBoard(std::make_shared<Board>(board) )
 {
 }
 
-MoveGen::MoveGen(std::shared_ptr<FastBoard> boardPtr)
+MoveGen::MoveGen(std::shared_ptr<Board> boardPtr)
 {
 	myBoard = boardPtr;
 }
 
 /* Moves private methods */
 
-void MoveGen::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const
+void MoveGen::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<Move>& moves, int pieceType) const
 {
 	while (quietDestinations)
 	{
 		//Getting the index of the MSB
-		int positionMsb = FastBoard::getMsbIndex(quietDestinations);
+		int positionMsb = Board::getMsbIndex(quietDestinations);
 
-		FastMove move = FastMove(pieceIndex, positionMsb, 0, pieceType);
+		Move move = Move(pieceIndex, positionMsb, 0, pieceType);
 		moves.push_back(move);
 
 		//Removing the MSB
@@ -30,14 +30,14 @@ void MoveGen::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<F
 	}
 }
 
-void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::vector<Move>& moves) const
 {
     while (pawnDestinations)
     {
         //Getting the index of the MSB
-		int positionMsb = FastBoard::getMsbIndex(pawnDestinations);
+		int positionMsb = Board::getMsbIndex(pawnDestinations);
 
-        FastMove move = FastMove(pieceIndex, positionMsb, FastMove::DOUBLE_PAWN_PUSH_FLAG, FastMove::PAWN_TYPE);
+        Move move = Move(pieceIndex, positionMsb, Move::DOUBLE_PAWN_PUSH_FLAG, Move::PAWN_TYPE);
 		moves.push_back(move);
 
         //Removing the MSB
@@ -45,13 +45,13 @@ void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::
     }
 }
 
-void MoveGen::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<FastMove>& moves, int pieceType) const
+void MoveGen::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<Move>& moves, int pieceType) const
 {
 	while (captureDestinations)
 	{
 		//Getting the index of the MSB
-		int positionMsb = FastBoard::getMsbIndex(captureDestinations);
-		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::CAPTURE_FLAG, pieceType);
+		int positionMsb = Board::getMsbIndex(captureDestinations);
+		Move move = Move(pieceIndex, positionMsb, Move::CAPTURE_FLAG, pieceType);
         int capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
 		moves.push_back(move);
@@ -61,19 +61,19 @@ void MoveGen::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vect
 	}
 }
 
-void MoveGen::addPromotionMoves(U64 promotionDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+void MoveGen::addPromotionMoves(U64 promotionDestinations, int pieceIndex, std::vector<Move>& moves) const
 {
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		int positionMsb = FastBoard::getMsbIndex(promotionDestinations);
-		FastMove move = FastMove(pieceIndex, positionMsb, FastMove::PROMOTION_FLAG, FastMove::PAWN_TYPE);
+		int positionMsb = Board::getMsbIndex(promotionDestinations);
+		Move move = Move(pieceIndex, positionMsb, Move::PROMOTION_FLAG, Move::PAWN_TYPE);
 		moves.push_back(move);
-		move.setFlags(FastMove::PROMOTION_FLAG+1);
+		move.setFlags(Move::PROMOTION_FLAG+1);
 		moves.push_back(move);
-		move.setFlags(FastMove::PROMOTION_FLAG+2);
+		move.setFlags(Move::PROMOTION_FLAG+2);
 		moves.push_back(move);
-		move.setFlags(FastMove::PROMOTION_FLAG+3);
+		move.setFlags(Move::PROMOTION_FLAG+3);
 		moves.push_back(move);
 
 		//Removing the MSB
@@ -81,14 +81,14 @@ void MoveGen::addPromotionMoves(U64 promotionDestinations, int pieceIndex, std::
 	}
 }
 
-void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex, std::vector<FastMove>& moves) const
+void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex, std::vector<Move>& moves) const
 {
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		int positionMsb = FastBoard::getMsbIndex(promotionDestinations);
-		unsigned int flag = FastMove::PROMOTION_FLAG+FastMove::CAPTURE_FLAG;
-		FastMove move = FastMove(pieceIndex, positionMsb, flag, FastMove::PAWN_TYPE);
+		int positionMsb = Board::getMsbIndex(promotionDestinations);
+		unsigned int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
+		Move move = Move(pieceIndex, positionMsb, flag, Move::PAWN_TYPE);
         int capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
 
@@ -106,56 +106,56 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex
 }
 
     /* Get moves methods */
-std::vector<FastMove> MoveGen::getKingPseudoLegalMoves(const int& color) const
+std::vector<Move> MoveGen::getKingPseudoLegalMoves(const int& color) const
 {
 	U64 kingPos = color == WHITE ? myBoard->getWhiteKing() : myBoard->getBlackKing();
 
 	U64 kingValidDestinations = myBoard->getKingDestinations(kingPos, color);
 
 	int ennemyColor = Utils::getOppositeColor(color);
-	int kingIndex = FastBoard::getMsbIndex(kingPos);
-	std::vector<FastMove> kingMoves;
+	int kingIndex = Board::getMsbIndex(kingPos);
+	std::vector<Move> kingMoves;
 
 	U64 kingCaptureDestinations = kingValidDestinations & myBoard->getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 
-	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
-	addCaptureMoves(kingCaptureDestinations, kingIndex, kingMoves, FastMove::KING_TYPE);
+	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves, Move::KING_TYPE);
+	addCaptureMoves(kingCaptureDestinations, kingIndex, kingMoves, Move::KING_TYPE);
 	addKingSideCastlingMove(color, kingIndex, kingMoves);
 	addQueenSideCastlingMove(color, kingIndex, kingMoves);
 
 	return kingMoves;
 }
 
-void MoveGen::addKingSideCastlingMove(int color, int kingIndex, std::vector<FastMove>& moves) const
+void MoveGen::addKingSideCastlingMove(int color, int kingIndex, std::vector<Move>& moves) const
 {
 	if(isKingSideCastlingPossible(color))
 	{
 		int destination = color == WHITE ? 6 : 62;
-		FastMove move = FastMove(kingIndex, destination, FastMove::KING_SIDE_CASTLING, FastMove::KING_TYPE);
+		Move move = Move(kingIndex, destination, Move::KING_SIDE_CASTLING, Move::KING_TYPE);
 		moves.push_back(move);
 	}
 }
 
-void MoveGen::addQueenSideCastlingMove(int color, int kingIndex, std::vector<FastMove>& moves) const
+void MoveGen::addQueenSideCastlingMove(int color, int kingIndex, std::vector<Move>& moves) const
 {
 	if(isQueenSideCastlingPossible(color))
 	{
 		int destination = color == WHITE ? 2 : 58;
-		FastMove move = FastMove(kingIndex, destination, FastMove::QUEEN_SIDE_CASTLING, FastMove::KING_TYPE);
+		Move move = Move(kingIndex, destination, Move::QUEEN_SIDE_CASTLING, Move::KING_TYPE);
 		moves.push_back(move);
 	}
 }
 
-std::vector<FastMove> MoveGen::getQueenPseudoLegalMoves(const int& color) const
+std::vector<Move> MoveGen::getQueenPseudoLegalMoves(const int& color) const
 {
-	std::vector<FastMove> queenMoves;
+	std::vector<Move> queenMoves;
 	U64 queenPositions = color == WHITE ? myBoard->getWhiteQueens() : myBoard->getBlackQueens();
 
 	//loop through the queens:
 	while(queenPositions)
 	{
-		int queenIndex = FastBoard::getMsbIndex(queenPositions);
+		int queenIndex = Board::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
 		int ennemyColor = Utils::getOppositeColor(color);
@@ -167,22 +167,22 @@ std::vector<FastMove> MoveGen::getQueenPseudoLegalMoves(const int& color) const
 		U64 queenCaptureDestinations = queenDestinations & myBoard->getPieces(ennemyColor);
 		U64 queenQuietDestinations = queenDestinations ^ queenCaptureDestinations;
 
-		addQuietMoves(queenQuietDestinations, queenIndex, queenMoves, FastMove::QUEEN_TYPE);
-		addCaptureMoves(queenCaptureDestinations, queenIndex, queenMoves, FastMove::QUEEN_TYPE);
+		addQuietMoves(queenQuietDestinations, queenIndex, queenMoves, Move::QUEEN_TYPE);
+		addCaptureMoves(queenCaptureDestinations, queenIndex, queenMoves, Move::QUEEN_TYPE);
 	}
 
 	return queenMoves;
 }
 
-std::vector<FastMove> MoveGen::getBishopPseudoLegalMoves(const int& color) const
+std::vector<Move> MoveGen::getBishopPseudoLegalMoves(const int& color) const
 {
-	std::vector<FastMove> bishopMoves;
+	std::vector<Move> bishopMoves;
 	U64 bishopPositions = color == WHITE ? myBoard->getWhiteBishops() : myBoard->getBlackBishops();
 
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		int bishopIndex = FastBoard::getMsbIndex(bishopPositions);
+		int bishopIndex = Board::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
 		int ennemyColor = Utils::getOppositeColor(color);
@@ -192,22 +192,22 @@ std::vector<FastMove> MoveGen::getBishopPseudoLegalMoves(const int& color) const
 		U64 bishopCaptureDestinations = bishopDestinations & myBoard->getPieces(ennemyColor);
 		U64 bishopQuietDestinations = bishopDestinations ^ bishopCaptureDestinations;
 
-		addQuietMoves(bishopQuietDestinations, bishopIndex, bishopMoves, FastMove::BISHOP_TYPE);
-		addCaptureMoves(bishopCaptureDestinations, bishopIndex, bishopMoves, FastMove::BISHOP_TYPE);
+		addQuietMoves(bishopQuietDestinations, bishopIndex, bishopMoves, Move::BISHOP_TYPE);
+		addCaptureMoves(bishopCaptureDestinations, bishopIndex, bishopMoves, Move::BISHOP_TYPE);
 	}
 
 	return bishopMoves;
 }
 
-std::vector<FastMove> MoveGen::getRookPseudoLegalMoves(const int& color) const
+std::vector<Move> MoveGen::getRookPseudoLegalMoves(const int& color) const
 {
-	std::vector<FastMove> rookMoves;
+	std::vector<Move> rookMoves;
 	U64 rookPositions = color == WHITE ? myBoard->getWhiteRooks() : myBoard->getBlackRooks();
 
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		int rookIndex = FastBoard::getMsbIndex(rookPositions);
+		int rookIndex = Board::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
 		int ennemyColor = Utils::getOppositeColor(color);
@@ -217,14 +217,14 @@ std::vector<FastMove> MoveGen::getRookPseudoLegalMoves(const int& color) const
 		U64 rookCaptureDestinations = rookDestinations & myBoard->getPieces(ennemyColor);
 		U64 rookQuietDestinations = rookDestinations ^ rookCaptureDestinations;
 
-		addQuietMoves(rookQuietDestinations, rookIndex, rookMoves, FastMove::ROOK_TYPE);
-		addCaptureMoves(rookCaptureDestinations, rookIndex, rookMoves, FastMove::ROOK_TYPE);
+		addQuietMoves(rookQuietDestinations, rookIndex, rookMoves, Move::ROOK_TYPE);
+		addCaptureMoves(rookCaptureDestinations, rookIndex, rookMoves, Move::ROOK_TYPE);
 	}
 
 	return rookMoves;
 }
 
-std::vector<FastMove> MoveGen::getPawnPseudoLegalMoves(const int& color) const
+std::vector<Move> MoveGen::getPawnPseudoLegalMoves(const int& color) const
 {
 	if(color == WHITE)
 	{
@@ -236,16 +236,16 @@ std::vector<FastMove> MoveGen::getPawnPseudoLegalMoves(const int& color) const
 	}
 }
 
-std::vector<FastMove> MoveGen::getKnightPseudoLegalMoves(const int& color) const
+std::vector<Move> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 {
-	std::vector<FastMove> knightMoves;
+	std::vector<Move> knightMoves;
 
 	U64 knightPositions = color == WHITE ? myBoard->getWhiteKnights() : myBoard->getBlackKnights();
 
 	//loop through the knights:
 	while(knightPositions)
 	{
-		const int knightIndex = FastBoard::getMsbIndex(knightPositions);
+		const int knightIndex = Board::getMsbIndex(knightPositions);
 		U64 knightValidDestinations = myBoard->getKnightDestinations(knightIndex, color);
 		/* compute only the places where the knight can move and attack. The caller
 		will interpret this as a white or black knight. */
@@ -255,8 +255,8 @@ std::vector<FastMove> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 		U64 knightCaptureDestinations = knightValidDestinations & myBoard->getPieces(ennemyColor);
 		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
 
-		addQuietMoves(knightQuietDestinations, knightIndex, knightMoves, FastMove::KNIGHT_TYPE);
-		addCaptureMoves(knightCaptureDestinations, knightIndex, knightMoves, FastMove::KNIGHT_TYPE);
+		addQuietMoves(knightQuietDestinations, knightIndex, knightMoves, Move::KNIGHT_TYPE);
+		addCaptureMoves(knightCaptureDestinations, knightIndex, knightMoves, Move::KNIGHT_TYPE);
 
 		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
 	}
@@ -264,14 +264,14 @@ std::vector<FastMove> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 	return knightMoves;
 }
 
-std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
+std::vector<Move> MoveGen::getWhitePawnPseudoLegalMoves() const
 {
-	std::vector<FastMove> pawnMoves(getWhiteEnPassantMoves());
+	std::vector<Move> pawnMoves(getWhiteEnPassantMoves());
 	U64 pawnPositions = myBoard->getWhitePawns();
 
 	while(pawnPositions)
 	{
-		int pawnIndex = FastBoard::getMsbIndex(pawnPositions);
+		int pawnIndex = Board::getMsbIndex(pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
@@ -301,24 +301,24 @@ std::vector<FastMove> MoveGen::getWhitePawnPseudoLegalMoves() const
 		attack/move. */
 		// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves, Move::PAWN_TYPE);
 		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves);
 		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7], pawnIndex, pawnMoves);
-		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves, Move::PAWN_TYPE);
 		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7], pawnIndex, pawnMoves);
 	}
 
 	return pawnMoves;
 }
 
-std::vector<FastMove> MoveGen::getBlackPawnPseudoLegalMoves() const
+std::vector<Move> MoveGen::getBlackPawnPseudoLegalMoves() const
 {
-	std::vector<FastMove> pawnMoves(getBlackEnPassantMoves());
+	std::vector<Move> pawnMoves(getBlackEnPassantMoves());
 	U64 pawnPositions = myBoard->getBlackPawns();
 
 	while(pawnPositions)
 	{
-		int pawnIndex = FastBoard::getMsbIndex(pawnPositions);
+		int pawnIndex = Board::getMsbIndex(pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
@@ -348,32 +348,32 @@ std::vector<FastMove> MoveGen::getBlackPawnPseudoLegalMoves() const
 		attack/move. */
 		// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves, Move::PAWN_TYPE);
 		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves);
 		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0], pawnIndex, pawnMoves);
-		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves, FastMove::PAWN_TYPE);
+		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves, Move::PAWN_TYPE);
 		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0], pawnIndex, pawnMoves);
 	}
 
 	return pawnMoves;
 }
 
-std::vector<FastMove> MoveGen::getPseudoLegalMoves()
+std::vector<Move> MoveGen::getPseudoLegalMoves()
 {
 	return getLegalMoves(myBoard->getColorToPlay());
 }
 
-std::vector<FastMove> MoveGen::getPseudoLegalMoves(const int color)
+std::vector<Move> MoveGen::getPseudoLegalMoves(const int color)
 {
-	std::vector<FastMove> legalMoves;
+	std::vector<Move> legalMoves;
 
 	//TODO we don't want to copy all the moves, better use a reference to the move vector
-	std::vector<FastMove> pawnLegalMoves = getPawnPseudoLegalMoves(color);
-	std::vector<FastMove> knightLegalMoves = getKnightPseudoLegalMoves(color);
-	std::vector<FastMove> bishopLegalMoves = getBishopPseudoLegalMoves(color);
-	std::vector<FastMove> rookLegalMoves = getRookPseudoLegalMoves(color);
-	std::vector<FastMove> queenLegalMoves = getQueenPseudoLegalMoves(color);
-	std::vector<FastMove> kingLegalMoves = getKingPseudoLegalMoves(color);
+	std::vector<Move> pawnLegalMoves = getPawnPseudoLegalMoves(color);
+	std::vector<Move> knightLegalMoves = getKnightPseudoLegalMoves(color);
+	std::vector<Move> bishopLegalMoves = getBishopPseudoLegalMoves(color);
+	std::vector<Move> rookLegalMoves = getRookPseudoLegalMoves(color);
+	std::vector<Move> queenLegalMoves = getQueenPseudoLegalMoves(color);
+	std::vector<Move> kingLegalMoves = getKingPseudoLegalMoves(color);
 
 	legalMoves.insert(legalMoves.end(), pawnLegalMoves.begin(), pawnLegalMoves.end());
 	legalMoves.insert(legalMoves.end(), knightLegalMoves.begin(), knightLegalMoves.end());
@@ -385,49 +385,49 @@ std::vector<FastMove> MoveGen::getPseudoLegalMoves(const int color)
 	return legalMoves;
 }
 
-std::vector<FastMove> MoveGen::getLegalMoves()
+std::vector<Move> MoveGen::getLegalMoves()
 {
 	return getLegalMoves(myBoard->getColorToPlay());
 }
 
-std::vector<FastMove> MoveGen::getLegalMoves(const int color)
+std::vector<Move> MoveGen::getLegalMoves(const int color)
 {
-	std::vector<FastMove> moves = getPseudoLegalMoves(color);
+	std::vector<Move> moves = getPseudoLegalMoves(color);
 
 	moves.erase(std::remove_if(moves.begin(), moves.end(),
-			[&](FastMove move) mutable { return !myBoard->isMoveLegal(move); }), moves.end());
+			[&](Move move) mutable { return !myBoard->isMoveLegal(move); }), moves.end());
 	//TODO make this easier to understand..
 
 	return moves;
 }
 
   /* Special Moves */
-std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
+std::vector<Move> MoveGen::getWhiteEnPassantMoves() const
 {
-	std::vector<FastMove> enPassantMoves;
+	std::vector<Move> enPassantMoves;
 	U64 validPawns = (myBoard->getWhitePawns() & LookUpTables::MASK_RANK[4]);
 
 	/* Easiest test first */
 	if (validPawns == 0) {return enPassantMoves;}
 
-    boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+    boost::optional<Move> enemyLastMove(myBoard->getEnemyLastMove());
 
     if (!enemyLastMove)
     {
         return enPassantMoves;
     }
-    else if (enemyLastMove->getFlags() == FastMove::DOUBLE_PAWN_PUSH_FLAG)
+    else if (enemyLastMove->getFlags() == Move::DOUBLE_PAWN_PUSH_FLAG)
     {
         while (validPawns)
         {
             unsigned int enemyDestination = enemyLastMove->getDestination();
-            int validPawnIndex = FastBoard::getMsbIndex(validPawns);
+            int validPawnIndex = Board::getMsbIndex(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
-                FastMove epMove(validPawnIndex,enemyDestination+8,FastMove::EP_CAPTURE_FLAG,FastMove::PAWN_TYPE);
-                epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
+                Move epMove(validPawnIndex,enemyDestination+8,Move::EP_CAPTURE_FLAG,Move::PAWN_TYPE);
+                epMove.setCapturedPieceType(Move::PAWN_TYPE);
                 enPassantMoves.push_back(epMove);
             }
         }
@@ -436,32 +436,32 @@ std::vector<FastMove> MoveGen::getWhiteEnPassantMoves() const
     return enPassantMoves;
 }
 
-std::vector<FastMove> MoveGen::getBlackEnPassantMoves() const
+std::vector<Move> MoveGen::getBlackEnPassantMoves() const
 {
-	std::vector<FastMove> enPassantMoves;
+	std::vector<Move> enPassantMoves;
 	U64 validPawns = (myBoard->getBlackPawns() & LookUpTables::MASK_RANK[3]);
 
 	/* Easiest test first */
 	if (validPawns == 0) {return enPassantMoves;}
 
-    boost::optional<FastMove> enemyLastMove(myBoard->getEnemyLastMove());
+    boost::optional<Move> enemyLastMove(myBoard->getEnemyLastMove());
 
     if (!enemyLastMove)
     {
         return enPassantMoves;
     }
-	else if (enemyLastMove->getFlags() == FastMove::DOUBLE_PAWN_PUSH_FLAG)
+	else if (enemyLastMove->getFlags() == Move::DOUBLE_PAWN_PUSH_FLAG)
 	{
         while (validPawns)
         {
             unsigned int enemyDestination = enemyLastMove->getDestination();
-            int validPawnIndex = FastBoard::getMsbIndex(validPawns);
+            int validPawnIndex = Board::getMsbIndex(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
-                FastMove epMove(validPawnIndex,enemyDestination-8,FastMove::EP_CAPTURE_FLAG,FastMove::PAWN_TYPE);
-                epMove.setCapturedPieceType(FastMove::PAWN_TYPE);
+                Move epMove(validPawnIndex,enemyDestination-8,Move::EP_CAPTURE_FLAG,Move::PAWN_TYPE);
+                epMove.setCapturedPieceType(Move::PAWN_TYPE);
                 enPassantMoves.push_back(epMove);
             }
         }

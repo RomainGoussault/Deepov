@@ -1,18 +1,18 @@
 #ifndef EVAL_H_INCLUDED
 #define EVAL_H_INCLUDED
 
-#include "FastBoard.hpp"
+#include "Board.hpp"
 
 class Eval
 {
 public:
-    Eval(FastBoard board);
-    Eval(std::shared_ptr<FastBoard> boardPtr);
+    Eval(Board board);
+    Eval(std::shared_ptr<Board> boardPtr);
 
     int evaluate();
 
 private:
-    std::shared_ptr<FastBoard> myBoard;
+    std::shared_ptr<Board> myBoard;
 
 	const unsigned int KING_VALUE = 100;
 	const unsigned int QUEEN_VALUE = 9;

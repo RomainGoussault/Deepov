@@ -14,9 +14,9 @@
 #include <ratio>
 
 #include "Color.hpp"
-#include "FastBoard.hpp"
+#include "Board.hpp"
 #include "MoveGen.hpp"
-#include "FastMove.hpp"
+#include "Move.hpp"
 #include "MagicMoves.hpp"
 
 int main() {

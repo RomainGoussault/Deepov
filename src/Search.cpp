@@ -1,4 +1,4 @@
-#include "Search.h"
+#include "Search.hpp"
 
 int Search::negaMax(int depth, int alpha, int beta)
 {
@@ -11,12 +11,12 @@ int Search::negaMax(int depth, int alpha, int beta)
         return (-2*myBoard->getColorToPlay() + 1)*1; //evaluate(); /* returns +evaluate for WHITE, -evaluate for BLACK */
     }
 
-		std::vector<FastMove> moveList = moves.getLegalMoves();
+		std::vector<Move> moveList = moves.getLegalMoves();
 		int nMoves = moveList.size();
 
 		for (int i = 0; i < nMoves; i++)
 		{
-			FastMove currentMove = moveList[i];
+			Move currentMove = moveList[i];
 			myBoard->executeMove(currentMove);
 			score = -negaMax(depth - 1, 0, 0);
 			if (score > max)
