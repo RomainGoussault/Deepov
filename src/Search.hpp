@@ -8,6 +8,7 @@ class Search
 {
 public:
     int negaMax(int depth, int alpha, int beta);
+    int evaluate();
 private:
     std::shared_ptr<Board> myBoard;
 

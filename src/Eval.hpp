@@ -6,7 +6,6 @@
 class Eval
 {
 public:
-    Eval(Board board);
     Eval(std::shared_ptr<Board> boardPtr);
 
     int evaluate();

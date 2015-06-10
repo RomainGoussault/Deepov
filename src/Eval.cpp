@@ -14,7 +14,7 @@ int Eval::evaluate()
 
 int Eval::getMobilityScore()
 {
-    return 1; // Need a way to efficiently get attacking squares
+    return 1; // Need a way to efficiently get attacking squares => look at Board::getAttackedPositions()
 }
 
 int Eval::getMaterialScore()
