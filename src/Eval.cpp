@@ -1,5 +1,14 @@
 #include "Eval.h"
 
+Eval::Eval(FastBoard board) : myBoard(std::make_shared<FastBoard>(board))
+{
+}
+
+Eval::Eval(std::shared_ptr<FastBoard> boardPtr)
+{
+    myBoard = boardPtr;
+}
+
 int Eval::evaluate()
 {
     int score =0;
