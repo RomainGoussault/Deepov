@@ -1,9 +1,5 @@
 #include "Eval.hpp"
 
-Eval::Eval(Board board) : myBoard(std::make_shared<Board>(board))
-{
-}
-
 Eval::Eval(std::shared_ptr<Board> boardPtr)
 {
     myBoard = boardPtr;
@@ -11,7 +7,7 @@ Eval::Eval(std::shared_ptr<Board> boardPtr)
 
 int Eval::evaluate()
 {
-    int score =0;
+    int score = 0;
     return score + 100*getMaterialScore() + getMobilityScore();
 }
 
