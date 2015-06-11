@@ -6,7 +6,6 @@
 #include "Utils.hpp"
 #include "Color.hpp"
 #include "MoveGen.hpp"
-#include "Board.hpp"
 #include "MagicMoves.hpp"
 
 #include "math.h"
@@ -121,4 +120,13 @@ void Utils::getPerformanceIndicator()
 	std::cout << "Nodes per sec: " << nodesPerSec;
 
 	std::cout << std::endl;
+}
+
+unsigned int Utils::countBBBitsSet(U64 v)
+{
+    v = v - ((v >> 1) & (std::uint64_t)~(std::uint64_t)0/3);                           // temp
+    v = (v & (std::uint64_t)~(std::uint64_t)0/15*3) + ((v >> 2) & (std::uint64_t)~(std::uint64_t)0/15*3);      // temp
+    v = (v + (v >> 4)) & (std::uint64_t)~(std::uint64_t)0/255*15;                      // temp
+    unsigned int c = (std::uint64_t)(v * ((std::uint64_t)~(std::uint64_t)0/255)) >> (sizeof(std::uint64_t) - 1) * CHAR_BIT; // count
+    return c;
 }

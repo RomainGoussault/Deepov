@@ -10,13 +10,16 @@
 
 #include <vector>
 #include <iostream>
-
-
 #include<math.h>
+
+#include "Board.hpp"
 
 class Utils
 {
 public:
+
+    /* Bit Hacks*/
+    static unsigned int countBBBitsSet(U64 x);
     static void getCastling(std::string const& castleString, bool (&castleBool)[4]);
     static void getCastling(std::string const& castleString, int &castlingRights);
     static int convertStringToInt(std::string const& fenMoveCounter);
