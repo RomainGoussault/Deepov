@@ -17,4 +17,19 @@ TEST_CASE( "Conversion string to int" )
     REQUIRE( convertedString == 102);
 }
 
+TEST_CASE("Bit manipulation")
+{
+    SECTION("Count set bits")
+    {
+        U64 testInt(0x810001000);
+        REQUIRE(Utils::countBBBitsSet(testInt)==3);
+
+        testInt=0x18060600045ead;
+        REQUIRE(Utils::countBBBitsSet(testInt)==17);
+
+        testInt=0x0;
+        REQUIRE(Utils::countBBBitsSet(testInt)==0);
+    }
+}
+
 

@@ -1,4 +1,5 @@
 #include "Eval.hpp"
+#include "Utils.hpp"
 
 Eval::Eval(std::shared_ptr<Board> boardPtr)
 {
