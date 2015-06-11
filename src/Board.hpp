@@ -74,14 +74,6 @@ public:
 	void setBitBoards(const std::string piecesString, const int rank);
 	void updateConvenienceBitboards();
 
-	//Some relevant links on this function:
-	// https://chessprogramming.wikispaces.com/BitScan
-	// http://stackoverflow.com/questions/671815/
-	// http://stackoverflow.com/questions/20713017/
-	static inline int getMsbIndex(const U64 bitboard) {return (63 - __builtin_clzll(bitboard));}
-	/* TODO : put this is Utils ?? */
-
-
 	/* Moves methods */
     bool isMoveLegal(Move &move); // uses executeMove and undoMove so it can't be const
     void executeMove(Move &move);

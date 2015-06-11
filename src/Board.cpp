@@ -252,7 +252,7 @@ U64 Board::getKnightAttackedPositions(const int& color) const
 	//loop through the knights:
 	while(knightPositions)
 	{
-		const int knightIndex = Board::getMsbIndex(knightPositions);
+		const int knightIndex = Utils::getMsbIndex(knightPositions);
 		U64 knightValidDestinations = getKnightDestinations(knightIndex, color);
 		knightAttackedDestinations |= knightValidDestinations;
 
@@ -307,7 +307,7 @@ U64 Board::getRookAttackedPositions(const int& color) const
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		int rookIndex = Board::getMsbIndex(rookPositions);
+		int rookIndex = Utils::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
 		U64 rookDestinations = Rmagic(rookIndex, getAllPieces()) & ~getPieces(color);
@@ -325,7 +325,7 @@ U64 Board::getBishopAttackedPositions(const int& color) const
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		int bishopIndex = Board::getMsbIndex(bishopPositions);
+		int bishopIndex = Utils::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
 		U64 bishopDestinations = Bmagic(bishopIndex, getAllPieces()) & ~getPieces(color);
@@ -343,7 +343,7 @@ U64 Board::getQueenAttackedPositions(const int& color) const
 	//loop through the queens:
 	while(queenPositions)
 	{
-		int queenIndex = Board::getMsbIndex(queenPositions);
+		int queenIndex = Utils::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
 		U64 queenDestinations = Rmagic(queenIndex, getAllPieces()) | Bmagic(queenIndex, getAllPieces());
@@ -362,7 +362,7 @@ U64 Board::getWhitePawnAttackedPositions() const
 	//loop through the pawns:
 	while(pawnPositions)
 	{
-		int pawnIndex = Board::getMsbIndex(pawnPositions);
+		int pawnIndex = Utils::getMsbIndex(pawnPositions);
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
@@ -388,7 +388,7 @@ U64 Board::getBlackPawnAttackedPositions() const
 	//loop through the pawns:
 	while(pawnPositions)
 	{
-		int pawnIndex = Board::getMsbIndex(pawnPositions);
+		int pawnIndex = Utils::getMsbIndex(pawnPositions);
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
