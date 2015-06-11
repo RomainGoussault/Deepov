@@ -2,6 +2,7 @@
 #define EVAL_H_INCLUDED
 
 #include "FastBoard.hpp"
+#include "Utils.hpp"
 
 class Eval
 {
