@@ -7,11 +7,18 @@
 class Search
 {
 public:
-    int negaMax(int depth, int alpha, int beta);
-    int evaluate();
+
+	Search(std::shared_ptr<Board> boardPtr);
+
+    int negaMaxRoot(int depth, int alpha, int beta);
+    Move myBestMove;
+
 private:
+
     std::shared_ptr<Board> myBoard;
 
+    int negaMax(int depth, int alpha, int beta);
+    int evaluate();
 };
 
 
