@@ -46,14 +46,12 @@ int Search::negaMaxRoot(int depth, int alpha, int beta)
 
 	std::vector<Move> moveList = moveGen.getMoves();
 	int nMoves = moveList.size();
-	std::cout << "nMoves " << nMoves << std::endl;
 
 	for (int i = 0; i < nMoves; i++)
 	{
 		Move currentMove = moveList[i];
 		myBoard->executeMove(currentMove);
 		score = -negaMax(depth - 1, 0, 0);
-			std::cout << "Move  " << currentMove.toShortString() << "   score " << score << std::endl;
 		if (score > max)
 		{
 			max = score;

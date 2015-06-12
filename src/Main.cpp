@@ -14,12 +14,29 @@
 #include <ratio>
 
 #include "Color.hpp"
+#include "Eval.hpp"
+#include "Search.hpp"
 #include "Board.hpp"
 #include "MoveGen.hpp"
 #include "Move.hpp"
 #include "MagicMoves.hpp"
 
 int main() {
+
+	initmagicmoves();
+	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("kn6/nn2rr2/8/4Q3/8/2p1p2b/1Q6/KN6 w - -"));
+
+	Search search(sp);
+	std::cout << search.negaMaxRoot(2,0,0) << std::endl;
+	Move move = search.myBestMove;
+
+	std::cout << *sp << std::endl;
+	std::cout << move.toShortString()<< std::endl;
+
+	sp->executeMove(move);
+
+	std::cout << *sp << std::endl;
+/*
 
 	Utils::getPerformanceIndicator();
 	Utils::getPerformanceIndicator();
@@ -29,6 +46,7 @@ int main() {
 	//Stockfish 180 385 601Nodes/sec
 
     std::string str;
-    std::cin >> str;
+    std::cin >> str;*/
+
 	return 0;
 }
