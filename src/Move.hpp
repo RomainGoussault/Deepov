@@ -23,10 +23,9 @@ public:
 	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
 	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
 
-	/*inline Move(unsigned int origin, unsigned int destination, unsigned int flags)
+	inline Move() : myMove() //Default constructor
 	{
-		myMove = ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
-	}*/
+	}
 
 	inline Move(unsigned int origin, unsigned int destination, unsigned int flags, unsigned int pieceType)
 	{
