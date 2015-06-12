@@ -8,19 +8,17 @@ Eval::Eval(std::shared_ptr<Board> boardPtr)
 
 int Eval::evaluate()
 {
-    int score = 0;
-    return score + 100*getMaterialScore() + getMobilityScore();
+    return 100*getMaterialScore() + getMobilityScore();
 }
-
 
 int Eval::getMobilityScore()
 {
-    return 1; // Need a way to efficiently get attacking squares => look at Board::getAttackedPositions()
+    return 0; // Need a way to efficiently get attacking squares => look at Board::getAttackedPositions()
 }
 
 int Eval::getMaterialScore()
 {
-    int whitePiecesValue (0);
+    int whitePiecesValue(0);
     int blackPiecesValue(0);
 
     whitePiecesValue += Utils::countBBBitsSet(myBoard->getWhitePawns())*PAWN_VALUE
@@ -36,6 +34,6 @@ int Eval::getMaterialScore()
                         + Utils::countBBBitsSet(myBoard->getBlackRooks())*ROOK_VALUE
                         + Utils::countBBBitsSet(myBoard->getBlackQueens())*QUEEN_VALUE
                         + Utils::countBBBitsSet(myBoard->getBlackKing())*KING_VALUE;
-    return whitePiecesValue - blackPiecesValue;
 
+    return whitePiecesValue - blackPiecesValue;
 }

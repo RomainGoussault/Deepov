@@ -6,8 +6,8 @@
 class Eval
 {
 public:
-    Eval(std::shared_ptr<Board> boardPtr);
 
+    Eval(std::shared_ptr<Board> boardPtr);
     int evaluate();
 
 private:
