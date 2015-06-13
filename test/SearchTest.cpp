@@ -7,7 +7,7 @@ TEST_CASE( "Search", "[search]" )
 {
 	MagicMoves::initmagicmoves();
 
-	SECTION("Test search depth 1")
+	SECTION("Test search depth 1 white")
 	{
 		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("kn6/nn3r2/8/8/2p2Q2/8/NN6/KN6 w - -"));
 		Search search(sp);
@@ -15,6 +15,16 @@ TEST_CASE( "Search", "[search]" )
 		Move move = search.myBestMove;
 
 		REQUIRE(move.toShortString() == "f4f7");
+	}
+
+	SECTION("Test search depth 1 black")
+	{
+		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("k4K2/8/8/3q4/8/1R3N1P/8/8 b - -"));
+		Search search(sp);
+		search.negaMaxRoot(1,0,0);
+		Move move = search.myBestMove;
+
+		REQUIRE(move.toShortString() == "d5b3");
 	}
 
 	SECTION("Test search depth 2")
