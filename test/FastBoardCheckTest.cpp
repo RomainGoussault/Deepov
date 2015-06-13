@@ -13,7 +13,7 @@ TEST_CASE( "knight check" )
 
 TEST_CASE( "rook check" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	Board fb = Board("7n/8/k2R4/3r4/8/8/4K3/8 w - -");
 	REQUIRE(fb.isCheck(BLACK) == true);
@@ -22,7 +22,7 @@ TEST_CASE( "rook check" )
 
 TEST_CASE( "bishop check" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	Board fb = Board("2B3Rn/1r6/k7/8/2b5/8/4K3/8 w - -");
 	REQUIRE(fb.isCheck(BLACK) == false);
@@ -31,7 +31,7 @@ TEST_CASE( "bishop check" )
 
 TEST_CASE( "queen check" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	Board fb = Board("6q1/6q1/6q1/6q1/8/2k2K2/8/Q7 w - -");
 	REQUIRE(fb.isCheck(BLACK) == true);

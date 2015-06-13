@@ -160,8 +160,8 @@ std::vector<Move> MoveGen::getQueenPseudoLegalMoves(const int& color) const
 
 		int ennemyColor = Utils::getOppositeColor(color);
 
-		U64 bishopDestinations = Bmagic(queenIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
-		U64 rookDestinations = Rmagic(queenIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
+		U64 bishopDestinations = MagicMoves::Bmagic(queenIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
+		U64 rookDestinations = MagicMoves::Rmagic(queenIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
 		U64 queenDestinations = bishopDestinations ^ rookDestinations ;
 
 		U64 queenCaptureDestinations = queenDestinations & myBoard->getPieces(ennemyColor);
@@ -187,7 +187,7 @@ std::vector<Move> MoveGen::getBishopPseudoLegalMoves(const int& color) const
 
 		int ennemyColor = Utils::getOppositeColor(color);
 
-		U64 bishopDestinations = Bmagic(bishopIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
+		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
 
 		U64 bishopCaptureDestinations = bishopDestinations & myBoard->getPieces(ennemyColor);
 		U64 bishopQuietDestinations = bishopDestinations ^ bishopCaptureDestinations;
@@ -212,7 +212,7 @@ std::vector<Move> MoveGen::getRookPseudoLegalMoves(const int& color) const
 
 		int ennemyColor = Utils::getOppositeColor(color);
 
-		U64 rookDestinations = Rmagic(rookIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
+		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
 
 		U64 rookCaptureDestinations = rookDestinations & myBoard->getPieces(ennemyColor);
 		U64 rookQuietDestinations = rookDestinations ^ rookCaptureDestinations;

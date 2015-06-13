@@ -5,7 +5,7 @@
 
 TEST_CASE( "Search", "[search]" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	SECTION("Test search depth 1")
 	{

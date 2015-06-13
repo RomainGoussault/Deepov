@@ -310,7 +310,7 @@ U64 Board::getRookAttackedPositions(const int& color) const
 		int rookIndex = Utils::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
-		U64 rookDestinations = Rmagic(rookIndex, getAllPieces()) & ~getPieces(color);
+		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, getAllPieces()) & ~getPieces(color);
 		rookAttackedDestinations |= rookDestinations;
 	}
 
@@ -328,7 +328,7 @@ U64 Board::getBishopAttackedPositions(const int& color) const
 		int bishopIndex = Utils::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
-		U64 bishopDestinations = Bmagic(bishopIndex, getAllPieces()) & ~getPieces(color);
+		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, getAllPieces()) & ~getPieces(color);
 		bishopAttackedDestinations |= bishopDestinations;
 	}
 
@@ -346,7 +346,7 @@ U64 Board::getQueenAttackedPositions(const int& color) const
 		int queenIndex = Utils::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
-		U64 queenDestinations = Rmagic(queenIndex, getAllPieces()) | Bmagic(queenIndex, getAllPieces());
+		U64 queenDestinations = MagicMoves::Rmagic(queenIndex, getAllPieces()) | MagicMoves::Bmagic(queenIndex, getAllPieces());
 		U64 queenValidDestinations = queenDestinations & ~getPieces(color);
 		queenAttackedDestinations |= queenValidDestinations;
 	}

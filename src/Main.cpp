@@ -23,7 +23,7 @@
 
 int main() {
 
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("kn6/nn2rr2/8/4Q3/8/2p1p2b/1Q6/KN6 w - -"));
 
 	Search search(sp);

@@ -6,7 +6,7 @@
 
 TEST_CASE( "Bishop moves", "[bishop]" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	SECTION("Test pseudo-legal moves")
 	{

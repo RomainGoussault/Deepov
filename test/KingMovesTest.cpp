@@ -21,7 +21,7 @@ TEST_CASE( "King moves", "[king]" )
 
 TEST_CASE( "KingCastling1", "[king]" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	SECTION("Test Castling 1")
 	{
@@ -48,7 +48,7 @@ TEST_CASE( "KingCastling1", "[king]" )
 
 TEST_CASE( "CastlingRights", "[king]" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 	Board board("r3k2r/8/8/8/3B4/8/8/R3K2R w KQkq - 0 1");
 
 

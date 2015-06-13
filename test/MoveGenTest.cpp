@@ -6,7 +6,7 @@
 
 TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 {
-    initmagicmoves();
+    MagicMoves::initmagicmoves();
 
     SECTION("EnPassant from FEN")
     {

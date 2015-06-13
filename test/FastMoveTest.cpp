@@ -28,7 +28,7 @@ TEST_CASE( "Constructor and methods" )
 
 TEST_CASE( "is capture" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	Board board("8/8/3k4/8/8/8/n4K2/rR6 b - -");
 	MoveGen moveGen(board);
@@ -42,7 +42,7 @@ TEST_CASE( "is capture" )
 
 TEST_CASE( "execute Move" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	Board fb = Board("8/8/8/8/8/8/2Q5/N7 w - -");
 	MoveGen moveGen(fb);
@@ -65,7 +65,7 @@ TEST_CASE( "execute Move" )
 
 TEST_CASE( "undo Move" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	Board fb = Board("8/8/8/8/8/8/6bn/5qr1 b - -");
 	MoveGen moveGen(fb);

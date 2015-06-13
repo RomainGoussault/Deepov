@@ -6,7 +6,7 @@
 
 TEST_CASE( "Rook moves", "[rook]" )
 {
-	initmagicmoves();
+	MagicMoves::initmagicmoves();
 
 	SECTION("Test pseudo-legal moves")
 	{
