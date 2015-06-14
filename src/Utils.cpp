@@ -105,7 +105,7 @@ void Utils::getPerformanceIndicator()
 	std::chrono::high_resolution_clock::time_point t1 =
 			std::chrono::high_resolution_clock::now();
 
-	int n = board.perft(4);
+	int n = 0; //board.perft(5);
 	board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 	n += board.perft(5);
 
@@ -117,7 +117,7 @@ void Utils::getPerformanceIndicator()
 
 	int nodesPerSec = n/time_span.count();
 	std::cout << "It took me " << time_span.count() << " seconds.";
-	std::cout << "Nodes per sec: " << nodesPerSec;
+	std::cout << "kNodes per sec: " << nodesPerSec / 1000;
 
 	std::cout << std::endl;
 }

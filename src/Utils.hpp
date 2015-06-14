@@ -10,32 +10,28 @@
 
 #include <vector>
 #include <iostream>
-#include<math.h>
+#include <math.h>
 
 #include "Board.hpp"
 
-class Utils
+namespace Utils
 {
-public:
 
     /* Bit Hacks*/
     // Source : https://graphics.stanford.edu/~seander/bithacks.html
-    static unsigned int countBBBitsSet(U64 x);
+    unsigned int countBBBitsSet(U64 x);
     //Some relevant links on this function:
 	// https://chessprogramming.wikispaces.com/BitScan
 	// http://stackoverflow.com/questions/671815/
 	// http://stackoverflow.com/questions/20713017/
-	static inline int getMsbIndex(const U64 bitboard) {return (63 - __builtin_clzll(bitboard));}
+	inline int getMsbIndex(const U64 bitboard) {return (63 - __builtin_clzll(bitboard));}
 
-    static void getCastling(std::string const& castleString, bool (&castleBool)[4]);
-    static void getCastling(std::string const& castleString, int &castlingRights);
-    static int convertStringToInt(std::string const& fenMoveCounter);
-    static int getOppositeColor(const int color){return (1+color)%2;};
-    static void getPerformanceIndicator();
-    static U64 inBetween(int sq1, int sq2);
-
-private:
-
+    void getCastling(std::string const& castleString, bool (&castleBool)[4]);
+    void getCastling(std::string const& castleString, int &castlingRights);
+    int convertStringToInt(std::string const& fenMoveCounter);
+    inline int getOppositeColor(const int color){return (1+color)%2;};
+    void getPerformanceIndicator();
+    U64 inBetween(int sq1, int sq2);
 };
 
 
