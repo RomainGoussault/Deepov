@@ -27,11 +27,12 @@ myAllPieces(myBlackPieces | myWhitePieces),
 myColorToPlay(WHITE),
 myMovesCounter(0),
 myHalfMovesCounter(0),
-myCastling()
+myCastling(),
+myPinnedPieces()
 {
 }
 
-Board::Board(const std::string fen) :  myCastling()
+Board::Board(const std::string fen) :  myCastling(), myPinnedPieces()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -960,6 +961,42 @@ void Board::updateCastlingRights(Move &move)
 void Board::rewindCastlingRights(Move &move)
 {
     myCastling = move.getPreviousCastlingRights();
+}
+
+void Board::updatePinnedPieces()
+{
+	int color = getColorToPlay();
+	U64 occ = getAllPieces();
+	U64 kingBitboard = color == WHITE ? getWhiteKing() : getBlackKing();
+	U64 kiSq = Utils::getMsbIndex(kingBitboard);
+
+	U64 rookWise = MagicMoves::Rmagic(kiSq, occ);
+	U64 potPinned = rookWise & getPieces(color);
+	U64 xrays = rookWise ^ MagicMoves::Rmagic(kiSq, occ ^ potPinned);
+	U64 possiblePinners = color == WHITE ? (getBlackRooks() | getBlackQueens()) : (getWhiteRooks() | getWhiteQueens());
+	U64 pinners = xrays & possiblePinners;
+
+	while ( pinners )
+	{
+		int pinnerSq = Utils::getMsbIndex(pinners);
+		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
+
+	    myPinnedPieces  |= potPinned & Utils::inBetween(pinnerSq, kiSq);
+	}
+
+	U64 bishopWise = MagicMoves::Bmagic(kiSq, occ);
+	potPinned = bishopWise & getPieces(color);
+	xrays = rookWise ^ MagicMoves::Bmagic(kiSq, occ ^ potPinned);
+	possiblePinners = color == WHITE ? (getBlackBishops() | getBlackQueens()) : (getWhiteBishops() | getWhiteQueens());
+	pinners = xrays & possiblePinners;
+
+	while ( pinners )
+	{
+		int pinnerSq = Utils::getMsbIndex(pinners);
+		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
+
+	    myPinnedPieces  |= potPinned & Utils::inBetween(pinnerSq,kiSq);
+	}
 }
 
 std::string Board::printBitBoard(const U64 &bitBoard)

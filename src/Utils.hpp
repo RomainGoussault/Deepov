@@ -32,6 +32,7 @@ public:
     static int convertStringToInt(std::string const& fenMoveCounter);
     static int getOppositeColor(const int color){return (1+color)%2;};
     static void getPerformanceIndicator();
+    static U64 inBetween(int sq1, int sq2);
 
 private:
 

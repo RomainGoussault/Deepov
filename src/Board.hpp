@@ -65,6 +65,10 @@ public:
 	U64 getBlackPieces() const;
 	U64 getAllPieces() const;
 	U64 getPieces(const int color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
+	U64 getPinnedPieces() const{return myPinnedPieces;}
+
+    void updatePinnedPieces();
+
 
 	inline bool getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
@@ -141,6 +145,7 @@ private:
 	U64 myWhitePieces;
 	U64 myBlackPieces;
 	U64 myAllPieces;
+	U64 myPinnedPieces;
 
 	bool myColorToPlay;
     int myMovesCounter;

@@ -130,3 +130,21 @@ unsigned int Utils::countBBBitsSet(U64 v)
     unsigned int c = (std::uint64_t)(v * ((std::uint64_t)~(std::uint64_t)0/255)) >> (sizeof(std::uint64_t) - 1) * CHAR_BIT; // count
     return c;
 }
+
+U64 Utils::inBetween(int sq1, int sq2) { //TODO an array look is better https://chessprogramming.wikispaces.com/Square+Attacked+By#Legality%20Test-In%20Between-Rectangular%20Lookup
+   const U64 m1   = C64(-1);
+   const U64 a2a7 = C64(0x0001010101010100);
+   const U64 b2g7 = C64(0x0040201008040200);
+   const U64 h1b7 = C64(0x0002040810204080); /* Thanks Dustin, g2b7 did not work for c1-a3 */
+   U64 btwn, line, rank, file;
+
+   btwn  = (m1 << sq1) ^ (m1 << sq2);
+   file  =   (sq2 & 7) - (sq1   & 7);
+   rank  =  ((sq2 | 7) -  sq1) >> 3 ;
+   line  =      (   (file  &  7) - 1) & a2a7; /* a2a7 if same file */
+   line += 2 * ((   (rank  &  7) - 1) >> 58); /* b1g1 if same rank */
+   line += (((rank - file) & 15) - 1) & b2g7; /* b2g7 if same diagonal */
+   line += (((rank + file) & 15) - 1) & h1b7; /* h1b7 if same antidiag */
+   line *= btwn & -btwn; /* mul acts like shift by smaller square */
+   return line & btwn;   /* return the bits on that line in-between */
+}
