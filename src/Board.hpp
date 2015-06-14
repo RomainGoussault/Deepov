@@ -120,7 +120,6 @@ public:
     inline int getIndexFromChar(const std::string position) const {return(position[0] - 'a'+8*(position[1] - '0'-1));};
 
     //Static functions
-    static bool isBitSet(U64 bitBoard, const int x, const int y);
     static std::string printBitBoard(const U64 &bitBoard);
 
 private:

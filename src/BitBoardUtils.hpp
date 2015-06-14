@@ -10,25 +10,31 @@
 
 namespace BitBoardUtils
 {
-    U64 inBetween(int sq1, int sq2);
+	U64 inBetween(int sq1, int sq2);
 
-    /* Bit Hacks*/
-    // Source : https://graphics.stanford.edu/~seander/bithacks.html
-    inline unsigned int countBBBitsSet(U64 v)
-    {
-    	v = v - ((v >> 1) & (std::uint64_t)~(std::uint64_t)0/3);                           // temp
-    	        v = (v & (std::uint64_t)~(std::uint64_t)0/15*3) + ((v >> 2) & (std::uint64_t)~(std::uint64_t)0/15*3);      // temp
-    	        v = (v + (v >> 4)) & (std::uint64_t)~(std::uint64_t)0/255*15;                      // temp
-    	        unsigned int c = (std::uint64_t)(v * ((std::uint64_t)~(std::uint64_t)0/255)) >> (sizeof(std::uint64_t) - 1) * CHAR_BIT; // count
-    	        return c;
-    }
+	/* Bit Hacks*/
+	// Source : https://graphics.stanford.edu/~seander/bithacks.html
+	inline unsigned int countBBBitsSet( U64 v)
+	{
+		v = v - ((v >> 1) & (std::uint64_t)~(std::uint64_t)0/3);                           // temp
+		v = (v & (std::uint64_t)~(std::uint64_t)0/15*3) + ((v >> 2) & (std::uint64_t)~(std::uint64_t)0/15*3);      // temp
+		v = (v + (v >> 4)) & (std::uint64_t)~(std::uint64_t)0/255*15;                      // temp
+		unsigned int c = (std::uint64_t)(v * ((std::uint64_t)~(std::uint64_t)0/255)) >> (sizeof(std::uint64_t) - 1) * CHAR_BIT; // count
+		return c;
+	}
 
-    //Some relevant links on this function:
+	//Some relevant links on this function:
 	// https://chessprogramming.wikispaces.com/BitScan
 	// http://stackoverflow.com/questions/671815/
 	// http://stackoverflow.com/questions/20713017/
 	inline int getMsbIndex(const U64 bitboard) {return (63 - __builtin_clzll(bitboard));}
 
+	inline bool isBitSet(const U64 bitBoard, const int x, const int y)
+	{
+		int shift = 8*y + x;
+
+		return (0 | 1LL << shift) & bitBoard;
+	}
 };
 
 

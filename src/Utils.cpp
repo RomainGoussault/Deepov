@@ -15,39 +15,6 @@
 #include <ratio>
 #include <boost/algorithm/string.hpp>
 
-void Utils::getCastling(std::string const& castleString, bool (&castleBool)[4])
-{
-	if (castleString[0] == '-')
-	{
-		return;
-	}
-	else
-	{
-		for (unsigned int i=0; i<castleString.size(); ++i)
-		{
-			if (castleString[i]=='K')
-			{
-				castleBool[0]=true;
-			}
-			else if (castleString[i]=='Q')
-			{
-				castleBool[1]=true;
-			}
-			else if (castleString[i]=='k')
-			{
-				castleBool[2]=true;
-			}
-			else if (castleString[i]=='q')
-			{
-				castleBool[3]=true;
-			}
-			else
-			{
-				throw std::runtime_error("");
-			}
-		}
-	}
-}
 
 void Utils::getCastling(std::string const& castleString, int &castlingRights)
 {
@@ -121,4 +88,3 @@ void Utils::getPerformanceIndicator()
 
 	std::cout << std::endl;
 }
-

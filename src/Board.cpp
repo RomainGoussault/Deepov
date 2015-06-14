@@ -633,63 +633,57 @@ void Board::updateConvenienceBitboards()
 	myAllPieces = myBlackPieces | myWhitePieces;
 }
 
-bool Board::isBitSet(U64 bitBoard, const int x, const int y)
-{
-	int shift = 8*y + x;
-
-	return (0 | 1LL << shift) & bitBoard;
-}
 
 //This methods returns the char representing the piece at the given position (file,rank)
 char Board::getChar(const int file, const int rank) const
 {
 	char c;
 
-	if (Board::isBitSet(getWhitePawns(), file, rank))
+	if (BitBoardUtils::isBitSet(getWhitePawns(), file, rank))
 	{
 		c = 'P';
 	}
-	else if (Board::isBitSet(getWhiteKnights(), file, rank))
+	else if (BitBoardUtils::isBitSet(getWhiteKnights(), file, rank))
 	{
 		c = 'N';
 	}
-	else if (Board::isBitSet(getWhiteBishops(), file, rank))
+	else if (BitBoardUtils::isBitSet(getWhiteBishops(), file, rank))
 	{
 		c = 'B';
 	}
-	else if (Board::isBitSet(getWhiteRooks(), file, rank))
+	else if (BitBoardUtils::isBitSet(getWhiteRooks(), file, rank))
 	{
 		c = 'R';
 	}
-	else if (Board::isBitSet(getWhiteQueens(), file, rank))
+	else if (BitBoardUtils::isBitSet(getWhiteQueens(), file, rank))
 	{
 		c = 'Q';
 	}
-	else if (Board::isBitSet(getWhiteKing(), file, rank))
+	else if (BitBoardUtils::isBitSet(getWhiteKing(), file, rank))
 	{
 		c = 'K';
 	}
-	else if (Board::isBitSet(getBlackPawns(), file, rank))
+	else if (BitBoardUtils::isBitSet(getBlackPawns(), file, rank))
 	{
 		c = 'p';
 	}
-	else if (Board::isBitSet(getBlackKnights(), file, rank))
+	else if (BitBoardUtils::isBitSet(getBlackKnights(), file, rank))
 	{
 		c = 'n';
 	}
-	else if (Board::isBitSet(getBlackBishops(), file, rank))
+	else if (BitBoardUtils::isBitSet(getBlackBishops(), file, rank))
 	{
 		c = 'b';
 	}
-	else if (Board::isBitSet(getBlackRooks(), file, rank))
+	else if (BitBoardUtils::isBitSet(getBlackRooks(), file, rank))
 	{
 		c = 'r';
 	}
-	else if (Board::isBitSet(getBlackQueens(), file, rank))
+	else if (BitBoardUtils::isBitSet(getBlackQueens(), file, rank))
 	{
 		c = 'q';
 	}
-	else if (Board::isBitSet(getBlackKing(), file, rank))
+	else if (BitBoardUtils::isBitSet(getBlackKing(), file, rank))
 	{
 		c = 'k';
 	}
@@ -922,7 +916,7 @@ std::string Board::printBitBoard(const U64 &bitBoard)
 
 		for(int file = 0; file < 8 ; file++)
 		{
-			char c = Board::isBitSet(bitBoard, file, rank) ? 'X' : '*';
+			char c = BitBoardUtils::isBitSet(bitBoard, file, rank) ? 'X' : '*';
 			strm << c << " ";
 		}
 

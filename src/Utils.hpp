@@ -17,7 +17,6 @@
 namespace Utils
 {
 
-    void getCastling(std::string const& castleString, bool (&castleBool)[4]);
     void getCastling(std::string const& castleString, int &castlingRights);
     int convertStringToInt(std::string const& fenMoveCounter);
     void getPerformanceIndicator();

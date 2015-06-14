@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "Move.hpp"
+#include "BitBoardUtils.hpp"
 #include "MagicMoves.hpp"
 #include "MoveGen.hpp"
 
@@ -49,8 +50,8 @@ TEST_CASE( "execute Move" )
 
 	U64 bb = fb.getWhiteKnights();
 
-    REQUIRE(Board::isBitSet(bb, 0, 0) == true);
-    REQUIRE(Board::isBitSet(bb, 1, 2) == false);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 0, 0) == true);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 1, 2) == false);
 
 	int size = moveGen.getKnightPseudoLegalMoves(WHITE).size();
     REQUIRE(size == 1);
@@ -59,8 +60,8 @@ TEST_CASE( "execute Move" )
 	fb.executeMove(move);
 	bb = fb.getWhiteKnights();
 
-    REQUIRE(Board::isBitSet(bb, 0, 0) == false);
-    REQUIRE(Board::isBitSet(bb, 1, 2) == true);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 0, 0) == false);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 1, 2) == true);
 }
 
 TEST_CASE( "undo Move" )
@@ -74,19 +75,19 @@ TEST_CASE( "undo Move" )
     REQUIRE(size == 1);
 
 	U64 bb = fb.getBlackRooks();
-    REQUIRE(Board::isBitSet(bb, 6, 0) == true);
-    REQUIRE(Board::isBitSet(bb, 7, 0) == false);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 6, 0) == true);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 7, 0) == false);
 
 	Move move = moveGen.getRookPseudoLegalMoves(BLACK)[0];
 	fb.executeMove(move);
 
 	bb = fb.getBlackRooks();
-    REQUIRE(Board::isBitSet(bb, 6, 0) == false);
-    REQUIRE(Board::isBitSet(bb, 7, 0) == true);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 6, 0) == false);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 7, 0) == true);
 
 	fb.undoMove(move);
 
 	bb = fb.getBlackRooks();
-    REQUIRE(Board::isBitSet(bb, 6, 0) == true);
-    REQUIRE(Board::isBitSet(bb, 7, 0) == false);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 6, 0) == true);
+    REQUIRE(BitBoardUtils::isBitSet(bb, 7, 0) == false);
 }
