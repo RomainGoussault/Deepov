@@ -79,7 +79,7 @@ public:
 	void updateConvenienceBitboards();
 
 	/* Moves methods */
-    bool isMoveLegal(Move &move); // uses executeMove and undoMove so it can't be const
+    bool isMoveLegal(Move &move, bool isCheck); // uses executeMove and undoMove so it can't be const
     void executeMove(Move &move);
     void undoMove(Move &move);
     int perft(int depth);

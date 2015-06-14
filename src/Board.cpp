@@ -201,19 +201,29 @@ int Board::findPieceType(const int position, const int color) const
 	}
 }
 
-bool Board::isMoveLegal(Move &move)
+bool Board::isMoveLegal(Move &move, bool isCheckb)
 {
 	bool isLegalMove = true;
+	bool isEnPassant = move.getFlags() == Move::EP_CAPTURE_FLAG;
 	int color = myColorToPlay;
 
-	executeMove(move);
+	int origin = move.getOrigin();
+	U64 oribb = 1LL << origin;
+	bool isPinned = oribb & getPinnedPieces();
+	bool isKingMove = move.getPieceType() == Move::KING_TYPE;
 
-	if(isCheck(color))
+
+	if (isKingMove || isCheckb || isEnPassant || isPinned)
 	{
-		isLegalMove = false;
-	}
+		executeMove(move);
 
-	undoMove(move);
+		if(isCheck(color))
+		{
+			isLegalMove = false;
+		}
+
+		undoMove(move);
+	}
 
 	return isLegalMove;
 }
