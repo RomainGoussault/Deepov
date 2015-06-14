@@ -912,24 +912,7 @@ void Board::updateCastlingRights(Move &move)
         /* 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
     }
 
-
-//    if (move.getOrigin() == 0)
-//    {
-//        myCastling &=0x0d;
-//    }
-//    if (move.getOrigin() == 7)
-//    {
-//        myCastling &=0x0e;
-//    }
-//    if (move.getOrigin() == 56)
-//    {
-//        myCastling &=0x07;
-//    }
-//    if (move.getOrigin() == 63)
-//    {
-//        myCastling &=0x0b;
-//    }
-    int destination =move.getDestination();
+    int destination = move.getDestination();
     if (((1LL << destination)&LookUpTables::ROOK_INITIAL_POS)!=0)
     {
         /* Update Castling Rights for rook capture */
@@ -937,25 +920,6 @@ void Board::updateCastlingRights(Move &move)
         unsigned int mask = ~(0b0001 << shift);
         myCastling &= mask;
     }
-
-
-
-//    if (move.getDestination() == 0)
-//    {
-//        myCastling &=0x0d;
-//    }
-//    if (move.getDestination() == 7)
-//    {
-//        myCastling &=0x0e;
-//    }
-//    if (move.getDestination() == 56)
-//    {
-//        myCastling &=0x07;
-//    }
-//    if (move.getDestination() == 63)
-//    {
-//        myCastling &=0x0b;
-//    }
 }
 
 void Board::rewindCastlingRights(Move &move)
