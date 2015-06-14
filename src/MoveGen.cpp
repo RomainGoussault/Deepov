@@ -1,4 +1,5 @@
 #include "MoveGen.hpp"
+#include "BitBoardUtils.hpp"
 #include "MagicMoves.hpp"
 #include <memory>
 
@@ -20,7 +21,7 @@ void MoveGen::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<M
 	while (quietDestinations)
 	{
 		//Getting the index of the MSB
-		int positionMsb = Utils::getMsbIndex(quietDestinations);
+		int positionMsb = BitBoardUtils::getMsbIndex(quietDestinations);
 
 		Move move = Move(pieceIndex, positionMsb, 0, pieceType);
 		moves.push_back(move);
@@ -35,7 +36,7 @@ void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::
     while (pawnDestinations)
     {
         //Getting the index of the MSB
-		int positionMsb = Utils::getMsbIndex(pawnDestinations);
+		int positionMsb = BitBoardUtils::getMsbIndex(pawnDestinations);
 
         Move move = Move(pieceIndex, positionMsb, Move::DOUBLE_PAWN_PUSH_FLAG, Move::PAWN_TYPE);
 		moves.push_back(move);
@@ -50,7 +51,7 @@ void MoveGen::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vect
 	while (captureDestinations)
 	{
 		//Getting the index of the MSB
-		int positionMsb = Utils::getMsbIndex(captureDestinations);
+		int positionMsb = BitBoardUtils::getMsbIndex(captureDestinations);
 		Move move = Move(pieceIndex, positionMsb, Move::CAPTURE_FLAG, pieceType);
         int capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
@@ -66,7 +67,7 @@ void MoveGen::addPromotionMoves(U64 promotionDestinations, int pieceIndex, std::
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		int positionMsb = Utils::getMsbIndex(promotionDestinations);
+		int positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
 		Move move = Move(pieceIndex, positionMsb, Move::PROMOTION_FLAG, Move::PAWN_TYPE);
 		moves.push_back(move);
 		move.setFlags(Move::PROMOTION_FLAG+1);
@@ -86,7 +87,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		int positionMsb = Utils::getMsbIndex(promotionDestinations);
+		int positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
 		unsigned int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
 		Move move = Move(pieceIndex, positionMsb, flag, Move::PAWN_TYPE);
         int capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
@@ -113,7 +114,7 @@ std::vector<Move> MoveGen::getKingPseudoLegalMoves(const int& color) const
 	U64 kingValidDestinations = myBoard->getKingDestinations(kingPos, color);
 
 	int ennemyColor = Utils::getOppositeColor(color);
-	int kingIndex = Utils::getMsbIndex(kingPos);
+	int kingIndex = BitBoardUtils::getMsbIndex(kingPos);
 	std::vector<Move> kingMoves;
 
 	U64 kingCaptureDestinations = kingValidDestinations & myBoard->getPieces(ennemyColor);
@@ -155,7 +156,7 @@ std::vector<Move> MoveGen::getQueenPseudoLegalMoves(const int& color) const
 	//loop through the queens:
 	while(queenPositions)
 	{
-		int queenIndex = Utils::getMsbIndex(queenPositions);
+		int queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
 		int ennemyColor = Utils::getOppositeColor(color);
@@ -182,7 +183,7 @@ std::vector<Move> MoveGen::getBishopPseudoLegalMoves(const int& color) const
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		int bishopIndex = Utils::getMsbIndex(bishopPositions);
+		int bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
 		int ennemyColor = Utils::getOppositeColor(color);
@@ -207,7 +208,7 @@ std::vector<Move> MoveGen::getRookPseudoLegalMoves(const int& color) const
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		int rookIndex = Utils::getMsbIndex(rookPositions);
+		int rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
 		int ennemyColor = Utils::getOppositeColor(color);
@@ -245,7 +246,7 @@ std::vector<Move> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 	//loop through the knights:
 	while(knightPositions)
 	{
-		const int knightIndex = Utils::getMsbIndex(knightPositions);
+		const int knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
 		U64 knightValidDestinations = myBoard->getKnightDestinations(knightIndex, color);
 		/* compute only the places where the knight can move and attack. The caller
 		will interpret this as a white or black knight. */
@@ -271,7 +272,7 @@ std::vector<Move> MoveGen::getWhitePawnPseudoLegalMoves() const
 
 	while(pawnPositions)
 	{
-		int pawnIndex = Utils::getMsbIndex(pawnPositions);
+		int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
@@ -318,7 +319,7 @@ std::vector<Move> MoveGen::getBlackPawnPseudoLegalMoves() const
 
 	while(pawnPositions)
 	{
-		int pawnIndex = Utils::getMsbIndex(pawnPositions);
+		int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
@@ -424,7 +425,7 @@ std::vector<Move> MoveGen::getWhiteEnPassantMoves() const
         while (validPawns)
         {
             unsigned int enemyDestination = enemyLastMove->getDestination();
-            int validPawnIndex = Utils::getMsbIndex(validPawns);
+            int validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
 
             if (abs(validPawnIndex - enemyDestination) == 1)
@@ -458,7 +459,7 @@ std::vector<Move> MoveGen::getBlackEnPassantMoves() const
         while (validPawns)
         {
             unsigned int enemyDestination = enemyLastMove->getDestination();
-            int validPawnIndex = Utils::getMsbIndex(validPawns);
+            int validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
 
             if (abs(validPawnIndex - enemyDestination) == 1)

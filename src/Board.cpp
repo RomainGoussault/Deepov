@@ -1,5 +1,6 @@
 #include "Board.hpp"
 #include "Utils.hpp"
+#include "BitBoardUtils.hpp"
 #include "MagicMoves.hpp"
 #include "MoveGen.hpp"
 
@@ -202,7 +203,7 @@ U64 Board::getKnightAttackedPositions(const int& color) const
 	//loop through the knights:
 	while(knightPositions)
 	{
-		const int knightIndex = Utils::getMsbIndex(knightPositions);
+		const int knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
 		U64 knightValidDestinations = getKnightDestinations(knightIndex, color);
 		knightAttackedDestinations |= knightValidDestinations;
 
@@ -257,7 +258,7 @@ U64 Board::getRookAttackedPositions(const int& color) const
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		int rookIndex = Utils::getMsbIndex(rookPositions);
+		int rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
 		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, getAllPieces()) & ~getPieces(color);
@@ -275,7 +276,7 @@ U64 Board::getBishopAttackedPositions(const int& color) const
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		int bishopIndex = Utils::getMsbIndex(bishopPositions);
+		int bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
 		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, getAllPieces()) & ~getPieces(color);
@@ -293,7 +294,7 @@ U64 Board::getQueenAttackedPositions(const int& color) const
 	//loop through the queens:
 	while(queenPositions)
 	{
-		int queenIndex = Utils::getMsbIndex(queenPositions);
+		int queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
 		U64 queenDestinations = MagicMoves::Rmagic(queenIndex, getAllPieces()) | MagicMoves::Bmagic(queenIndex, getAllPieces());
@@ -312,7 +313,7 @@ U64 Board::getWhitePawnAttackedPositions() const
 	//loop through the pawns:
 	while(pawnPositions)
 	{
-		int pawnIndex = Utils::getMsbIndex(pawnPositions);
+		int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
@@ -338,7 +339,7 @@ U64 Board::getBlackPawnAttackedPositions() const
 	//loop through the pawns:
 	while(pawnPositions)
 	{
-		int pawnIndex = Utils::getMsbIndex(pawnPositions);
+		int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
@@ -881,7 +882,7 @@ void Board::updatePinnedPieces()
 	int color = getColorToPlay();
 	U64 occ = getAllPieces();
 	U64 kingBitboard = color == WHITE ? getWhiteKing() : getBlackKing();
-	U64 kiSq = Utils::getMsbIndex(kingBitboard);
+	U64 kiSq = BitBoardUtils::getMsbIndex(kingBitboard);
 
 	U64 rookWise = MagicMoves::Rmagic(kiSq, occ);
 	U64 potPinned = rookWise & getPieces(color);
@@ -891,10 +892,10 @@ void Board::updatePinnedPieces()
 
 	while ( pinners )
 	{
-		int pinnerSq = Utils::getMsbIndex(pinners);
+		int pinnerSq = BitBoardUtils::getMsbIndex(pinners);
 		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
 
-	    myPinnedPieces  |= potPinned & Utils::inBetween(pinnerSq, kiSq);
+	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq, kiSq);
 	}
 
 	U64 bishopWise = MagicMoves::Bmagic(kiSq, occ);
@@ -905,10 +906,10 @@ void Board::updatePinnedPieces()
 
 	while ( pinners )
 	{
-		int pinnerSq = Utils::getMsbIndex(pinners);
+		int pinnerSq = BitBoardUtils::getMsbIndex(pinners);
 		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
 
-	    myPinnedPieces  |= potPinned & Utils::inBetween(pinnerSq,kiSq);
+	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq,kiSq);
 	}
 }
 

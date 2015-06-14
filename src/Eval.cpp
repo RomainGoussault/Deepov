@@ -1,5 +1,5 @@
 #include "Eval.hpp"
-#include "Utils.hpp"
+#include "BitBoardUtils.hpp"
 
 Eval::Eval(std::shared_ptr<Board> boardPtr)
 {
@@ -21,19 +21,19 @@ int Eval::getMaterialScore()
     int whitePiecesValue(0);
     int blackPiecesValue(0);
 
-    whitePiecesValue += Utils::countBBBitsSet(myBoard->getWhitePawns())*PAWN_VALUE
-                        + Utils::countBBBitsSet(myBoard->getWhiteKnights())*KNIGHT_VALUE
-                        + Utils::countBBBitsSet(myBoard->getWhiteBishops())*BISHOP_VALUE
-                        + Utils::countBBBitsSet(myBoard->getWhiteRooks())*ROOK_VALUE
-                        + Utils::countBBBitsSet(myBoard->getWhiteQueens())*QUEEN_VALUE
-                        + Utils::countBBBitsSet(myBoard->getWhiteKing())*KING_VALUE;
+    whitePiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getWhitePawns())*PAWN_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKnights())*KNIGHT_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteBishops())*BISHOP_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteRooks())*ROOK_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteQueens())*QUEEN_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKing())*KING_VALUE;
 
-    blackPiecesValue += Utils::countBBBitsSet(myBoard->getBlackPawns())*PAWN_VALUE
-                        + Utils::countBBBitsSet(myBoard->getBlackKnights())*KNIGHT_VALUE
-                        + Utils::countBBBitsSet(myBoard->getBlackBishops())*BISHOP_VALUE
-                        + Utils::countBBBitsSet(myBoard->getBlackRooks())*ROOK_VALUE
-                        + Utils::countBBBitsSet(myBoard->getBlackQueens())*QUEEN_VALUE
-                        + Utils::countBBBitsSet(myBoard->getBlackKing())*KING_VALUE;
+    blackPiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getBlackPawns())*PAWN_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackKnights())*KNIGHT_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackBishops())*BISHOP_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackRooks())*ROOK_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackQueens())*QUEEN_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackKing())*KING_VALUE;
 
     return whitePiecesValue - blackPiecesValue;
 }
