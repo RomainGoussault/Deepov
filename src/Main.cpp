@@ -26,7 +26,7 @@
 
 int main() {
 
-	MagicMoves::initmagicmoves();
+/*	MagicMoves::initmagicmoves();
 
 	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("k4K2/8/8/3q4/8/1R3N1P/8/8 b - -"));
 
@@ -39,18 +39,18 @@ int main() {
 
 	sp->executeMove(move);
 
-	std::cout << *sp << std::endl;
+	std::cout << *sp << std::endl;*/
 
-/*
 	Utils::getPerformanceIndicator();
 	Utils::getPerformanceIndicator();
-	//Romain : 9sec = 1 705 014 Nodes/sec
-	// -O3  10 024 446 Nodes/sec
+	Utils::getPerformanceIndicator();
+	Utils::getPerformanceIndicator();
+
+	//Romain :  = 2000 kNodes/sec
+	// -O3  13 000 kNodes/sec
+
 	// Navid -O3  100 000 Nodes/sec
 	//Stockfish 180 385 601Nodes/sec
 
-*/
-    std::string str;
-    std::cin >> str;
 	return 0;
 }
