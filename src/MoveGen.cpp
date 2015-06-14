@@ -360,16 +360,13 @@ std::vector<Move> MoveGen::getPseudoLegalMoves(const int color)
 	std::vector<Move> legalMoves;
 	legalMoves.reserve(218);
 
-	//TODO appendPawnPseudoLegalMoves does not work ?!
-	std::vector<Move> pawnLegalMoves = getPawnPseudoLegalMoves(color);
-	legalMoves.insert(legalMoves.end(), pawnLegalMoves.begin(), pawnLegalMoves.end());
-
+	//Pawn need to be first
+	appendPawnPseudoLegalMoves(color, legalMoves);
 	appendKingPseudoLegalMoves(color, legalMoves);
 	appendQueenPseudoLegalMoves(color, legalMoves);
 	appendRookPseudoLegalMoves(color, legalMoves);
 	appendBishopPseudoLegalMoves(color, legalMoves);
 	appendKnightPseudoLegalMoves(color, legalMoves);
-//	appendPawnPseudoLegalMoves(color, legalMoves);
 
 	return legalMoves;
 }
