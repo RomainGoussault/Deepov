@@ -119,8 +119,6 @@ public:
     In our board model row starts at index 0. a will be 0 and h will be 7 */
     inline int getIndexFromChar(const std::string position) const {return(position[0] - 'a'+8*(position[1] - '0'-1));};
 
-    //Static functions
-    static std::string printBitBoard(const U64 &bitBoard);
 
 private:
 
