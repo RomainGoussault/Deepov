@@ -3,55 +3,18 @@
 #include "MagicMoves.hpp"
 #include "MoveGen.hpp"
 
+Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
-
-
-
-
-Board::Board() :
-myWhitePawns(0 | 0xFF << 8),
-myWhiteKnights(0 | (1 << 1) | (1 << 6) ),
-myWhiteBishops(0 | (1 << 2) | (1 << 5) ),
-myWhiteRooks(0 | (1 << 0) | (1 << 7) ),
-myWhiteQueens(0 | (1 << 3)),
-myWhiteKing(0 | (1 << 4)),
-myBlackPawns(0 | 0xFFLL  << 8*6),
-myBlackKnights(0 | (1LL << (8*7+1)) | (1LL<< (8*7+6)) ),
-myBlackBishops(0 | (1LL << (8*7+2)) | (1LL<< (8*7+5)) ),
-myBlackRooks(0 | (1LL << (8*7+0)) | (1LL<< (8*7+7)) ),
-myBlackQueens(0 | (1LL << (8*7+3)) ),
-myBlackKing(0 | (1LL << (8*7+4)) ),
-myWhitePieces(myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing),
-myBlackPieces(myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing),
-myAllPieces(myBlackPieces | myWhitePieces),
-myColorToPlay(WHITE),
-myMovesCounter(0),
-myHalfMovesCounter(0),
-myCastling(),
-myPinnedPieces()
-{
-}
-
-Board::Board(const std::string fen) :  myCastling(), myPinnedPieces()
+Board::Board(const std::string fen) :
+myWhitePawns(), myWhiteKnights(), myWhiteBishops(), myWhiteRooks(), myWhiteQueens(), myWhiteKing(),
+myBlackPawns(), myBlackKnights(), myBlackBishops(), myBlackRooks(), myBlackQueens(), myBlackKing(),
+myPinnedPieces(), myCastling()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
 
 	boost::split(spaceSplit, fen, boost::is_any_of(" "));
 	boost::split(piecesByRank, spaceSplit[0], boost::is_any_of("/"));
-
-	myWhitePawns = 0;
-	myWhiteKnights = 0;
-	myWhiteBishops = 0;
-	myWhiteRooks = 0;
-	myWhiteQueens = 0;
-	myWhiteKing = 0;
-	myBlackPawns = 0;
-	myBlackKnights = 0;
-	myBlackBishops = 0;
-	myBlackRooks = 0;
-	myBlackQueens = 0;
-	myBlackKing = 0;
 
 	int rank = 7;
 	for (int i=0; i<8; i++)
