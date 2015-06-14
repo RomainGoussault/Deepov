@@ -24,14 +24,70 @@ public:
     std::vector<Move> getBlackEnPassantMoves() const;
 
     /* Pseudo Legal Moves */
-    std::vector<Move> getKingPseudoLegalMoves(const int& color) const;
-	std::vector<Move> getQueenPseudoLegalMoves(const int& color) const;
-	std::vector<Move> getBishopPseudoLegalMoves(const int& color) const;
-	std::vector<Move> getRookPseudoLegalMoves(const int& color) const;
-    std::vector<Move> getKnightPseudoLegalMoves(const int& color) const;
-    std::vector<Move> getPawnPseudoLegalMoves(const int& color) const;
-    std::vector<Move> getWhitePawnPseudoLegalMoves() const;
-    std::vector<Move> getBlackPawnPseudoLegalMoves() const;
+    void appendQueenPseudoLegalMoves(const int& color, std::vector<Move>& moves) const;
+    void appendKnightPseudoLegalMoves(const int& color, std::vector<Move>& moves) const;
+    void appendKingPseudoLegalMoves(const int& color, std::vector<Move>& moves) const;
+    void appendRookPseudoLegalMoves(const int& color, std::vector<Move>& moves) const;
+    void appendBishopPseudoLegalMoves(const int& color, std::vector<Move>& moves) const;
+    void appendPawnPseudoLegalMoves(const int& color, std::vector<Move>& moves) const;
+    void appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const;
+    void appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const;
+
+	std::vector<Move> getRookPseudoLegalMoves(const int& color) const
+	{
+		std::vector<Move> moves;
+		appendRookPseudoLegalMoves(color, moves);
+		return moves;
+	}
+
+	std::vector<Move> getQueenPseudoLegalMoves(const int& color) const
+	{
+		std::vector<Move> moves;
+		appendQueenPseudoLegalMoves(color, moves);
+		return moves;
+	}
+
+    std::vector<Move> getKingPseudoLegalMoves(const int& color)
+	{
+		std::vector<Move> moves;
+		appendKingPseudoLegalMoves(color, moves);
+		return moves;
+	}
+
+	std::vector<Move> getBishopPseudoLegalMoves(const int& color) const
+	{
+		std::vector<Move> moves;
+		appendBishopPseudoLegalMoves(color, moves);
+		return moves;
+	}
+
+    std::vector<Move> getKnightPseudoLegalMoves(const int& color) const
+    {
+    	std::vector<Move> moves;
+    	appendKnightPseudoLegalMoves(color, moves);
+    	return moves;
+    }
+
+    std::vector<Move> getPawnPseudoLegalMoves(const int& color) const
+    {
+       	std::vector<Move> moves;
+       	appendPawnPseudoLegalMoves(color, moves);
+       	return moves;
+    }
+
+    std::vector<Move> getWhitePawnPseudoLegalMoves() const
+    {
+       	std::vector<Move> moves;
+       	appendWhitePawnPseudoLegalMoves(moves);
+       	return moves;
+    }
+
+    std::vector<Move> getBlackPawnPseudoLegalMoves() const
+    {
+       	std::vector<Move> moves;
+       	appendBlackPawnPseudoLegalMoves(moves);
+       	return moves;
+    }
 
     /* Moves */
     std::vector<Move> getPseudoLegalMoves();

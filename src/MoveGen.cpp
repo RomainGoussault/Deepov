@@ -107,7 +107,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex
 }
 
     /* Get moves methods */
-std::vector<Move> MoveGen::getKingPseudoLegalMoves(const int& color) const
+void MoveGen::appendKingPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
 	U64 kingPos = color == WHITE ? myBoard->getWhiteKing() : myBoard->getBlackKing();
 
@@ -115,17 +115,14 @@ std::vector<Move> MoveGen::getKingPseudoLegalMoves(const int& color) const
 
 	int ennemyColor = Utils::getOppositeColor(color);
 	int kingIndex = BitBoardUtils::getMsbIndex(kingPos);
-	std::vector<Move> kingMoves;
 
 	U64 kingCaptureDestinations = kingValidDestinations & myBoard->getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 
-	addQuietMoves(kingQuietDestinations, kingIndex, kingMoves, Move::KING_TYPE);
-	addCaptureMoves(kingCaptureDestinations, kingIndex, kingMoves, Move::KING_TYPE);
-	addKingSideCastlingMove(color, kingIndex, kingMoves);
-	addQueenSideCastlingMove(color, kingIndex, kingMoves);
-
-	return kingMoves;
+	addQuietMoves(kingQuietDestinations, kingIndex, moves, Move::KING_TYPE);
+	addCaptureMoves(kingCaptureDestinations, kingIndex, moves, Move::KING_TYPE);
+	addKingSideCastlingMove(color, kingIndex, moves);
+	addQueenSideCastlingMove(color, kingIndex, moves);
 }
 
 void MoveGen::addKingSideCastlingMove(int color, int kingIndex, std::vector<Move>& moves) const
@@ -148,9 +145,8 @@ void MoveGen::addQueenSideCastlingMove(int color, int kingIndex, std::vector<Mov
 	}
 }
 
-std::vector<Move> MoveGen::getQueenPseudoLegalMoves(const int& color) const
+void MoveGen::appendQueenPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	std::vector<Move> queenMoves;
 	U64 queenPositions = color == WHITE ? myBoard->getWhiteQueens() : myBoard->getBlackQueens();
 
 	//loop through the queens:
@@ -168,16 +164,13 @@ std::vector<Move> MoveGen::getQueenPseudoLegalMoves(const int& color) const
 		U64 queenCaptureDestinations = queenDestinations & myBoard->getPieces(ennemyColor);
 		U64 queenQuietDestinations = queenDestinations ^ queenCaptureDestinations;
 
-		addQuietMoves(queenQuietDestinations, queenIndex, queenMoves, Move::QUEEN_TYPE);
-		addCaptureMoves(queenCaptureDestinations, queenIndex, queenMoves, Move::QUEEN_TYPE);
+		addQuietMoves(queenQuietDestinations, queenIndex, moves, Move::QUEEN_TYPE);
+		addCaptureMoves(queenCaptureDestinations, queenIndex, moves, Move::QUEEN_TYPE);
 	}
-
-	return queenMoves;
 }
 
-std::vector<Move> MoveGen::getBishopPseudoLegalMoves(const int& color) const
+void MoveGen::appendBishopPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	std::vector<Move> bishopMoves;
 	U64 bishopPositions = color == WHITE ? myBoard->getWhiteBishops() : myBoard->getBlackBishops();
 
 	//loop through the bishops:
@@ -193,16 +186,13 @@ std::vector<Move> MoveGen::getBishopPseudoLegalMoves(const int& color) const
 		U64 bishopCaptureDestinations = bishopDestinations & myBoard->getPieces(ennemyColor);
 		U64 bishopQuietDestinations = bishopDestinations ^ bishopCaptureDestinations;
 
-		addQuietMoves(bishopQuietDestinations, bishopIndex, bishopMoves, Move::BISHOP_TYPE);
-		addCaptureMoves(bishopCaptureDestinations, bishopIndex, bishopMoves, Move::BISHOP_TYPE);
+		addQuietMoves(bishopQuietDestinations, bishopIndex, moves, Move::BISHOP_TYPE);
+		addCaptureMoves(bishopCaptureDestinations, bishopIndex, moves, Move::BISHOP_TYPE);
 	}
-
-	return bishopMoves;
 }
 
-std::vector<Move> MoveGen::getRookPseudoLegalMoves(const int& color) const
+void MoveGen::appendRookPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	std::vector<Move> rookMoves;
 	U64 rookPositions = color == WHITE ? myBoard->getWhiteRooks() : myBoard->getBlackRooks();
 
 	//loop through the rooks:
@@ -218,13 +208,11 @@ std::vector<Move> MoveGen::getRookPseudoLegalMoves(const int& color) const
 		U64 rookCaptureDestinations = rookDestinations & myBoard->getPieces(ennemyColor);
 		U64 rookQuietDestinations = rookDestinations ^ rookCaptureDestinations;
 
-		addQuietMoves(rookQuietDestinations, rookIndex, rookMoves, Move::ROOK_TYPE);
-		addCaptureMoves(rookCaptureDestinations, rookIndex, rookMoves, Move::ROOK_TYPE);
+		addQuietMoves(rookQuietDestinations, rookIndex, moves, Move::ROOK_TYPE);
+		addCaptureMoves(rookCaptureDestinations, rookIndex, moves, Move::ROOK_TYPE);
 	}
-
-	return rookMoves;
 }
-
+/*
 std::vector<Move> MoveGen::getPawnPseudoLegalMoves(const int& color) const
 {
 	if(color == WHITE)
@@ -235,12 +223,21 @@ std::vector<Move> MoveGen::getPawnPseudoLegalMoves(const int& color) const
 	{
 		return getBlackPawnPseudoLegalMoves();
 	}
-}
+}*/
 
-std::vector<Move> MoveGen::getKnightPseudoLegalMoves(const int& color) const
+void MoveGen::appendPawnPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	std::vector<Move> knightMoves;
-
+	if(color == WHITE)
+	{
+		appendWhitePawnPseudoLegalMoves(moves);
+	}
+	else
+	{
+		appendBlackPawnPseudoLegalMoves(moves);
+	}
+}
+void MoveGen::appendKnightPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
+{
 	U64 knightPositions = color == WHITE ? myBoard->getWhiteKnights() : myBoard->getBlackKnights();
 
 	//loop through the knights:
@@ -256,18 +253,16 @@ std::vector<Move> MoveGen::getKnightPseudoLegalMoves(const int& color) const
 		U64 knightCaptureDestinations = knightValidDestinations & myBoard->getPieces(ennemyColor);
 		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
 
-		addQuietMoves(knightQuietDestinations, knightIndex, knightMoves, Move::KNIGHT_TYPE);
-		addCaptureMoves(knightCaptureDestinations, knightIndex, knightMoves, Move::KNIGHT_TYPE);
+		addQuietMoves(knightQuietDestinations, knightIndex, moves, Move::KNIGHT_TYPE);
+		addCaptureMoves(knightCaptureDestinations, knightIndex, moves, Move::KNIGHT_TYPE);
 
 		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
 	}
-
-	return knightMoves;
 }
 
-std::vector<Move> MoveGen::getWhitePawnPseudoLegalMoves() const
+void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 {
-	std::vector<Move> pawnMoves(getWhiteEnPassantMoves());
+	moves = getWhiteEnPassantMoves();
 	U64 pawnPositions = myBoard->getWhitePawns();
 
 	while(pawnPositions)
@@ -302,19 +297,17 @@ std::vector<Move> MoveGen::getWhitePawnPseudoLegalMoves() const
 		attack/move. */
 		// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves, Move::PAWN_TYPE);
-		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves);
-		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7], pawnIndex, pawnMoves);
-		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7], pawnIndex, pawnMoves, Move::PAWN_TYPE);
-		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7], pawnIndex, pawnMoves);
+		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7], pawnIndex, moves, Move::PAWN_TYPE);
+		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7], pawnIndex, moves);
+		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7], pawnIndex, moves);
+		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7], pawnIndex, moves, Move::PAWN_TYPE);
+		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7], pawnIndex, moves);
 	}
-
-	return pawnMoves;
 }
 
-std::vector<Move> MoveGen::getBlackPawnPseudoLegalMoves() const
+void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 {
-	std::vector<Move> pawnMoves(getBlackEnPassantMoves());
+	moves = getBlackEnPassantMoves();
 	U64 pawnPositions = myBoard->getBlackPawns();
 
 	while(pawnPositions)
@@ -349,14 +342,12 @@ std::vector<Move> MoveGen::getBlackPawnPseudoLegalMoves() const
 		attack/move. */
 		// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves, Move::PAWN_TYPE);
-		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves);
-		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0], pawnIndex, pawnMoves);
-		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0], pawnIndex, pawnMoves, Move::PAWN_TYPE);
-		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0], pawnIndex, pawnMoves);
+		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0], pawnIndex, moves, Move::PAWN_TYPE);
+		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0], pawnIndex, moves);
+		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0], pawnIndex, moves);
+		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0], pawnIndex, moves, Move::PAWN_TYPE);
+		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0], pawnIndex, moves);
 	}
-
-	return pawnMoves;
 }
 
 std::vector<Move> MoveGen::getPseudoLegalMoves()
@@ -367,21 +358,18 @@ std::vector<Move> MoveGen::getPseudoLegalMoves()
 std::vector<Move> MoveGen::getPseudoLegalMoves(const int color)
 {
 	std::vector<Move> legalMoves;
+	legalMoves.reserve(218);
 
-	//TODO we don't want to copy all the moves, better use a reference to the move vector
+	//TODO appendPawnPseudoLegalMoves does not work ?!
 	std::vector<Move> pawnLegalMoves = getPawnPseudoLegalMoves(color);
-	std::vector<Move> knightLegalMoves = getKnightPseudoLegalMoves(color);
-	std::vector<Move> bishopLegalMoves = getBishopPseudoLegalMoves(color);
-	std::vector<Move> rookLegalMoves = getRookPseudoLegalMoves(color);
-	std::vector<Move> queenLegalMoves = getQueenPseudoLegalMoves(color);
-	std::vector<Move> kingLegalMoves = getKingPseudoLegalMoves(color);
-
 	legalMoves.insert(legalMoves.end(), pawnLegalMoves.begin(), pawnLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), knightLegalMoves.begin(), knightLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), bishopLegalMoves.begin(), bishopLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), rookLegalMoves.begin(), rookLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), queenLegalMoves.begin(), queenLegalMoves.end());
-	legalMoves.insert(legalMoves.end(), kingLegalMoves.begin(), kingLegalMoves.end());
+
+	appendKingPseudoLegalMoves(color, legalMoves);
+	appendQueenPseudoLegalMoves(color, legalMoves);
+	appendRookPseudoLegalMoves(color, legalMoves);
+	appendBishopPseudoLegalMoves(color, legalMoves);
+	appendKnightPseudoLegalMoves(color, legalMoves);
+//	appendPawnPseudoLegalMoves(color, legalMoves);
 
 	return legalMoves;
 }
