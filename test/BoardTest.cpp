@@ -38,34 +38,7 @@ TEST_CASE( "Move methods" )
 	moveList = moveGen.getKnightPseudoLegalMoves(WHITE);
 	REQUIRE(moveList.size() == 4);
 }
-/*
-TEST_CASE( "execute Move with capture" )
-{
-	MagicMoves::initmagicmoves();
 
-	Board fb = Board("8/8/8/8/8/8/3n4/2Nrb3 b - -");
-
-	int size = fb.getRookPseudoLegalMoves(BLACK).size();
-    REQUIRE(size == 1);
-
-	U64 bb = fb.getBlackRooks();
-    REQUIRE(BitBoardUtils::isBitSet(bb, 6, 0) == true);
-    REQUIRE(BitBoardUtils::isBitSet(bb, 7, 0) == false);
-
-	Move move = fb.getRookPseudoLegalMoves(BLACK)[0];
-	fb.executeMove(move);
-
-	bb = fb.getBlackRooks();
-    REQUIRE(BitBoardUtils::isBitSet(bb, 6, 0) == false);
-    REQUIRE(BitBoardUtils::isBitSet(bb, 7, 0) == true);
-
-	fb.undoMove(move);
-
-	bb = fb.getBlackRooks();
-    REQUIRE(BitBoardUtils::isBitSet(bb, 6, 0) == true);
-    REQUIRE(BitBoardUtils::isBitSet(bb, 7, 0) == false);
-}
- */
 TEST_CASE( "Perft from initial position ", "[perft]")
 {
 	MagicMoves::initmagicmoves();

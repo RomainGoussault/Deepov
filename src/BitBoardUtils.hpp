@@ -11,6 +11,7 @@
 namespace BitBoardUtils
 {
 	U64 inBetween(int sq1, int sq2);
+	std::string printBitBoard(const U64 &bitBoard);
 
 	/* Bit Hacks*/
 	// Source : https://graphics.stanford.edu/~seander/bithacks.html
