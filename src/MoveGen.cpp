@@ -360,8 +360,7 @@ std::vector<Move> MoveGen::getPseudoLegalMoves(const int color)
 	std::vector<Move> legalMoves;
 	legalMoves.reserve(218);
 
-	//Pawn need to be first
-	appendPawnPseudoLegalMoves(color, legalMoves);
+	legalMoves = getPawnPseudoLegalMoves(color);
 	appendKingPseudoLegalMoves(color, legalMoves);
 	appendQueenPseudoLegalMoves(color, legalMoves);
 	appendRookPseudoLegalMoves(color, legalMoves);
