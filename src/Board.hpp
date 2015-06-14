@@ -17,9 +17,6 @@
 #include <memory>
 
 
-//#include "Utils.hpp"
-//#define Rank_Size 8
-//#define Board_Size 64  // to be renamed after Board.hpp is removed
 typedef std::uint64_t U64;
 
 #include "Move.hpp"
@@ -46,26 +43,26 @@ public:
 	Board();
 	Board(const std::string fen);
 
-	/* Get the bitboards */
-    U64 getWhitePawns() const;
-	U64 getWhiteKnights() const;
-	U64 getWhiteBishops() const;
-	U64 getWhiteRooks() const;
-	U64 getWhiteQueens() const;
-	U64 getWhiteKing() const;
+	/* BitBoard getters */
+	inline U64 getWhitePawns() const{return myWhitePawns;}
+	inline U64 getWhiteKnights() const{return myWhiteKnights ;}
+	inline U64 getWhiteBishops() const{return myWhiteBishops;}
+	inline U64 getWhiteRooks() const{return myWhiteRooks;}
+	inline U64 getWhiteQueens() const{return myWhiteQueens;}
+	inline U64 getWhiteKing() const{return myWhiteKing;}
 
-	U64 getBlackPawns() const;
-	U64 getBlackKnights() const;
-	U64 getBlackBishops() const;
-	U64 getBlackRooks() const;
-	U64 getBlackQueens() const;
-	U64 getBlackKing() const;
+	inline U64 getBlackPawns() const{return myBlackPawns;}
+	inline U64 getBlackKnights() const{return myBlackKnights;}
+	inline U64 getBlackBishops() const{return myBlackBishops;}
+	inline U64 getBlackRooks() const{return myBlackRooks;}
+	inline U64 getBlackQueens() const{return myBlackQueens;}
+	inline U64 getBlackKing() const{return myBlackKing;}
 
-	U64 getWhitePieces() const;
-	U64 getBlackPieces() const;
-	U64 getAllPieces() const;
-	U64 getPieces(const int color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
-	U64 getPinnedPieces() const{return myPinnedPieces;}
+	inline U64 getWhitePieces() const{return myWhitePieces;}
+	inline U64 getBlackPieces() const{return myBlackPieces;}
+	inline U64 getAllPieces() const{return myAllPieces;}
+	inline U64 getPieces(const int color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
+	inline U64 getPinnedPieces() const{return myPinnedPieces;}
 
     void updatePinnedPieces();
 
@@ -90,7 +87,7 @@ public:
     bool isQueenSideCastlingAllowed(const int color) const {return ((myCastling >> (1+2*color)) & 0x1);}
     bool isKingSideCastlingAllowed(const int color) const {return ((myCastling >> 2*color) & 0x1);}
     void updateCastlingRights(Move &move);
-    void rewindCastlingRights(Move &move);
+    void rewindCastlingRights(const Move &move);
 
 
     //PieceType method

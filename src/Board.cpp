@@ -68,48 +68,25 @@ myPinnedPieces(), myCastling()
 	}
 }
 
-/* Get the bitboards */
-
-U64 Board::getWhitePawns() const{return myWhitePawns;}
-U64 Board::getWhiteKnights() const{return myWhiteKnights ;}
-U64 Board::getWhiteBishops() const{return myWhiteBishops;}
-U64 Board::getWhiteRooks() const{return myWhiteRooks;}
-U64 Board::getWhiteQueens() const{return myWhiteQueens;}
-U64 Board::getWhiteKing() const{return myWhiteKing;}
-
-U64 Board::getBlackPawns() const{return myBlackPawns;}
-U64 Board::getBlackKnights() const{return myBlackKnights;}
-U64 Board::getBlackBishops() const{return myBlackBishops;}
-U64 Board::getBlackRooks() const{return myBlackRooks;}
-U64 Board::getBlackQueens() const{return myBlackQueens;}
-U64 Board::getBlackKing() const{return myBlackKing;}
-
-U64 Board::getWhitePieces() const{return myWhitePieces;}
-U64 Board::getBlackPieces() const{return myBlackPieces;}
-U64 Board::getAllPieces() const{return myAllPieces;}
-
-/*  **********  */
-
-
 int Board::findBlackPieceType(const int position) const
 {
-	if ((myBlackPawns&(1LL << position))>>position==1)
+	if (myBlackPawns&(1LL << position))
 	{
 		return 0;
 	}
-	else if ((myBlackKnights&(1LL << position))>>position==1)
+	else if (myBlackKnights&(1LL << position))
 	{
 		return 1;
 	}
-	else if ((myBlackBishops&(1LL << position))>>position==1)
+	else if (myBlackBishops&(1LL << position))
 	{
 		return 2;
 	}
-	else if ((myBlackRooks&(1LL << position))>>position==1)
+	else if (myBlackRooks&(1LL << position))
 	{
 		return 3;
 	}
-	else if ((myBlackQueens&(1LL << position))>>position==1)
+	else if (myBlackQueens&(1LL << position))
 	{
 		return 4;
 	}
@@ -121,23 +98,23 @@ int Board::findBlackPieceType(const int position) const
 
 int Board::findWhitePieceType(const int position) const
 {
-	if ((myWhitePawns&(1LL << position))>>position==1)
+	if (myWhitePawns&(1LL << position))
 	{
 		return 0;
 	}
-	else if ((myWhiteKnights&(1LL << position))>>position==1)
+	else if (myWhiteKnights&(1LL << position))
 	{
 		return 1;
 	}
-	else if ((myWhiteBishops&(1LL << position))>>position==1)
+	else if (myWhiteBishops&(1LL << position))
 	{
 		return 2;
 	}
-	else if ((myWhiteRooks&(1LL << position))>>position==1)
+	else if (myWhiteRooks&(1LL << position))
 	{
 		return 3;
 	}
-	else if ((myWhiteQueens&(1LL << position))>>position==1)
+	else if (myWhiteQueens&(1LL << position))
 	{
 		return 4;
 	}
@@ -197,7 +174,6 @@ bool Board::isCheck(const int color) const
 	U64 ennemyAttackingPositions = getAttackedPositions(ennemyColor);
 
 	U64 kingPosition = color == WHITE ? getWhiteKing() : getBlackKing();
-	//std::cout << printBitBoard(ennemyAttackingPositions);
 	bool isCheck = ennemyAttackingPositions & kingPosition;
 
 	return isCheck;
@@ -895,7 +871,7 @@ void Board::updateCastlingRights(Move &move)
     }
 }
 
-void Board::rewindCastlingRights(Move &move)
+void Board::rewindCastlingRights(const Move &move)
 {
     myCastling = move.getPreviousCastlingRights();
 }
