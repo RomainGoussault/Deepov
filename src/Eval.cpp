@@ -8,7 +8,7 @@ Eval::Eval(std::shared_ptr<Board> boardPtr)
 
 int Eval::evaluate()
 {
-    return 100*getMaterialScore() + getMobilityScore();
+    return getMaterialScore() + getMobilityScore();
 }
 
 int Eval::getMobilityScore()
