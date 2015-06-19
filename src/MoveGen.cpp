@@ -262,7 +262,7 @@ void MoveGen::appendKnightPseudoLegalMoves(const int& color, std::vector<Move>& 
 
 void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 {
-	moves = getWhiteEnPassantMoves();
+	appendWhiteEnPassantMoves(moves);
 	U64 pawnPositions = myBoard->getWhitePawns();
 
 	while(pawnPositions)
@@ -307,7 +307,7 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 
 void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 {
-	moves = getBlackEnPassantMoves();
+	appendBlackEnPassantMoves(moves);
 	U64 pawnPositions = myBoard->getBlackPawns();
 
 	while(pawnPositions)
@@ -360,7 +360,7 @@ std::vector<Move> MoveGen::getPseudoLegalMoves(const int color)
 	std::vector<Move> legalMoves;
 	legalMoves.reserve(218);
 
-	legalMoves = getPawnPseudoLegalMoves(color);
+	appendPawnPseudoLegalMoves(color, legalMoves);
 	appendKingPseudoLegalMoves(color, legalMoves);
 	appendQueenPseudoLegalMoves(color, legalMoves);
 	appendRookPseudoLegalMoves(color, legalMoves);
@@ -390,19 +390,18 @@ std::vector<Move> MoveGen::getLegalMoves(const int color)
 }
 
   /* Special Moves */
-std::vector<Move> MoveGen::getWhiteEnPassantMoves() const
+void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
 {
-	std::vector<Move> enPassantMoves;
 	U64 validPawns = (myBoard->getWhitePawns() & LookUpTables::MASK_RANK[4]);
 
 	/* Easiest test first */
-	if (validPawns == 0) {return enPassantMoves;}
+	if (validPawns == 0) {return;}
 
     boost::optional<Move> enemyLastMove(myBoard->getEnemyLastMove());
 
     if (!enemyLastMove)
     {
-        return enPassantMoves;
+        return;
     }
     else if (enemyLastMove->getFlags() == Move::DOUBLE_PAWN_PUSH_FLAG)
     {
@@ -416,27 +415,26 @@ std::vector<Move> MoveGen::getWhiteEnPassantMoves() const
             {
                 Move epMove(validPawnIndex,enemyDestination+8,Move::EP_CAPTURE_FLAG,Move::PAWN_TYPE);
                 epMove.setCapturedPieceType(Move::PAWN_TYPE);
-                enPassantMoves.push_back(epMove);
+                moves.push_back(epMove);
             }
         }
     }
 
-    return enPassantMoves;
+    return;
 }
 
-std::vector<Move> MoveGen::getBlackEnPassantMoves() const
+void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
 {
-	std::vector<Move> enPassantMoves;
 	U64 validPawns = (myBoard->getBlackPawns() & LookUpTables::MASK_RANK[3]);
 
 	/* Easiest test first */
-	if (validPawns == 0) {return enPassantMoves;}
+	if (validPawns == 0) {return;}
 
     boost::optional<Move> enemyLastMove(myBoard->getEnemyLastMove());
 
     if (!enemyLastMove)
     {
-        return enPassantMoves;
+        return;
     }
 	else if (enemyLastMove->getFlags() == Move::DOUBLE_PAWN_PUSH_FLAG)
 	{
@@ -450,14 +448,14 @@ std::vector<Move> MoveGen::getBlackEnPassantMoves() const
             {
                 Move epMove(validPawnIndex,enemyDestination-8,Move::EP_CAPTURE_FLAG,Move::PAWN_TYPE);
                 epMove.setCapturedPieceType(Move::PAWN_TYPE);
-                enPassantMoves.push_back(epMove);
+                moves.push_back(epMove);
             }
         }
 
-		return enPassantMoves;
+		return;
 	}
 
-	return enPassantMoves;
+	return;
 }
 
 bool MoveGen::isQueenSideCastlingPossible(const int color) const

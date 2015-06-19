@@ -20,8 +20,8 @@ public:
     inline std::vector<Move> getMoves() {return getLegalMoves();};
 
     /* Special Moves */
-    std::vector<Move> getWhiteEnPassantMoves() const;
-    std::vector<Move> getBlackEnPassantMoves() const;
+    void appendWhiteEnPassantMoves(std::vector<Move>& moves) const;
+    void appendBlackEnPassantMoves(std::vector<Move>& moves) const;
 
     /* Pseudo Legal Moves */
     void appendQueenPseudoLegalMoves(const int& color, std::vector<Move>& moves) const;

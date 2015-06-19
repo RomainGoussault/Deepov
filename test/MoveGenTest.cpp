@@ -14,7 +14,8 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 		MoveGen moveGen(board);
 		REQUIRE((board.getMovesHistory()).size() == 1); // A move is added if there is an EP square
 
-		std::vector<Move> epMoves = moveGen.getBlackEnPassantMoves();
+		std::vector<Move> epMoves;
+		moveGen.appendBlackEnPassantMoves(epMoves);
 		int epSize = epMoves.size();
 		REQUIRE(epSize == 1);
     }
@@ -35,8 +36,9 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 
 		REQUIRE((boardPtr->getMovesHistory()).size() == 1);
 
-		std::vector<Move> epMoves = moveGen.getWhiteEnPassantMoves();
-        int epSize = epMoves.size();
+		std::vector<Move> epMoves;
+		moveGen.appendWhiteEnPassantMoves(epMoves);
+		int epSize = epMoves.size();
 		REQUIRE(epSize == 1);
 
 		boardPtr->executeMove(epMoves[0]);
