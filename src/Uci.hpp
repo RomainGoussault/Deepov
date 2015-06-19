@@ -25,7 +25,6 @@ public :
 		sp = std::shared_ptr<Board>(new Board());
 	}
 
-
 	void updatePosition(std::istringstream& is)
 	{
 		Move m;
@@ -53,6 +52,8 @@ public :
 		while (is >> token)
 		{
 			m = strToMove(token);
+
+			if(m.getOrigin() != 0 &&  m.getDestination() != 0) //bad way of checking if move is legal
 			sp->executeMove(m);
 		}
 	}
@@ -62,15 +63,16 @@ public :
 		MoveGen mg(sp);
 		std::vector<Move> moves = mg.getLegalMoves();
 
+
 		for (auto move : moves)
 		{
+			std::cout << move.toShortString() << std::endl;
 			if(str == move.toShortString()) return move;
 		}
 
 		Move m = Move();
 		return m;
 	}
-
 
 	void loop()
 	{
@@ -86,7 +88,7 @@ public :
 
 			token.clear(); // getline() could return empty or blank line
 			is >> skipws >> token;
-			std::cout << token << std::endl;
+		//	std::cout << token << std::endl;
 
 			if (token == "uci")
 			{
@@ -108,11 +110,13 @@ public :
 			else if (token == "print")
 				std::cout << *sp << std::endl;
 
-			else if (token.substr (0, 3) == "go ")
-
-				// Received a command like:
-				// "go wtime 300000 btime 300000 winc 0 binc 0"
-				cout << "bestmove e7e5" << endl;
+			else if (token == "go")
+			{
+				Search search(sp);
+				search.negaMaxRoot(4,0,0);
+				Move move = search.myBestMove;
+				std::cout << "bestmove " << move.toShortString() << std::endl;
+			}
 			else
 				// Command not handled
 				cout << "what?" << endl;
