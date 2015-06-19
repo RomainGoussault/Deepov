@@ -96,6 +96,10 @@ public:
 
 	std::string toShortString() const
 	{
+		//TODO:
+//		The move format is in long algebraic notation.
+//		A nullmove from the Engine to the GUI should be send as 0000.
+//		Examples:  e2e4, e7e5, e1g1 (white short castling), e7e8q (for promotion)
 		std::array<std::string,8> letters = {{"a", "b", "c", "d", "e", "f", "g", "h"}};
 
 		int xOrigin = getOrigin() % 8;
