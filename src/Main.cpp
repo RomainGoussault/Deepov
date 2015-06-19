@@ -21,6 +21,7 @@
 #include "Move.hpp"
 #include "MagicMoves.hpp"
 #include "Utils.hpp"
+#include "Uci.hpp"
 
 
 
@@ -40,11 +41,15 @@ int main() {
 	sp->executeMove(move);
 
 	std::cout << *sp << std::endl;*/
+/*
+	Utils::getPerformanceIndicator();
+	Utils::getPerformanceIndicator();
+	Utils::getPerformanceIndicator();
+	Utils::getPerformanceIndicator();*/
 
-	Utils::getPerformanceIndicator();
-	Utils::getPerformanceIndicator();
-	Utils::getPerformanceIndicator();
-	Utils::getPerformanceIndicator();
+	MagicMoves::initmagicmoves();
+	Uci uci;
+	uci.loop();
 
 	//Romain :  = 2000 kNodes/sec
 	// -O3  13 000 kNodes/sec
