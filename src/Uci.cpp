@@ -98,13 +98,23 @@ void Uci::loop()
 
 		else if (token == "go")
 		{
-			Search search(boardPtr);
-			search.negaMaxRoot(5);
-			Move move = search.myBestMove;
-			std::cout << "bestmove " << move.toShortString() << std::endl;
+			//http://stackoverflow.com/questions/12624271/c11-stdthread-giving-error-no-matching-function-to-call-stdthreadthread
+			std::thread thr(&Uci::search, this);
+			std::swap(thr, myThread);
+			myThread.join();
+		//	search();
 		}
 		else
 			// Command not handled
 			std::cout << "what?" << std::endl;
 	}
 }
+
+void Uci::search()
+{
+	Search search(boardPtr);
+	search.negaMaxRoot(5);
+	Move move = search.myBestMove;
+	std::cout << "bestmove " << move.toShortString() << std::endl;
+}
+

@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 #include <math.h>
+#include <thread>
+
 
 #include "Board.hpp"
 #include "Move.hpp"
@@ -26,9 +28,12 @@ public :
 private:
 
 	std::shared_ptr<Board> boardPtr;
+	std::thread myThread;
 
 	void updatePosition(std::istringstream& is);
 	Move strToMove(std::string str);
+	void search();
+
 
 };
 
