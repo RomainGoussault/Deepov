@@ -2,6 +2,7 @@
 #define EVAL_H_INCLUDED
 
 #include "Board.hpp"
+#include "EvalTables.h"
 
 class Eval
 {
@@ -9,7 +10,7 @@ public:
     Eval(std::shared_ptr<Board> boardPtr);
     int evaluate();
 
-    void init();
+    void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
 
 private:
     std::shared_ptr<Board> myBoard;
