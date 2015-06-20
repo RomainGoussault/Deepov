@@ -1,5 +1,8 @@
 #include "Search.hpp"
 #include "Eval.hpp"
+#include <chrono>
+#include <ctime>
+#include <ratio>
 
 Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove()
 {
@@ -18,11 +21,11 @@ int Search::negaMax(int depth, int alpha, int beta)
 	}
 
 	std::vector<Move> moveList = moveGen.getMoves();
-//	int nMoves = moveList.size();
+	//	int nMoves = moveList.size();
 
 	for (auto currentMove : moveList)
 	{
-	//	Move currentMove = moveList[i];
+		//	Move currentMove = moveList[i];
 		myBoard->executeMove(currentMove);
 
 		score = -negaMax(depth - 1, -beta, -alpha);
@@ -67,6 +70,71 @@ int Search::negaMaxRoot(int depth)
 		}
 
 		myBoard->undoMove(currentMove);
+	}
+
+	return alpha;
+}
+
+int Search::negaMaxRoot(int depth, int allocatedTime)
+{
+	int alpha = -999999;
+	int beta = -alpha;
+	int score = 0;
+
+		//Starting time
+		std::chrono::high_resolution_clock::time_point startTime =
+				std::chrono::high_resolution_clock::now();
+		std::chrono::duration<float> allocatedDuration(allocatedTime);
+
+	depth = 1;
+
+	while(true)
+	{
+		alpha = -999999;
+		beta = -alpha;
+		score = 0;
+
+		MoveGen moveGen(myBoard);
+
+
+			std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<float> duration = std::chrono::duration_cast<std::chrono::duration<float>>(time - startTime);
+
+	//		std::cout << " Romain duration" << duration.count() << " allocated duration " << allocatedDuration.count() << std::endl;
+
+			if(duration > allocatedDuration) return alpha; //if there only 1/3 of time left don't go one depth further
+
+
+		std::vector<Move> moveList = moveGen.getMoves();
+		//int nMoves = moveList.size();
+
+		for (auto currentMove : moveList)
+		{
+			//check for time
+
+
+
+
+
+			//Move currentMove = moveList[i];
+			myBoard->executeMove(currentMove);
+
+			score = -negaMax(depth - 1, -beta, -alpha);
+
+			if( score > alpha )
+			{
+				alpha = score;
+				myBestMove = currentMove;
+				std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
+
+			}
+
+			myBoard->undoMove(currentMove);
+		}
+
+		depth++;
+	//	std::cout << " Romain depth" << depth << std::endl;
+
 	}
 
 	return alpha;

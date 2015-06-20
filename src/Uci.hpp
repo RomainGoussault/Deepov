@@ -6,6 +6,11 @@
 #include <iostream>
 #include <math.h>
 #include <thread>
+#include <memory>
+#include <chrono>
+#include <ctime>
+#include <ratio>
+
 
 
 #include "Board.hpp"
@@ -18,7 +23,7 @@ class Uci
 {
 public :
 
-	Uci()//Default constructor
+	Uci() : timeAllocated()
 	{
 		boardPtr = std::shared_ptr<Board>(new Board());
 	}
@@ -29,6 +34,7 @@ private:
 
 	std::shared_ptr<Board> boardPtr;
 	std::thread myThread;
+	int timeAllocated;
 
 	void updatePosition(std::istringstream& is);
 	Move strToMove(std::string str);
