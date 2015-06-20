@@ -3,6 +3,7 @@
 
 #include "Board.hpp"
 #include "MoveGen.hpp"
+#include "Eval.hpp"
 
 class Search
 {
@@ -17,6 +18,7 @@ public:
 private:
 
     std::shared_ptr<Board> myBoard;
+    Eval myEval;
 
     int negaMax(int depth, int alpha, int beta);
     int evaluate();

@@ -140,6 +140,7 @@ namespace EVALTABLES_H_INCLUDED
     -30,-30,  0,  0,  0,  0,-30,-30,
     -50,-30,-30,-30,-30,-30,-30,-50
     };
+
 }
 
 #endif // EVALTABLES_H_INCLUDED

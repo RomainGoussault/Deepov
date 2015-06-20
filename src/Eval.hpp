@@ -6,12 +6,15 @@
 class Eval
 {
 public:
-
     Eval(std::shared_ptr<Board> boardPtr);
     int evaluate();
 
+    void init();
+
 private:
     std::shared_ptr<Board> myBoard;
+    int myGameStage; // 1 for midgame, 0 for endgame
+    int myPSQvalue; // Updated after each move in evaluate
 
 	const unsigned int KING_VALUE = 10000;
 	const unsigned int QUEEN_VALUE = 900;

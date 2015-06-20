@@ -1,12 +1,11 @@
 #include "Search.hpp"
 #include "Eval.hpp"
 
-
 #include <chrono>
 #include <ctime>
 #include <ratio>
 
-Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove()
+Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr)
 {
 	myBoard = boardPtr;
 }
@@ -138,7 +137,6 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeSec)
 
 int Search::evaluate()
 {
-	Eval eval(myBoard); //make Eval static?
-	return (-2*myBoard->getColorToPlay() + 1)*eval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
+	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
 

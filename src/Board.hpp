@@ -35,7 +35,6 @@ The compass is:
     -9  -8  -7
 */
 
-
 class Board : public std::enable_shared_from_this<Board>
 {
 public:
