@@ -75,18 +75,18 @@ int Search::negaMaxRoot(int depth)
 	return alpha;
 }
 
-int Search::negaMaxRoot(int depth, int allocatedTime)
+int Search::negaMaxRootIterativeDeepening(int allocatedTimeSec)
 {
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
 
-		//Starting time
-		std::chrono::high_resolution_clock::time_point startTime =
-				std::chrono::high_resolution_clock::now();
-		std::chrono::duration<float> allocatedDuration(allocatedTime);
+	//Starting time
+	std::chrono::high_resolution_clock::time_point startTime =
+			std::chrono::high_resolution_clock::now();
+	std::chrono::duration<float> allocatedDuration(allocatedTimeSec);
 
-	depth = 1;
+	int depth = 1;
 
 	while(true)
 	{
@@ -96,13 +96,13 @@ int Search::negaMaxRoot(int depth, int allocatedTime)
 
 		MoveGen moveGen(myBoard);
 
+		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<float> duration = std::chrono::duration_cast<std::chrono::duration<float>>(time - startTime);
 
-			std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
-			std::chrono::duration<float> duration = std::chrono::duration_cast<std::chrono::duration<float>>(time - startTime);
+		//		std::cout << " Romain duration" << duration.count() << " allocated duration " << allocatedDuration.count() << std::endl;
 
-	//		std::cout << " Romain duration" << duration.count() << " allocated duration " << allocatedDuration.count() << std::endl;
-
-			if(duration > allocatedDuration) return alpha; //if there only 1/3 of time left don't go one depth further
+		//check for time
+		if(duration > allocatedDuration) return alpha; //if there only 1/3 of time left don't go one depth further
 
 
 		std::vector<Move> moveList = moveGen.getMoves();
@@ -110,13 +110,6 @@ int Search::negaMaxRoot(int depth, int allocatedTime)
 
 		for (auto currentMove : moveList)
 		{
-			//check for time
-
-
-
-
-
-			//Move currentMove = moveList[i];
 			myBoard->executeMove(currentMove);
 
 			score = -negaMax(depth - 1, -beta, -alpha);
@@ -133,7 +126,7 @@ int Search::negaMaxRoot(int depth, int allocatedTime)
 		}
 
 		depth++;
-	//	std::cout << " Romain depth" << depth << std::endl;
+		//	std::cout << " Romain depth" << depth << std::endl;
 
 	}
 

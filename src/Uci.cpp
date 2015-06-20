@@ -102,7 +102,7 @@ void Uci::loop()
 			std::thread thr(&Uci::search, this);
 			std::swap(thr, myThread);
 			myThread.join();
-			timeAllocated = 1000;
+			timeAllocated = 1;
 			//1sec search only
 
 
@@ -117,10 +117,10 @@ void Uci::loop()
 void Uci::search()
 {
 	Search search(boardPtr);
-	int depth = 7;
-	int timeS = 1;
+	int timeSec = 1;
 
-	search.negaMaxRoot(depth,timeS);
+	search.negaMaxRootIterativeDeepening(timeSec);
+
 	Move move = search.myBestMove;
 	std::cout << "bestmove " << move.toShortString() << std::endl;
 }

@@ -11,7 +11,7 @@ public:
 	Search(std::shared_ptr<Board> boardPtr);
 
     int negaMaxRoot(int depth);
-    int negaMaxRoot(int depth, int time);
+    int negaMaxRootIterativeDeepening(int timeSec);
     Move myBestMove;
 
 private:
