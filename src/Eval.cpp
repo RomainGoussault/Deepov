@@ -13,7 +13,7 @@ int Eval::evaluate()
 
 void Eval::init()
 {
-    /* These values for the initial position
+    /* These values for the initial position. If i can test that the position is initial, i don't need to calculate
     myGameStage = 1;
     myPSQvalue = 0;  */
 
@@ -39,7 +39,98 @@ void Eval::init()
     myGameStage = (getWhitePiecesValue() + getBlackPiecesValue() - 2*KING_VALUE)/maxValue;
 
     // Calculate initial PSQ value
+    /* Maybe there is a simpler way to calculate all this ? */
     int whiteValue(0); int blackValue(0);
+    // WHITE
+    // PAWNS
+    U64 myPos(myBoard->getWhitePawns());
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		whiteValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][0][myIndex]*(1-myGameStage);
+	}
+
+    //KNIGHTS
+	myPos=myBoard->getWhiteKnights();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		whiteValue+=EvalTables::AllPSQT[WHITE][0][1][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][1][myIndex]*(1-myGameStage);
+	}
+    //BISHOPS
+	myPos=myBoard->getWhiteBishops();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		whiteValue+=EvalTables::AllPSQT[WHITE][0][2][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][2][myIndex]*(1-myGameStage);
+	}
+    //ROOK
+	myPos=myBoard->getWhiteRooks();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		whiteValue+=EvalTables::AllPSQT[WHITE][0][3][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][3][myIndex]*(1-myGameStage);
+	}
+    //QUEEN
+	myPos=myBoard->getWhiteQueens();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		whiteValue+=EvalTables::AllPSQT[WHITE][0][4][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][4][myIndex]*(1-myGameStage);
+	}
+    //KING
+	myPos=myBoard->getWhiteKing();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		whiteValue+=EvalTables::AllPSQT[WHITE][0][5][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][5][myIndex]*(1-myGameStage);
+	}
+
+    // BLACK
+    // PAWNS
+    myPos=myBoard->getBlackPawns();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		blackValue+=EvalTables::AllPSQT[BLACK][0][0][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][0][myIndex]*(1-myGameStage);
+	}
+
+    //KNIGHTS
+	myPos=myBoard->getBlackKnights();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		blackValue+=EvalTables::AllPSQT[BLACK][0][1][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][1][myIndex]*(1-myGameStage);
+	}
+    //BISHOPS
+	myPos=myBoard->getBlackBishops();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		blackValue+=EvalTables::AllPSQT[BLACK][0][2][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][2][myIndex]*(1-myGameStage);
+	}
+    //ROOK
+	myPos=myBoard->getBlackRooks();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		blackValue+=EvalTables::AllPSQT[BLACK][0][3][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][3][myIndex]*(1-myGameStage);
+	}
+    //QUEEN
+	myPos=myBoard->getBlackQueens();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		blackValue+=EvalTables::AllPSQT[BLACK][0][4][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][4][myIndex]*(1-myGameStage);
+	}
+    //KING
+	myPos=myBoard->getBlackKing();
+    while(myPos)
+	{
+		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		blackValue+=EvalTables::AllPSQT[BLACK][0][5][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][5][myIndex]*(1-myGameStage);
+	}
+
     myPSQvalue = whiteValue - blackValue;
 
 }
@@ -57,7 +148,7 @@ int Eval::getWhitePiecesValue()
                         + BitBoardUtils::countBBBitsSet(myBoard->getWhiteRooks())*ROOK_VALUE
                         + BitBoardUtils::countBBBitsSet(myBoard->getWhiteQueens())*QUEEN_VALUE
                         + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKing())*KING_VALUE;
-    return whitePiecesValue
+    return whitePiecesValue;
 }
 int Eval::getBlackPiecesValue()
 {

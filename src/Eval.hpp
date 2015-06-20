@@ -27,7 +27,7 @@ private:
     int getWhitePiecesValue();
     int getBlackPiecesValue();
     int getMobilityScore();
-    inline int getMaterialScore(return getWhitePiecesValue()-getBlackPiecesValue(););
+    inline int getMaterialScore(){return getWhitePiecesValue()-getBlackPiecesValue();};
 
 
 };

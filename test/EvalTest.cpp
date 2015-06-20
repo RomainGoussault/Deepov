@@ -14,4 +14,5 @@ TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
     REQUIRE(EvalTables::AllPSQT[BLACK][0][3][60] == 5);
     REQUIRE(EvalTables::AllPSQT[BLACK][1][4][1] == -40);
 
+
 }
