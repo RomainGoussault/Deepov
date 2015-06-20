@@ -24,8 +24,11 @@ private:
 	const unsigned int BISHOP_VALUE = 325;
 	const unsigned int PAWN_VALUE = 100;
 
+    int getWhitePiecesValue();
+    int getBlackPiecesValue();
     int getMobilityScore();
-    int getMaterialScore();
+    inline int getMaterialScore(return getWhitePiecesValue()-getBlackPiecesValue(););
+
 
 };
 
