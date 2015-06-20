@@ -33,7 +33,14 @@ void Eval::init()
         }
     }
 
+    // Calculate game stage
+    /* Currently it is a simple linear interpolation with material score but this will be upgraded */
+    int maxValue = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
+    myGameStage = (getWhitePiecesValue() + getBlackPiecesValue() - 2*KING_VALUE)/maxValue;
 
+    // Calculate initial PSQ value
+    int whiteValue(0); int blackValue(0);
+    myPSQvalue = whiteValue - blackValue;
 
 }
 int Eval::getMobilityScore()
