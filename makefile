@@ -2,7 +2,7 @@
 
 export MAKEFLAGS=-j9
 
-CXX = g++-4.8
+CXX = g++-4.8 -pthread
 CC_FLAGS = -W -Wall -g -std=c++11
 
 SRC_FILES := $(wildcard src/*.cpp)
