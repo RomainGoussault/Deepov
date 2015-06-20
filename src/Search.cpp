@@ -3,13 +3,12 @@
 
 Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove()
 {
-    myBoard = boardPtr;
+	myBoard = boardPtr;
 }
 
 int Search::negaMax(int depth, int alpha, int beta)
 {
 	int score = 0;
-	int max = -10000;
 
 	MoveGen moveGen(myBoard);
 
@@ -25,22 +24,29 @@ int Search::negaMax(int depth, int alpha, int beta)
 	{
 		Move currentMove = moveList[i];
 		myBoard->executeMove(currentMove);
-		score = -negaMax(depth - 1, 0, 0);
-		if (score > max)
-		{
-			max = score;
-		}
+
+		score = -negaMax(depth - 1, -beta, -alpha);
 
 		myBoard->undoMove(currentMove);
+
+		if( score >= beta )
+		{
+			return beta;   //  fail hard beta-cutoff
+		}
+		if( score > alpha )
+		{
+			alpha = score; // alpha acts like max in MiniMax
+		}
 	}
 
-	return max;
+	return alpha;
 }
 
 int Search::negaMaxRoot(int depth, int alpha, int beta)
 {
+	alpha = -9999999;
+	beta = 9999999;
 	int score = 0;
-	int max = -10000;
 
 	MoveGen moveGen(myBoard);
 
@@ -51,17 +57,19 @@ int Search::negaMaxRoot(int depth, int alpha, int beta)
 	{
 		Move currentMove = moveList[i];
 		myBoard->executeMove(currentMove);
-		score = -negaMax(depth - 1, 0, 0);
-		if (score > max)
+
+		score = -negaMax(depth - 1, -beta, -alpha);
+
+		if( score > alpha )
 		{
-			max = score;
+			alpha = score;
 			myBestMove = currentMove;
 		}
 
 		myBoard->undoMove(currentMove);
 	}
 
-	return max;
+	return alpha;
 }
 
 int Search::evaluate()

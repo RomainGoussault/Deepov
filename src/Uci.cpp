@@ -11,8 +11,6 @@
 //Uci documentation:
 //http://wbec-ridderkerk.nl/html/UCIProtocol.html
 
-
-
 void Uci::updatePosition(std::istringstream& is)
 {
 	Move m;
@@ -101,7 +99,7 @@ void Uci::loop()
 		else if (token == "go")
 		{
 			Search search(boardPtr);
-			search.negaMaxRoot(4,0,0);
+			search.negaMaxRoot(5,0,0);
 			Move move = search.myBestMove;
 			std::cout << "bestmove " << move.toShortString() << std::endl;
 		}
