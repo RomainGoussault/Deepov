@@ -7,6 +7,8 @@
 #include "MoveGen.hpp"
 #include "Uci.hpp"
 #include "Search.hpp"
+#include "TimeManager.hpp"
+
 
 //Uci documentation:
 //http://wbec-ridderkerk.nl/html/UCIProtocol.html
@@ -119,6 +121,7 @@ void Uci::search()
 	Search search(boardPtr);
 	int timeSec = 1;
 
+	// TODO: TimeManager::getTimeAllocatedMiliSec(...)
 	search.negaMaxRootIterativeDeepening(timeSec);
 
 	Move move = search.myBestMove;

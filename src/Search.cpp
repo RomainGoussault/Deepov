@@ -1,5 +1,7 @@
 #include "Search.hpp"
 #include "Eval.hpp"
+
+
 #include <chrono>
 #include <ctime>
 #include <ratio>
@@ -77,6 +79,7 @@ int Search::negaMaxRoot(int depth)
 
 int Search::negaMaxRootIterativeDeepening(int allocatedTimeSec)
 {
+	//TODO allocatedTimeSec should be in ms
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
