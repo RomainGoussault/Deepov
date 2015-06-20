@@ -11,7 +11,7 @@ public:
     int evaluate();
 
     void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
-    inline int getPSQ(){return myPSQvalue;};
+    inline int getPSQvalue(){return myPSQvalue;};
     inline int getGameStage(){return myGameStage;};
 
 private:
