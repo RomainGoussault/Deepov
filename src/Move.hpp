@@ -108,8 +108,31 @@ public:
 		int xDestination = getDestination() % 8;
 		int yDestination = (getDestination() / 8)+1;
 
+		std::string promotionLetter = "";
+		if(isPromotion())
+		{
+			int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
+
+			if(promotedType == Move::KNIGHT_TYPE)
+			{
+				promotionLetter = "n";
+			}
+			else if(promotedType == Move::BISHOP_TYPE)
+			{
+				promotionLetter = "b";
+			}
+			else if(promotedType == Move::ROOK_TYPE)
+			{
+				promotionLetter = "r";
+			}
+			else if(promotedType == Move::QUEEN_TYPE)
+			{
+				promotionLetter = "q";
+			}
+		}
+
 		std::stringstream ss;
-		ss << letters[xOrigin] << yOrigin << letters[xDestination] << yDestination;
+		ss << letters[xOrigin] << yOrigin << letters[xDestination] << yDestination << promotionLetter;
 
 		return ss.str();
 	}
