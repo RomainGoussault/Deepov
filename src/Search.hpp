@@ -10,7 +10,7 @@ public:
 
 	Search(std::shared_ptr<Board> boardPtr);
 
-    int negaMaxRoot(int depth, int alpha, int beta);
+    int negaMaxRoot(int depth);
     Move myBestMove;
 
 private:

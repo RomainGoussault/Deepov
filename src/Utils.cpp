@@ -6,6 +6,7 @@
 #include "Utils.hpp"
 #include "Color.hpp"
 #include "MoveGen.hpp"
+#include "Search.hpp"
 #include "MagicMoves.hpp"
 
 #include "math.h"
@@ -73,8 +74,14 @@ void Utils::getPerformanceIndicator()
 			std::chrono::high_resolution_clock::now();
 
 	int n = 0; //board.perft(5);
-	board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-	n += board.perft(5);
+//	board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	//n += board.perft(5);
+
+	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("rnb1k1nq/p7/1p1pp3/3P2N1/P1R5/2P1Q1P1/1p1P3P/5RK1 b q -"));
+	Search s(sp);
+	s.negaMaxRoot(5);
+
+
 
 	std::chrono::high_resolution_clock::time_point t2 =
 			std::chrono::high_resolution_clock::now();

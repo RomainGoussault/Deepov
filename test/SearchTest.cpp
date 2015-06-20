@@ -11,7 +11,7 @@ TEST_CASE( "Search", "[search]" )
 	{
 		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("kn6/nn3r2/8/8/2p2Q2/8/NN6/KN6 w - -"));
 		Search search(sp);
-		search.negaMaxRoot(1,0,0);
+		search.negaMaxRoot(1);
 		Move move = search.myBestMove;
 
 		REQUIRE(move.toShortString() == "f4f7");
@@ -21,7 +21,7 @@ TEST_CASE( "Search", "[search]" )
 	{
 		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("k4K2/8/8/3q4/8/1R3N1P/8/8 b - -"));
 		Search search(sp);
-		search.negaMaxRoot(1,0,0);
+		search.negaMaxRoot(1);
 		Move move = search.myBestMove;
 
 		REQUIRE(move.toShortString() == "d5b3");
@@ -31,7 +31,7 @@ TEST_CASE( "Search", "[search]" )
 	{
 		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("kn6/nn2rr2/8/4Q3/8/2p1p2b/1Q6/KN6 w - -"));
 		Search search(sp);
-		search.negaMaxRoot(2,0,0);
+		search.negaMaxRoot(2);
 		Move move = search.myBestMove;
 
 		REQUIRE(move.toShortString() == "e5c3");

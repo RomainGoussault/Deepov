@@ -18,11 +18,11 @@ int Search::negaMax(int depth, int alpha, int beta)
 	}
 
 	std::vector<Move> moveList = moveGen.getMoves();
-	int nMoves = moveList.size();
+//	int nMoves = moveList.size();
 
-	for (int i = 0; i < nMoves; i++)
+	for (auto currentMove : moveList)
 	{
-		Move currentMove = moveList[i];
+	//	Move currentMove = moveList[i];
 		myBoard->executeMove(currentMove);
 
 		score = -negaMax(depth - 1, -beta, -alpha);
@@ -42,20 +42,20 @@ int Search::negaMax(int depth, int alpha, int beta)
 	return alpha;
 }
 
-int Search::negaMaxRoot(int depth, int alpha, int beta)
+int Search::negaMaxRoot(int depth)
 {
-	alpha = -9999999;
-	beta = 9999999;
+	int alpha = -999999;
+	int beta = -alpha;
 	int score = 0;
 
 	MoveGen moveGen(myBoard);
 
 	std::vector<Move> moveList = moveGen.getMoves();
-	int nMoves = moveList.size();
+	//int nMoves = moveList.size();
 
-	for (int i = 0; i < nMoves; i++)
+	for (auto currentMove : moveList)
 	{
-		Move currentMove = moveList[i];
+		//Move currentMove = moveList[i];
 		myBoard->executeMove(currentMove);
 
 		score = -negaMax(depth - 1, -beta, -alpha);

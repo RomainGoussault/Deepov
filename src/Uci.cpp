@@ -99,7 +99,7 @@ void Uci::loop()
 		else if (token == "go")
 		{
 			Search search(boardPtr);
-			search.negaMaxRoot(5,0,0);
+			search.negaMaxRoot(5);
 			Move move = search.myBestMove;
 			std::cout << "bestmove " << move.toShortString() << std::endl;
 		}
