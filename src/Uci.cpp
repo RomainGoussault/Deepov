@@ -101,8 +101,8 @@ void Uci::loop()
 		else if (token == "go")
 		{
 			//http://stackoverflow.com/questions/12624271/c11-stdthread-giving-error-no-matching-function-to-call-stdthreadthread
-			std::thread thr(&Uci::search, this);
-			std::swap(thr, myThread);
+			thrd::thread thr(&Uci::search, this);
+			thrd::swap(thr, myThread);
 			myThread.join();
 			timeAllocated = 1;
 			//1sec search only

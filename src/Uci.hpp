@@ -5,13 +5,13 @@
 #include <vector>
 #include <iostream>
 #include <math.h>
-#include <thread>
+#include <boost/thread.hpp>
 #include <memory>
 #include <chrono>
 #include <ctime>
 #include <ratio>
 
-
+namespace thrd = boost;
 
 #include "Board.hpp"
 #include "Move.hpp"
@@ -33,7 +33,7 @@ public :
 private:
 
 	std::shared_ptr<Board> boardPtr;
-	std::thread myThread;
+	thrd::thread myThread;
 	int timeAllocated;
 
 	void updatePosition(std::istringstream& is);
