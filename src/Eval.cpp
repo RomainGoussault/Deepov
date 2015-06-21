@@ -202,3 +202,8 @@ void Eval::updateEvalAttributes(Move &move)
         myGameStage -= move.getCapturedPieceType();
     }
 }
+
+void Eval::rewindEvalAttributes(Move &move)
+{
+
+}
