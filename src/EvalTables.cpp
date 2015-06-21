@@ -1,5 +1,5 @@
-#ifndef EVALTABLES_H_INCLUDED
-#define EVALTABLES_H_INCLUDED
+#include "EvalTables.h"
+
 
 namespace EvalTables
 {
@@ -176,4 +176,3 @@ namespace EvalTables
 
 }
 
-#endif // EVALTABLES_H_INCLUDED

@@ -2,7 +2,7 @@
 #define EVAL_H_INCLUDED
 
 #include "Board.hpp"
-#include "EvalTables.h"
+#include "EvalTables.hpp"
 
 class Eval
 {
