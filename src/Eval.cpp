@@ -35,8 +35,8 @@ void Eval::init()
 
     // Calculate game stage
     /* Currently it is a simple linear interpolation with material score but this will be upgraded */
-    int maxValue = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
-    myGameStage = (getWhitePiecesValue() + getBlackPiecesValue() - 2*KING_VALUE)*10/maxValue;
+   // int maxValue = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
+    myGameStage = (getWhitePiecesValue() + getBlackPiecesValue() - 2*KING_VALUE);
 
     // Calculate initial PSQ value
     /* Maybe there is a simpler way to calculate all this ? */
@@ -197,5 +197,8 @@ void Eval::updateEvalAttributes(Move &move)
     myEndgamePSQValue += (-2*color + 1)*
                         (EvalTables::AllPSQT[color][1][pieceType][destination]
                         -EvalTables::AllPSQT[color][1][pieceType][origin]);
-
+    if (move.isCapture())
+    {
+        myGameStage -= move.getCapturedPieceType();
+    }
 }
