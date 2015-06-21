@@ -23,7 +23,7 @@ class Uci
 {
 public :
 
-	Uci() : timeAllocated()
+	Uci() : timeAllocated(), wtime(1000), btime(1000), winc(1000), binc(1000)
 	{
 		boardPtr = std::shared_ptr<Board>(new Board());
 	}
@@ -35,11 +35,14 @@ private:
 	std::shared_ptr<Board> boardPtr;
 	thrd::thread myThread;
 	int timeAllocated;
+	int wtime;
+	int btime;
+	int winc;
+	int binc;
 
 	void updatePosition(std::istringstream& is);
 	Move strToMove(std::string str);
 	void search();
-
 
 };
 

@@ -100,11 +100,18 @@ void Uci::loop()
 
 		else if (token == "go")
 		{
+			while (is >> token)
+			{
+				if (token == "wtime")     is >> wtime;
+				else if (token == "btime")     is >> btime;
+				else if (token == "winc")      is >> winc;
+				else if (token == "binc")      is >> binc;
+			}
+
 			//http://stackoverflow.com/questions/12624271/c11-stdthread-giving-error-no-matching-function-to-call-stdthreadthread
 			thrd::thread thr(&Uci::search, this);
 			thrd::swap(thr, myThread);
 			myThread.join();
-			timeAllocated = 1;
 			//1sec search only
 
 
@@ -119,11 +126,6 @@ void Uci::loop()
 void Uci::search()
 {
 	Search search(boardPtr);
-	int wtime = 3000;
-	int btime = 3000;
-	int winc = 3000;
-	int binc = 3000;
-
 
 	int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, boardPtr->getColorToPlay());
 
