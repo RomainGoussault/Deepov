@@ -27,7 +27,7 @@ void Eval::init()
             std::copy(EvalTables::AllPSQT[WHITE][i1][i2],EvalTables::AllPSQT[WHITE][i1][i2]+64,tmp);
             for (int j=0; j<64; ++j)
             {
-                EvalTables::AllPSQT[WHITE][i1][i2][j]=tmp[56-j+j%8];
+                EvalTables::AllPSQT[WHITE][i1][i2][j]=tmp[56-j/8*8+j%8];
                 EvalTables::AllPSQT[BLACK][i1][i2][j]=tmp[j];
             }
         }
