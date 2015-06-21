@@ -119,10 +119,15 @@ void Uci::loop()
 void Uci::search()
 {
 	Search search(boardPtr);
-	int timeSec = 3000;
+	int wtime = 3000;
+	int btime = 3000;
+	int winc = 3000;
+	int binc = 3000;
 
-	// TODO: TimeManager::getTimeAllocatedMiliSec(...)
-	search.negaMaxRootIterativeDeepening(timeSec);
+
+	int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, boardPtr->getColorToPlay());
+
+	search.negaMaxRootIterativeDeepening(timeMS);
 
 	Move move = search.myBestMove;
 	std::cout << "bestmove " << move.toShortString() << std::endl;
