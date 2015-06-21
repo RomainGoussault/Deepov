@@ -110,6 +110,11 @@ public:
 		{
 			unsigned int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
 
+			if(isCapture())
+			{
+				promotedType -= Move::CAPTURE_FLAG;
+			}
+
 			if(promotedType == Move::KNIGHT_TYPE)
 			{
 				promotionLetter = "n";
