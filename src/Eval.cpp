@@ -191,5 +191,11 @@ void Eval::updateEvalAttributes(Move &move)
     int pieceType=move.getPieceType();
     int color=myBoard->getColorToPlay();
 
-    //myPSQvalue -= EvalTables::AllPSQT[color][][pieceType][origin]*myGameStage;
+    myOpeningPSQValue += (-2*color + 1)*
+                        (EvalTables::AllPSQT[color][0][pieceType][destination]
+                        -EvalTables::AllPSQT[color][0][pieceType][origin]);
+    myEndgamePSQValue += (-2*color + 1)*
+                        (EvalTables::AllPSQT[color][1][pieceType][destination]
+                        -EvalTables::AllPSQT[color][1][pieceType][origin]);
+
 }
