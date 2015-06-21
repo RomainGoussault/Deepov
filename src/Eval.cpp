@@ -47,6 +47,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][0][myIndex]*(1-myGameStage);
 	}
 
@@ -55,6 +56,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+        myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteValue+=EvalTables::AllPSQT[WHITE][0][1][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][1][myIndex]*(1-myGameStage);
 	}
     //BISHOPS
@@ -62,6 +64,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+        myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteValue+=EvalTables::AllPSQT[WHITE][0][2][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][2][myIndex]*(1-myGameStage);
 	}
     //ROOK
@@ -69,6 +72,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteValue+=EvalTables::AllPSQT[WHITE][0][3][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][3][myIndex]*(1-myGameStage);
 	}
     //QUEEN
@@ -76,6 +80,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteValue+=EvalTables::AllPSQT[WHITE][0][4][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][4][myIndex]*(1-myGameStage);
 	}
     //KING
@@ -83,6 +88,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteValue+=EvalTables::AllPSQT[WHITE][0][5][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][5][myIndex]*(1-myGameStage);
 	}
 
@@ -92,6 +98,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		blackValue+=EvalTables::AllPSQT[BLACK][0][0][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][0][myIndex]*(1-myGameStage);
 	}
 
@@ -100,6 +107,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		blackValue+=EvalTables::AllPSQT[BLACK][0][1][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][1][myIndex]*(1-myGameStage);
 	}
     //BISHOPS
@@ -107,6 +115,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		blackValue+=EvalTables::AllPSQT[BLACK][0][2][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][2][myIndex]*(1-myGameStage);
 	}
     //ROOK
@@ -114,6 +123,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		blackValue+=EvalTables::AllPSQT[BLACK][0][3][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][3][myIndex]*(1-myGameStage);
 	}
     //QUEEN
@@ -121,6 +131,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		blackValue+=EvalTables::AllPSQT[BLACK][0][4][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][4][myIndex]*(1-myGameStage);
 	}
     //KING
@@ -128,6 +139,7 @@ void Eval::init()
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		blackValue+=EvalTables::AllPSQT[BLACK][0][5][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][5][myIndex]*(1-myGameStage);
 	}
 
