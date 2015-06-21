@@ -2,8 +2,10 @@
 
 export MAKEFLAGS=-j9
 
-CXX = g++-4.8 -pthread
+CXX = g++-4.8 
 CC_FLAGS = -W -Wall -g -std=c++11
+LD_FLAGS = -lpthread -lboost_thread -lboost_system
+
 
 SRC_FILES := $(wildcard src/*.cpp)
 
@@ -19,7 +21,7 @@ SRC_DIR = $(shell pwd)/src
 all: Deepov DeepovTesting
 
 Deepov: $(OBJ_FILES)
-	$(CXX) $(LD_FLAGS) -o $@ $^
+	$(CXX)  -o $@ $^ $(LD_FLAGS)
 
 obj/%.o: src/%.cpp
 	$(CXX) $(CC_FLAGS) -c -o $@ $<
@@ -27,8 +29,8 @@ obj/%.o: src/%.cpp
 clean:
 	rm -rf $(OBJ_TEST_FILES) rm -rf $(OBJ_FILES)
 
-DeepovTesting: $(OBJ_TEST_FILES)
-	$(CXX) $(LD_FLAGS) -o $@ $^
+DeepovTesting: $(OBJ_TEST_FILES) 
+	$(CXX) -o $@ $^ $(LD_FLAGS)
 
 obj/%.o: test/%.cpp
 	$(CXX) $(CC_FLAGS) -I $(SRC_DIR) -c -o $@ $<
