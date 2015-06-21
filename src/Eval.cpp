@@ -184,7 +184,7 @@ int Eval::getBlackPiecesValue()
     return blackPiecesValue;
 }
 
-void Eval::updateEvalAttributes(Move &move)
+void Eval::updateEvalAttributes(const Move &move)
 {
     int origin=move.getOrigin();
     int destination=move.getDestination();
@@ -203,12 +203,12 @@ void Eval::updateEvalAttributes(Move &move)
     }
 }
 
-void Eval::rewindEvalAttributes(Move &move)
+void Eval::rewindEvalAttributes(const Move &move)
 {
     int origin=move.getOrigin();
     int destination=move.getDestination();
     int pieceType=move.getPieceType();
-    int color=myBoard->getColorToPlay();
+    int color=Utils::getOppositeColor(myBoard->getColorToPlay());
 
     myOpeningPSQValue -= (-2*color + 1)*
                         (EvalTables::AllPSQT[color][0][pieceType][destination]

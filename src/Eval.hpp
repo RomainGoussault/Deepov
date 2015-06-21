@@ -2,6 +2,7 @@
 #define EVAL_H_INCLUDED
 
 #include "Board.hpp"
+#include "Utils.hpp"
 #include "EvalTables.hpp"
 
 class Eval
@@ -11,8 +12,9 @@ public:
     int evaluate();
 
     void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
-    void updateEvalAttributes(Move &move);
-    void rewindEvalAttributes(Move &move);
+    /* These functions are called just before execute/undoMove, to keep the current colorToPlay*/
+    void updateEvalAttributes(const Move &move);
+    void rewindEvalAttributes(const Move &move);
 
     inline int getOpeningPSQValue(){return myOpeningPSQValue;};
     inline int getEndgamePSQValue(){return myEndgamePSQValue;};
