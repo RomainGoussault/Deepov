@@ -17,7 +17,7 @@ public:
 
 private:
     std::shared_ptr<Board> myBoard;
-    int myGameStage; // 1 for midgame, 0 for endgame
+    int myGameStage; // 10 for midgame, 0 for endgame
     int myOpeningPSQValue; // Updated after each move in evaluate
     int myEndgamePSQValue;
 
