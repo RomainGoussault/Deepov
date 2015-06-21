@@ -118,6 +118,7 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
 
 		for (auto currentMove : moveList)
 		{
+		    myEval.updateEvalAttributes(currentMove);
 			myBoard->executeMove(currentMove);
 
 			score = -negaMax(depth - 1, -beta, -alpha);
@@ -129,7 +130,7 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
 				//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
 
 			}
-
+            myEval.rewindEvalAttributes(currentMove);
 			myBoard->undoMove(currentMove);
 		}
 

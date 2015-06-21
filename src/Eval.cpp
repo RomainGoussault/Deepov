@@ -184,7 +184,7 @@ int Eval::getBlackPiecesValue()
     return blackPiecesValue;
 }
 
-void Eval::updateEvalAttributes(Move &move)
+void Eval::updateEvalAttributes(const Move &move)
 {
     int origin=move.getOrigin();
     int destination=move.getDestination();
@@ -200,5 +200,24 @@ void Eval::updateEvalAttributes(Move &move)
     if (move.isCapture())
     {
         myGameStage -= move.getCapturedPieceType();
+    }
+}
+
+void Eval::rewindEvalAttributes(const Move &move)
+{
+    int origin=move.getOrigin();
+    int destination=move.getDestination();
+    int pieceType=move.getPieceType();
+    int color=Utils::getOppositeColor(myBoard->getColorToPlay());
+
+    myOpeningPSQValue -= (-2*color + 1)*
+                        (EvalTables::AllPSQT[color][0][pieceType][destination]
+                        -EvalTables::AllPSQT[color][0][pieceType][origin]);
+    myEndgamePSQValue -= (-2*color + 1)*
+                        (EvalTables::AllPSQT[color][1][pieceType][destination]
+                        -EvalTables::AllPSQT[color][1][pieceType][origin]);
+    if (move.isCapture())
+    {
+        myGameStage += move.getCapturedPieceType();
     }
 }
