@@ -86,7 +86,7 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeSec)
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
 			std::chrono::high_resolution_clock::now();
-	std::chrono::duration<float> allocatedDuration(allocatedTimeSec);
+//	std::chrono::duration<float> allocatedDuration(allocatedTimeSec);
 
 	int depth = 1;
 
@@ -99,13 +99,13 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeSec)
 		MoveGen moveGen(myBoard);
 
 		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<float> duration = std::chrono::duration_cast<std::chrono::duration<float>>(time - startTime);
+		auto dur = time - startTime;
+	    int durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
 
 		//		std::cout << " Romain duration" << duration.count() << " allocated duration " << allocatedDuration.count() << std::endl;
 
 		//check for time
-		if(duration > allocatedDuration) return alpha; //if there only 1/3 of time left don't go one depth further
-
+		if(durationMS > 0.3*allocatedTimeSec) return alpha; //if there only 2/3 of time left don't go one depth further
 
 		std::vector<Move> moveList = moveGen.getMoves();
 		//int nMoves = moveList.size();
@@ -120,7 +120,7 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeSec)
 			{
 				alpha = score;
 				myBestMove = currentMove;
-				std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
+				//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
 
 			}
 
@@ -128,7 +128,7 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeSec)
 		}
 
 		depth++;
-		//	std::cout << " Romain depth" << depth << std::endl;
+		//std::cout << " Romain depth" << depth << std::endl;
 
 	}
 

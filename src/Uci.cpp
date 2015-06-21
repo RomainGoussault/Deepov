@@ -119,7 +119,7 @@ void Uci::loop()
 void Uci::search()
 {
 	Search search(boardPtr);
-	int timeSec = 1;
+	int timeSec = 3000;
 
 	// TODO: TimeManager::getTimeAllocatedMiliSec(...)
 	search.negaMaxRootIterativeDeepening(timeSec);
