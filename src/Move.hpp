@@ -108,7 +108,7 @@ public:
 		std::string promotionLetter = "";
 		if(isPromotion())
 		{
-			int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
+			unsigned int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
 
 			if(promotedType == Move::KNIGHT_TYPE)
 			{
