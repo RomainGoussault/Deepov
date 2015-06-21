@@ -40,7 +40,8 @@ void Eval::init()
 
     // Calculate initial PSQ value
     /* Maybe there is a simpler way to calculate all this ? */
-    int whiteValue(0); int blackValue(0);
+    int whiteOpeningValue(0); int blackOpeningValue(0);
+    int whiteEndgameValue(0); int blackEndgameValue(0);
     // WHITE
     // PAWNS
     U64 myPos(myBoard->getWhitePawns());
@@ -48,7 +49,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][0][myIndex]*(1-myGameStage);
+		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
 	}
 
     //KNIGHTS
@@ -57,15 +59,16 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
         myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteValue+=EvalTables::AllPSQT[WHITE][0][1][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][1][myIndex]*(1-myGameStage);
-	}
+		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
     //BISHOPS
 	myPos=myBoard->getWhiteBishops();
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
         myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteValue+=EvalTables::AllPSQT[WHITE][0][2][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][2][myIndex]*(1-myGameStage);
+		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
 	}
     //ROOK
 	myPos=myBoard->getWhiteRooks();
@@ -73,7 +76,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteValue+=EvalTables::AllPSQT[WHITE][0][3][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][3][myIndex]*(1-myGameStage);
+		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
 	}
     //QUEEN
 	myPos=myBoard->getWhiteQueens();
@@ -81,7 +85,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteValue+=EvalTables::AllPSQT[WHITE][0][4][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][4][myIndex]*(1-myGameStage);
+			whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
 	}
     //KING
 	myPos=myBoard->getWhiteKing();
@@ -89,7 +94,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteValue+=EvalTables::AllPSQT[WHITE][0][5][myIndex]*myGameStage + EvalTables::AllPSQT[WHITE][1][5][myIndex]*(1-myGameStage);
+        whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
 	}
 
     // BLACK
@@ -99,7 +105,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		blackValue+=EvalTables::AllPSQT[BLACK][0][0][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][0][myIndex]*(1-myGameStage);
+        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
 	}
 
     //KNIGHTS
@@ -108,7 +115,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		blackValue+=EvalTables::AllPSQT[BLACK][0][1][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][1][myIndex]*(1-myGameStage);
+        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
 	}
     //BISHOPS
 	myPos=myBoard->getBlackBishops();
@@ -116,34 +124,35 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		blackValue+=EvalTables::AllPSQT[BLACK][0][2][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][2][myIndex]*(1-myGameStage);
-	}
+        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
     //ROOK
 	myPos=myBoard->getBlackRooks();
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		blackValue+=EvalTables::AllPSQT[BLACK][0][3][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][3][myIndex]*(1-myGameStage);
-	}
+        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
     //QUEEN
 	myPos=myBoard->getBlackQueens();
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		blackValue+=EvalTables::AllPSQT[BLACK][0][4][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][4][myIndex]*(1-myGameStage);
-	}
+        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
     //KING
 	myPos=myBoard->getBlackKing();
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		blackValue+=EvalTables::AllPSQT[BLACK][0][5][myIndex]*myGameStage + EvalTables::AllPSQT[BLACK][1][5][myIndex]*(1-myGameStage);
-	}
+        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
 
-    myPSQvalue = whiteValue - blackValue;
+    myOpeningPSQValue = whiteOpeningValue - blackOpeningValue;
+    myEndgamePSQValue = whiteEndgameValue - blackEndgameValue;
 
 }
 int Eval::getMobilityScore()
@@ -173,4 +182,14 @@ int Eval::getBlackPiecesValue()
                         + BitBoardUtils::countBBBitsSet(myBoard->getBlackKing())*KING_VALUE;
 
     return blackPiecesValue;
+}
+
+void Eval::updateEvalAttributes(Move &move)
+{
+    int origin=move.getOrigin();
+    int destination=move.getDestination();
+    int pieceType=move.getPieceType();
+    int color=myBoard->getColorToPlay();
+
+    //myPSQvalue -= EvalTables::AllPSQT[color][][pieceType][origin]*myGameStage;
 }
