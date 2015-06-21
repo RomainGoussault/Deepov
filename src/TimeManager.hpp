@@ -14,7 +14,6 @@ namespace TimeManager
 	//Note all values are in ms
 	int getTimeAllocatedMiliSec(int wtime, int btime, int winc, int binc, int colorToPlay)
 	{
-		//Todo write something
 		if(colorToPlay == WHITE)
 		{
 			return (wtime - wtime/divider)/divider;

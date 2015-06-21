@@ -89,7 +89,7 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
 //	std::chrono::duration<float> allocatedDuration(allocatedTimeSec);
 
 
-	std::cout << " Romain allocatedTimeMS" << allocatedTimeMS << std::endl;
+	//std::cout << " Romain allocatedTimeMS" << allocatedTimeMS << std::endl;
 
 	int depth = 1;
 
@@ -108,7 +108,10 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
 		//		std::cout << " Romain duration" << duration.count() << " allocated duration " << allocatedDuration.count() << std::endl;
 
 		//check for time
-		if(durationMS > 0.3*allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
+	    if(depth !=1)
+	    {
+	    	if(durationMS > 0.3*allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
+	    }
 
 		std::vector<Move> moveList = moveGen.getMoves();
 		//int nMoves = moveList.size();
@@ -131,7 +134,7 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
 		}
 
 		depth++;
-		std::cout << " Romain depth" << depth << std::endl;
+		//std::cout << " Romain depth" << depth << std::endl;
 
 	}
 

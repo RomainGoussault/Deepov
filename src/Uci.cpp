@@ -39,10 +39,11 @@ void Uci::updatePosition(std::istringstream& is)
 	// Parse move list (if any)
 	while (is >> token)
 	{
-		m = strToMove(token);
-
-		if(m.getOrigin() != 0 &&  m.getDestination() != 0) //bad way of checking if move is legal
+		if (token != "moves")
+		{
+			m = strToMove(token);
 			boardPtr->executeMove(m);
+		}
 	}
 }
 
@@ -54,9 +55,10 @@ Move Uci::strToMove(std::string str)
 
 	for (auto move : moves)
 	{
-		std::cout << move.toShortString() << std::endl;
 		if(str == move.toShortString()) return move;
 	}
+
+	std::cout << " PROBLEM [" << str << "]" <<std::endl;
 
 	Move m = Move();
 	return m;
@@ -87,6 +89,10 @@ void Uci::loop()
 		else if (token == "isready")
 
 			std::cout << "readyok" << std::endl;
+
+		else if (token == "color")
+
+			std::cout << "colorToPlay: " << boardPtr->getColorToPlay() << std::endl;
 
 		else if (token == "ucinewgame")
 
@@ -128,6 +134,7 @@ void Uci::search()
 	Search search(boardPtr);
 
 	int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, boardPtr->getColorToPlay());
+	std::cout << "Romain time allocated " << timeMS << std::endl;
 
 	search.negaMaxRootIterativeDeepening(timeMS);
 
