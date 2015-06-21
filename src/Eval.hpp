@@ -11,13 +11,15 @@ public:
     int evaluate();
 
     void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
+
     inline int getPSQvalue(){return myPSQvalue;};
     inline int getGameStage(){return myGameStage;};
 
 private:
     std::shared_ptr<Board> myBoard;
-    int myGameStage; // 1 for midgame, 0 for endgame
-    int myPSQvalue; // Updated after each move in evaluate
+    int myGameStage; // Total material for both sides
+    int myOpeningPSQValue; // Updated after each move in evaluate
+    int myEndgamePSQValue;
 
 	const unsigned int KING_VALUE = 10000;
 	const unsigned int QUEEN_VALUE = 900;
@@ -30,6 +32,7 @@ private:
     int getBlackPiecesValue();
     int getMobilityScore();
     inline int getMaterialScore(){return getWhitePiecesValue()-getBlackPiecesValue();};
+    void updatePieceSquareValues(Move &move);
 
 
 };
