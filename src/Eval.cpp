@@ -18,7 +18,9 @@ void Eval::init()
     myPSQvalue = 0;  */
 
     int tmp[64]; // tmp variable
-
+    std::cout << "+Destination -Origin before flip" << std::endl;
+    std::cout << EvalTables::AllPSQT[WHITE][0][0][28] << std::endl;
+    std::cout << EvalTables::AllPSQT[WHITE][0][0][12] << std::endl;
     for (int i1=0; i1<2; ++i1)
     {
         for (int i2=0; i2<6; ++i2)
@@ -27,12 +29,17 @@ void Eval::init()
             std::copy(EvalTables::AllPSQT[WHITE][i1][i2],EvalTables::AllPSQT[WHITE][i1][i2]+64,tmp);
             for (int j=0; j<64; ++j)
             {
-                EvalTables::AllPSQT[WHITE][i1][i2][j]=tmp[56-j/8*8+j%8];
+                EvalTables::AllPSQT[WHITE][i1][i2][j]=tmp[56-j/8*8+j%8]; // flips the board
                 EvalTables::AllPSQT[BLACK][i1][i2][j]=tmp[j];
             }
         }
     }
-
+    std::cout << "+Destination -Origin after flip" << std::endl;
+    std::cout << EvalTables::AllPSQT[WHITE][0][0][28] << std::endl;
+    std::cout << EvalTables::AllPSQT[WHITE][0][0][12] << std::endl;
+    std::cout << "E2E4 for Black" << std::endl;
+    std::cout << EvalTables::AllPSQT[BLACK][0][0][28] << std::endl;
+    std::cout << EvalTables::AllPSQT[BLACK][0][0][12] << std::endl;
     // Calculate game stage
     /* Currently it is a simple linear interpolation with material score but this will be upgraded */
    // int maxValue = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
@@ -59,16 +66,17 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
         myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
+		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][1][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][1][myIndex];
+    }
     //BISHOPS
 	myPos=myBoard->getWhiteBishops();
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
         myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
+		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][2][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][2][myIndex];
 	}
     //ROOK
 	myPos=myBoard->getWhiteRooks();
@@ -76,8 +84,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
+		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][3][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][3][myIndex];
 	}
     //QUEEN
 	myPos=myBoard->getWhiteQueens();
@@ -85,8 +93,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-			whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
+        whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][4][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][4][myIndex];
 	}
     //KING
 	myPos=myBoard->getWhiteKing();
@@ -94,8 +102,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-        whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
+        whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][5][myIndex];
+		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][5][myIndex];
 	}
 
     // BLACK
@@ -105,8 +113,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
+        blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][0][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][0][myIndex];
 	}
 
     //KNIGHTS
@@ -115,8 +123,8 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
+        blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][1][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][1][myIndex];
 	}
     //BISHOPS
 	myPos=myBoard->getBlackBishops();
@@ -124,36 +132,35 @@ void Eval::init()
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
+        blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][2][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][2][myIndex];	}
     //ROOK
 	myPos=myBoard->getBlackRooks();
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
+        blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][3][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][3][myIndex];	}
     //QUEEN
 	myPos=myBoard->getBlackQueens();
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
+        blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][4][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][4][myIndex];	}
     //KING
 	myPos=myBoard->getBlackKing();
     while(myPos)
 	{
 		int myIndex = BitBoardUtils::getMsbIndex(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
-        blackOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
-		blackEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];	}
+        blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][5][myIndex];
+		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][5][myIndex];	}
 
     myOpeningPSQValue = whiteOpeningValue - blackOpeningValue;
     myEndgamePSQValue = whiteEndgameValue - blackEndgameValue;
-
 }
 int Eval::getMobilityScore()
 {
@@ -190,6 +197,9 @@ void Eval::updateEvalAttributes(const Move &move)
     int destination=move.getDestination();
     int pieceType=move.getPieceType();
     int color=myBoard->getColorToPlay();
+    std::cout << "+Destination -Origin" << std::endl;
+    std::cout << EvalTables::AllPSQT[color][0][pieceType][destination] << std::endl;
+    std::cout << EvalTables::AllPSQT[color][0][pieceType][origin] << std::endl;
 
     myOpeningPSQValue += (-2*color + 1)*
                         (EvalTables::AllPSQT[color][0][pieceType][destination]

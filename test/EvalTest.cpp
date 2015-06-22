@@ -6,7 +6,6 @@ TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Eval initEval(sp);
     initEval.init();
-
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][42] == 15);
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][41] == -20);
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][43] == +30);
@@ -24,7 +23,20 @@ TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
 TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
 {
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
-    Eval initEval(sp);
-    initEval.init();
+    Eval eval(sp);
+    std::cout << *sp << std::endl;
+    eval.init();
+    REQUIRE(eval.getOpeningPSQValue()==0);
+    REQUIRE(sp->getColorToPlay()==WHITE);
+    Move e2e4(12,28,0,Move::PAWN_TYPE);
+    eval.updateEvalAttributes(e2e4);
+
+    REQUIRE(eval.getOpeningPSQValue()==60);
+    REQUIRE(eval.getEndgamePSQValue()==10);
+
+    eval.rewindEvalAttributes(e2e4);
+
+    REQUIRE(eval.getOpeningPSQValue()==0);
+    REQUIRE(eval.getEndgamePSQValue()==0);
 
 }
