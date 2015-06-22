@@ -27,7 +27,7 @@ private:
     int myGameStage; // Total material for both sides
     int myOpeningPSQValue; // Updated after each move in evaluate
     int myEndgamePSQValue;
-    int myMaterialScore
+    int myMaterialScore;
 
 	const unsigned int KING_VALUE = 10000;
 	const unsigned int QUEEN_VALUE = 900;
@@ -39,7 +39,7 @@ private:
     int getWhitePiecesValue();
     int getBlackPiecesValue();
     int getMobilityScore();
-    inline int getMaterialScore(){return getWhitePiecesValue()-getBlackPiecesValue();};
+    inline int getMaterialScore(){return myMaterialScore;};
 
 
 

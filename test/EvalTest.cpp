@@ -16,7 +16,7 @@ TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
     REQUIRE(EvalTables::AllPSQT[BLACK][0][3][60] == 5);
     REQUIRE(EvalTables::AllPSQT[BLACK][1][4][1] == -40);
 
-    REQUIRE(initEval.getGameStage()==Eval::TOT); // This value will change when tuning for pieces values ...
+    REQUIRE(initEval.getGameStage()==7940); // This value will change when tuning for pieces values ...
     REQUIRE(initEval.getOpeningPSQValue()==0);
     REQUIRE(initEval.getEndgamePSQValue()==0);
 }

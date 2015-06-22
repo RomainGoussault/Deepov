@@ -15,8 +15,12 @@ int Eval::evaluate()
 void Eval::init()
 {
     /* These values for the initial position. If i can test that the position is initial, i don't need to calculate
-    myGameStage = 1;
+    myMaterialScore = 0
+    myGameStage = TOTAL_MATERIAL;
     myPSQvalue = 0;  */
+
+    // Calulate Material Score
+    myMaterialScore = getWhitePiecesValue() - getBlackPiecesValue();
 
     // Calculate game stage
     /* Currently it is a simple linear interpolation with material score but this will be upgraded */
@@ -186,6 +190,11 @@ void Eval::updateEvalAttributes(const Move &move)
     {
         myGameStage -= move.getCapturedPieceType();
     }
+
+    if (move.isCapture() || move.isPromotion())
+    {
+        myMaterialScore -=  (-2*color + 1)*move.getCapturedPieceType();
+    }
 }
 
 void Eval::rewindEvalAttributes(const Move &move)
@@ -204,5 +213,10 @@ void Eval::rewindEvalAttributes(const Move &move)
     if (move.isCapture())
     {
         myGameStage += move.getCapturedPieceType();
+    }
+
+    if (move.isCapture() || move.isPromotion())
+    {
+        myMaterialScore +=  (-2*color + 1)*move.getCapturedPieceType();
     }
 }
