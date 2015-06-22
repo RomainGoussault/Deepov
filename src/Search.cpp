@@ -27,10 +27,12 @@ int Search::negaMax(int depth, int alpha, int beta)
 	for (auto currentMove : moveList)
 	{
 		//	Move currentMove = moveList[i];
+        myEval.updateEvalAttributes(currentMove);
 		myBoard->executeMove(currentMove);
 
 		score = -negaMax(depth - 1, -beta, -alpha);
 
+        myEval.rewindEvalAttributes(currentMove);
 		myBoard->undoMove(currentMove);
 
 		if( score >= beta )
@@ -60,6 +62,7 @@ int Search::negaMaxRoot(int depth)
 	for (auto currentMove : moveList)
 	{
 		//Move currentMove = moveList[i];
+        myEval.updateEvalAttributes(currentMove);
 		myBoard->executeMove(currentMove);
 
 		score = -negaMax(depth - 1, -beta, -alpha);
@@ -69,7 +72,7 @@ int Search::negaMaxRoot(int depth)
 			alpha = score;
 			myBestMove = currentMove;
 		}
-
+        myEval.rewindEvalAttributes(currentMove);
 		myBoard->undoMove(currentMove);
 	}
 
