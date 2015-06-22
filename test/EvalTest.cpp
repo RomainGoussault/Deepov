@@ -10,7 +10,8 @@ TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][41] == -20);
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][43] == +30);
     REQUIRE(EvalTables::AllPSQT[WHITE][0][1][0] == -70);
-    REQUIRE(EvalTables::AllPSQT[WHITE][1][2][14] == 5);
+    REQUIRE(EvalTables::AllPSQT[WHITE][1][2][14] == 0);
+    REQUIRE(EvalTables::AllPSQT[BLACK][1][2][14] == 0);
     REQUIRE(EvalTables::AllPSQT[BLACK][0][2][21] == 5);
     REQUIRE(EvalTables::AllPSQT[BLACK][0][3][60] == 5);
     REQUIRE(EvalTables::AllPSQT[BLACK][1][4][1] == -40);
@@ -24,17 +25,18 @@ TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
 {
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Eval eval(sp);
-    std::cout << *sp << std::endl;
     eval.init();
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(sp->getColorToPlay()==WHITE);
     Move e2e4(12,28,0,Move::PAWN_TYPE);
     eval.updateEvalAttributes(e2e4);
+    sp->executeMove(e2e4);
 
     REQUIRE(eval.getOpeningPSQValue()==60);
-    REQUIRE(eval.getEndgamePSQValue()==10);
+    REQUIRE(eval.getEndgamePSQValue()==5);
 
     eval.rewindEvalAttributes(e2e4);
+    sp->undoMove(e2e4);
 
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(eval.getEndgamePSQValue()==0);

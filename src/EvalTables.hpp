@@ -14,7 +14,7 @@ namespace EvalTables
     0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
     */
 
-    extern int AllPSQT[2][2][6][64];
+    extern const int AllPSQT[2][2][6][64];
 }
 
 #endif // EVALTABLES_H_INCLUDED

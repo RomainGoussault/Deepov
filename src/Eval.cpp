@@ -17,29 +17,6 @@ void Eval::init()
     myGameStage = 1;
     myPSQvalue = 0;  */
 
-    int tmp[64]; // tmp variable
-    std::cout << "+Destination -Origin before flip" << std::endl;
-    std::cout << EvalTables::AllPSQT[WHITE][0][0][28] << std::endl;
-    std::cout << EvalTables::AllPSQT[WHITE][0][0][12] << std::endl;
-    for (int i1=0; i1<2; ++i1)
-    {
-        for (int i2=0; i2<6; ++i2)
-        {
-            // 0 for midgame, 1 for lategame
-            std::copy(EvalTables::AllPSQT[WHITE][i1][i2],EvalTables::AllPSQT[WHITE][i1][i2]+64,tmp);
-            for (int j=0; j<64; ++j)
-            {
-                EvalTables::AllPSQT[WHITE][i1][i2][j]=tmp[56-j/8*8+j%8]; // flips the board
-                EvalTables::AllPSQT[BLACK][i1][i2][j]=tmp[j];
-            }
-        }
-    }
-    std::cout << "+Destination -Origin after flip" << std::endl;
-    std::cout << EvalTables::AllPSQT[WHITE][0][0][28] << std::endl;
-    std::cout << EvalTables::AllPSQT[WHITE][0][0][12] << std::endl;
-    std::cout << "E2E4 for Black" << std::endl;
-    std::cout << EvalTables::AllPSQT[BLACK][0][0][28] << std::endl;
-    std::cout << EvalTables::AllPSQT[BLACK][0][0][12] << std::endl;
     // Calculate game stage
     /* Currently it is a simple linear interpolation with material score but this will be upgraded */
    // int maxValue = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
@@ -197,9 +174,6 @@ void Eval::updateEvalAttributes(const Move &move)
     int destination=move.getDestination();
     int pieceType=move.getPieceType();
     int color=myBoard->getColorToPlay();
-    std::cout << "+Destination -Origin" << std::endl;
-    std::cout << EvalTables::AllPSQT[color][0][pieceType][destination] << std::endl;
-    std::cout << EvalTables::AllPSQT[color][0][pieceType][origin] << std::endl;
 
     myOpeningPSQValue += (-2*color + 1)*
                         (EvalTables::AllPSQT[color][0][pieceType][destination]
