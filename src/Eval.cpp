@@ -215,12 +215,15 @@ void Eval::rewindEvalAttributes(const Move &move)
                         -EvalTables::AllPSQT[color][1][pieceType][origin]);
     if (move.isCapture())
     {
-        myGameStage += move.getCapturedPieceType();
+        int pieceValue = pieceTypeToValue(move.getCapturedPieceType());
+        myGameStage += pieceValue;
+        myMaterialScore -=  (-2*color + 1)*pieceValue;
     }
 
-    if (move.isCapture() || move.isPromotion())
+    if (move.isPromotion())
     {
-        myMaterialScore +=  (-2*color + 1)*move.getCapturedPieceType();
+        int pieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits and add one to get piece type
+        myMaterialScore -= (-2*color + 1)*pieceTypeToValue(pieceType);
     }
 }
 
