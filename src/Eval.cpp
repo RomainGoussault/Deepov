@@ -188,12 +188,15 @@ void Eval::updateEvalAttributes(const Move &move)
                         -EvalTables::AllPSQT[color][1][pieceType][origin]);
     if (move.isCapture())
     {
-        myGameStage -= move.getCapturedPieceType();
+        int pieceValue = pieceTypeToValue(move.getCapturedPieceType());
+        myGameStage -= pieceValue;
+        myMaterialScore +=  (-2*color + 1)*pieceValue;
     }
 
-    if (move.isCapture() || move.isPromotion())
+    if (move.isPromotion())
     {
-        myMaterialScore -=  (-2*color + 1)*move.getCapturedPieceType();
+        int pieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits and add one to get piece type
+        myMaterialScore += (-2*color + 1)*pieceTypeToValue(pieceType);
     }
 }
 
@@ -218,5 +221,20 @@ void Eval::rewindEvalAttributes(const Move &move)
     if (move.isCapture() || move.isPromotion())
     {
         myMaterialScore +=  (-2*color + 1)*move.getCapturedPieceType();
+    }
+}
+
+
+int Eval::pieceTypeToValue(int type)
+{
+    switch (type)
+    {
+        case 0: return PAWN_VALUE;
+        case 1: return KNIGHT_VALUE;
+        case 2: return BISHOP_VALUE;
+        case 3: return ROOK_VALUE;
+        case 4: return QUEEN_VALUE;
+        case 5: return KING_VALUE;
+        default: return 0;
     }
 }

@@ -36,6 +36,7 @@ private:
 	const unsigned int BISHOP_VALUE = 325;
 	const unsigned int PAWN_VALUE = 100;
 
+    int pieceTypeToValue(int type);
     int getWhitePiecesValue();
     int getBlackPiecesValue();
     int getMobilityScore();
