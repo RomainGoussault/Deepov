@@ -4,12 +4,16 @@
 Eval::Eval(std::shared_ptr<Board> boardPtr)
 {
     myBoard = boardPtr;
+    init();
 }
 
 int Eval::evaluate()
 {
-    return getMaterialScore(); // + getMobilityScore()
-    //+ (myOpeningPSQValue*myGameStage + myEndgamePSQValue*(1-myGameStage))/TOTAL_MATERIAL;
+	int materialScore = getMaterialScore();
+	int positionScore =  (myOpeningPSQValue*myGameStage + myEndgamePSQValue*(1-myGameStage))/TOTAL_MATERIAL;
+
+	//std::cout << "mat " << mat << "    pos " << pos << std::endl;
+	return materialScore; // + positionScore;
 }
 
 void Eval::init()
