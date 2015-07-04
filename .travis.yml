@@ -45,7 +45,7 @@ before_script:
 script: 
   - make
   - ./DeepovTesting 
-  - valgrind --leak-check=full --show-reachable=yes --error-exitcode=1  ./DeepovTesting exclude:perft
+  - valgrind --leak-check=full --show-reachable=yes --track-origins=yes --error-exitcode=1  ./DeepovTesting exclude:perft
  
 notifications:
   email:
