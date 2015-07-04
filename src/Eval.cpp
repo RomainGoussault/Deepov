@@ -10,10 +10,17 @@ Eval::Eval(std::shared_ptr<Board> boardPtr)
 int Eval::evaluate()
 {
 	int materialScore = getMaterialScore();
-	int positionScore =  (myOpeningPSQValue*myGameStage + myEndgamePSQValue*(1-myGameStage))/TOTAL_MATERIAL;
 
-	//std::cout << "mat " << mat << "    pos " << pos << std::endl;
-	return materialScore; // + positionScore;
+	//int is too small to contain the following values
+	//Note that: 0 <= myGameStage <= TOTAL_MATERIAL
+
+	int64_t alpha =  TOTAL_MATERIAL-myGameStage;
+	int64_t openingValue = myOpeningPSQValue*myGameStage;
+	int64_t endGameValue = myEndgamePSQValue*alpha;
+	int64_t diff = openingValue + endGameValue;
+	int positionScore =  diff/TOTAL_MATERIAL;
+
+	return materialScore + positionScore;
 }
 
 void Eval::init()
