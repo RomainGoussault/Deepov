@@ -13,7 +13,6 @@ public:
     Eval(std::shared_ptr<Board> boardPtr);
     int evaluate();
 
-    void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
     /* These functions are called just before execute/undoMove, to keep the current colorToPlay*/
     void updateEvalAttributes(const Move &move);
     void rewindEvalAttributes(const Move &move);
@@ -41,6 +40,8 @@ private:
     int getBlackPiecesValue();
     int getMobilityScore();
     inline int getMaterialScore(){return myMaterialScore;};
+    void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
+
 };
 
 #endif // EVAL_H_INCLUDED

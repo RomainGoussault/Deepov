@@ -5,7 +5,6 @@ TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
 {
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Eval initEval(sp);
-    initEval.init();
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][42] == 15);
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][41] == -20);
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][43] == +30);
@@ -25,7 +24,6 @@ TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
 {
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Eval eval(sp);
-    eval.init();
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(sp->getColorToPlay()==WHITE);
     Move e2e4(12,28,0,Move::PAWN_TYPE);
