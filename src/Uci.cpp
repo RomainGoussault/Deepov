@@ -82,7 +82,7 @@ void Uci::loop()
 
 		if (token == "uci")
 		{
-			std::cout << "id name Deepov" << std::endl;
+			std::cout << "id name Deepov 0.1" << std::endl;
 			std::cout << "id author Romain Goussault - Navid Hedjazian" << std::endl;
 			std::cout << "uciok" << std::endl;
 		}
@@ -131,14 +131,13 @@ void Uci::loop()
 
 void Uci::search()
 {
-	Search search(boardPtr);
+	Search search(boardPtr); //Note this could be done earlier before the search
 
 	int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, boardPtr->getColorToPlay());
-	std::cout << "Romain time allocated " << timeMS << std::endl;
+	//std::cout << "Romain time allocated " << timeMS << std::endl;
 
 	search.negaMaxRootIterativeDeepening(timeMS);
 
-	Move move = search.myBestMove;
-	std::cout << "bestmove " << move.toShortString() << std::endl;
+	Move bestMove = search.myBestMove;
+	std::cout << "bestmove " << bestMove.toShortString() << std::endl;
 }
-
