@@ -40,5 +40,4 @@ TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
 
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(eval.getEndgamePSQValue()==0);
-
 }

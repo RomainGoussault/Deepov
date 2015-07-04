@@ -24,5 +24,4 @@ private:
     int evaluate();
 };
 
-
 #endif // SEARCH_H_INCLUDED

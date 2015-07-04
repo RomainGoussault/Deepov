@@ -41,9 +41,6 @@ private:
     int getBlackPiecesValue();
     int getMobilityScore();
     inline int getMaterialScore(){return myMaterialScore;};
-
-
-
 };
 
 #endif // EVAL_H_INCLUDED

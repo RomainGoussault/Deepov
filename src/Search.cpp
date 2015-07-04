@@ -57,11 +57,9 @@ int Search::negaMaxRoot(int depth)
 	MoveGen moveGen(myBoard);
 
 	std::vector<Move> moveList = moveGen.getMoves();
-	//int nMoves = moveList.size();
 
 	for (auto currentMove : moveList)
 	{
-		//Move currentMove = moveList[i];
         myEval.updateEvalAttributes(currentMove);
 		myBoard->executeMove(currentMove);
 
@@ -81,7 +79,6 @@ int Search::negaMaxRoot(int depth)
 
 int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
 {
-	//TODO allocatedTimeSec should be in ms
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
@@ -89,9 +86,6 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
 			std::chrono::high_resolution_clock::now();
-//	std::chrono::duration<float> allocatedDuration(allocatedTimeSec);
-
-
 	//std::cout << " Romain allocatedTimeMS" << allocatedTimeMS << std::endl;
 
 	int depth = 1;
@@ -117,7 +111,6 @@ int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
 	    }
 
 		std::vector<Move> moveList = moveGen.getMoves();
-		//int nMoves = moveList.size();
 
 		for (auto currentMove : moveList)
 		{
@@ -149,4 +142,3 @@ int Search::evaluate()
 {
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
-

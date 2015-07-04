@@ -155,6 +155,7 @@ void Eval::init()
     myOpeningPSQValue = whiteOpeningValue - blackOpeningValue;
     myEndgamePSQValue = whiteEndgameValue - blackEndgameValue;
 }
+
 int Eval::getMobilityScore()
 {
     return 0; // Need a way to efficiently get attacking squares => look at Board::getAttackedPositions()
