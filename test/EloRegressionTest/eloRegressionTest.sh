@@ -25,7 +25,7 @@ chmod +x Deepov
 cp Deepov ../Deepov
 cd ..
 
-./cutechess-cli.sh -engine cmd=DeepovCurrent -engine cmd=Deepov -each proto=uci tc=100/2 -rounds 2 -pgnout matchOuput.txt -recover -repeat | while read line; do
+./cutechess-cli.sh -engine cmd=DeepovCurrent -engine cmd=Deepov -each proto=uci tc=100/10 -rounds 10 -pgnout matchOuput.txt -recover -repeat | while read line; do
 		
 	if [[ "$line" == *ELO*  ]]; then
 
@@ -33,7 +33,6 @@ cd ..
 		echo "$line"
 	
 		minusSign=`echo "$line" | grep  -o "-"`
-		#echo "elo diff $minusSign"
 
 		if [[ $minusSign ]]; then
 		
