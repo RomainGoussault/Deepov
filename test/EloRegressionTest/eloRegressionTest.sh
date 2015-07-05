@@ -28,6 +28,8 @@ cd ..
 
 ./cutechess-cli.sh -engine cmd=DeepovCurrent -engine cmd=Deepov -each proto=uci tc=100/10 -rounds 10 -pgnout matchOuput.txt -recover -repeat | while read line; do
 		
+	echo "$line"
+		
 	if [[ "$line" == *ELO*  ]]; then
 
 		#Ouput ELO line
