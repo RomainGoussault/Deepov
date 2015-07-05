@@ -22,6 +22,7 @@ git checkout $latestTag
 make Deepov
 chmod +x Deepov
 
+#Copying latest release version to the test folder
 cp Deepov ../Deepov
 cd ..
 
