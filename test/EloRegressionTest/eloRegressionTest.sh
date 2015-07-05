@@ -17,8 +17,11 @@ ls
 
 
 
-./cutechess-cli.sh -engine cmd=Deepov -engine cmd=Deepov0.1_linux.1 -each proto=uci tc=100/2 -rounds 2 -pgnout matchOuput.txt -recover -repeat | while read line; do
+./cutechess-cli.sh -engine cmd=Deepov -engine cmd=Deepov0.1_linux.1 -each proto=uci tc=100/2 -rounds 2 -pgnout matchOuput.txt -recover -debug -repeat | while read line; do
 
+	#debug:
+	echo "$line"
+		
 	if [[ "$line" == *ELO*  ]]; then
 
 		#Ouput ELO line
