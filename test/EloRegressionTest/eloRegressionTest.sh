@@ -3,24 +3,29 @@
 echo "Starting ELO testing script"
 
 #Copying current version to the test folder
-cp ../../Deepov Deepov
+cp ../../Deepov DeepovCurrent
 
+git clone --branch=master git://github.com/RomainGoussault/Deepov.git LatestRelease/
+cd LatestRelease/
+mkdir obj
 
-#getting latest release
-wget https://github.com/RomainGoussault/Deepov/releases/download/v0.1/Deepov0.1_linux.1
+# Get new tags from remote
+git fetch --tags 
 
-#make it executable
-chmod +x Deepov0.1_linux.1
+# Get latest tag name
+latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
 
-#list files for debug
-ls
+# Checkout latest tag
+git checkout $latestTag
 
+#Compile it and make it executable
+make Deepov
+chmod +x Deepov
 
+cp Deepov ../Deepov
+cd ..
 
-./cutechess-cli.sh -engine cmd=Deepov -engine cmd=Deepov0.1_linux.1 -each proto=uci tc=100/2 -rounds 2 -pgnout matchOuput.txt -recover -debug -repeat | while read line; do
-
-	#debug:
-	echo "$line"
+./cutechess-cli.sh -engine cmd=DeepovCurrent -engine cmd=Deepov -each proto=uci tc=100/2 -rounds 2 -pgnout matchOuput.txt -recover -repeat | while read line; do
 		
 	if [[ "$line" == *ELO*  ]]; then
 
