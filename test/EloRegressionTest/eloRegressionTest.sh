@@ -12,9 +12,12 @@ wget https://github.com/RomainGoussault/Deepov/releases/download/v0.1/Deepov0.1_
 #make it executable
 chmod +x Deepov0.1_linux.1
 
+#list files for debug
+ls
 
 
-./cutechess-cli.sh -engine cmd=Deepov -engine cmd=Deepov0.1_linux.1 -each proto=uci tc=100/20 -rounds 6 -pgnout matchOuput.txt -recover -repeat | while read line; do
+
+./cutechess-cli.sh -engine cmd=Deepov -engine cmd=Deepov0.1_linux.1 -each proto=uci tc=100/2 -rounds 2 -pgnout matchOuput.txt -recover -repeat | while read line; do
 
 	if [[ "$line" == *ELO*  ]]; then
 
