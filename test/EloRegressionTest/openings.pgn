@@ -1,0 +1,626 @@
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Alekhine's Defense"]
+[Black "?"]
+[Result "0-1"]
+[ECO "B03"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Nf3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Alekhine's Defense"]
+[Black "Exchange Variation"]
+[Result "0-1"]
+[ECO "B03"]
+[PlyCount "9"]
+[EventDate "2010.??.??"]
+
+1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. c4 (4. Nf3) 4... Nb6 5. exd6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Benkö's Gambit"]
+[Black "?"]
+[Result "0-1"]
+[ECO "A57"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. c4 c5 3. d5 b5 {
+Moves after the blue 'critical opening position' are my repertoire} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Blumenfeld Gambit"]
+[Black "?"]
+[Result "0-1"]
+[ECO "E10"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 c5 4. d5 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Bogo-Indian"]
+[Black "?"]
+[Result "0-1"]
+[ECO "E11"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 Bb4+ 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.23"]
+[Round "?"]
+[White "Bogo-Indian"]
+[Black "?"]
+[Result "0-1"]
+[ECO "E00"]
+[PlyCount "5"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. g3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Caro-Kann"]
+[Black "Advance Variation"]
+[Result "0-1"]
+[ECO "B12"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. e4 c6 2. d4 d5 3. e5 Bf5 0-1
+
+[Event "Panov-Botvinnik Attack"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Caro-Kann"]
+[Black "Exchange Variation"]
+[Result "0-1"]
+[ECO "B13"]
+[PlyCount "9"]
+[EventDate "2010.??.??"]
+
+1. e4 c6 2. d4 d5 3. exd5 cxd5 4. c4 Nf6 5. Nc3 0-1
+
+[Event "with 3.Nc3"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Caro-Kann"]
+[Black "Principal Variation"]
+[Result "0-1"]
+[ECO "B15"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Dutch Defense"]
+[Black "?"]
+[Result "0-1"]
+[ECO "A80"]
+[PlyCount "2"]
+[EventDate "2010.??.??"]
+
+1. d4 f5 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "English Opening"]
+[Black "?"]
+[Result "0-1"]
+[ECO "A20"]
+[PlyCount "3"]
+[EventDate "2010.??.??"]
+
+1. c4 e5 2. g3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "French"]
+[Black "Classical System"]
+[Result "0-1"]
+[ECO "C11"]
+[PlyCount "13"]
+[EventDate "2010.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Nfd7 5. f4 c5 6. Nf3 Nc6 7. Be3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "French"]
+[Black "McCutcheon Variation"]
+[Result "0-1"]
+[ECO "C12"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "French"]
+[Black "Winawer Variation"]
+[Result "0-1"]
+[ECO "C15"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Bb4 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "French Nimzowitch"]
+[Black "Advance Variation"]
+[Result "0-1"]
+[ECO "C02"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 e6 2. d4 d5 3. e5 c5 4. c3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "French Tarrasch"]
+[Black "with 3...Nf6"]
+[Result "0-1"]
+[ECO "C05"]
+[PlyCount "8"]
+[EventDate "2010.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nd2 Nf6 4. e5 Nfd7 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "French Tarrasch"]
+[Black "with 3...c5"]
+[Result "0-1"]
+[ECO "C07"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nd2 c5 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Grünfeld"]
+[Black "?"]
+[Result "0-1"]
+[ECO "D80"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 d5 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Hungarian Defense"]
+[Black "?"]
+[Result "0-1"]
+[ECO "C50"]
+[PlyCount "8"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Be7 4. d4 d6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "King's Gambit Accepted"]
+[Black "Knight Gambit"]
+[Result "0-1"]
+[ECO "C34"]
+[PlyCount "5"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "King's Indian"]
+[Black "?"]
+[Result "0-1"]
+[ECO "E70"]
+[PlyCount "8"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Nimzo-Indian"]
+[Black "?"]
+[Result "0-1"]
+[ECO "E20"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Petroff Defense"]
+[Black "Classic Attack"]
+[Result "0-1"]
+[ECO "C42"]
+[PlyCount "11"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nf3 Nxe4 5. d4 d5 6. Bd3 0-1
+
+[Event "Simetrical"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Petroff Defense"]
+[Black "Modern Attack"]
+[Result "0-1"]
+[ECO "C43"]
+[PlyCount "10"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nf6 3. d4 Nxe4 4. Bd3 d5 5. Nxe5 Nd7 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Pirc Defense"]
+[Black "?"]
+[Result "0-1"]
+[ECO "B07"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. e4 d6 2. d4 Nf6 3. Nc3 g6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Queen's Gambit Accepted 3.e4"]
+[Black "?"]
+[Result "0-1"]
+[ECO "D20"]
+[PlyCount "5"]
+[EventDate "2010.??.??"]
+
+1. d4 d5 2. c4 dxc4 3. e4 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Queen's Gambit Accepted 4.e3"]
+[Black "?"]
+[Result "0-1"]
+[ECO "D25"]
+[PlyCount "9"]
+[EventDate "2010.??.??"]
+
+1. d4 d5 2. c4 dxc4 3. Nf3 Nf6 4. e3 e6 5. Bxc4 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Queen's Gambit Declined"]
+[Black "?"]
+[Result "0-1"]
+[ECO "D31"]
+[PlyCount "5"]
+[EventDate "2010.??.??"]
+
+1. d4 d5 2. c4 e6 3. Nc3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Queen's Indian"]
+[Black "?"]
+[Result "0-1"]
+[ECO "E12"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 b6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Ruy Lopez"]
+[Black "Berlin Defense with 4.d3"]
+[Result "0-1"]
+[ECO "C65"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Ruy Lopez"]
+[Black "Exchange Variation"]
+[Result "0-1"]
+[ECO "C68"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Bxc6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Ruy Lopez"]
+[Black "Morphy's Defense"]
+[Result "0-1"]
+[ECO "C70"]
+[PlyCount "9"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.23"]
+[Round "?"]
+[White "Ruy Lopez"]
+[Black "Steinitz's Defense"]
+[Result "0-1"]
+[ECO "C74"]
+[PlyCount "9"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 d6 5. c3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Ruy Lopez:"]
+[Black "Berlin Defense with 4.0-0"]
+[Result "0-1"]
+[ECO "C65"]
+[PlyCount "8"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. O-O Nxe4 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Réti Opening"]
+[Black "?"]
+[Result "0-1"]
+[ECO "A09"]
+[PlyCount "3"]
+[EventDate "2010.??.??"]
+
+1. Nf3 d5 2. c4 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.23"]
+[Round "?"]
+[White "Scotch Opening"]
+[Black "?"]
+[Result "0-1"]
+[ECO "C45"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 {
+Moves after the blue 'critical opening position' are my repertoire} 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Sicilian Defense"]
+[Black "(Lasker/Pelikan/Sveschnikov)"]
+[Result "0-1"]
+[ECO "B33"]
+[PlyCount "12"]
+[EventDate "2010.??.??"]
+
+1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e5 6. Ndb5 d6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Sicilian Defense"]
+[Black "Alapin Variation"]
+[Result "0-1"]
+[ECO "B22"]
+[PlyCount "3"]
+[EventDate "2010.??.??"]
+
+1. e4 c5 2. c3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Sicilian Defense"]
+[Black "Closed"]
+[Result "0-1"]
+[ECO "B24"]
+[PlyCount "9"]
+[EventDate "2010.??.??"]
+
+1. e4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. d3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Sicilian Defense"]
+[Black "Rossolimo Variation"]
+[Result "0-1"]
+[ECO "B31"]
+[PlyCount "6"]
+[EventDate "2010.??.??"]
+
+1. e4 c5 2. Nf3 Nc6 3. Bb5 g6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Sicilian Defense with d6"]
+[Black "?"]
+[Result "0-1"]
+[ECO "B56"]
+[PlyCount "9"]
+[EventDate "2010.??.??"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Sicilian Defense with e6"]
+[Black "?"]
+[Result "0-1"]
+[ECO "B40"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Slav Defense"]
+[Black "?"]
+[Result "0-1"]
+[ECO "D10"]
+[PlyCount "4"]
+[EventDate "2010.??.??"]
+
+1. d4 d5 2. c4 c6 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Symmetrical English"]
+[Black "?"]
+[Result "0-1"]
+[ECO "A30"]
+[PlyCount "3"]
+[EventDate "2010.??.??"]
+
+1. c4 c5 2. Nf3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.22"]
+[Round "?"]
+[White "Trompowsky Attack"]
+[Black "?"]
+[Result "0-1"]
+[ECO "A45"]
+[PlyCount "3"]
+[EventDate "2010.??.??"]
+
+1. d4 Nf6 2. Bg5 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Two Knights"]
+[Black "Bishop Modern Opening"]
+[Result "0-1"]
+[ECO "C55"]
+[PlyCount "7"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. d3 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Two Knights"]
+[Black "Fegatello Attack"]
+[Result "0-1"]
+[ECO "C58"]
+[PlyCount "10"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Na5 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "2010.06.21"]
+[Round "?"]
+[White "Two Knights"]
+[Black "Giuoco Piano"]
+[Result "0-1"]
+[ECO "C56"]
+[PlyCount "8"]
+[EventDate "2010.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. d4 exd4 0-1
+
