@@ -90,7 +90,16 @@ public:
 
     inline bool operator<(const Move& other) const
     {
-        if(isCapture() && !other.isCapture())
+    	//TODO: Refactor to test on value of promoted piece + captured piece
+        if(isPromotion() && !other.isPromotion())
+        {
+        	return false;
+        }
+        else if(!isPromotion() && other.isPromotion())
+        {
+        	return true;
+        }
+        else if(isCapture() && !other.isCapture())
         {
         	return false;
         }
