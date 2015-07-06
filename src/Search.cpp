@@ -24,6 +24,8 @@ int Search::negaMax(int depth, int alpha, int beta)
 	std::vector<Move> moveList = moveGen.getMoves();
 	//	int nMoves = moveList.size();
 
+	std::sort(moveList.rbegin(), moveList.rend());
+
 	for (auto currentMove : moveList)
 	{
 		//	Move currentMove = moveList[i];
