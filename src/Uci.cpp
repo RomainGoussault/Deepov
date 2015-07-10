@@ -82,7 +82,7 @@ void Uci::loop()
 
 		if (token == "uci")
 		{
-			std::cout << "id name Deepov 0.2" << std::endl;
+			std::cout << "id name Deepov 0.3" << std::endl;
 			std::cout << "id author Romain Goussault - Navid Hedjazian" << std::endl;
 			std::cout << "uciok" << std::endl;
 		}
