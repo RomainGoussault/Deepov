@@ -40,17 +40,21 @@ fi
 		#Ouput ELO line
 		echo "$line"
 	
-		minusSign=`echo "$line" | grep  -o "-"`
+		minusSign=`echo "$line" | grep -o "-"`
 
 		if [[ $minusSign ]]; then
 		
-			echo "Regression"
-			exit 1
-
-		else
-
-			echo "No Regression well done"
-			exit 0
+		eloDiff=`echo "$line" | grep -o "[0-9]*"`
+		
+			if [[ $eloDiff -ge 20 ]]; then #allow up to 20 in Regression
+		
+				echo "Regression"
+				exit 1
+			fi
 		fi
+
+		echo "No Regression well done"
+		exit 0
+
 	fi
 done
