@@ -44,10 +44,6 @@ void Utils::getCastling(std::string const& castleString, int &castlingRights)
 			{
 				castlingRights |= 0x8;
 			}
-			else
-			{
-				throw std::runtime_error("");
-			}
 		}
 	}
 }
