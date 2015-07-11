@@ -5,12 +5,22 @@
 
 int Pawn::getScore(Board &board)
 {
-	return doublePawns(board)+passedPawns(board)+isolatedPawn(board);
+	return doubledPawns(board)+passedPawns(board)+isolatedPawn(board);
 }
 
-int Pawn::doublePawns(Board &board)
+int Pawn::doubledPawns(Board &board)
 {
-	return 0;
+	int whiteCount(0);
+	int blackCount(0);
+	int column;
+	for (column=0; column<=7; column++)
+	{
+		U64 pawnsOnFile = board.getWhitePawns() & LookUpTables::MASK_FILE[column];
+		whiteCount += BitBoardUtils::countBBBitsSet(pawnsOnFile) > 1;
+		pawnsOnFile = board.getBlackPawns() & LookUpTables::MASK_FILE[column];
+		blackCount += BitBoardUtils::countBBBitsSet(pawnsOnFile) > 1;
+	}
+	return (whiteCount-blackCount)*DOUBLED_PAWN_PENALTY;
 }
 
 int Pawn::passedPawns(Board &board)
