@@ -21,8 +21,17 @@ public:
     inline int getEndgamePSQValue(){return myEndgamePSQValue;};
     inline int getGameStage(){return myGameStage;};
 	inline int getPawnScore(){return myPawnScore;};
+    static void sortMoveList(std::vector<Move>& moveList);
 
 private:
+
+    const static unsigned int QUEEN_VALUE = 900;
+	const static unsigned int ROOK_VALUE = 500;
+    const static unsigned int KING_VALUE = 10000;
+	const static unsigned int KNIGHT_VALUE = 310;
+	const static unsigned int BISHOP_VALUE = 325;
+	const static unsigned int PAWN_VALUE = 100;
+
     std::shared_ptr<Board> myBoard;
     int myGameStage; // Total material for both sides
     int myOpeningPSQValue; // Updated after each move in evaluate
@@ -30,19 +39,12 @@ private:
     int myMaterialScore;
 	int myPawnScore; // Updated in Pawn namespace
 
-	const unsigned int KING_VALUE = 10000;
-	const unsigned int QUEEN_VALUE = 900;
-	const unsigned int ROOK_VALUE = 500;
-	const unsigned int KNIGHT_VALUE = 310;
-	const unsigned int BISHOP_VALUE = 325;
-	const unsigned int PAWN_VALUE = 100;
-
-    int pieceTypeToValue(int type);
+    void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
     int getWhitePiecesValue();
     int getBlackPiecesValue();
     int getMobilityScore();
     inline int getMaterialScore(){return myMaterialScore;};
-    void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
+    static int pieceTypeToValue(int type);
 
 };
 

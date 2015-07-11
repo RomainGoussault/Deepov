@@ -93,34 +93,6 @@ public:
         myMove &= ~0x3c00000; myMove |= ((state & 0xf) << 22);
     }
 
-    inline bool operator<(const Move& other) const
-    {
-    	//TODO: Refactor to test on value of promoted piece + captured piece
-        if(isPromotion() && !other.isPromotion())
-        {
-        	return false;
-        }
-        else if(!isPromotion() && other.isPromotion())
-        {
-        	return true;
-        }
-        else if(isCapture() && !other.isCapture())
-        {
-        	return false;
-        }
-        else if(!isCapture() && other.isCapture())
-        {
-        	return true;
-        }
-        else if(isCapture() && other.isCapture()) //both are captures
-        {
-        	return getCapturedPieceType() < other.getCapturedPieceType();
-        }
-
-        return false;
-    }
-
-
 	inline bool isCapture() const {return getFlags() & CAPTURE_FLAG;}
 	inline bool isPromotion() const {return getFlags() & PROMOTION_FLAG;}
 	inline bool isQueenSideCastling() const {return getFlags() == QUEEN_SIDE_CASTLING;}

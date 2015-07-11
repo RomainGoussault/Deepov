@@ -239,7 +239,6 @@ void Eval::rewindEvalAttributes(const Move &move)
     }
 }
 
-
 int Eval::pieceTypeToValue(int type)
 {
     switch (type)
@@ -252,4 +251,35 @@ int Eval::pieceTypeToValue(int type)
         case 5: return KING_VALUE;
         default: return 0;
     }
+}
+
+void Eval::sortMoveList(std::vector<Move>& moveList)
+{
+	std::sort(moveList.rbegin(), moveList.rend(), [](const Move& lhs, const Move& rhs)
+			{
+				int score = 0;
+				int otherScore = 0;
+
+				if(lhs.isPromotion())
+				{
+					score += Eval::pieceTypeToValue(lhs.getPromotedPieceType())-Eval::PAWN_VALUE;
+				}
+
+				if(rhs.isPromotion())
+				{
+					otherScore += Eval::pieceTypeToValue(rhs.getPromotedPieceType()-Eval::PAWN_VALUE);
+				}
+
+				if(lhs.isCapture())
+				{
+					score += Eval::pieceTypeToValue(lhs.getCapturedPieceType());
+				}
+
+				if(rhs.isCapture())
+				{
+					otherScore += Eval::pieceTypeToValue(rhs.getCapturedPieceType());
+				}
+
+				return score < otherScore;
+			});
 }
