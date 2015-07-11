@@ -428,14 +428,13 @@ void Board::executeMove(Move &move)
 	}
 	else if (move.isPromotion())
 	{
-		int promotedType = move.getFlags() - Move::PROMOTION_FLAG +1;
+		int promotedType = move.getPromotedPieceType();
 
 		if(move.isCapture())
 		{
-			promotedType -= Move::CAPTURE_FLAG;
 			//remove the captured piece
-			int type(move.getCapturedPieceType());
-			removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
+			int pieceType = move.getCapturedPieceType();
+			removePiece(destination, pieceType, Utils::getOppositeColor(myColorToPlay));
 		}
 
 		removePiece(origin, Move::PAWN_TYPE, myColorToPlay);

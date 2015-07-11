@@ -52,6 +52,11 @@ public:
 		return (myMove >> 16) & 0x7;
 	}
 
+	inline unsigned int getPromotedPieceType() const
+	{
+		return (getFlags() & 0b11) + 1;
+	}
+
     inline unsigned int getCapturedPieceType() const
 	{
 		return (myMove >> 19) & 0x7;
