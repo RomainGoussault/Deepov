@@ -27,6 +27,7 @@ private:
     int myOpeningPSQValue; // Updated after each move in evaluate
     int myEndgamePSQValue;
     int myMaterialScore;
+	int myPawnScore; // Updated in Pawn namespace
 
 	const unsigned int KING_VALUE = 10000;
 	const unsigned int QUEEN_VALUE = 900;
