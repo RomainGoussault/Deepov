@@ -20,6 +20,7 @@ public:
     inline int getOpeningPSQValue(){return myOpeningPSQValue;};
     inline int getEndgamePSQValue(){return myEndgamePSQValue;};
     inline int getGameStage(){return myGameStage;};
+	inline int getPawnScore(){return myPawnScore;};
 
 private:
     std::shared_ptr<Board> myBoard;

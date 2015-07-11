@@ -3,6 +3,8 @@
 
 
 #include "Board.hpp"
+#include "Color.hpp"
+#include "BitBoardUtils.hpp"
 
 namespace Pawn
 {
@@ -14,7 +16,7 @@ namespace Pawn
 
 
 	/** Utils **/
-	int countPawns(Board &board, Color color);
+	int countPawns(Board &board, int color);
 
 };
 
