@@ -14,7 +14,7 @@ namespace Pawn
 
 	/** Score calculation **/
 	int initScore(Board &board);
-    int isDoubledPawns(Board &board, int file, int color);
+    bool isDoubledPawns(Board &board, int file, int color);
 	int initDoubledPawns(Board &board);
 	int passedPawns(Board &board);
 	int isolatedPawn(Board &board);
