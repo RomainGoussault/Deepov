@@ -64,7 +64,7 @@ public:
 	inline U64 getPieces(const int color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
 	inline U64 getPinnedPieces() const{return myPinnedPieces;}
 
-	inline U64 getBitBoard(int pieceType, int color) const{return bitboard[pieceType+6*color]};
+	inline U64 getBitBoard(int pieceType, int color) const{return bitboards[pieceType+6*color];};
 	// TODO use this function everywhere instead of the above ones ?
 
     void updatePinnedPieces();

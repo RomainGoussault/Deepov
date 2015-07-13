@@ -4,6 +4,7 @@
 #include "Board.hpp"
 #include "Utils.hpp"
 #include "EvalTables.hpp"
+#include "Pawn.hpp"
 
 class Eval
 {
@@ -44,7 +45,7 @@ private:
     int getWhitePiecesValue();
     int getBlackPiecesValue();
     int getMobilityScore();
-    inline int initPawnScore(){return Pawn::getScore(myBoard);}; // Calculated with namespace Pawn methods, used in init()
+    inline int initPawnScore(){return Pawn::initScore(*myBoard);}; // Calculated with namespace Pawn methods, used in init()
     inline int getMaterialScore(){return myMaterialScore;};
     static int pieceTypeToValue(int type);
 

@@ -10,7 +10,7 @@ int Pawn::initScore(Board &board)
 
 bool Pawn::isDoubledPawns(Board &board, int file, int color)
 {
-    U64 pawnsOnFile = board.getBitBoard(Move::PAWN_TYPE,color) & LookUpTables::MASK_FILE[column];
+    U64 pawnsOnFile = board.getBitBoard(Move::PAWN_TYPE,color) & LookUpTables::MASK_FILE[file];
     return BitBoardUtils::countBBBitsSet(pawnsOnFile) > 1;
 }
 

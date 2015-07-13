@@ -216,10 +216,11 @@ void Eval::updateEvalAttributes(const Move &move)
 
     if (pieceType == Move::PAWN_TYPE && move.isCapture())
     {
-        if ()
-        {
-
-        }
+//        int column = Utils::getFile(origin);
+//        if (Pawn::isDoubledPawns(myBoard,column,color))
+//        {
+//
+//        }
     }
 }
 
