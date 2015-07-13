@@ -33,4 +33,9 @@ TEST_CASE("Bit manipulation")
     }
 }
 
-
+TEST_CASE("getFile")
+{
+    REQUIRE(Utils::getFile(1)==1);
+    REQUIRE(Utils::getFile(32)==0);
+    REQUIRE(Utils::getFile(46)==6);
+}
