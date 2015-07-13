@@ -8,10 +8,10 @@ int Pawn::initScore(Board &board)
 	return initDoubledPawns(board)+passedPawns(board)+isolatedPawn(board);
 }
 
-bool Pawn::isDoubledPawns(Board &board, int file, int color)
+bool Pawn::countPawnsInFile(Board &board, int file, int color)
 {
     U64 pawnsOnFile = board.getBitBoard(Move::PAWN_TYPE,color) & LookUpTables::MASK_FILE[file];
-    return BitBoardUtils::countBBBitsSet(pawnsOnFile) > 1;
+    return BitBoardUtils::countBBBitsSet(pawnsOnFile);
 }
 
 int Pawn::initDoubledPawns(Board &board)
@@ -21,8 +21,10 @@ int Pawn::initDoubledPawns(Board &board)
 	int column;
 	for (column=0; column<=7; column++)
 	{
-		whiteCount += isDoubledPawns(board,column,WHITE);
-		blackCount += isDoubledPawns(board,column,BLACK);
+        int count=countPawnsInFile(board,column,WHITE);
+		whiteCount += (count>1)*(count-1);
+		count=countPawnsInFile(board,column,BLACK);
+		blackCount += (count>1)*(count-1);
 	}
 	return (whiteCount-blackCount)*DOUBLED_PAWN_PENALTY;
 }
