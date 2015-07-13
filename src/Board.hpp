@@ -18,7 +18,6 @@
 #include <array>
 
 
-
 typedef std::uint64_t U64;
 
 #include "Move.hpp"
@@ -46,18 +45,18 @@ public:
 
 	/* BitBoard getters */
 	inline U64 getWhitePawns() const{return bitboards[0];}
-	inline U64 getWhiteKnights() const{return myWhiteKnights ;}
-	inline U64 getWhiteBishops() const{return myWhiteBishops;}
-	inline U64 getWhiteRooks() const{return myWhiteRooks;}
-	inline U64 getWhiteQueens() const{return myWhiteQueens;}
-	inline U64 getWhiteKing() const{return myWhiteKing;}
+	inline U64 getWhiteKnights() const{return bitboards[1];}
+	inline U64 getWhiteBishops() const{return bitboards[2];}
+	inline U64 getWhiteRooks() const{return bitboards[3];}
+	inline U64 getWhiteQueens() const{return bitboards[4];}
+	inline U64 getWhiteKing() const{return bitboards[5];}
 
 	inline U64 getBlackPawns() const{return bitboards[6];}
-	inline U64 getBlackKnights() const{return myBlackKnights;}
-	inline U64 getBlackBishops() const{return myBlackBishops;}
-	inline U64 getBlackRooks() const{return myBlackRooks;}
-	inline U64 getBlackQueens() const{return myBlackQueens;}
-	inline U64 getBlackKing() const{return myBlackKing;}
+	inline U64 getBlackKnights() const{return bitboards[7];}
+	inline U64 getBlackBishops() const{return bitboards[8];}
+	inline U64 getBlackRooks() const{return bitboards[9];}
+	inline U64 getBlackQueens() const{return bitboards[10];}
+	inline U64 getBlackKing() const{return bitboards[11];}
 
 	inline U64 getWhitePieces() const{return myWhitePieces;}
 	inline U64 getBlackPieces() const{return myBlackPieces;}
@@ -123,18 +122,6 @@ public:
 
 private:
     std::array<U64, 16> bitboards;
-
-	U64 myWhiteKnights;
-	U64 myWhiteBishops;
-	U64 myWhiteRooks;
-	U64 myWhiteQueens;
-	U64 myWhiteKing;
-
-	U64 myBlackKnights;
-	U64 myBlackBishops;
-	U64 myBlackRooks;
-	U64 myBlackQueens;
-	U64 myBlackKing;
 
 	U64 myWhitePieces;
 	U64 myBlackPieces;
