@@ -137,13 +137,38 @@ private:
 
     std::vector<Move> myMoves;
 
-    void movePiece(const int origin, const int destination, const int pieceType, const int color);
-    void movePiece(const int origin, const int destination, U64 &bitboard);
-    void removePiece(const int index, const int pieceType, const int color);
-    void addPiece(const int index, const int pieceType, const int color);
+    //Move methods
+    inline void movePiece(const int origin, const int destination, const int pieceType, const int color)
+    {
+    	movePiece(origin, destination, bitboards[pieceType+color*6]);
+    }
 
-    inline void removePiece(const int index, U64 &bitBoard){bitBoard &= ~(1LL << index);}
-    inline void addPiece(const int index, U64 &bitBoard){bitBoard |=  1LL << index;}
+    inline void removePiece(const int index, const int pieceType, const int color)
+    {
+    	removePiece(index, bitboards[pieceType+color*6]);
+    }
+
+    inline void addPiece(const int index, const int pieceType, const int color)
+    {
+    	addPiece(index, bitboards[pieceType+color*6]);
+    }
+    inline void removePiece(const int index, U64 &bitBoard)
+    {
+    	bitBoard &= ~(1LL << index);
+    }
+
+    inline void addPiece(const int index, U64 &bitBoard)
+    {
+    	bitBoard |=  1LL << index;
+    }
+
+    inline void movePiece(const int origin, const int destination, U64 &bitBoard)
+    {
+    	//Remove piece from origin position
+    	removePiece(origin, bitBoard);
+    	//Add piece to destination positions
+    	addPiece(destination, bitBoard);
+   }
 };
 
 

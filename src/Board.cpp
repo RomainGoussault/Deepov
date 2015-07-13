@@ -469,30 +469,6 @@ void Board::executeMove(Move &move)
 	updateConvenienceBitboards();
 }
 
-void Board::movePiece(const int origin, const int destination, const int pieceType, const int color)
-{
-	movePiece(origin, destination, bitboards[pieceType+color*6]);
-}
-
-void Board::movePiece(const int origin, const int destination, U64 &bitBoard)
-{
-	//Remove piece from origin position
-	removePiece(origin, bitBoard);
-
-	//Add piece to destination positions
-	addPiece(destination, bitBoard);
-}
-
-void Board::removePiece(const int index, const int pieceType, const int color)
-{
-	removePiece(index, bitboards[pieceType+color*6]);
-}
-
-void Board::addPiece(const int index, const int pieceType, const int color)
-{
-	addPiece(index, bitboards[pieceType+color*6]);
-}
-
 void Board::undoMove(Move &move)
 {
 	int origin = move.getOrigin();
