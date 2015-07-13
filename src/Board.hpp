@@ -121,7 +121,7 @@ public:
 
 
 private:
-    std::array<U64, 16> bitboards;
+    std::array<U64, 12> bitboards;
 
 	U64 myWhitePieces;
 	U64 myBlackPieces;
