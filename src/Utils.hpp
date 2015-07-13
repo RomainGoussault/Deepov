@@ -20,6 +20,7 @@ namespace Utils
 	int convertStringToInt(std::string const& fenMoveCounter);
 	void getPerformanceIndicator();
 	inline constexpr int getOppositeColor(const int color){return color ^ 1;};
+	inline int getColumn(const int positionIndex){return positionIndex%8;};
 };
 
 

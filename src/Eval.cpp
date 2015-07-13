@@ -216,7 +216,10 @@ void Eval::updateEvalAttributes(const Move &move)
 
     if (pieceType == Move::PAWN_TYPE && move.isCapture())
     {
+        if ()
+        {
 
+        }
     }
 }
 
