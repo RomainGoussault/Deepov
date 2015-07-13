@@ -15,9 +15,10 @@ TEST_CASE("Pawn structure")
 
 	SECTION("Doubled Pawns")
 	{
-        Board board("rnbqkbnr/pppppppp/p7/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        REQUIRE(Pawn::isDoubledPawns(board,0,BLACK)==true);
-        REQUIRE(Pawn::isDoubledPawns(board,3,BLACK)==false);
-        REQUIRE(Pawn::countPawns(board,BLACK)==9);
+        Board board("rnbqkbnr/ppppppp1/p7/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        REQUIRE(Pawn::countPawnsInFile(board,0,BLACK)==2);
+        REQUIRE(Pawn::countPawnsInFile(board,3,BLACK)==1);
+        REQUIRE(Pawn::countPawnsInFile(board,7,BLACK)==0);
+        REQUIRE(Pawn::countPawns(board,BLACK)==8);
     }
 }

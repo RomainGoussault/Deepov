@@ -210,17 +210,20 @@ void Eval::updateEvalAttributes(const Move &move)
 
     if (move.isPromotion())
     {
-        int pieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits and add one to get piece type
+        int pieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits pand add one to get piece type
         myMaterialScore += (-2*color + 1)*pieceTypeToValue(pieceType);
     }
 
     if (pieceType == Move::PAWN_TYPE && move.isCapture())
     {
-//        int column = Utils::getFile(origin);
-//        if (Pawn::isDoubledPawns(myBoard,column,color))
-//        {
-//
-//        }
+        int column = Utils::getFile(origin);
+        int pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
+        myPawnScore -= (-2*color + 1)*(pawnsOnFile>1)*Pawn::DOUBLED_PAWN_PENALTY;
+        /* Substracts the penalty if there were more than one pawn on file) */
+        column = Utils::getFile(destination);
+        pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
+        myPawnScore += (-2*color + 1)*(pawnsOnFile>0)*Pawn::DOUBLED_PAWN_PENALTY;
+        /* Add the penalty if there is already a pawn on destination file) */
     }
 }
 
@@ -248,6 +251,18 @@ void Eval::rewindEvalAttributes(const Move &move)
     {
         int pieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits and add one to get piece type
         myMaterialScore -= (-2*color + 1)*pieceTypeToValue(pieceType);
+    }
+
+    if (pieceType == Move::PAWN_TYPE && move.isCapture())
+    {
+        int column = Utils::getFile(origin);
+        int pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
+        myPawnScore += (-2*color + 1)*(pawnsOnFile>0)*Pawn::DOUBLED_PAWN_PENALTY;
+        /* Substracts the penalty if there were more than one pawn on file) */
+        column = Utils::getFile(destination);
+        pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
+        myPawnScore -= (-2*color + 1)*(pawnsOnFile>1)*Pawn::DOUBLED_PAWN_PENALTY;
+        /* Add the penalty if there is already a pawn on destination file) */
     }
 }
 
