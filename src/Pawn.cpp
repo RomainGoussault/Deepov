@@ -3,12 +3,17 @@
 
 #include "Pawn.hpp"
 
-int Pawn::getScore(Board &board)
+int Pawn::initScore(Board &board)
 {
-	return doubledPawns(board)+passedPawns(board)+isolatedPawn(board);
+	return initDoubledPawns(board)+passedPawns(board)+isolatedPawn(board);
 }
 
-int Pawn::doubledPawns(Board &board)
+int Pawn::isDoubledPawns(Board &board, int file, int color)
+{
+    U64 pawnsOnFile = board.getWhitePawns() & LookUpTables::MASK_FILE[column];
+}
+
+int Pawn::initDoubledPawns(Board &board)
 {
 	int whiteCount(0);
 	int blackCount(0);

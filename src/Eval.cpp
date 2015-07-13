@@ -154,6 +154,9 @@ void Eval::init()
 
     myOpeningPSQValue = whiteOpeningValue - blackOpeningValue;
     myEndgamePSQValue = whiteEndgameValue - blackEndgameValue;
+
+    // Init Pawn structure score
+    myPawnScore = initPawnScore();
 }
 
 int Eval::getMobilityScore()
@@ -209,6 +212,11 @@ void Eval::updateEvalAttributes(const Move &move)
     {
         int pieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits and add one to get piece type
         myMaterialScore += (-2*color + 1)*pieceTypeToValue(pieceType);
+    }
+
+    if (pieceType == Move::PAWN_TYPE && move.isCapture())
+    {
+
     }
 }
 

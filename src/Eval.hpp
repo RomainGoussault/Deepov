@@ -40,9 +40,11 @@ private:
 	int myPawnScore; // Updated in Pawn namespace
 
     void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
+
     int getWhitePiecesValue();
     int getBlackPiecesValue();
     int getMobilityScore();
+    inline int initPawnScore(){return Pawn::getScore(myBoard);}; // Calculated with namespace Pawn methods, used in init()
     inline int getMaterialScore(){return myMaterialScore;};
     static int pieceTypeToValue(int type);
 
