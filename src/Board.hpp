@@ -15,6 +15,8 @@
 #include <boost/optional.hpp>
 #include <boost/algorithm/string.hpp>
 #include <memory>
+#include <array>
+
 
 
 typedef std::uint64_t U64;
@@ -43,14 +45,14 @@ public:
 	Board(const std::string fen);
 
 	/* BitBoard getters */
-	inline U64 getWhitePawns() const{return myWhitePawns;}
+	inline U64 getWhitePawns() const{return bitboards[0];}
 	inline U64 getWhiteKnights() const{return myWhiteKnights ;}
 	inline U64 getWhiteBishops() const{return myWhiteBishops;}
 	inline U64 getWhiteRooks() const{return myWhiteRooks;}
 	inline U64 getWhiteQueens() const{return myWhiteQueens;}
 	inline U64 getWhiteKing() const{return myWhiteKing;}
 
-	inline U64 getBlackPawns() const{return myBlackPawns;}
+	inline U64 getBlackPawns() const{return bitboards[6];}
 	inline U64 getBlackKnights() const{return myBlackKnights;}
 	inline U64 getBlackBishops() const{return myBlackBishops;}
 	inline U64 getBlackRooks() const{return myBlackRooks;}
@@ -120,15 +122,14 @@ public:
 
 
 private:
+    std::array<U64, 16> bitboards;
 
-	U64 myWhitePawns;
 	U64 myWhiteKnights;
 	U64 myWhiteBishops;
 	U64 myWhiteRooks;
 	U64 myWhiteQueens;
 	U64 myWhiteKing;
 
-	U64 myBlackPawns;
 	U64 myBlackKnights;
 	U64 myBlackBishops;
 	U64 myBlackRooks;

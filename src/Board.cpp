@@ -7,8 +7,8 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-myWhitePawns(), myWhiteKnights(), myWhiteBishops(), myWhiteRooks(), myWhiteQueens(), myWhiteKing(),
-myBlackPawns(), myBlackKnights(), myBlackBishops(), myBlackRooks(), myBlackQueens(), myBlackKing(),
+		bitboards(), myWhiteKnights(), myWhiteBishops(), myWhiteRooks(), myWhiteQueens(), myWhiteKing(),
+myBlackKnights(), myBlackBishops(), myBlackRooks(), myBlackQueens(), myBlackKing(),
 myPinnedPieces(), myCastling()
 {
 	std::vector<std::string> spaceSplit;
@@ -71,7 +71,7 @@ myPinnedPieces(), myCastling()
 
 int Board::findBlackPieceType(const int position) const
 {
-	if (myBlackPawns&(1LL << position))
+	if (bitboards[6]&(1LL << position))
 	{
 		return 0;
 	}
@@ -99,7 +99,7 @@ int Board::findBlackPieceType(const int position) const
 
 int Board::findWhitePieceType(const int position) const
 {
-	if (myWhitePawns&(1LL << position))
+	if (bitboards[0]&(1LL << position))
 	{
 		return 0;
 	}
@@ -479,7 +479,7 @@ void Board::movePiece(const int origin, const int destination, const int pieceTy
 		color == WHITE ? movePiece(origin, destination, myWhiteKnights) : movePiece(origin, destination, myBlackKnights) ;
 		break;
 	case Move::PAWN_TYPE:
-		color == WHITE ? movePiece(origin, destination, myWhitePawns) : movePiece(origin, destination, myBlackPawns) ;
+		color == WHITE ? movePiece(origin, destination, bitboards[0]) : movePiece(origin, destination, bitboards[6]) ;
 		break;
 	case Move::BISHOP_TYPE:
 		color == WHITE ? movePiece(origin, destination, myWhiteBishops) : movePiece(origin, destination, myBlackBishops) ;
@@ -513,7 +513,7 @@ void Board::removePiece(const int index, const int pieceType, const int color)
 		color == WHITE ? removePiece(index, myWhiteKnights) : removePiece(index, myBlackKnights) ;
 		break;
 	case Move::PAWN_TYPE:
-		color == WHITE ? removePiece(index, myWhitePawns) : removePiece(index, myBlackPawns) ;
+		color == WHITE ? removePiece(index, bitboards[0]) : removePiece(index, bitboards[6]) ;
 		break;
 	case Move::BISHOP_TYPE:
 		color == WHITE ? removePiece(index, myWhiteBishops) : removePiece(index, myBlackBishops) ;
@@ -535,7 +535,7 @@ void Board::addPiece(const int index, const int pieceType, const int color)
 		color == WHITE ? addPiece(index, myWhiteKnights) : addPiece(index, myBlackKnights) ;
 		break;
 	case Move::PAWN_TYPE:
-		color == WHITE ? addPiece(index, myWhitePawns) : addPiece(index, myBlackPawns) ;
+		addPiece(index, bitboards[pieceType+color*6]);
 		break;
 	case Move::BISHOP_TYPE:
 		color == WHITE ? addPiece(index, myWhiteBishops) : addPiece(index, myBlackBishops) ;
@@ -627,8 +627,8 @@ void Board::undoMove(Move &move)
 
 void Board::updateConvenienceBitboards()
 {
-	myWhitePieces = myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing;
-	myBlackPieces = myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing;
+	myWhitePieces = bitboards[0] | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing;
+	myBlackPieces = bitboards[6] | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing;
 	myAllPieces = myBlackPieces | myWhitePieces;
 }
 
@@ -735,7 +735,7 @@ void Board::setBitBoards(const std::string piecesString, const int rank)
 			}
 			else if (pieceChar == 'P')
 			{
-				myWhitePawns|= 1LL << (8*rank + x);
+				bitboards[0] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'k')
 			{
@@ -759,7 +759,7 @@ void Board::setBitBoards(const std::string piecesString, const int rank)
 			}
 			else if (pieceChar == 'p')
 			{
-				myBlackPawns|= 1LL << (8*rank + x);
+				bitboards[6]|= 1LL << (8*rank + x);
 			}
 		}
 	}
