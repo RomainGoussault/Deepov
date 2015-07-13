@@ -7,9 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-myWhitePawns(), myWhiteKnights(), myWhiteBishops(), myWhiteRooks(), myWhiteQueens(), myWhiteKing(),
-myBlackPawns(), myBlackKnights(), myBlackBishops(), myBlackRooks(), myBlackQueens(), myBlackKing(),
-myPinnedPieces(), myCastling()
+bitboards(), myPinnedPieces(), myCastling()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -71,23 +69,23 @@ myPinnedPieces(), myCastling()
 
 int Board::findBlackPieceType(const int position) const
 {
-	if (myBlackPawns&(1LL << position))
+	if (bitboards[6]&(1LL << position))
 	{
 		return 0;
 	}
-	else if (myBlackKnights&(1LL << position))
+	else if (bitboards[7]&(1LL << position))
 	{
 		return 1;
 	}
-	else if (myBlackBishops&(1LL << position))
+	else if (bitboards[8]&(1LL << position))
 	{
 		return 2;
 	}
-	else if (myBlackRooks&(1LL << position))
+	else if (bitboards[9]&(1LL << position))
 	{
 		return 3;
 	}
-	else if (myBlackQueens&(1LL << position))
+	else if (bitboards[10]&(1LL << position))
 	{
 		return 4;
 	}
@@ -99,23 +97,23 @@ int Board::findBlackPieceType(const int position) const
 
 int Board::findWhitePieceType(const int position) const
 {
-	if (myWhitePawns&(1LL << position))
+	if (bitboards[0]&(1LL << position))
 	{
 		return 0;
 	}
-	else if (myWhiteKnights&(1LL << position))
+	else if (bitboards[1]&(1LL << position))
 	{
 		return 1;
 	}
-	else if (myWhiteBishops&(1LL << position))
+	else if (bitboards[2]&(1LL << position))
 	{
 		return 2;
 	}
-	else if (myWhiteRooks&(1LL << position))
+	else if (bitboards[3]&(1LL << position))
 	{
 		return 3;
 	}
-	else if (myWhiteQueens&(1LL << position))
+	else if (bitboards[4]&(1LL << position))
 	{
 		return 4;
 	}
@@ -471,84 +469,6 @@ void Board::executeMove(Move &move)
 	updateConvenienceBitboards();
 }
 
-void Board::movePiece(const int origin, const int destination, const int pieceType, const int color)
-{
-	switch (pieceType)
-	{
-	case Move::KNIGHT_TYPE:
-		color == WHITE ? movePiece(origin, destination, myWhiteKnights) : movePiece(origin, destination, myBlackKnights) ;
-		break;
-	case Move::PAWN_TYPE:
-		color == WHITE ? movePiece(origin, destination, myWhitePawns) : movePiece(origin, destination, myBlackPawns) ;
-		break;
-	case Move::BISHOP_TYPE:
-		color == WHITE ? movePiece(origin, destination, myWhiteBishops) : movePiece(origin, destination, myBlackBishops) ;
-		break;
-	case Move::ROOK_TYPE:
-		color == WHITE ? movePiece(origin, destination, myWhiteRooks) : movePiece(origin, destination, myBlackRooks) ;
-		break;
-	case Move::QUEEN_TYPE:
-		color == WHITE ? movePiece(origin, destination, myWhiteQueens) : movePiece(origin, destination, myBlackQueens) ;
-		break;
-	case Move::KING_TYPE:
-		color == WHITE ? movePiece(origin, destination, myWhiteKing) : movePiece(origin, destination, myBlackKing) ;
-		break;
-	}
-}
-
-void Board::movePiece(const int origin, const int destination, U64 &bitBoard)
-{
-	//Remove piece from origin position
-	removePiece(origin, bitBoard);
-
-	//Add piece to destination positions
-	addPiece(destination, bitBoard);
-}
-
-void Board::removePiece(const int index, const int pieceType, const int color)
-{
-	switch (pieceType)
-	{
-	case Move::KNIGHT_TYPE:
-		color == WHITE ? removePiece(index, myWhiteKnights) : removePiece(index, myBlackKnights) ;
-		break;
-	case Move::PAWN_TYPE:
-		color == WHITE ? removePiece(index, myWhitePawns) : removePiece(index, myBlackPawns) ;
-		break;
-	case Move::BISHOP_TYPE:
-		color == WHITE ? removePiece(index, myWhiteBishops) : removePiece(index, myBlackBishops) ;
-		break;
-	case Move::ROOK_TYPE:
-		color == WHITE ? removePiece(index, myWhiteRooks) : removePiece(index, myBlackRooks) ;
-		break;
-	case Move::QUEEN_TYPE:
-		color == WHITE ? removePiece(index, myWhiteQueens) : removePiece(index, myBlackQueens) ;
-		break;
-	}
-}
-
-void Board::addPiece(const int index, const int pieceType, const int color)
-{
-	switch (pieceType)
-	{
-	case Move::KNIGHT_TYPE:
-		color == WHITE ? addPiece(index, myWhiteKnights) : addPiece(index, myBlackKnights) ;
-		break;
-	case Move::PAWN_TYPE:
-		color == WHITE ? addPiece(index, myWhitePawns) : addPiece(index, myBlackPawns) ;
-		break;
-	case Move::BISHOP_TYPE:
-		color == WHITE ? addPiece(index, myWhiteBishops) : addPiece(index, myBlackBishops) ;
-		break;
-	case Move::ROOK_TYPE:
-		color == WHITE ? addPiece(index, myWhiteRooks) : addPiece(index, myBlackRooks) ;
-		break;
-	case Move::QUEEN_TYPE:
-		color == WHITE ? addPiece(index, myWhiteQueens) : addPiece(index, myBlackQueens) ;
-		break;
-	}
-}
-
 void Board::undoMove(Move &move)
 {
 	int origin = move.getOrigin();
@@ -627,8 +547,8 @@ void Board::undoMove(Move &move)
 
 void Board::updateConvenienceBitboards()
 {
-	myWhitePieces = myWhitePawns | myWhiteKnights | myWhiteBishops | myWhiteRooks | myWhiteQueens | myWhiteKing;
-	myBlackPieces = myBlackPawns | myBlackKnights | myBlackBishops | myBlackRooks | myBlackQueens | myBlackKing;
+	myWhitePieces = bitboards[0] | bitboards[1] | bitboards[2] | bitboards[3] | bitboards[4] | bitboards[5];
+	myBlackPieces = bitboards[6] | bitboards[7] | bitboards[8] | bitboards[9] | bitboards[10] | bitboards[11];
 	myAllPieces = myBlackPieces | myWhitePieces;
 }
 
@@ -715,51 +635,51 @@ void Board::setBitBoards(const std::string piecesString, const int rank)
 
 			if (pieceChar == 'K')
 			{
-				myWhiteKing |= 1LL << (8*rank + x);
+				bitboards[5] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'R')
 			{
-				myWhiteRooks |= 1LL << (8*rank + x);
+				bitboards[3] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'B')
 			{
-				myWhiteBishops |= 1LL << (8*rank + x);
+				bitboards[2] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'Q')
 			{
-				myWhiteQueens |= 1LL << (8*rank + x);
+				bitboards[4] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'N')
 			{
-				myWhiteKnights |= 1LL << (8*rank + x);
+				bitboards[1] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'P')
 			{
-				myWhitePawns|= 1LL << (8*rank + x);
+				bitboards[0] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'k')
 			{
-				myBlackKing |= 1LL << (8*rank + x);
+				bitboards[11] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'r')
 			{
-				myBlackRooks |= 1LL << (8*rank + x);
+				bitboards[9] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'b')
 			{
-				myBlackBishops |= 1LL << (8*rank + x);
+				bitboards[8] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'q')
 			{
-				myBlackQueens |= 1LL << (8*rank + x);
+				bitboards[10] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'n')
 			{
-				myBlackKnights |= 1LL << (8*rank + x);
+				bitboards[7] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'p')
 			{
-				myBlackPawns|= 1LL << (8*rank + x);
+				bitboards[6]|= 1LL << (8*rank + x);
 			}
 		}
 	}

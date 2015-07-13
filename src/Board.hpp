@@ -15,6 +15,7 @@
 #include <boost/optional.hpp>
 #include <boost/algorithm/string.hpp>
 #include <memory>
+#include <array>
 
 
 typedef std::uint64_t U64;
@@ -43,19 +44,19 @@ public:
 	Board(const std::string fen);
 
 	/* BitBoard getters */
-	inline U64 getWhitePawns() const{return myWhitePawns;}
-	inline U64 getWhiteKnights() const{return myWhiteKnights ;}
-	inline U64 getWhiteBishops() const{return myWhiteBishops;}
-	inline U64 getWhiteRooks() const{return myWhiteRooks;}
-	inline U64 getWhiteQueens() const{return myWhiteQueens;}
-	inline U64 getWhiteKing() const{return myWhiteKing;}
+	inline U64 getWhitePawns() const{return bitboards[0];}
+	inline U64 getWhiteKnights() const{return bitboards[1];}
+	inline U64 getWhiteBishops() const{return bitboards[2];}
+	inline U64 getWhiteRooks() const{return bitboards[3];}
+	inline U64 getWhiteQueens() const{return bitboards[4];}
+	inline U64 getWhiteKing() const{return bitboards[5];}
 
-	inline U64 getBlackPawns() const{return myBlackPawns;}
-	inline U64 getBlackKnights() const{return myBlackKnights;}
-	inline U64 getBlackBishops() const{return myBlackBishops;}
-	inline U64 getBlackRooks() const{return myBlackRooks;}
-	inline U64 getBlackQueens() const{return myBlackQueens;}
-	inline U64 getBlackKing() const{return myBlackKing;}
+	inline U64 getBlackPawns() const{return bitboards[6];}
+	inline U64 getBlackKnights() const{return bitboards[7];}
+	inline U64 getBlackBishops() const{return bitboards[8];}
+	inline U64 getBlackRooks() const{return bitboards[9];}
+	inline U64 getBlackQueens() const{return bitboards[10];}
+	inline U64 getBlackKing() const{return bitboards[11];}
 
 	inline U64 getWhitePieces() const{return myWhitePieces;}
 	inline U64 getBlackPieces() const{return myBlackPieces;}
@@ -83,8 +84,8 @@ public:
     boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
     //Castling Methods
-    bool isQueenSideCastlingAllowed(const int color) const {return ((myCastling >> (1+2*color)) & 0x1);}
-    bool isKingSideCastlingAllowed(const int color) const {return ((myCastling >> 2*color) & 0x1);}
+    bool isQueenSideCastlingAllowed(const int color) const {return (myCastling >> (1+2*color)) & 0x1;}
+    bool isKingSideCastlingAllowed(const int color) const {return (myCastling >> 2*color) & 0x1;}
     void updateCastlingRights(Move &move);
     void rewindCastlingRights(const Move &move);
 
@@ -120,20 +121,7 @@ public:
 
 
 private:
-
-	U64 myWhitePawns;
-	U64 myWhiteKnights;
-	U64 myWhiteBishops;
-	U64 myWhiteRooks;
-	U64 myWhiteQueens;
-	U64 myWhiteKing;
-
-	U64 myBlackPawns;
-	U64 myBlackKnights;
-	U64 myBlackBishops;
-	U64 myBlackRooks;
-	U64 myBlackQueens;
-	U64 myBlackKing;
+    std::array<U64, 12> bitboards;
 
 	U64 myWhitePieces;
 	U64 myBlackPieces;
@@ -149,13 +137,38 @@ private:
 
     std::vector<Move> myMoves;
 
-    void movePiece(const int origin, const int destination, const int pieceType, const int color);
-    void movePiece(const int origin, const int destination, U64 &bitboard);
-    void removePiece(const int index, const int pieceType, const int color);
-    void addPiece(const int index, const int pieceType, const int color);
+    //Move methods
+    inline void movePiece(const int origin, const int destination, const int pieceType, const int color)
+    {
+    	movePiece(origin, destination, bitboards[pieceType+color*6]);
+    }
 
-    inline void removePiece(const int index, U64 &bitBoard){bitBoard &= ~(1LL << index);}
-    inline void addPiece(const int index, U64 &bitBoard){bitBoard |=  1LL << index;}
+    inline void removePiece(const int index, const int pieceType, const int color)
+    {
+    	removePiece(index, bitboards[pieceType+color*6]);
+    }
+
+    inline void addPiece(const int index, const int pieceType, const int color)
+    {
+    	addPiece(index, bitboards[pieceType+color*6]);
+    }
+    inline void removePiece(const int index, U64 &bitBoard)
+    {
+    	bitBoard &= ~(1LL << index);
+    }
+
+    inline void addPiece(const int index, U64 &bitBoard)
+    {
+    	bitBoard |=  1LL << index;
+    }
+
+    inline void movePiece(const int origin, const int destination, U64 &bitBoard)
+    {
+    	//Remove piece from origin position
+    	removePiece(origin, bitBoard);
+    	//Add piece to destination positions
+    	addPiece(destination, bitBoard);
+   }
 };
 
 
