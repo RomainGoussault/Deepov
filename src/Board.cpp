@@ -67,59 +67,67 @@ bitboards(), myPinnedPieces(), myCastling()
 	}
 }
 
-int Board::findBlackPieceType(const int position) const
+Piece::PieceType Board::findBlackPieceType(const int position) const
 {
 	if (bitboards[6]&(1LL << position))
 	{
-		return 0;
+		return Piece::PAWN_TYPE;
 	}
 	else if (bitboards[7]&(1LL << position))
 	{
-		return 1;
+		return Piece::KNIGHT_TYPE;
 	}
 	else if (bitboards[8]&(1LL << position))
 	{
-		return 2;
+		return Piece::BISHOP_TYPE;
 	}
 	else if (bitboards[9]&(1LL << position))
 	{
-		return 3;
+		return Piece::ROOK_TYPE;
 	}
 	else if (bitboards[10]&(1LL << position))
 	{
-		return 4;
+		return Piece::QUEEN_TYPE;
+	}
+    else if (bitboards[11]&(1LL << position))
+	{
+		return Piece::KING_TYPE;
 	}
 	else
 	{
-		return 6;
+		return Piece::NO_PIECE_TYPE;
 	}
 }
 
-int Board::findWhitePieceType(const int position) const
+Piece::PieceType Board::findWhitePieceType(const int position) const
 {
 	if (bitboards[0]&(1LL << position))
 	{
-		return 0;
+		return Piece::PAWN_TYPE;
 	}
 	else if (bitboards[1]&(1LL << position))
 	{
-		return 1;
+		return Piece::KNIGHT_TYPE;
 	}
 	else if (bitboards[2]&(1LL << position))
 	{
-		return 2;
+		return Piece::BISHOP_TYPE;
 	}
 	else if (bitboards[3]&(1LL << position))
 	{
-		return 3;
+		return Piece::ROOK_TYPE;
 	}
 	else if (bitboards[4]&(1LL << position))
 	{
-		return 4;
+		return Piece::QUEEN_TYPE;
+	}
+	else if (bitboards[5]&(1LL << position))
+	{
+		return Piece::KING_TYPE;
 	}
 	else
 	{
-		return 6;
+		return Piece::NO_PIECE_TYPE;
 	}
 }
 
@@ -128,7 +136,7 @@ int Board::findWhitePieceType(const int position) const
  *  of the piece at the given position (MSB index) and for the given
  *  color.
  */
-int Board::findPieceType(const int position, const int color) const
+Piece::PieceType Board::findPieceType(const int position, const int color) const
 {
 	if(color == WHITE)
 	{

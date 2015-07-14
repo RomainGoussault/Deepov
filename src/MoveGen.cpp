@@ -16,7 +16,7 @@ MoveGen::MoveGen(std::shared_ptr<Board> boardPtr)
 
 /* Moves private methods */
 
-void MoveGen::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<Move>& moves, int pieceType) const
+void MoveGen::addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const
 {
 	while (quietDestinations)
 	{
@@ -46,14 +46,14 @@ void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::
     }
 }
 
-void MoveGen::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<Move>& moves, int pieceType) const
+void MoveGen::addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const
 {
 	while (captureDestinations)
 	{
 		//Getting the index of the MSB
 		int positionMsb = BitBoardUtils::getMsbIndex(captureDestinations);
 		Move move = Move(pieceIndex, positionMsb, Move::CAPTURE_FLAG, pieceType);
-        int capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
+        Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
 		moves.push_back(move);
 
@@ -90,7 +90,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex
 		int positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
 		unsigned int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
 		Move move = Move(pieceIndex, positionMsb, flag, Piece::PAWN_TYPE);
-        int capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
+        Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
 
 		moves.push_back(move);

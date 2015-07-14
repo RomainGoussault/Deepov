@@ -106,9 +106,9 @@ private:
 
     std::shared_ptr<Board> myBoard;
 
-	void addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<Move>& moves, int pieceType) const;
+	void addQuietMoves(U64 quietDestinations, int pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const;
 	void addDoublePawnPushMoves(U64 pawnDestinations, int pieceIndex, std::vector<Move>& moves) const;
-	void addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<Move>& moves, int pieceType) const;
+	void addCaptureMoves(U64 captureDestinations, int pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const;
 	void addPromotionMoves(U64 promotionDestinations, int pieceIndex, std::vector<Move>& moves) const;
 	void addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex, std::vector<Move>& moves) const;
 

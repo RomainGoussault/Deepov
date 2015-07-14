@@ -23,7 +23,7 @@ public:
 	{
 	}
 
-	inline Move(unsigned int origin, unsigned int destination, unsigned int flags, unsigned int pieceType)
+	inline Move(unsigned int origin, unsigned int destination, unsigned int flags, Piece::PieceType pieceType)
 	{
 		myMove = ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
 	}
@@ -79,7 +79,7 @@ public:
 	    myMove &= ~0xf000; myMove |= ((flag & 0xf) << 12); // Mask on the first 4 bits
 	}
 
-    inline void setCapturedPieceType(unsigned const int type)
+    inline void setCapturedPieceType(const Piece::PieceType type)
 	{
 	    myMove &= ~0x380000; myMove |= ((type & 0x7) << 19); // Mask on the first 3 bits
 	}

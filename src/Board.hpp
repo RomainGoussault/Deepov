@@ -94,9 +94,9 @@ public:
 
 
     //PieceType method
-    int findPieceType(const int position, const int color) const;
-    int findWhitePieceType(const int position) const;
-    int findBlackPieceType(const int position) const;
+    Piece::PieceType findPieceType(const int position, const int color) const;
+    Piece::PieceType findWhitePieceType(const int position) const;
+    Piece::PieceType findBlackPieceType(const int position) const;
 
     //Check methods
     bool isCheck(const int color) const;
