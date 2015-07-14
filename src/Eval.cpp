@@ -9,8 +9,6 @@ Eval::Eval(std::shared_ptr<Board> boardPtr)
 
 int Eval::evaluate()
 {
-	int materialScore = getMaterialScore();
-
 	//int is too small to contain the following values
 	//Note that: 0 <= myGameStage <= TOTAL_MATERIAL
 
@@ -20,7 +18,7 @@ int Eval::evaluate()
 	int64_t diff = openingValue + endGameValue;
 	int positionScore =  diff/TOTAL_MATERIAL;
 
-	return materialScore + positionScore;
+	return myMaterialScore + positionScore;
 }
 
 void Eval::init()
@@ -159,12 +157,12 @@ void Eval::init()
     myPawnScore = initPawnScore();
 }
 
-int Eval::getMobilityScore()
+int Eval::getMobilityScore() const
 {
     return 0; // Need a way to efficiently get attacking squares => look at Board::getAttackedPositions()
 }
 
-int Eval::getWhitePiecesValue()
+int Eval::getWhitePiecesValue() const
 {
     int whitePiecesValue(0);
     whitePiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getWhitePawns())*PAWN_VALUE
@@ -175,7 +173,7 @@ int Eval::getWhitePiecesValue()
                         + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKing())*KING_VALUE;
     return whitePiecesValue;
 }
-int Eval::getBlackPiecesValue()
+int Eval::getBlackPiecesValue() const
 {
     int blackPiecesValue(0);
     blackPiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getBlackPawns())*PAWN_VALUE

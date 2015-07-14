@@ -13,14 +13,14 @@ namespace Pawn
 	const static unsigned int PASSED_PAWN_BONUS = 10;
 
 	/** Score calculation **/
-	int initScore(Board &board);
-    int countPawnsInFile(Board &board, int file, int color);
-	int initDoubledPawns(Board &board);
-	int passedPawns(Board &board);
-	int isolatedPawn(Board &board);
+	int initScore(const Board &board);
+    int countPawnsInFile(const Board &board, const int file, const int color);
+	int initDoubledPawns(const Board &board);
+	int passedPawns(const Board &board);
+	int isolatedPawn(const Board &board);
 
 	/** Utils **/
-	int countPawns(Board &board, int color);
+	int countPawns(const Board &board, const int color);
 
 };
 

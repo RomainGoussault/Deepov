@@ -3,18 +3,18 @@
 
 #include "Pawn.hpp"
 
-int Pawn::initScore(Board &board)
+int Pawn::initScore(const Board &board)
 {
 	return initDoubledPawns(board)+passedPawns(board)+isolatedPawn(board);
 }
 
-int Pawn::countPawnsInFile(Board &board, int file, int color)
+int Pawn::countPawnsInFile(const Board &board, const int file, const int color)
 {
     U64 pawnsOnFile = board.getBitBoard(Move::PAWN_TYPE,color) & LookUpTables::MASK_FILE[file];
     return BitBoardUtils::countBBBitsSet(pawnsOnFile);
 }
 
-int Pawn::initDoubledPawns(Board &board)
+int Pawn::initDoubledPawns(const Board &board)
 {
 	int whiteCount(0);
 	int blackCount(0);
@@ -29,17 +29,17 @@ int Pawn::initDoubledPawns(Board &board)
 	return (whiteCount-blackCount)*DOUBLED_PAWN_PENALTY;
 }
 
-int Pawn::passedPawns(Board &board)
+int Pawn::passedPawns(const Board &board)
 {
 	return 0;
 }
 
-int Pawn::isolatedPawn(Board &board)
+int Pawn::isolatedPawn(const Board &board)
 {
 	return 0;
 }
 
-int Pawn::countPawns(Board &board, int color)
+int Pawn::countPawns(const Board &board, const int color)
 {
 	return BitBoardUtils::countBBBitsSet(board.getPawns(color));
 }
