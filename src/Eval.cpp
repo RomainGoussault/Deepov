@@ -214,7 +214,7 @@ void Eval::updateEvalAttributes(const Move &move)
         myMaterialScore += (-2*color + 1)*pieceTypeToValue(pieceType);
     }
 
-    if (pieceType == Board::PAWN_TYPE && move.isCapture())
+    if (pieceType == Move::PAWN_TYPE && move.isCapture())
     {
         int column = Utils::getFile(origin);
         int pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
@@ -253,7 +253,7 @@ void Eval::rewindEvalAttributes(const Move &move)
         myMaterialScore -= (-2*color + 1)*pieceTypeToValue(pieceType);
     }
 
-    if (pieceType == Board::PAWN_TYPE && move.isCapture())
+    if (pieceType == Move::PAWN_TYPE && move.isCapture())
     {
         int column = Utils::getFile(origin);
         int pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
