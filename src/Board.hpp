@@ -58,6 +58,13 @@ public:
 	inline U64 getBlackQueens() const{return bitboards[10];}
 	inline U64 getBlackKing() const{return bitboards[11];}
 
+	inline U64 getPawns(int color) const{return getBitBoard(Move::PAWN_TYPE, color);}
+	inline U64 getKnights(int color) const{return getBitBoard(Move::KNIGHT_TYPE, color);}
+	inline U64 getBishops(int color) const{return getBitBoard(Move::BISHOP_TYPE, color);}
+	inline U64 getRooks(int color) const{return getBitBoard(Move::ROOK_TYPE, color);}
+	inline U64 getQueens(int color) const{return getBitBoard(Move::QUEEN_TYPE, color);}
+	inline U64 getKing(int color) const{return getBitBoard(Move::KING_TYPE, color);}
+
 	inline U64 getWhitePieces() const{return myWhitePieces;}
 	inline U64 getBlackPieces() const{return myBlackPieces;}
 	inline U64 getAllPieces() const{return myAllPieces;}
@@ -65,7 +72,6 @@ public:
 	inline U64 getPinnedPieces() const{return myPinnedPieces;}
 
 	inline U64 getBitBoard(int pieceType, int color) const{return bitboards[pieceType+6*color];};
-	// TODO use this function everywhere instead of the above ones ?
 
     void updatePinnedPieces();
 

@@ -19,11 +19,12 @@ public:
     void updateEvalAttributes(const Move &move);
     void rewindEvalAttributes(const Move &move);
 
-    inline int getOpeningPSQValue(){return myOpeningPSQValue;};
-    inline int getEndgamePSQValue(){return myEndgamePSQValue;};
-    inline int getGameStage(){return myGameStage;};
-	inline int getPawnScore(){return myPawnScore;};
-    static void sortMoveList(std::vector<Move>& moveList);
+    inline int getOpeningPSQValue() const {return myOpeningPSQValue;};
+    inline int getEndgamePSQValue()const {return myEndgamePSQValue;};
+    inline int getGameStage() const {return myGameStage;};
+	inline int getPawnScore() const {return myPawnScore;};
+
+	static void sortMoveList(std::vector<Move>& moveList);
 
 private:
 
@@ -36,11 +37,10 @@ private:
 
     void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
 
-    int getWhitePiecesValue();
-    int getBlackPiecesValue();
-    int getMobilityScore();
+    int getWhitePiecesValue() const;
+    int getBlackPiecesValue() const;
+    int getMobilityScore() const;
     inline int initPawnScore(){return Pawn::initScore(*myBoard);}; // Calculated with namespace Pawn methods, used in init()
-    inline int getMaterialScore(){return myMaterialScore;};
     static int pieceTypeToValue(int type);
 
 };

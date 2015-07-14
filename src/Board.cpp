@@ -180,7 +180,7 @@ bool Board::isCheck(const int color) const
 	int ennemyColor = Utils::getOppositeColor(color);
 	U64 ennemyAttackingPositions = getAttackedPositions(ennemyColor);
 
-	U64 kingPosition = color == WHITE ? getWhiteKing() : getBlackKing();
+	U64 kingPosition = getKing(color);
 	bool isCheck = ennemyAttackingPositions & kingPosition;
 
 	return isCheck;
@@ -204,7 +204,7 @@ U64 Board::getKnightAttackedPositions(const int& color) const
 {
 	U64 knightAttackedDestinations = 0LL;
 
-	U64 knightPositions = color == WHITE ? getWhiteKnights() : getBlackKnights();
+	U64 knightPositions = getKnights(color);
 
 	//loop through the knights:
 	while(knightPositions)
@@ -221,7 +221,7 @@ U64 Board::getKnightAttackedPositions(const int& color) const
 
 U64 Board::getKingAttackedPositions(const int& color) const
 {
-	U64 kingPosition = color == WHITE ? getWhiteKing() : getBlackKing();
+	U64 kingPosition = getKing(color);
 	U64 kingAttackedDestinations = getKingDestinations(kingPosition, color);
 
 	return kingAttackedDestinations;
@@ -259,7 +259,7 @@ U64 Board::getKingDestinations(const U64 kingPos, const int& color) const
 U64 Board::getRookAttackedPositions(const int& color) const
 {
 	U64 rookAttackedDestinations = 0LL;
-	U64 rookPositions = color == WHITE ? getWhiteRooks() : getBlackRooks();
+	U64 rookPositions = getRooks(color);
 
 	//loop through the rooks:
 	while(rookPositions)
@@ -277,7 +277,7 @@ U64 Board::getRookAttackedPositions(const int& color) const
 U64 Board::getBishopAttackedPositions(const int& color) const
 {
 	U64 bishopAttackedDestinations = 0LL;
-	U64 bishopPositions = color == WHITE ? getWhiteBishops() : getBlackBishops();
+	U64 bishopPositions = getBishops(color);
 
 	//loop through the bishops:
 	while(bishopPositions)
@@ -295,7 +295,7 @@ U64 Board::getBishopAttackedPositions(const int& color) const
 U64 Board::getQueenAttackedPositions(const int& color) const
 {
 	U64 queenAttackedDestinations = 0LL;
-	U64 queenPositions = color == WHITE ? getWhiteQueens() : getBlackQueens();
+	U64 queenPositions = getQueens(color);
 
 	//loop through the queens:
 	while(queenPositions)
@@ -801,14 +801,15 @@ void Board::rewindCastlingRights(const Move &move)
 void Board::updatePinnedPieces()
 {
 	int color = getColorToPlay();
+	int oppositeColor = Utils::getOppositeColor(color);
 	U64 occ = getAllPieces();
-	U64 kingBitboard = color == WHITE ? getWhiteKing() : getBlackKing();
+	U64 kingBitboard = getKing(color);
 	U64 kiSq = BitBoardUtils::getMsbIndex(kingBitboard);
 
 	U64 rookWise = MagicMoves::Rmagic(kiSq, occ);
 	U64 potPinned = rookWise & getPieces(color);
 	U64 xrays = rookWise ^ MagicMoves::Rmagic(kiSq, occ ^ potPinned);
-	U64 possiblePinners = color == WHITE ? (getBlackRooks() | getBlackQueens()) : (getWhiteRooks() | getWhiteQueens());
+	U64 possiblePinners = getRooks(oppositeColor) | getQueens(oppositeColor);
 	U64 pinners = xrays & possiblePinners;
 
 	while ( pinners )
@@ -822,7 +823,7 @@ void Board::updatePinnedPieces()
 	U64 bishopWise = MagicMoves::Bmagic(kiSq, occ);
 	potPinned = bishopWise & getPieces(color);
 	xrays = rookWise ^ MagicMoves::Bmagic(kiSq, occ ^ potPinned);
-	possiblePinners = color == WHITE ? (getBlackBishops() | getBlackQueens()) : (getWhiteBishops() | getWhiteQueens());
+	possiblePinners = getBishops(oppositeColor) | getQueens(oppositeColor);
 	pinners = xrays & possiblePinners;
 
 	while ( pinners )
