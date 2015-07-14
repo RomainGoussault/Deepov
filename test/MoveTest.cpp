@@ -10,7 +10,7 @@ TEST_CASE( "Constructor and methods" )
     unsigned int origin = 4;
     unsigned int destination = 5;
     unsigned int flags = 6;
-    unsigned int pieceType = 3;
+    Piece::PieceType pieceType = Piece::BISHOP_TYPE;
     Move move(origin, destination, flags, pieceType);
 
     REQUIRE(move.getOrigin() == origin);
