@@ -10,7 +10,7 @@ int Pawn::initScore(Board &board)
 
 int Pawn::countPawnsInFile(Board &board, int file, int color)
 {
-    U64 pawnsOnFile = board.getBitBoard(Move::PAWN_TYPE,color) & LookUpTables::MASK_FILE[file];
+    U64 pawnsOnFile = board.getBitBoard(Board::PAWN_TYPE,color) & LookUpTables::MASK_FILE[file];
     return BitBoardUtils::countBBBitsSet(pawnsOnFile);
 }
 

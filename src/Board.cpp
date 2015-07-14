@@ -40,7 +40,7 @@ bitboards(), myPinnedPieces(), myCastling()
 		int epIndex = getIndexFromChar(spaceSplit[3]);
 		int origin = epIndex + 8 - 16*myColorToPlay;
 		int destination = epIndex - 8 + 16*myColorToPlay;
-		Move lastMove(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Move::PAWN_TYPE);
+		Move lastMove(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Board::PAWN_TYPE);
 		myMoves.push_back(lastMove);
 	}
 
@@ -149,7 +149,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	int origin = move.getOrigin();
 	U64 oribb = 1LL << origin;
 	bool isPinned = oribb & getPinnedPieces();
-	bool isKingMove = move.getPieceType() == Move::KING_TYPE;
+	bool isKingMove = move.getPieceType() == Board::KING_TYPE;
 
 
 	if (isKingMove || isCheckb || isEnPassant || isPinned)
@@ -422,7 +422,7 @@ void Board::executeMove(Move &move)
 		}
 
 		//move rook
-		movePiece(rookOrigin, rookDestination, Move::ROOK_TYPE, myColorToPlay);
+		movePiece(rookOrigin, rookDestination, Board::ROOK_TYPE, myColorToPlay);
 	}
 	else if (move.isPromotion())
 	{
@@ -435,7 +435,7 @@ void Board::executeMove(Move &move)
 			removePiece(destination, pieceType, Utils::getOppositeColor(myColorToPlay));
 		}
 
-		removePiece(origin, Move::PAWN_TYPE, myColorToPlay);
+		removePiece(origin, Board::PAWN_TYPE, myColorToPlay);
 		addPiece(destination, promotedType, myColorToPlay);
 	}
 	else
@@ -443,7 +443,7 @@ void Board::executeMove(Move &move)
 		if (move.getFlags() == Move::EP_CAPTURE_FLAG) // watch out ep capture is a capture
 		{
 			unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
-			removePiece(capturedPawnIndex, Move::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
+			removePiece(capturedPawnIndex, Board::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
 		}
 		else if(move.isCapture())
 		{
@@ -498,7 +498,7 @@ void Board::undoMove(Move &move)
 		}
 
 		//move rook
-		movePiece(rookDestination, rookOrigin, Move::ROOK_TYPE, Utils::getOppositeColor(myColorToPlay));
+		movePiece(rookDestination, rookOrigin, Board::ROOK_TYPE, Utils::getOppositeColor(myColorToPlay));
 	}
 	else if(move.isPromotion())
 	{
@@ -513,7 +513,7 @@ void Board::undoMove(Move &move)
 		}
 
 		removePiece(destination, promotedType, Utils::getOppositeColor(myColorToPlay));
-		addPiece(origin, Move::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
+		addPiece(origin, Board::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
 	}
 	else
 	{
@@ -522,7 +522,7 @@ void Board::undoMove(Move &move)
 		if (move.getFlags() == Move::EP_CAPTURE_FLAG) // watch out ep capture is a capture
 		{
 			unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*Utils::getOppositeColor(myColorToPlay);
-			addPiece(capturedPawnIndex, Move::PAWN_TYPE, myColorToPlay);
+			addPiece(capturedPawnIndex, Board::PAWN_TYPE, myColorToPlay);
 		}
 		else if(move.isCapture())
 		{
@@ -760,7 +760,7 @@ void Board::updateCastlingRights(Move &move)
     move.setPreviousCastlingRights(myCastling); // store for undoMove
 
     /* Update Castling rights for king move */
-    int isKingMove(move.getPieceType() == Move::KING_TYPE);
+    int isKingMove(move.getPieceType() == Board::KING_TYPE);
     myCastling &= ~((isKingMove*3) << (myColorToPlay*2));
     /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 

@@ -43,6 +43,13 @@ public:
 	Board();
 	Board(const std::string fen);
 
+	const static unsigned int PAWN_TYPE = 0;
+	const static unsigned int KNIGHT_TYPE = 1;
+	const static unsigned int BISHOP_TYPE = 2;
+	const static unsigned int ROOK_TYPE = 3;
+	const static unsigned int QUEEN_TYPE = 4;
+	const static unsigned int KING_TYPE = 5;
+
 	/* BitBoard getters */
 	inline U64 getWhitePawns() const{return bitboards[0];}
 	inline U64 getWhiteKnights() const{return bitboards[1];}
@@ -57,6 +64,8 @@ public:
 	inline U64 getBlackRooks() const{return bitboards[9];}
 	inline U64 getBlackQueens() const{return bitboards[10];}
 	inline U64 getBlackKing() const{return bitboards[11];}
+
+	inline U64 getRooks(int color) const{return getBitBoard(0, color);}
 
 	inline U64 getWhitePieces() const{return myWhitePieces;}
 	inline U64 getBlackPieces() const{return myBlackPieces;}
