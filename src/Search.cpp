@@ -10,7 +10,7 @@ Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr)
 	myBoard = boardPtr;
 }
 
-int Search::negaMax(int depth, int alpha, int beta)
+int Search::negaMax(const int depth, int alpha, const int beta)
 {
 	int score = 0;
 
@@ -49,7 +49,7 @@ int Search::negaMax(int depth, int alpha, int beta)
 	return alpha;
 }
 
-int Search::negaMaxRoot(int depth)
+int Search::negaMaxRoot(const int depth)
 {
 	int alpha = -999999;
 	int beta = -alpha;
@@ -78,7 +78,7 @@ int Search::negaMaxRoot(int depth)
 	return alpha;
 }
 
-int Search::negaMaxRootIterativeDeepening(int allocatedTimeMS)
+int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 {
 	int alpha = -999999;
 	int beta = -alpha;
