@@ -26,7 +26,7 @@ TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
     Eval eval(sp);
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(sp->getColorToPlay()==WHITE);
-    Move e2e4(12,28,0,Move::PAWN_TYPE);
+    Move e2e4(12,28,0,Piece::PAWN_TYPE);
     eval.updateEvalAttributes(e2e4);
     sp->executeMove(e2e4);
 

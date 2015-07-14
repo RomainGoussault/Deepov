@@ -6,6 +6,8 @@
 #include <string>
 #include <array>
 
+#include "Piece.hpp"
+
 class Move
 {
 
@@ -14,12 +16,6 @@ public:
     const static unsigned int DOUBLE_PAWN_PUSH_FLAG =0b0001;
 	const static unsigned int CAPTURE_FLAG = 0b0100;
 	const static unsigned int PROMOTION_FLAG = 0b1000;
-	const static unsigned int PAWN_TYPE = 0;
-	const static unsigned int KNIGHT_TYPE = 1;
-	const static unsigned int BISHOP_TYPE = 2;
-	const static unsigned int ROOK_TYPE = 3;
-	const static unsigned int QUEEN_TYPE = 4;
-	const static unsigned int KING_TYPE = 5;
 	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
 	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
 
@@ -120,19 +116,19 @@ public:
 				promotedType -= Move::CAPTURE_FLAG;
 			}
 
-			if(promotedType == Move::KNIGHT_TYPE)
+			if(promotedType == Piece::KNIGHT_TYPE)
 			{
 				promotionLetter = "n";
 			}
-			else if(promotedType == Move::BISHOP_TYPE)
+			else if(promotedType == Piece::BISHOP_TYPE)
 			{
 				promotionLetter = "b";
 			}
-			else if(promotedType == Move::ROOK_TYPE)
+			else if(promotedType == Piece::ROOK_TYPE)
 			{
 				promotionLetter = "r";
 			}
-			else if(promotedType == Move::QUEEN_TYPE)
+			else if(promotedType == Piece::QUEEN_TYPE)
 			{
 				promotionLetter = "q";
 			}

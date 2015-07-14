@@ -56,8 +56,8 @@ TEST_CASE( "Pawn promotions", "[pawn]" )
 
         U64 pawnBitboard = board.getWhitePawns();
 
-        Move promotionCapture(50,57,Move::PROMOTION_FLAG + Move::CAPTURE_FLAG, Move::PAWN_TYPE);
-		promotionCapture.setCapturedPieceType(Move::ROOK_TYPE);
+        Move promotionCapture(50,57,Move::PROMOTION_FLAG + Move::CAPTURE_FLAG, Piece::PAWN_TYPE);
+		promotionCapture.setCapturedPieceType(Piece::ROOK_TYPE);
 
 		board.executeMove(promotionCapture);
 		REQUIRE(pawnBitboard != board.getWhitePawns());

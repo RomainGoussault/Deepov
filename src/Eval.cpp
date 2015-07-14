@@ -36,7 +36,7 @@ void Eval::init()
     // Calculate game stage
     /* Currently it is a simple linear interpolation with material score but this will be upgraded */
    // int maxValue = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
-    myGameStage = (getWhitePiecesValue() + getBlackPiecesValue() - 2*KING_VALUE);
+    myGameStage = (getWhitePiecesValue() + getBlackPiecesValue() - 2*Piece::KING_VALUE);
 
     // Calculate initial PSQ value
     /* Maybe there is a simpler way to calculate all this ? */
@@ -167,23 +167,23 @@ int Eval::getMobilityScore()
 int Eval::getWhitePiecesValue()
 {
     int whitePiecesValue(0);
-    whitePiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getWhitePawns())*PAWN_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKnights())*KNIGHT_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteBishops())*BISHOP_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteRooks())*ROOK_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteQueens())*QUEEN_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKing())*KING_VALUE;
+    whitePiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getWhitePawns())*Piece::PAWN_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKnights())*Piece::KNIGHT_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteBishops())*Piece::BISHOP_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteRooks())*Piece::ROOK_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteQueens())*Piece::QUEEN_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKing())*Piece::KING_VALUE;
     return whitePiecesValue;
 }
 int Eval::getBlackPiecesValue()
 {
     int blackPiecesValue(0);
-    blackPiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getBlackPawns())*PAWN_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackKnights())*KNIGHT_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackBishops())*BISHOP_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackRooks())*ROOK_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackQueens())*QUEEN_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackKing())*KING_VALUE;
+    blackPiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getBlackPawns())*Piece::PAWN_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackKnights())*Piece::KNIGHT_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackBishops())*Piece::BISHOP_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackRooks())*Piece::ROOK_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackQueens())*Piece::QUEEN_VALUE
+                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackKing())*Piece::KING_VALUE;
 
     return blackPiecesValue;
 }
@@ -214,7 +214,7 @@ void Eval::updateEvalAttributes(const Move &move)
         myMaterialScore += (-2*color + 1)*pieceTypeToValue(pieceType);
     }
 
-    if (pieceType == Move::PAWN_TYPE && move.isCapture())
+    if (pieceType == Piece::PAWN_TYPE && move.isCapture())
     {
         int column = Utils::getFile(origin);
         int pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
@@ -253,7 +253,7 @@ void Eval::rewindEvalAttributes(const Move &move)
         myMaterialScore -= (-2*color + 1)*pieceTypeToValue(pieceType);
     }
 
-    if (pieceType == Move::PAWN_TYPE && move.isCapture())
+    if (pieceType == Piece::PAWN_TYPE && move.isCapture())
     {
         int column = Utils::getFile(origin);
         int pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
@@ -270,12 +270,12 @@ int Eval::pieceTypeToValue(int type)
 {
     switch (type)
     {
-        case 0: return PAWN_VALUE;
-        case 1: return KNIGHT_VALUE;
-        case 2: return BISHOP_VALUE;
-        case 3: return ROOK_VALUE;
-        case 4: return QUEEN_VALUE;
-        case 5: return KING_VALUE;
+        case 0: return Piece::PAWN_VALUE;
+        case 1: return Piece::KNIGHT_VALUE;
+        case 2: return Piece::BISHOP_VALUE;
+        case 3: return Piece::ROOK_VALUE;
+        case 4: return Piece::QUEEN_VALUE;
+        case 5: return Piece::KING_VALUE;
         default: return 0;
     }
 }
@@ -289,12 +289,12 @@ void Eval::sortMoveList(std::vector<Move>& moveList)
 
 				if(lhs.isPromotion())
 				{
-					score += Eval::pieceTypeToValue(lhs.getPromotedPieceType())-Eval::PAWN_VALUE;
+					score += Eval::pieceTypeToValue(lhs.getPromotedPieceType())-Piece::PAWN_VALUE;
 				}
 
 				if(rhs.isPromotion())
 				{
-					otherScore += Eval::pieceTypeToValue(rhs.getPromotedPieceType()-Eval::PAWN_VALUE);
+					otherScore += Eval::pieceTypeToValue(rhs.getPromotedPieceType()-Piece::PAWN_VALUE);
 				}
 
 				if(lhs.isCapture())

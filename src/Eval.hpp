@@ -5,6 +5,7 @@
 #include "Utils.hpp"
 #include "EvalTables.hpp"
 #include "Pawn.hpp"
+#include "Piece.hpp"
 
 class Eval
 {
@@ -25,13 +26,6 @@ public:
     static void sortMoveList(std::vector<Move>& moveList);
 
 private:
-
-    const static unsigned int QUEEN_VALUE = 900;
-	const static unsigned int ROOK_VALUE = 500;
-    const static unsigned int KING_VALUE = 10000;
-	const static unsigned int KNIGHT_VALUE = 310;
-	const static unsigned int BISHOP_VALUE = 325;
-	const static unsigned int PAWN_VALUE = 100;
 
     std::shared_ptr<Board> myBoard;
     int myGameStage; // Total material for both sides
