@@ -41,13 +41,6 @@ int Pawn::isolatedPawn(Board &board)
 
 int Pawn::countPawns(Board &board, int color)
 {
-	if (color == WHITE)
-	{
-		return BitBoardUtils::countBBBitsSet(board.getWhitePawns());
-	}
-	else
-	{
-		return BitBoardUtils::countBBBitsSet(board.getBlackPawns());
-	}
+	return BitBoardUtils::countBBBitsSet(board.getPawns(color));
 }
 

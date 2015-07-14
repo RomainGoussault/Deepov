@@ -109,7 +109,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex
     /* Get moves methods */
 void MoveGen::appendKingPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	U64 kingPos = color == WHITE ? myBoard->getWhiteKing() : myBoard->getBlackKing();
+	U64 kingPos = myBoard->getKing(color);
 
 	U64 kingValidDestinations = myBoard->getKingDestinations(kingPos, color);
 
@@ -147,7 +147,7 @@ void MoveGen::addQueenSideCastlingMove(int color, int kingIndex, std::vector<Mov
 
 void MoveGen::appendQueenPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	U64 queenPositions = color == WHITE ? myBoard->getWhiteQueens() : myBoard->getBlackQueens();
+	U64 queenPositions = myBoard->getQueens(color);
 
 	//loop through the queens:
 	while(queenPositions)
@@ -171,7 +171,7 @@ void MoveGen::appendQueenPseudoLegalMoves(const int& color, std::vector<Move>& m
 
 void MoveGen::appendBishopPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	U64 bishopPositions = color == WHITE ? myBoard->getWhiteBishops() : myBoard->getBlackBishops();
+	U64 bishopPositions = myBoard->getBishops(color);
 
 	//loop through the bishops:
 	while(bishopPositions)
@@ -193,7 +193,7 @@ void MoveGen::appendBishopPseudoLegalMoves(const int& color, std::vector<Move>& 
 
 void MoveGen::appendRookPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	U64 rookPositions = color == WHITE ? myBoard->getWhiteRooks() : myBoard->getBlackRooks();
+	U64 rookPositions = myBoard->getRooks(color);
 
 	//loop through the rooks:
 	while(rookPositions)
@@ -238,7 +238,7 @@ void MoveGen::appendPawnPseudoLegalMoves(const int& color, std::vector<Move>& mo
 }
 void MoveGen::appendKnightPseudoLegalMoves(const int& color, std::vector<Move>& moves) const
 {
-	U64 knightPositions = color == WHITE ? myBoard->getWhiteKnights() : myBoard->getBlackKnights();
+	U64 knightPositions = myBoard->getKnights(color);
 
 	//loop through the knights:
 	while(knightPositions)
