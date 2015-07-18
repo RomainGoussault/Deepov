@@ -17,7 +17,7 @@ namespace Pawn
     int countPawnsInFile(const Board &board, const int file, const int color);
 	int initDoubledPawns(const Board &board);
 	int passedPawns(const Board &board);
-	int isolatedPawn(const Board &board);
+	int initIsolatedPawn(const Board &board);
 
 	/** Utils **/
 	int countPawns(const Board &board, const int color);

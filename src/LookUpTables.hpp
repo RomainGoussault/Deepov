@@ -44,6 +44,15 @@ namespace LookUpTables
                                 };
 
     const U64 ROOK_INITIAL_POS = {0x8100000000000081};
+
+    const U64 NEIGHBOR_FILES[]={0x202020202020202,
+                                0x505050505050505,
+                                0xa0a0a0a0a0a0a0a,
+                                0x1414141414141414,
+                                0x2828282828282828,
+                                0x5050505050505050,
+                                0xa0a0a0a0a0a0a0a0,
+                                0x4040404040404040};
 }
 
 
