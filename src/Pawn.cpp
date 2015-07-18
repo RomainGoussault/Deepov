@@ -54,3 +54,8 @@ int Pawn::countPawns(const Board &board, const int color)
 	return BitBoardUtils::countBBBitsSet(board.getPawns(color));
 }
 
+bool Pawn::hasNeighbors(const Board &board, const int file, const int color)
+{
+    return (board.getPawns(color) & LookUpTables::NEIGHBOR_FILES[file]);
+}
+

@@ -21,6 +21,7 @@ namespace Pawn
 
 	/** Utils **/
 	int countPawns(const Board &board, const int color);
+    bool hasNeighbors(const Board &board, const int file, const int color);
 
 };
 
