@@ -5,7 +5,7 @@
 
 int Pawn::initScore(const Board &board)
 {
-	return initDoubledPawns(board)+passedPawns(board)+initIsolatedPawn(board);
+	return initDoubledPawns(board)+initPassedPawns(board)+initIsolatedPawn(board);
 }
 
 int Pawn::countPawnsInFile(const Board &board, const int file, const int color)
@@ -29,24 +29,37 @@ int Pawn::initDoubledPawns(const Board &board)
 	return (whiteCount-blackCount)*DOUBLED_PAWN_PENALTY;
 }
 
-int Pawn::passedPawns(const Board &board)
+int Pawn::initPassedPawns(const Board &board)
 {
-	return 0;
+    int whiteCount(0);
+	int blackCount(0);
+	int column;
+
+	for (column=0; column<=7; column++)
+	{
+        int countWhiteInFile=countPawnsInFile(board,column,WHITE);
+        int countBlackInFile=countPawnsInFile(board,column,BLACK);
+		whiteCount += (countWhiteInFile>0)&(countBlackInFile==0)&(!hasNeighbors(board,column,BLACK));
+		blackCount += (countWhiteInFile==0)&(countBlackInFile>0)&(!hasNeighbors(board,column,WHITE));
+	}
+	return (whiteCount-blackCount)*PASSED_PAWN_BONUS;
 }
 
 int Pawn::initIsolatedPawn(const Board &board)
 {
     int whiteCount(0);
 	int blackCount(0);
-	int column(0);
-	int count=countPawnsInFile(board,column,WHITE);
+	int column;
 
-	for (column=1; column<=6; column++)
+	for (column=0; column<=7; column++)
 	{
-
+        int count=countPawnsInFile(board,column,WHITE);
+		whiteCount += (count>0)&(!hasNeighbors(board,column,WHITE));
+		count=countPawnsInFile(board,column,BLACK);
+		blackCount += (count>0)&(!hasNeighbors(board,column,BLACK));
 	}
 
-	return 0;
+	return (whiteCount-blackCount)*ISOLATED_PAWN_PENALTY;
 }
 
 int Pawn::countPawns(const Board &board, const int color)
