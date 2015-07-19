@@ -33,15 +33,28 @@ int Pawn::initPassedPawns(const Board &board)
 {
     int whiteCount(0);
 	int blackCount(0);
-	int column;
+    U64 whitePawns = board.getWhitePawns();
+    U64 blackPawns = board.getBlackPawns();
 
-	for (column=0; column<=7; column++)
+    while (whitePawns)
 	{
-        int countWhiteInFile=countPawnsInFile(board,column,WHITE);
-        int countBlackInFile=countPawnsInFile(board,column,BLACK);
-		whiteCount += (countWhiteInFile>0)&(countBlackInFile==0)&(!hasNeighbors(board,column,BLACK));
-		blackCount += (countWhiteInFile==0)&(countBlackInFile>0)&(!hasNeighbors(board,column,WHITE));
-	}
+		//Getting the index of the MSB
+		int positionMsb = BitBoardUtils::getMsbIndex(whitePawns);
+        //Removing the MSB
+		whitePawns = whitePawns ^ (0 | 1LL << positionMsb);
+        // Add 1 if condition is true
+        whiteCount += (LookUpTables::FRONT_SPANS[WHITE][positionMsb] & blackPawns) == 0;
+    }
+
+    while (blackPawns)
+	{
+		//Getting the index of the MSB
+		int positionMsb = BitBoardUtils::getMsbIndex(blackPawns);
+        //Removing the MSB
+		blackPawns = blackPawns ^ (0 | 1LL << positionMsb);
+        // Add 1 if condition is true
+        blackCount += (LookUpTables::FRONT_SPANS[WHITE][positionMsb] & whitePawns) == 0;
+    }
 	return (whiteCount-blackCount)*PASSED_PAWN_BONUS;
 }
 

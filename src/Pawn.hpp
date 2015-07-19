@@ -15,7 +15,8 @@ namespace Pawn
 	/** Score calculation **/
 	int initScore(const Board &board);
 	int initDoubledPawns(const Board &board);
-	int initPassedPawns(const Board &board);
+	int initPassedPawns(const Board &board); // TODO : take are of doubled passed pawns
+	// TODO : calculate set-wise instead of pawn by pawn
 	int initIsolatedPawns(const Board &board);
 
 	/** Utils **/
