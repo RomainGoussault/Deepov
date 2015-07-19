@@ -53,6 +53,12 @@ namespace LookUpTables
                                 0x5050505050505050,
                                 0xa0a0a0a0a0a0a0a0,
                                 0x4040404040404040};
+
+    const U64 FRONT_SPANS[2][64]; // 2 for colors, 64 for squares
+
+
+    void init();
+    U64 frontBB(const int posIndex,int color);
 }
 
 

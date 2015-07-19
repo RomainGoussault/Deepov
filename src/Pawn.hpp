@@ -14,12 +14,12 @@ namespace Pawn
 
 	/** Score calculation **/
 	int initScore(const Board &board);
-    int countPawnsInFile(const Board &board, const int file, const int color);
 	int initDoubledPawns(const Board &board);
 	int initPassedPawns(const Board &board);
-	int initIsolatedPawn(const Board &board);
+	int initIsolatedPawns(const Board &board);
 
 	/** Utils **/
+    int countPawnsInFile(const Board &board, const int file, const int color);
 	int countPawns(const Board &board, const int color);
     bool hasNeighbors(const Board &board, const int file, const int color);
 
