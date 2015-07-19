@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "LookUpTables.hpp"
+#include "Color.hpp"
 
 TEST_CASE( "LookUpTables" )
 {
@@ -10,6 +11,6 @@ TEST_CASE( "LookUpTables" )
         REQUIRE(frontMask == 0x404040404040000);
 
         frontMask=LookUpTables::frontBB(posIndex,BLACK);
-        REQUIRE(frontMask == 0x4)
+        REQUIRE(frontMask == 0x4);
     }
 }
