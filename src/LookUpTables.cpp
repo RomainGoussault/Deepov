@@ -2,14 +2,17 @@
 
 /* List of tables declarations*/
 U64 LookUpTables::FRONT_SPANS[2][64];
+U64 LookUpTables::FRONT_SQUARES[2][64];
 
 /* Methods */
 void LookUpTables::init()
 {
     for (int square=0; square<64; ++square)
     {
-        LookUpTables::FRONT_SPANS[WHITE][square] = frontBB(square,WHITE) | sidesBB(square,WHITE);
-        LookUpTables::FRONT_SPANS[BLACK][square] = frontBB(square,BLACK) | sidesBB(square,BLACK);
+        FRONT_SQUARES[WHITE][square] = frontBB(square,WHITE);
+        FRONT_SQUARES[BLACK][square] = frontBB(square,BLACK);
+        FRONT_SPANS[WHITE][square] = FRONT_SQUARES[WHITE][square] | sidesBB(square,WHITE);
+        FRONT_SPANS[BLACK][square] = FRONT_SQUARES[BLACK][square] | sidesBB(square,BLACK);
     }
 }
 
