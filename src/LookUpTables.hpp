@@ -2,6 +2,7 @@
 #define LOOKUPTABLES_HPP_
 
 #include "Color.hpp"
+#include "Utils.hpp"
 
 namespace LookUpTables
 {
@@ -56,11 +57,14 @@ namespace LookUpTables
                                 0xa0a0a0a0a0a0a0a0,
                                 0x4040404040404040};
 
-    const U64 FRONT_SPANS[2][64]; // 2 for colors, 64 for squares
+    /* Extern tables (i.e. declared but not defined) */
+    extern U64 FRONT_SPANS[2][64]; // 2 for colors, 64 for squares
 
 
     void init();
+    /* The 2 following functions can be changed as const Look Up Tables if we need them faster */
     U64 frontBB(const int posIndex,int color);
+    U64 sidesBB(const int posIndex,int color); // his is the BB in front of the pawn at NEIGHBOR_FILES
 }
 
 
