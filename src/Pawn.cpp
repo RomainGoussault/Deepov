@@ -8,12 +8,6 @@ int Pawn::initScore(const Board &board)
 	return initDoubledPawns(board)+initPassedPawns(board)+initIsolatedPawns(board);
 }
 
-int Pawn::countPawnsInFile(const Board &board, const int file, const int color)
-{
-    U64 pawnsOnFile = board.getBitBoard(Piece::PAWN_TYPE,color) & LookUpTables::MASK_FILE[file];
-    return BitBoardUtils::countBBBitsSet(pawnsOnFile);
-}
-
 int Pawn::initDoubledPawns(const Board &board)
 {
 	int whiteCount(0);
@@ -75,13 +69,4 @@ int Pawn::initIsolatedPawns(const Board &board)
 	return (whiteCount-blackCount)*ISOLATED_PAWN_PENALTY;
 }
 
-int Pawn::countPawns(const Board &board, const int color)
-{
-	return BitBoardUtils::countBBBitsSet(board.getPawns(color));
-}
-
-bool Pawn::hasNeighbors(const Board &board, const int file, const int color)
-{
-    return (board.getPawns(color) & LookUpTables::NEIGHBOR_FILES[file]);
-}
 

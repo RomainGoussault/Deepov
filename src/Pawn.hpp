@@ -20,9 +20,20 @@ namespace Pawn
 	int initIsolatedPawns(const Board &board);
 
 	/** Utils **/
-    int countPawnsInFile(const Board &board, const int file, const int color);
-	int countPawns(const Board &board, const int color);
-    bool hasNeighbors(const Board &board, const int file, const int color);
+    inline int countPawnsInFile(const Board &board, const int file, const int color)
+    {
+        return BitBoardUtils::countBBBitsSet(board.getBitBoard(Piece::PAWN_TYPE,color) & LookUpTables::MASK_FILE[file]);
+    };
+
+	inline int countPawns(const Board &board, const int color)
+	{
+        return BitBoardUtils::countBBBitsSet(board.getPawns(color));
+    };
+
+    inline bool hasNeighbors(const Board &board, const int file, const int color)
+    {
+        return (board.getPawns(color) & LookUpTables::NEIGHBOR_FILES[file]);
+    };
 
 };
 
