@@ -22,5 +22,6 @@ TEST_CASE( "LookUpTables" )
         REQUIRE(LookUpTables::FRONT_SPANS[BLACK][34] == 0xe0e0e0e);
         REQUIRE(LookUpTables::FRONT_SQUARES[WHITE][34] == 0x404040000000000);
         REQUIRE(LookUpTables::FRONT_SQUARES[BLACK][34] == 0x4040404);
+        REQUIRE(LookUpTables::FRONT_SPANS[BLACK][44] == 0x3838383838);
     }
 }
