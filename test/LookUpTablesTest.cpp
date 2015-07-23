@@ -18,10 +18,10 @@ TEST_CASE( "LookUpTables" )
     SECTION("Front spans")
     {
         LookUpTables::init();
-        REQUIRE(LookUpTables::FRONT_SPANS[WHITE][34] == 0xe0e0e0000000000);
-        REQUIRE(LookUpTables::FRONT_SPANS[BLACK][34] == 0xe0e0e0e);
-        REQUIRE(LookUpTables::FRONT_SQUARES[WHITE][34] == 0x404040000000000);
-        REQUIRE(LookUpTables::FRONT_SQUARES[BLACK][34] == 0x4040404);
-        REQUIRE(LookUpTables::FRONT_SPANS[BLACK][44] == 0x3838383838);
+        REQUIRE(LookUpTables::PASSED_PAWN_MASK[WHITE][34] == 0xe0e0e0000000000);
+        REQUIRE(LookUpTables::PASSED_PAWN_MASK[BLACK][34] == 0xe0e0e0e);
+        REQUIRE(LookUpTables::FRONT_SPANS[WHITE][34] == 0x404040000000000);
+        REQUIRE(LookUpTables::FRONT_SPANS[BLACK][34] == 0x4040404);
+        REQUIRE(LookUpTables::PASSED_PAWN_MASK[BLACK][44] == 0x3838383838);
     }
 }

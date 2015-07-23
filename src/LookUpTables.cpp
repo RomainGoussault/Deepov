@@ -2,17 +2,20 @@
 
 /* List of tables declarations*/
 U64 LookUpTables::FRONT_SPANS[2][64];
-U64 LookUpTables::FRONT_SQUARES[2][64];
+U64 LookUpTables::PAWN_ATTACK_SPANS[2][64];
+U64 LookUpTables::PASSED_PAWN_MASK[2][64];
 
 /* Methods */
 void LookUpTables::init()
 {
     for (int square=0; square<64; ++square)
     {
-        FRONT_SQUARES[WHITE][square] = frontBB(square,WHITE);
-        FRONT_SQUARES[BLACK][square] = frontBB(square,BLACK);
-        FRONT_SPANS[WHITE][square] = FRONT_SQUARES[WHITE][square] | sidesBB(square,WHITE);
-        FRONT_SPANS[BLACK][square] = FRONT_SQUARES[BLACK][square] | sidesBB(square,BLACK);
+        FRONT_SPANS[WHITE][square] = frontBB(square,WHITE);
+        FRONT_SPANS[BLACK][square] = frontBB(square,BLACK);
+        PAWN_ATTACK_SPANS[WHITE][square] = sidesBB(square,WHITE);
+        PAWN_ATTACK_SPANS[BLACK][square] = sidesBB(square,BLACK);
+        PASSED_PAWN_MASK[WHITE][square] = FRONT_SPANS[WHITE][square] | PAWN_ATTACK_SPANS[WHITE][square];
+        PASSED_PAWN_MASK[BLACK][square] = FRONT_SPANS[BLACK][square] | PAWN_ATTACK_SPANS[BLACK][square];
     }
 }
 

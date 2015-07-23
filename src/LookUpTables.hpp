@@ -58,8 +58,10 @@ namespace LookUpTables
                                 0x4040404040404040};
 
     /* Extern tables (i.e. declared but not defined) */
-    extern U64 FRONT_SPANS[2][64]; // 2 for colors, 64 for squares
-    extern U64 FRONT_SQUARES[2][64];
+    /* In 2 for colors, 64 for squares */
+    extern U64 FRONT_SPANS[2][64]; // Squares in front
+    extern U64 PAWN_ATTACK_SPANS[2][64]; // Neighbors files in front
+    extern U64 PASSED_PAWN_MASK[2][64]; // Combination of the 2 previous
 
 
     void init();
