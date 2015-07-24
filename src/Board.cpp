@@ -409,70 +409,75 @@ void Board::executeMove(Move &move)
 	int origin = move.getOrigin();
 	int destination = move.getDestination();
 	int pieceType = move.getPieceType();
+	int oppositeColor = Utils::getOppositeColor(myColorToPlay);
 
-	if(move.isCastling())
+	if(move.isQuiet())
 	{
-		//move King
 		movePiece(origin, destination, pieceType, myColorToPlay);
-
-		int rookOrigin = 0;
-		int rookDestination = 0;
-
-		if(move.isKingSideCastling())
-		{
-			rookOrigin = myColorToPlay == WHITE ? 7 : 63;
-			rookDestination = myColorToPlay == WHITE ? 5 : 61;
-		}
-		else // QueenSideCastling
-		{
-			rookOrigin = myColorToPlay == WHITE ? 0 : 56;
-			rookDestination =  myColorToPlay == WHITE ? 3 : 59;
-		}
-
-		//move rook
-		movePiece(rookOrigin, rookDestination, Piece::ROOK_TYPE, myColorToPlay);
 	}
-	else if (move.isPromotion())
+	else //Castling or Promotion or Capture
 	{
-		int promotedType = move.getPromotedPieceType();
-
-		if(move.isCapture())
+		if(move.isCastling())
 		{
-			//remove the captured piece
-			int pieceType = move.getCapturedPieceType();
-			removePiece(destination, pieceType, Utils::getOppositeColor(myColorToPlay));
-		}
+			//move King
+			movePiece(origin, destination, pieceType, myColorToPlay);
 
-		removePiece(origin, Piece::PAWN_TYPE, myColorToPlay);
-		addPiece(destination, promotedType, myColorToPlay);
-	}
-	else
-	{
-		if (move.getFlags() == Move::EP_CAPTURE_FLAG) // watch out ep capture is a capture
-		{
-			unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
-			removePiece(capturedPawnIndex, Piece::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
-		}
-		else if(move.isCapture())
-		{
-			//remove the captured piece
-			int type(move.getCapturedPieceType());
-			removePiece(destination, type, Utils::getOppositeColor(myColorToPlay));
-		}
+			int rookOrigin = 0;
+			int rookDestination = 0;
 
-		movePiece(origin, destination, pieceType, myColorToPlay);
+			if(move.isKingSideCastling())
+			{
+				rookOrigin = myColorToPlay == WHITE ? 7 : 63;
+				rookDestination = myColorToPlay == WHITE ? 5 : 61;
+			}
+			else // QueenSideCastling
+			{
+				rookOrigin = myColorToPlay == WHITE ? 0 : 56;
+				rookDestination =  myColorToPlay == WHITE ? 3 : 59;
+			}
+
+			//move rook
+			movePiece(rookOrigin, rookDestination, Piece::ROOK_TYPE, myColorToPlay);
+		}
+		else if (move.isPromotion())
+		{
+			int promotedType = move.getPromotedPieceType();
+
+			if(move.isCapture())
+			{
+				//remove the captured piece
+				int pieceType = move.getCapturedPieceType();
+				removePiece(destination, pieceType, oppositeColor);
+			}
+
+			removePiece(origin, Piece::PAWN_TYPE, myColorToPlay);
+			addPiece(destination, promotedType, myColorToPlay);
+		}
+		else
+		{
+			if (move.isEnPassant()) // watch out ep capture is a capture
+			{
+				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+				removePiece(capturedPawnIndex, Piece::PAWN_TYPE, oppositeColor);
+			}
+			else //Move is capture
+			{
+				//remove the captured piece
+				int type(move.getCapturedPieceType());
+				removePiece(destination, type, oppositeColor);
+			}
+
+			movePiece(origin, destination, pieceType, myColorToPlay);
+		}
 	}
 
 	myMoves.push_back(move);
-    updateCastlingRights(move);
+	updateCastlingRights(move);
 
-	if (myColorToPlay == BLACK)
-	{
-		myMovesCounter++;
-	}
+	myMovesCounter += myColorToPlay;
 
 	myHalfMovesCounter++;
-	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
+	myColorToPlay = oppositeColor;
 
 	updateConvenienceBitboards();
 }
@@ -482,70 +487,76 @@ void Board::undoMove(Move &move)
 	int origin = move.getOrigin();
 	int destination = move.getDestination();
 	int pieceType = move.getPieceType();
+	int oppositeColor = Utils::getOppositeColor(myColorToPlay);
 
 	/* Be careful to get the valid move color  */
 	rewindCastlingRights(move);
 
-	if(move.isCastling())
+	if(move.isQuiet())
 	{
-		//move King
-		movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
-
-		int rookOrigin = 0;
-		int rookDestination = 0;
-
-		if(move.isKingSideCastling())
-		{
-			rookOrigin = Utils::getOppositeColor(myColorToPlay) == WHITE ? 7 : 63;
-			rookDestination = Utils::getOppositeColor(myColorToPlay) == WHITE ? 5 : 61;
-		}
-		else // QueenSideCastling
-		{
-			rookOrigin = Utils::getOppositeColor(myColorToPlay) == WHITE ? 0 : 56;
-			rookDestination =  Utils::getOppositeColor(myColorToPlay) == WHITE ? 3 : 59;
-		}
-
-		//move rook
-		movePiece(rookDestination, rookOrigin, Piece::ROOK_TYPE, Utils::getOppositeColor(myColorToPlay));
+		movePiece(destination, origin, pieceType, oppositeColor);
 	}
-	else if(move.isPromotion())
+	else //Castling or Promotion or Capture
 	{
-		int promotedType = move.getFlags() - Move::PROMOTION_FLAG +1;
-
-		if(move.isCapture())
+		if(move.isCastling())
 		{
-			promotedType -= Move::CAPTURE_FLAG;
-			//add the captured piece
-			int type(move.getCapturedPieceType());
-			addPiece(destination, type, myColorToPlay);
-		}
+			//move King
+			movePiece(destination, origin, pieceType, oppositeColor);
 
-		removePiece(destination, promotedType, Utils::getOppositeColor(myColorToPlay));
-		addPiece(origin, Piece::PAWN_TYPE, Utils::getOppositeColor(myColorToPlay));
+			int rookOrigin = 0;
+			int rookDestination = 0;
+
+			if(move.isKingSideCastling())
+			{
+				rookOrigin = oppositeColor == WHITE ? 7 : 63;
+				rookDestination = oppositeColor == WHITE ? 5 : 61;
+			}
+			else // QueenSideCastling
+			{
+				rookOrigin = oppositeColor == WHITE ? 0 : 56;
+				rookDestination =  oppositeColor == WHITE ? 3 : 59;
+			}
+
+			//move rook
+			movePiece(rookDestination, rookOrigin, Piece::ROOK_TYPE, oppositeColor);
+		}
+		else if(move.isPromotion())
+		{
+			int promotedType = move.getFlags() - Move::PROMOTION_FLAG +1;
+
+			if(move.isCapture())
+			{
+				promotedType -= Move::CAPTURE_FLAG;
+				//add the captured piece
+				int type(move.getCapturedPieceType());
+				addPiece(destination, type, myColorToPlay);
+			}
+
+			removePiece(destination, promotedType, oppositeColor);
+			addPiece(origin, Piece::PAWN_TYPE, oppositeColor);
+		}
+		else
+		{
+			movePiece(destination, origin, pieceType, oppositeColor);
+
+			if (move.isEnPassant()) // watch out ep capture is a capture
+			{
+				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*oppositeColor;
+				addPiece(capturedPawnIndex, Piece::PAWN_TYPE, myColorToPlay);
+			}
+			else //Move is capture
+			{
+				//add the captured piece
+				int type(move.getCapturedPieceType());
+				addPiece(destination, type, myColorToPlay);
+			}
+		}
 	}
-	else
-	{
-		movePiece(destination, origin, pieceType, Utils::getOppositeColor(myColorToPlay));
 
-		if (move.getFlags() == Move::EP_CAPTURE_FLAG) // watch out ep capture is a capture
-		{
-			unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*Utils::getOppositeColor(myColorToPlay);
-			addPiece(capturedPawnIndex, Piece::PAWN_TYPE, myColorToPlay);
-		}
-		else if(move.isCapture())
-		{
-			//add the captured piece
-			int type(move.getCapturedPieceType());
-			addPiece(destination, type, myColorToPlay);
-		}
-	}
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
 
-	if (myColorToPlay == WHITE)
-	{
-		myMovesCounter--;
-	}
+	myMovesCounter += myColorToPlay - 1; //-1 only when it's white to play
 
 	myHalfMovesCounter--;
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
@@ -559,7 +570,6 @@ void Board::updateConvenienceBitboards()
 	myBlackPieces = bitboards[6] | bitboards[7] | bitboards[8] | bitboards[9] | bitboards[10] | bitboards[11];
 	myAllPieces = myBlackPieces | myWhitePieces;
 }
-
 
 //This methods returns the char representing the piece at the given position (file,rank)
 char Board::getChar(const int file, const int rank) const
