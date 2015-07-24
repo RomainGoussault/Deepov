@@ -16,11 +16,11 @@ namespace TimeManager
 	{
 		if(colorToPlay == WHITE)
 		{
-			return (wtime+winc - wtime/divider)/divider;
+			return (wtime - wtime/divider)/divider;
 		}
 		else
 		{
-			return (btime+binc - btime/divider)/divider;
+			return (btime - btime/divider)/divider;
 		}
 	}
 };
