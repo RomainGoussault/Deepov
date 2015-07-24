@@ -61,33 +61,33 @@ int Utils::convertStringToInt(std::string const& fenMoveCounter)
 
 void Utils::getPerformanceIndicator()
 {
-	MagicMoves::initmagicmoves();
+	for(int i = 0; i < 5; i++)
+	{
+		int n = 0; //TODO implement node count in Search
 
-    Board board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
-	MoveGen moveGen(board);
+		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"));
+		Search s(sp);
 
-	std::chrono::high_resolution_clock::time_point t1 =
-			std::chrono::high_resolution_clock::now();
+		std::chrono::high_resolution_clock::time_point t1 =
+				std::chrono::high_resolution_clock::now();
 
-	int n = 0; //board.perft(5);
-//	board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-	//n += board.perft(5);
+		s.negaMaxRoot(6);
 
-	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("rnb1k1nq/p7/1p1pp3/3P2N1/P1R5/2P1Q1P1/1p1P3P/5RK1 b q -"));
-	Search s(sp);
-	s.negaMaxRoot(5);
+		//Use other position
+		sp = std::shared_ptr<Board>(new Board("rnb1k1nq/p7/1p1pp3/3P2N1/P1R5/2P1Q1P1/1p1P3P/5RK1 b q -"));
+		s.negaMaxRoot(7);
 
+		std::chrono::high_resolution_clock::time_point t2 =
+				std::chrono::high_resolution_clock::now();
 
+		std::chrono::duration<double> time_span = std::chrono::duration_cast<
+				std::chrono::duration<double>>(t2 - t1);
 
-	std::chrono::high_resolution_clock::time_point t2 =
-			std::chrono::high_resolution_clock::now();
+		int nodesPerSec = n/time_span.count();
+		std::cout << "It took me " << time_span.count() << " seconds.";
+		std::cout << "kNodes per sec: " << nodesPerSec / 1000;
 
-	std::chrono::duration<double> time_span = std::chrono::duration_cast<
-			std::chrono::duration<double>>(t2 - t1);
+		std::cout << std::endl;
+	}
 
-	int nodesPerSec = n/time_span.count();
-	std::cout << "It took me " << time_span.count() << " seconds.";
-	std::cout << "kNodes per sec: " << nodesPerSec / 1000;
-
-	std::cout << std::endl;
 }
