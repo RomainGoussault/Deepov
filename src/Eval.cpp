@@ -208,7 +208,7 @@ void Eval::updateEvalAttributes(const Move &move)
 
     if (move.isPromotion())
     {
-        int promotedPieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits pand add one to get piece type
+        int promotedPieceType = move.getPromotedPieceType();
         myMaterialScore += (-2*color + 1)*pieceTypeToValue(promotedPieceType);
     }
 
@@ -247,7 +247,7 @@ void Eval::rewindEvalAttributes(const Move &move)
 
     if (move.isPromotion())
     {
-        int promotedPieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits and add one to get piece type
+        int promotedPieceType = move.getPromotedPieceType();
         myMaterialScore -= (-2*color + 1)*pieceTypeToValue(promotedPieceType);
     }
 
