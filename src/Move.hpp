@@ -25,7 +25,8 @@ public:
 
 	inline Move(int origin, int destination, int flags, Piece::PieceType pieceType)
 	{
-		myMove = ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
+        int capturedPieceType = Piece::NO_PIECE_TYPE;
+		myMove = ((capturedPieceType & 0x7) << 19) | ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
 	}
 
 	inline int getDestination() const
@@ -154,7 +155,7 @@ private:
 	/*
 	 * PieceType:
 	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
-	 * For captured piece 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen
+	 * For captured piece 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 6: no piece type
 	 *
 	 * Flags:
 	 * The MSB of the flags is the promotion bit, the bit after is the capture bit.
