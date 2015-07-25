@@ -19,11 +19,14 @@ public:
     void updateEvalAttributes(const Move &move);
     void rewindEvalAttributes(const Move &move);
 
+    /* These functions are mainly for tests */
     inline int getOpeningPSQValue() const {return myOpeningPSQValue;};
     inline int getEndgamePSQValue()const {return myEndgamePSQValue;};
     inline int getGameStage() const {return myGameStage;};
 	inline int getPawnScore() const {return myPawnScore;};
+	inline int getMaterialScore() const {return myMaterialScore;};
 
+    /* Move ordering */
 	static void sortMoveList(std::vector<Move>& moveList);
 
 private:

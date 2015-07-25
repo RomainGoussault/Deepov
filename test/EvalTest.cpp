@@ -58,3 +58,28 @@ TEST_CASE( "Test the update of material evaluation attributes 2", "[Eval]")
     search.negaMaxRoot(7);
     REQUIRE(search.getCurrentScore() == initScore);
 }
+
+TEST_CASE( "Test the update of evaluation for promotion moves", "[Eval]")
+{
+    std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q2/PPPBBPpP/R3K2R b KQkq - 0 1"));
+    Eval eval(sp);
+
+    Move promotion(14,7,0b1111,Piece::PAWN_TYPE); // Queen promotion-capture
+    promotion.setCapturedPieceType(Piece::ROOK_TYPE);
+
+    int materialScore = eval.getMaterialScore();
+    int pawnScore = eval.getPawnScore();
+    std::cout << "Pawn Score" << pawnScore << std::endl;
+
+    REQUIRE(pawnScore == Pawn::ISOLATED_PAWN_PENALTY - Pawn::DOUBLED_PAWN_PENALTY - Pawn::PASSED_PAWN_BONUS);
+
+    eval.updateEvalAttributes(promotion);
+    sp->executeMove(promotion);
+
+    int changedValue = - Piece::ROOK_VALUE - Piece::QUEEN_VALUE + Piece::PAWN_VALUE;
+    REQUIRE(eval.getMaterialScore() == materialScore + changedValue);
+    changedValue = Pawn::PASSED_PAWN_BONUS + Pawn::DOUBLED_PAWN_PENALTY;
+    std::cout << "Pawn Score" << eval.getPawnScore() << std::endl;
+    std::cout << changedValue << std::endl;
+    REQUIRE(eval.getPawnScore() == pawnScore + changedValue);
+}

@@ -191,7 +191,7 @@ void Eval::updateEvalAttributes(const Move &move)
     int origin=move.getOrigin();
     int destination=move.getDestination();
     int pieceType=move.getPieceType();
-    int color=myBoard->getColorToPlay();
+    int color=Utils::getOppositeColor(myBoard->getColorToPlay());
 
     myOpeningPSQValue += (-2*color + 1)*
                         (EvalTables::AllPSQT[color][0][pieceType][destination]
@@ -212,16 +212,9 @@ void Eval::updateEvalAttributes(const Move &move)
         myMaterialScore += (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
     }
 
-    if (pieceType == Piece::PAWN_TYPE && move.isCapture())
+    if (pieceType == Piece::PAWN_TYPE || move.getCapturedPieceType() == Piece::PAWN_TYPE)
     {
-        int column = Utils::getFile(origin);
-        int pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
-        myPawnScore -= (-2*color + 1)*(pawnsOnFile>1)*Pawn::DOUBLED_PAWN_PENALTY;
-        /* Substracts the penalty if there were more than one pawn on file) */
-        column = Utils::getFile(destination);
-        pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
-        myPawnScore += (-2*color + 1)*(pawnsOnFile>0)*Pawn::DOUBLED_PAWN_PENALTY;
-        /* Add the penalty if there is already a pawn on destination file) */
+        myPawnScore = Pawn::initScore(*myBoard);
     }
 }
 
@@ -230,7 +223,7 @@ void Eval::rewindEvalAttributes(const Move &move)
     int origin=move.getOrigin();
     int destination=move.getDestination();
     int pieceType=move.getPieceType();
-    int color=Utils::getOppositeColor(myBoard->getColorToPlay());
+    int color=myBoard->getColorToPlay();
 
     myOpeningPSQValue -= (-2*color + 1)*
                         (EvalTables::AllPSQT[color][0][pieceType][destination]
