@@ -208,8 +208,8 @@ void Eval::updateEvalAttributes(const Move &move)
 
     if (move.isPromotion())
     {
-        int pieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits pand add one to get piece type
-        myMaterialScore += (-2*color + 1)*pieceTypeToValue(pieceType);
+        int promotedPieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits pand add one to get piece type
+        myMaterialScore += (-2*color + 1)*pieceTypeToValue(promotedPieceType);
     }
 
     if (pieceType == Piece::PAWN_TYPE && move.isCapture())
@@ -247,8 +247,8 @@ void Eval::rewindEvalAttributes(const Move &move)
 
     if (move.isPromotion())
     {
-        int pieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits and add one to get piece type
-        myMaterialScore -= (-2*color + 1)*pieceTypeToValue(pieceType);
+        int promotedPieceType = (move.getFlags()&0x3)+ 1; // get the 2 last bits and add one to get piece type
+        myMaterialScore -= (-2*color + 1)*pieceTypeToValue(promotedPieceType);
     }
 
     if (pieceType == Piece::PAWN_TYPE && move.isCapture())

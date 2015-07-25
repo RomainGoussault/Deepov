@@ -446,8 +446,8 @@ void Board::executeMove(Move &move)
 			if(move.isCapture())
 			{
 				//remove the captured piece
-				int pieceType = move.getCapturedPieceType();
-				removePiece(destination, pieceType, oppositeColor);
+				int capturedPieceType = move.getCapturedPieceType();
+				removePiece(destination, capturedPieceType, oppositeColor);
 			}
 
 			removePiece(origin, Piece::PAWN_TYPE, myColorToPlay);
