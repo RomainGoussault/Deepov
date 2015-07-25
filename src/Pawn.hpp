@@ -8,9 +8,9 @@
 
 namespace Pawn
 {
-	const static unsigned int DOUBLED_PAWN_PENALTY = -20;
-	const static unsigned int ISOLATED_PAWN_PENALTY = -10;
-	const static unsigned int PASSED_PAWN_BONUS = 15;
+	const static int DOUBLED_PAWN_PENALTY = -20;
+	const static int ISOLATED_PAWN_PENALTY = -10;
+	const static int PASSED_PAWN_BONUS = 15;
 
 	/** Score calculation **/
 	int initScore(const Board &board);

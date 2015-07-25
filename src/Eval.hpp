@@ -10,7 +10,7 @@
 class Eval
 {
 public:
-    const static unsigned int TOTAL_MATERIAL = 7940;
+    const static int TOTAL_MATERIAL = 7940;
 
     Eval(std::shared_ptr<Board> boardPtr);
     int evaluate();

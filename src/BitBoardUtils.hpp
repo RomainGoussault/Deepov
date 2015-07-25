@@ -15,7 +15,7 @@ namespace BitBoardUtils
 
 	/* Bit Hacks*/
 	// Source : https://graphics.stanford.edu/~seander/bithacks.html
-	inline unsigned int countBBBitsSet(const U64 bitboard)
+	inline int countBBBitsSet(const U64 bitboard)
 	{
 		return __builtin_popcountll(bitboard);
 	}

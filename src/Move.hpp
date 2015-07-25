@@ -12,12 +12,12 @@ class Move
 {
 
 public:
-    const static unsigned int EP_CAPTURE_FLAG = 0b0101;
-    const static unsigned int DOUBLE_PAWN_PUSH_FLAG =0b0001;
-	const static unsigned int CAPTURE_FLAG = 0b0100;
-	const static unsigned int PROMOTION_FLAG = 0b1000;
-	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
-	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
+    const static int EP_CAPTURE_FLAG = 0b0101;
+    const static int DOUBLE_PAWN_PUSH_FLAG =0b0001;
+	const static int CAPTURE_FLAG = 0b0100;
+	const static int PROMOTION_FLAG = 0b1000;
+	const static int KING_SIDE_CASTLING = 	0b0010;
+	const static int QUEEN_SIDE_CASTLING = 0b0011;
 
 	inline Move() : myMove() //Default constructor
 	{
@@ -74,7 +74,7 @@ public:
         myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
     }
 
-	inline void setFlags(unsigned const int flag)
+	inline void setFlags(const int flag)
 	{
 	    myMove &= ~0xf000; myMove |= ((flag & 0xf) << 12); // Mask on the first 4 bits
 	}
@@ -117,7 +117,7 @@ public:
 		std::string promotionLetter = "";
 		if(isPromotion())
 		{
-			unsigned int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
+			int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
 
 			if(isCapture())
 			{

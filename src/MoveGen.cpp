@@ -88,7 +88,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, int pieceIndex
 	{
 		//Getting the index of the MSB
 		int positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
-		unsigned int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
+		int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
 		Move move = Move(pieceIndex, positionMsb, flag, Piece::PAWN_TYPE);
         Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
@@ -407,7 +407,7 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
     {
         while (validPawns)
         {
-            unsigned int enemyDestination = enemyLastMove->getDestination();
+            int enemyDestination = enemyLastMove->getDestination();
             int validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
 
@@ -440,7 +440,7 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
 	{
         while (validPawns)
         {
-            unsigned int enemyDestination = enemyLastMove->getDestination();
+            int enemyDestination = enemyLastMove->getDestination();
             int validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
 

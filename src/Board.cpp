@@ -457,7 +457,7 @@ void Board::executeMove(Move &move)
 		{
 			if (move.isEnPassant()) // watch out ep capture is a capture
 			{
-				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+				int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
 				removePiece(capturedPawnIndex, Piece::PAWN_TYPE, oppositeColor);
 			}
 			else //Move is capture
@@ -541,7 +541,7 @@ void Board::undoMove(Move &move)
 
 			if (move.isEnPassant()) // watch out ep capture is a capture
 			{
-				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*oppositeColor;
+				int capturedPawnIndex = move.getDestination() - 8 + 16*oppositeColor;
 				addPiece(capturedPawnIndex, Piece::PAWN_TYPE, myColorToPlay);
 			}
 			else //Move is capture
@@ -787,8 +787,8 @@ void Board::updateCastlingRights(Move &move)
     if (((1LL << origin)&LookUpTables::ROOK_INITIAL_POS)!=0)
     {
         // King side produces bit 0, queen side produces bit 1
-        unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
-        unsigned int mask = ~(0b0001 << shift);
+        int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
+        int mask = ~(0b0001 << shift);
         myCastling &= mask;
         /* 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
     }
@@ -797,8 +797,8 @@ void Board::updateCastlingRights(Move &move)
     if (((1LL << destination)&LookUpTables::ROOK_INITIAL_POS)!=0)
     {
         /* Update Castling Rights for rook capture */
-        unsigned int shift(((~destination)&0b0001) + 2*((destination&0b1000)>>3));
-        unsigned int mask = ~(0b0001 << shift);
+        int shift(((~destination)&0b0001) + 2*((destination&0b1000)>>3));
+        int mask = ~(0b0001 << shift);
         myCastling &= mask;
     }
 }

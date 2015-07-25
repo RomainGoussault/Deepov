@@ -52,7 +52,7 @@ void Utils::getCastling(std::string const& castleString, int &castlingRights)
 int Utils::convertStringToInt(std::string const& fenMoveCounter)
 {
 	int counter = 0;
-	for (unsigned int i=0; fenMoveCounter[i] != '\0';++i)
+	for (int i=0; fenMoveCounter[i] != '\0';++i)
 	{
 		counter = counter*10 + (fenMoveCounter[i]- '0') ;
 	}
