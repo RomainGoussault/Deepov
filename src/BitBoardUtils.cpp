@@ -1,7 +1,7 @@
 #include "BitBoardUtils.hpp"
 
 
-U64 BitBoardUtils::inBetween(int sq1, int sq2) { //TODO an array lookup is better https://chessprogramming.wikispaces.com/Square+Attacked+By#Legality%20Test-In%20Between-Rectangular%20Lookup
+U64 BitBoardUtils::inBetween(unsigned int sq1, unsigned int sq2) { //TODO an array lookup is better https://chessprogramming.wikispaces.com/Square+Attacked+By#Legality%20Test-In%20Between-Rectangular%20Lookup
    const U64 m1   = U64(-1);
    const U64 a2a7 = U64(0x0001010101010100);
    const U64 b2g7 = U64(0x0040201008040200);
@@ -26,7 +26,7 @@ std::string BitBoardUtils::printBitBoard(const U64 &bitBoard)
 	{
 		strm << rank << "|  ";
 
-		for(int file = 0; file < 8 ; file++)
+		for(unsigned int file = 0; file < 8 ; file++)
 		{
 			char c = BitBoardUtils::isBitSet(bitBoard, file, rank) ? 'X' : '*';
 			strm << c << " ";

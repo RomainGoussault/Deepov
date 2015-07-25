@@ -12,69 +12,69 @@ class Move
 {
 
 public:
-    const static int EP_CAPTURE_FLAG = 0b0101;
-    const static int DOUBLE_PAWN_PUSH_FLAG =0b0001;
-	const static int CAPTURE_FLAG = 0b0100;
-	const static int PROMOTION_FLAG = 0b1000;
-	const static int KING_SIDE_CASTLING = 	0b0010;
-	const static int QUEEN_SIDE_CASTLING = 0b0011;
+    const static unsigned int EP_CAPTURE_FLAG = 0b0101;
+    const static unsigned int DOUBLE_PAWN_PUSH_FLAG =0b0001;
+	const static unsigned int CAPTURE_FLAG = 0b0100;
+	const static unsigned int PROMOTION_FLAG = 0b1000;
+	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
+	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
 
 	inline Move() : myMove() //Default constructor
 	{
 	}
 
-	inline Move(int origin, int destination, int flags, Piece::PieceType pieceType)
+	inline Move(unsigned int origin, unsigned int destination, unsigned int flags, Piece::PieceType pieceType)
 	{
 		myMove = ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
 	}
 
-	inline int getDestination() const
+	inline unsigned int getDestination() const
 	{
 		return myMove & 0x3f;
 	}
 
-	inline int getOrigin() const
+	inline unsigned int getOrigin() const
 	{
 		return (myMove >> 6) & 0x3f;
 	}
 
-	inline int getFlags() const
+	inline unsigned int getFlags() const
 	{
 		return (myMove >> 12) & 0x0f;
 	}
 
-	inline int getPieceType() const
+	inline unsigned int getPieceType() const
 	{
 		return (myMove >> 16) & 0x7;
 	}
 
-	inline int getPromotedPieceType() const
+	inline unsigned int getPromotedPieceType() const
 	{
 		return (getFlags() & 0b11) + 1;
 	}
 
-    inline int getCapturedPieceType() const
+    inline unsigned int getCapturedPieceType() const
 	{
 		return (myMove >> 19) & 0x7;
 	}
 
-	inline int getPreviousCastlingRights() const
+	inline unsigned int getPreviousCastlingRights() const
 	{
 	    return (myMove >> 22) & 0xf;
 	}
 
-    inline void setDestination(const int destination)
+    inline void setDestination(const unsigned int destination)
     {
         myMove &= ~0x3f; // clear the first 6 bits
         myMove |= (destination & 0x3f); // mask on the first 6 bits and OR it with myMoves
     }
 
-    inline void setOrigin(const int origin)
+    inline void setOrigin(const unsigned int origin)
     {
         myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
     }
 
-	inline void setFlags(const int flag)
+	inline void setFlags(const unsigned int flag)
 	{
 	    myMove &= ~0xf000; myMove |= ((flag & 0xf) << 12); // Mask on the first 4 bits
 	}
@@ -84,7 +84,7 @@ public:
 	    myMove &= ~0x380000; myMove |= ((type & 0x7) << 19); // Mask on the first 3 bits
 	}
 
-    inline void setPreviousCastlingRights(const int state) // State contains the 4 bits
+    inline void setPreviousCastlingRights(const unsigned int state) // State contains the 4 bits
     {
         myMove &= ~0x3c00000; myMove |= ((state & 0xf) << 22);
     }
@@ -108,16 +108,16 @@ public:
 //		The move format is in long algebraic notation.
 		std::array<std::string,8> letters = {{"a", "b", "c", "d", "e", "f", "g", "h"}};
 
-		int xOrigin = getOrigin() % 8;
-		int yOrigin = (getOrigin() / 8)+1;
+		unsigned int xOrigin = getOrigin() % 8;
+		unsigned int yOrigin = (getOrigin() / 8)+1;
 
-		int xDestination = getDestination() % 8;
-		int yDestination = (getDestination() / 8)+1;
+		unsigned int xDestination = getDestination() % 8;
+		unsigned int yDestination = (getDestination() / 8)+1;
 
 		std::string promotionLetter = "";
 		if(isPromotion())
 		{
-			int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
+			unsigned int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
 
 			if(isCapture())
 			{
@@ -150,7 +150,7 @@ public:
 
 private:
 
-	int myMove; //26 Bits : Castling Right BEFORE the move 4 bits || Captured Piece 3 bits || Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
+	unsigned int myMove; //26 Bits : Castling Right BEFORE the move 4 bits || Captured Piece 3 bits || Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
 	/*
 	 * PieceType:
 	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
@@ -184,11 +184,11 @@ private:
 inline std::ostream& operator<<(std::ostream &strm, const Move &Move) {
 
 	std::bitset<4> flags(Move.getFlags());
-	int xOrigin = Move.getOrigin() % 8;
-	int yOrigin = Move.getOrigin() / 8;
+	unsigned int xOrigin = Move.getOrigin() % 8;
+	unsigned int yOrigin = Move.getOrigin() / 8;
 
-	int xDestination = Move.getDestination() % 8;
-	int yDestination = Move.getDestination() / 8;
+	unsigned int xDestination = Move.getDestination() % 8;
+	unsigned int yDestination = Move.getDestination() / 8;
 
 	strm << "Origin: [" << xOrigin << ", " << yOrigin << "] Dest: ["
 			<< xDestination << ", " << yDestination << "] Flags: " << flags

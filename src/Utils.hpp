@@ -16,11 +16,11 @@
 
 namespace Utils
 {
-	void getCastling(std::string const& castleString, int &castlingRights);
-	int convertStringToInt(std::string const& fenMoveCounter);
+	void getCastling(std::string const& castleString, unsigned int &castlingRights);
+	unsigned int convertStringToInt(std::string const& fenMoveCounter);
 	void getPerformanceIndicator();
-	inline constexpr int getOppositeColor(const int color){return color ^ 1;};
-	inline int getFile(const int positionIndex){return positionIndex%8;};
+	inline constexpr unsigned int getOppositeColor(const unsigned int color){return color ^ 1;};
+	inline unsigned int getFile(const unsigned int positionIndex){return positionIndex%8;};
 };
 
 

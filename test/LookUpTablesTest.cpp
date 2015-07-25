@@ -7,7 +7,7 @@ TEST_CASE( "LookUpTables" )
     SECTION("Bitboard calculations")
     {
         LookUpTables::init();
-        int posIndex = 10;
+        unsigned int posIndex = 10;
         U64 frontMask=LookUpTables::frontBB(posIndex,WHITE);
         REQUIRE(frontMask == 0x404040404040000);
 

@@ -7,9 +7,9 @@
 
 TEST_CASE( "Constructor and methods" )
 {
-    int origin = 4;
-    int destination = 5;
-    int flags = 6;
+    unsigned int origin = 4;
+    unsigned int destination = 5;
+    unsigned int flags = 6;
     Piece::PieceType pieceType = Piece::BISHOP_TYPE;
     Move move(origin, destination, flags, pieceType);
 
@@ -53,7 +53,7 @@ TEST_CASE( "execute Move" )
     REQUIRE(BitBoardUtils::isBitSet(bb, 0, 0) == true);
     REQUIRE(BitBoardUtils::isBitSet(bb, 1, 2) == false);
 
-	int size = moveGen.getKnightPseudoLegalMoves(WHITE).size();
+	unsigned int size = moveGen.getKnightPseudoLegalMoves(WHITE).size();
     REQUIRE(size == 1);
 
 	Move move = moveGen.getKnightPseudoLegalMoves(WHITE)[0];
@@ -71,7 +71,7 @@ TEST_CASE( "undo Move" )
 	Board fb = Board("8/8/8/8/8/8/6bn/5qr1 b - -");
 	MoveGen moveGen(fb);
 
-	int size = moveGen.getRookPseudoLegalMoves(BLACK).size();
+	unsigned int size = moveGen.getRookPseudoLegalMoves(BLACK).size();
     REQUIRE(size == 1);
 
 	U64 bb = fb.getBlackRooks();

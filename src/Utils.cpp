@@ -17,7 +17,7 @@
 #include <boost/algorithm/string.hpp>
 
 
-void Utils::getCastling(std::string const& castleString, int &castlingRights)
+void Utils::getCastling(std::string const& castleString, unsigned int &castlingRights)
 {
 	castlingRights = 0b0000;
 	if (castleString[0] == '-')
@@ -49,21 +49,22 @@ void Utils::getCastling(std::string const& castleString, int &castlingRights)
 }
 
 //Waiting to have a fix for stoi
-int Utils::convertStringToInt(std::string const& fenMoveCounter)
+unsigned int Utils::convertStringToInt(std::string const& fenMoveCounter)
 {
-	int counter = 0;
-	for (int i=0; fenMoveCounter[i] != '\0';++i)
+	unsigned int counter = 0;
+	for (unsigned int i=0; fenMoveCounter[i] != '\0';++i)
 	{
 		counter = counter*10 + (fenMoveCounter[i]- '0') ;
 	}
 	return counter;
 }
 
+
 void Utils::getPerformanceIndicator()
 {
-	for(int i = 0; i < 5; i++)
+	for(unsigned int i = 0; i < 5; i++)
 	{
-		int n = 0; //TODO implement node count in Search
+		unsigned int n = 0; //TODO implement node count in Search
 
 		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"));
 		Search s(sp);
@@ -83,7 +84,7 @@ void Utils::getPerformanceIndicator()
 		std::chrono::duration<double> time_span = std::chrono::duration_cast<
 				std::chrono::duration<double>>(t2 - t1);
 
-		int nodesPerSec = n/time_span.count();
+		unsigned int nodesPerSec = n/time_span.count();
 		std::cout << "It took me " << time_span.count() << " seconds.";
 		std::cout << "kNodes per sec: " << nodesPerSec / 1000;
 

@@ -34,10 +34,10 @@ private:
 
 	std::shared_ptr<Board> boardPtr;
 	thrd::thread myThread;
-	int wtime;
-	int btime;
-	int winc;
-	int binc;
+	unsigned int wtime;
+	unsigned int btime;
+	unsigned int winc;
+	unsigned int binc;
 
 	void updatePosition(std::istringstream& is);
 	Move strToMove(std::string str);
