@@ -209,7 +209,7 @@ void Eval::updateEvalAttributes(const Move &move)
     if (move.isPromotion())
     {
         int promotedPieceType = move.getPromotedPieceType();
-        myMaterialScore += (-2*color + 1)*pieceTypeToValue(promotedPieceType);
+        myMaterialScore += (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
     }
 
     if (pieceType == Piece::PAWN_TYPE && move.isCapture())
@@ -248,7 +248,7 @@ void Eval::rewindEvalAttributes(const Move &move)
     if (move.isPromotion())
     {
         int promotedPieceType = move.getPromotedPieceType();
-        myMaterialScore -= (-2*color + 1)*pieceTypeToValue(promotedPieceType);
+        myMaterialScore -= (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
     }
 
     if (pieceType == Piece::PAWN_TYPE && move.isCapture())

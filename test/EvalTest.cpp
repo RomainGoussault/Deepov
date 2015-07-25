@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "Eval.hpp"
+#include "Search.hpp"
 
 TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
 {
@@ -38,4 +39,22 @@ TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
 
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(eval.getEndgamePSQValue()==0);
+}
+
+TEST_CASE( "Test the update of material evaluation attributes", "[Eval]")
+{
+    std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
+    Search search(sp);
+    REQUIRE(search.getCurrentScore() == 0);
+    search.negaMaxRoot(7);
+    REQUIRE(search.getCurrentScore() == 0);
+}
+
+TEST_CASE( "Test the update of material evaluation attributes 2", "[Eval]")
+{
+    std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"));
+    Search search(sp);
+    int initScore = search.getCurrentScore();
+    search.negaMaxRoot(7);
+    REQUIRE(search.getCurrentScore() == initScore);
 }
