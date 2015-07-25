@@ -28,14 +28,14 @@ TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(sp->getColorToPlay()==WHITE);
     Move e2e4(12,28,0,Piece::PAWN_TYPE);
-    eval.updateEvalAttributes(e2e4);
     sp->executeMove(e2e4);
+    eval.updateEvalAttributes(e2e4);
 
     REQUIRE(eval.getOpeningPSQValue()==60);
     REQUIRE(eval.getEndgamePSQValue()==5);
 
-    eval.rewindEvalAttributes(e2e4);
     sp->undoMove(e2e4);
+    eval.rewindEvalAttributes(e2e4);
 
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(eval.getEndgamePSQValue()==0);
@@ -69,17 +69,14 @@ TEST_CASE( "Test the update of evaluation for promotion moves", "[Eval]")
 
     int materialScore = eval.getMaterialScore();
     int pawnScore = eval.getPawnScore();
-    std::cout << "Pawn Score" << pawnScore << std::endl;
 
     REQUIRE(pawnScore == Pawn::ISOLATED_PAWN_PENALTY - Pawn::DOUBLED_PAWN_PENALTY - Pawn::PASSED_PAWN_BONUS);
 
-    eval.updateEvalAttributes(promotion);
     sp->executeMove(promotion);
+    eval.updateEvalAttributes(promotion);
 
     int changedValue = - Piece::ROOK_VALUE - Piece::QUEEN_VALUE + Piece::PAWN_VALUE;
     REQUIRE(eval.getMaterialScore() == materialScore + changedValue);
     changedValue = Pawn::PASSED_PAWN_BONUS + Pawn::DOUBLED_PAWN_PENALTY;
-    std::cout << "Pawn Score" << eval.getPawnScore() << std::endl;
-    std::cout << changedValue << std::endl;
     REQUIRE(eval.getPawnScore() == pawnScore + changedValue);
 }
