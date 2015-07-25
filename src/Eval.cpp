@@ -18,7 +18,7 @@ int Eval::evaluate()
 	int64_t diff = openingValue + endGameValue;
 	int positionScore =  diff/TOTAL_MATERIAL;
 
-	return myMaterialScore + positionScore;
+	return myMaterialScore + positionScore + myPawnScore;
 }
 
 void Eval::init()
