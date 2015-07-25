@@ -7,9 +7,9 @@
 
 TEST_CASE( "Constructor and methods" )
 {
-    unsigned int origin = 4;
-    unsigned int destination = 5;
-    unsigned int flags = 6;
+    int origin = 4;
+    int destination = 5;
+    int flags = 6;
     Piece::PieceType pieceType = Piece::BISHOP_TYPE;
     Move move(origin, destination, flags, pieceType);
 

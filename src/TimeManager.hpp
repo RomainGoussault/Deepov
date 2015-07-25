@@ -12,7 +12,7 @@ namespace TimeManager
 	constexpr int divider = 50;
 
 	//Note all values are in ms
-	int getTimeAllocatedMiliSec(const int wtime, const int btime, const int winc, const int binc, const int colorToPlay)
+	int getTimeAllocatedMiliSec(const int wtime, const int btime, const int /*winc*/, const int /*binc*/, const int colorToPlay)
 	{
 		if(colorToPlay == WHITE)
 		{

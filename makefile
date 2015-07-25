@@ -1,9 +1,9 @@
 # Var definitions
 
-export MAKEFLAGS=-j9
+#export MAKEFLAGS=-j4
 
 CXX = g++-5 -O3
-CC_FLAGS = -W -Wall -g -std=c++14
+CC_FLAGS = -W -Wall -g -fno-rtti -ansi -Wshadow -Wextra -std=c++14 
 LD_FLAGS = -lpthread -lboost_thread -lboost_system
 
 

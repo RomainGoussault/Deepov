@@ -23,53 +23,53 @@ public:
 	{
 	}
 
-	inline Move(unsigned int origin, unsigned int destination, unsigned int flags, Piece::PieceType pieceType)
+	inline Move(int origin, int destination, int flags, Piece::PieceType pieceType)
 	{
 		myMove = ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
 	}
 
-	inline unsigned int getDestination() const
+	inline int getDestination() const
 	{
 		return myMove & 0x3f;
 	}
 
-	inline unsigned int getOrigin() const
+	inline int getOrigin() const
 	{
 		return (myMove >> 6) & 0x3f;
 	}
 
-	inline unsigned int getFlags() const
+	inline int getFlags() const
 	{
 		return (myMove >> 12) & 0x0f;
 	}
 
-	inline unsigned int getPieceType() const
+	inline int getPieceType() const
 	{
 		return (myMove >> 16) & 0x7;
 	}
 
-	inline unsigned int getPromotedPieceType() const
+	inline int getPromotedPieceType() const
 	{
 		return (getFlags() & 0b11) + 1;
 	}
 
-    inline unsigned int getCapturedPieceType() const
+    inline int getCapturedPieceType() const
 	{
 		return (myMove >> 19) & 0x7;
 	}
 
-	inline unsigned int getPreviousCastlingRights() const
+	inline int getPreviousCastlingRights() const
 	{
 	    return (myMove >> 22) & 0xf;
 	}
 
-    inline void setDestination(unsigned const int destination)
+    inline void setDestination(const int destination)
     {
         myMove &= ~0x3f; // clear the first 6 bits
         myMove |= (destination & 0x3f); // mask on the first 6 bits and OR it with myMoves
     }
 
-    inline void setOrigin(unsigned const int origin)
+    inline void setOrigin(const int origin)
     {
         myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
     }
@@ -84,7 +84,7 @@ public:
 	    myMove &= ~0x380000; myMove |= ((type & 0x7) << 19); // Mask on the first 3 bits
 	}
 
-    inline void setPreviousCastlingRights(unsigned const int state) // State contains the 4 bits
+    inline void setPreviousCastlingRights(const int state) // State contains the 4 bits
     {
         myMove &= ~0x3c00000; myMove |= ((state & 0xf) << 22);
     }
@@ -150,7 +150,7 @@ public:
 
 private:
 
-	int myMove; //Bits : Castling Right BEFORE the move 4 bits || Captured Piece 3 bits || Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
+	int myMove; //26 Bits : Castling Right BEFORE the move 4 bits || Captured Piece 3 bits || Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
 	/*
 	 * PieceType:
 	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
