@@ -253,14 +253,7 @@ void Eval::rewindEvalAttributes(const Move &move)
 
     if (pieceType == Piece::PAWN_TYPE || move.getCapturedPieceType() == Piece::PAWN_TYPE)
     {
-        int column = Utils::getFile(origin);
-        int pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
-        myPawnScore += (-2*color + 1)*(pawnsOnFile>0)*Pawn::DOUBLED_PAWN_PENALTY;
-        /* Substracts the penalty if there were more than one pawn on file) */
-        column = Utils::getFile(destination);
-        pawnsOnFile=Pawn::countPawnsInFile(*myBoard,column,color);
-        myPawnScore -= (-2*color + 1)*(pawnsOnFile>1)*Pawn::DOUBLED_PAWN_PENALTY;
-        /* Add the penalty if there is already a pawn on destination file) */
+        myPawnScore = Pawn::initScore(*myBoard);
     }
 }
 
