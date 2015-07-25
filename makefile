@@ -2,8 +2,8 @@
 
 export MAKEFLAGS=-j9
 
-CXX = g++-4.8 -O3
-CC_FLAGS = -W -Wall -g -std=c++11
+CXX = g++-5 -O3
+CC_FLAGS = -W -Wall -g -std=c++14
 LD_FLAGS = -lpthread -lboost_thread -lboost_system
 
 
