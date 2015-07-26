@@ -73,8 +73,10 @@ public:
 
 	inline U64 getBitBoard(Piece::PieceType pieceType, unsigned int color) const{return bitboards[pieceType+6*color];};
 
-    void updatePinnedPieces();
+	inline U64 getAtkFr(unsigned int sq) const {return myAtkFr[sq];};
+	inline U64 getAtkTo(unsigned int sq) const {return myAtkTo[sq];};
 
+    void updatePinnedPieces();
 
 	inline bool getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
@@ -131,6 +133,8 @@ public:
 
 private:
     std::array<U64, 12> bitboards;
+    U64 myAtkTo[64]; // Locations of pieces that attack to the square
+    U64 myAtkFr[64]; // Attacks from the piece on the square
 
 	U64 myWhitePieces;
 	U64 myBlackPieces;
