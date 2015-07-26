@@ -111,8 +111,8 @@ public:
     bool isCheck(const unsigned int color) const;
 
     //Attacked positions
-    U64 getAttacks(Piece::Piece piece);
-    U64 getAttacksFromSq(const unsigned int position) const;
+    inline U64 getAttacksFromSq(const unsigned int position) const {return getPieceAttacks(findPieceType(position));};
+    U64 getPieceAttacks(Piece::Piece piece) const; // use template ??
     U64 getAttackedPositions(const unsigned int color) const;
     U64 getKingAttackedPositions(const unsigned int& color) const;
     U64 getKingDestinations(const U64 kingPos, const unsigned int& color) const;
