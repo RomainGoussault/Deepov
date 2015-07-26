@@ -102,6 +102,7 @@ public:
 
 
     //PieceType method
+    Piece::Piece findPieceType(const unsigned int position) const;
     Piece::PieceType findPieceType(const unsigned int position, const unsigned int color) const;
     Piece::PieceType findWhitePieceType(const unsigned int position) const;
     Piece::PieceType findBlackPieceType(const unsigned int position) const;
@@ -110,6 +111,7 @@ public:
     bool isCheck(const unsigned int color) const;
 
     //Attacked positions
+    U64 getAttacks(Piece::Piece piece);
     U64 getAttacksFromSq(const unsigned int position) const;
     U64 getAttackedPositions(const unsigned int color) const;
     U64 getKingAttackedPositions(const unsigned int& color) const;
