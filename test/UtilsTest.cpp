@@ -2,9 +2,9 @@
 #include "Utils.hpp"
 #include "BitBoardUtils.hpp"
 
-TEST_CASE( "Conversion string to int" )
+TEST_CASE( "Conversion string to unsigned int" )
 {
-    int convertedString ;
+    unsigned int convertedString ;
     std::string aString = "3";
     convertedString = Utils::convertStringToInt(aString) ;
     REQUIRE( convertedString == 3);

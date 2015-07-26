@@ -16,7 +16,7 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 
 		std::vector<Move> epMoves;
 		moveGen.appendBlackEnPassantMoves(epMoves);
-		int epSize = epMoves.size();
+		unsigned int epSize = epMoves.size();
 		REQUIRE(epSize == 1);
     }
 
@@ -24,8 +24,8 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 	{
     	std::shared_ptr<Board> boardPtr = std::make_shared<Board>("rnbqkbnr/1ppppppp/p7/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
         MoveGen moveGen(boardPtr);
-		int origin = 53; // F7
-		int destination = 37; // F5
+		unsigned int origin = 53; // F7
+		unsigned int destination = 37; // F5
 
 		Move move(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN_TYPE);
 		boardPtr->executeMove(move);
@@ -38,7 +38,7 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 
 		std::vector<Move> epMoves;
 		moveGen.appendWhiteEnPassantMoves(epMoves);
-		int epSize = epMoves.size();
+		unsigned int epSize = epMoves.size();
 		REQUIRE(epSize == 1);
 
 		boardPtr->executeMove(epMoves[0]);

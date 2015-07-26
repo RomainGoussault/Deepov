@@ -15,8 +15,8 @@ bitboards(), myPinnedPieces(), myCastling()
 	boost::split(spaceSplit, fen, boost::is_any_of(" "));
 	boost::split(piecesByRank, spaceSplit[0], boost::is_any_of("/"));
 
-	int rank = 7;
-	for (int i=0; i<8; i++)
+	unsigned int rank = 7;
+	for (unsigned int i=0; i<8; i++)
 	{
 		setBitBoards(piecesByRank[i], rank);
 		rank--;
@@ -37,9 +37,9 @@ bitboards(), myPinnedPieces(), myCastling()
 
 	if ((spaceSplit[3][0] != '-') && (getMovesHistory().size() == 0))
 	{
-		int epIndex = getIndexFromChar(spaceSplit[3]);
-		int origin = epIndex + 8 - 16*myColorToPlay;
-		int destination = epIndex - 8 + 16*myColorToPlay;
+		unsigned int epIndex = getIndexFromChar(spaceSplit[3]);
+		unsigned int origin = epIndex + 8 - 16*myColorToPlay;
+		unsigned int destination = epIndex - 8 + 16*myColorToPlay;
 		Move lastMove(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN_TYPE);
 		myMoves.push_back(lastMove);
 	}
@@ -67,7 +67,7 @@ bitboards(), myPinnedPieces(), myCastling()
 	}
 }
 
-Piece::PieceType Board::findBlackPieceType(const int position) const
+Piece::PieceType Board::findBlackPieceType(const unsigned int position) const
 {
 	if (bitboards[6]&(1LL << position))
 	{
@@ -99,7 +99,7 @@ Piece::PieceType Board::findBlackPieceType(const int position) const
 	}
 }
 
-Piece::PieceType Board::findWhitePieceType(const int position) const
+Piece::PieceType Board::findWhitePieceType(const unsigned int position) const
 {
 	if (bitboards[0]&(1LL << position))
 	{
@@ -132,11 +132,11 @@ Piece::PieceType Board::findWhitePieceType(const int position) const
 }
 
 /**
- * This method returns an int between 0 and 5 representing the type
+ * This method returns an unsigned int between 0 and 5 representing the type
  *  of the piece at the given position (MSB index) and for the given
  *  color.
  */
-Piece::PieceType Board::findPieceType(const int position, const int color) const
+Piece::PieceType Board::findPieceType(const unsigned int position, const unsigned int color) const
 {
 	if(color == WHITE)
 	{
@@ -152,9 +152,9 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 {
 	bool isLegalMove = true;
 	bool isEnPassant = move.getFlags() == Move::EP_CAPTURE_FLAG;
-	int color = myColorToPlay;
+	unsigned int color = myColorToPlay;
 
-	int origin = move.getOrigin();
+	unsigned int origin = move.getOrigin();
 	U64 oribb = 1LL << origin;
 	bool isPinned = oribb & getPinnedPieces();
 	bool isKingMove = move.getPieceType() == Piece::KING_TYPE;
@@ -175,9 +175,9 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	return isLegalMove;
 }
 
-bool Board::isCheck(const int color) const
+bool Board::isCheck(const unsigned int color) const
 {
-	int ennemyColor = Utils::getOppositeColor(color);
+	unsigned int ennemyColor = Utils::getOppositeColor(color);
 	U64 ennemyAttackingPositions = getAttackedPositions(ennemyColor);
 
 	U64 kingPosition = getKing(color);
@@ -186,7 +186,7 @@ bool Board::isCheck(const int color) const
 	return isCheck;
 }
 
-U64 Board::getAttackedPositions(const int color) const {
+U64 Board::getAttackedPositions(const unsigned int color) const {
 	U64 kingAttackedPosition = getKingAttackedPositions(color);
 	U64 queenAttackedPosition = getQueenAttackedPositions(color);
 	U64 rookAttackedPosition = getRookAttackedPositions(color);
@@ -200,7 +200,7 @@ U64 Board::getAttackedPositions(const int color) const {
 	return attackedPositions;
 }
 
-U64 Board::getKnightAttackedPositions(const int& color) const
+U64 Board::getKnightAttackedPositions(const unsigned int& color) const
 {
 	U64 knightAttackedDestinations = 0LL;
 
@@ -209,7 +209,7 @@ U64 Board::getKnightAttackedPositions(const int& color) const
 	//loop through the knights:
 	while(knightPositions)
 	{
-		const int knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
+		const unsigned int knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
 		U64 knightValidDestinations = getKnightDestinations(knightIndex, color);
 		knightAttackedDestinations |= knightValidDestinations;
 
@@ -219,7 +219,7 @@ U64 Board::getKnightAttackedPositions(const int& color) const
 	return knightAttackedDestinations;
 }
 
-U64 Board::getKingAttackedPositions(const int& color) const
+U64 Board::getKingAttackedPositions(const unsigned int& color) const
 {
 	U64 kingPosition = getKing(color);
 	U64 kingAttackedDestinations = getKingDestinations(kingPosition, color);
@@ -227,7 +227,7 @@ U64 Board::getKingAttackedPositions(const int& color) const
 	return kingAttackedDestinations;
 }
 
-U64 Board::getKingDestinations(const U64 kingPos, const int& color) const
+U64 Board::getKingDestinations(const U64 kingPos, const unsigned int& color) const
 {
 	/* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
 	/* we can ignore the rank clipping since the overflow/underflow with
@@ -256,7 +256,7 @@ U64 Board::getKingDestinations(const U64 kingPos, const int& color) const
 	return kingValidDestinations;
 }
 
-U64 Board::getRookAttackedPositions(const int& color) const
+U64 Board::getRookAttackedPositions(const unsigned int& color) const
 {
 	U64 rookAttackedDestinations = 0LL;
 	U64 rookPositions = getRooks(color);
@@ -264,7 +264,7 @@ U64 Board::getRookAttackedPositions(const int& color) const
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		int rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
+		unsigned int rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
 		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, getAllPieces()) & ~getPieces(color);
@@ -274,7 +274,7 @@ U64 Board::getRookAttackedPositions(const int& color) const
 	return rookAttackedDestinations;
 }
 
-U64 Board::getBishopAttackedPositions(const int& color) const
+U64 Board::getBishopAttackedPositions(const unsigned int& color) const
 {
 	U64 bishopAttackedDestinations = 0LL;
 	U64 bishopPositions = getBishops(color);
@@ -282,7 +282,7 @@ U64 Board::getBishopAttackedPositions(const int& color) const
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		int bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
+		unsigned int bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
 		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, getAllPieces()) & ~getPieces(color);
@@ -292,7 +292,7 @@ U64 Board::getBishopAttackedPositions(const int& color) const
 	return bishopAttackedDestinations;
 }
 
-U64 Board::getQueenAttackedPositions(const int& color) const
+U64 Board::getQueenAttackedPositions(const unsigned int& color) const
 {
 	U64 queenAttackedDestinations = 0LL;
 	U64 queenPositions = getQueens(color);
@@ -300,7 +300,7 @@ U64 Board::getQueenAttackedPositions(const int& color) const
 	//loop through the queens:
 	while(queenPositions)
 	{
-		int queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
+		unsigned int queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
 		U64 queenDestinations = MagicMoves::Rmagic(queenIndex, getAllPieces()) | MagicMoves::Bmagic(queenIndex, getAllPieces());
@@ -319,7 +319,7 @@ U64 Board::getWhitePawnAttackedPositions() const
 	//loop through the pawns:
 	while(pawnPositions)
 	{
-		int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
+		unsigned int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
@@ -345,7 +345,7 @@ U64 Board::getBlackPawnAttackedPositions() const
 	//loop through the pawns:
 	while(pawnPositions)
 	{
-		int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
+		unsigned int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
@@ -363,7 +363,7 @@ U64 Board::getBlackPawnAttackedPositions() const
 	return pawnAttackedDestinations;
 }
 
-U64 Board::getPawnAttackedPositions(const int& color) const
+U64 Board::getPawnAttackedPositions(const unsigned int& color) const
 {
 	if(color == WHITE)
 	{
@@ -375,7 +375,7 @@ U64 Board::getPawnAttackedPositions(const int& color) const
 	}
 }
 
-U64 Board::getKnightDestinations(const int knightIndex, const int& color) const
+U64 Board::getKnightDestinations(const unsigned int knightIndex, const unsigned int& color) const
 {
 	const U64 knightPos = 0 | 1LL << knightIndex;
 
@@ -406,10 +406,10 @@ U64 Board::getKnightDestinations(const int knightIndex, const int& color) const
 
 void Board::executeMove(Move &move)
 {
-	int origin = move.getOrigin();
-	int destination = move.getDestination();
-	int pieceType = move.getPieceType();
-	int oppositeColor = Utils::getOppositeColor(myColorToPlay);
+	unsigned int origin = move.getOrigin();
+	unsigned int destination = move.getDestination();
+	unsigned int pieceType = move.getPieceType();
+	unsigned int oppositeColor = Utils::getOppositeColor(myColorToPlay);
 
 	if(move.isQuiet())
 	{
@@ -422,8 +422,8 @@ void Board::executeMove(Move &move)
 			//move King
 			movePiece(origin, destination, pieceType, myColorToPlay);
 
-			int rookOrigin = 0;
-			int rookDestination = 0;
+			unsigned int rookOrigin = 0;
+			unsigned int rookDestination = 0;
 
 			if(move.isKingSideCastling())
 			{
@@ -441,12 +441,12 @@ void Board::executeMove(Move &move)
 		}
 		else if (move.isPromotion())
 		{
-			int promotedType = move.getPromotedPieceType();
+			unsigned int promotedType = move.getPromotedPieceType();
 
 			if(move.isCapture())
 			{
 				//remove the captured piece
-				int capturedPieceType = move.getCapturedPieceType();
+				unsigned int capturedPieceType = move.getCapturedPieceType();
 				removePiece(destination, capturedPieceType, oppositeColor);
 			}
 
@@ -457,13 +457,13 @@ void Board::executeMove(Move &move)
 		{
 			if (move.isEnPassant()) // watch out ep capture is a capture
 			{
-				int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
 				removePiece(capturedPawnIndex, Piece::PAWN_TYPE, oppositeColor);
 			}
 			else //Move is capture
 			{
 				//remove the captured piece
-				int type(move.getCapturedPieceType());
+				unsigned int type(move.getCapturedPieceType());
 				removePiece(destination, type, oppositeColor);
 			}
 
@@ -484,10 +484,10 @@ void Board::executeMove(Move &move)
 
 void Board::undoMove(Move &move)
 {
-	int origin = move.getOrigin();
-	int destination = move.getDestination();
-	int pieceType = move.getPieceType();
-	int oppositeColor = Utils::getOppositeColor(myColorToPlay);
+	unsigned int origin = move.getOrigin();
+	unsigned int destination = move.getDestination();
+	unsigned int pieceType = move.getPieceType();
+	unsigned int oppositeColor = Utils::getOppositeColor(myColorToPlay);
 
 	/* Be careful to get the valid move color  */
 	rewindCastlingRights(move);
@@ -503,8 +503,8 @@ void Board::undoMove(Move &move)
 			//move King
 			movePiece(destination, origin, pieceType, oppositeColor);
 
-			int rookOrigin = 0;
-			int rookDestination = 0;
+			unsigned int rookOrigin = 0;
+			unsigned int rookDestination = 0;
 
 			if(move.isKingSideCastling())
 			{
@@ -522,13 +522,13 @@ void Board::undoMove(Move &move)
 		}
 		else if(move.isPromotion())
 		{
-			int promotedType = move.getFlags() - Move::PROMOTION_FLAG +1;
+			unsigned int promotedType = move.getFlags() - Move::PROMOTION_FLAG +1;
 
 			if(move.isCapture())
 			{
 				promotedType -= Move::CAPTURE_FLAG;
 				//add the captured piece
-				int type(move.getCapturedPieceType());
+				unsigned int type(move.getCapturedPieceType());
 				addPiece(destination, type, myColorToPlay);
 			}
 
@@ -541,13 +541,13 @@ void Board::undoMove(Move &move)
 
 			if (move.isEnPassant()) // watch out ep capture is a capture
 			{
-				int capturedPawnIndex = move.getDestination() - 8 + 16*oppositeColor;
+				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*oppositeColor;
 				addPiece(capturedPawnIndex, Piece::PAWN_TYPE, myColorToPlay);
 			}
 			else //Move is capture
 			{
 				//add the captured piece
-				int type(move.getCapturedPieceType());
+				unsigned int type(move.getCapturedPieceType());
 				addPiece(destination, type, myColorToPlay);
 			}
 		}
@@ -572,7 +572,7 @@ void Board::updateConvenienceBitboards()
 }
 
 //This methods returns the char representing the piece at the given position (file,rank)
-char Board::getChar(const int file, const int rank) const
+char Board::getChar(const unsigned int file, const unsigned int rank) const
 {
 	char c;
 
@@ -632,14 +632,14 @@ char Board::getChar(const int file, const int rank) const
 }
 
 //This methods adds pieces to the board at the given rank and based on the give piecesString
-void Board::setBitBoards(const std::string piecesString, const int rank)
+void Board::setBitBoards(const std::string piecesString, const unsigned int rank)
 {
-	int x = -1;
-	int piecesCharSize = piecesString.size();
+	unsigned int x = -1;
+	unsigned int piecesCharSize = piecesString.size();
 	char piecesChar[piecesCharSize];
 	strcpy(piecesChar, piecesString.c_str());
 
-	for (int i=0; i<piecesCharSize; i++)
+	for (unsigned int i=0; i<piecesCharSize; i++)
 	{
 		char pieceChar = piecesChar[i];
 
@@ -703,9 +703,9 @@ void Board::setBitBoards(const std::string piecesString, const int rank)
 	}
 }
 
-int Board::perft(int depth)
+unsigned int Board::perft(unsigned int depth)
 {
-	int nodes = 0;
+	unsigned int nodes = 0;
 
 	if (depth == 0)
 	{
@@ -731,11 +731,11 @@ int Board::perft(int depth)
 	return nodes;
 }
 
-int Board::divide(int depth)
+unsigned int Board::divide(unsigned int depth)
 {
-	int nMoves;
-	int nodes = 0;
-	int nodeTotal = 0;
+	unsigned int nMoves;
+	unsigned int nodes = 0;
+	unsigned int nodeTotal = 0;
 
 	if (depth == 0)
 	{
@@ -778,27 +778,27 @@ void Board::updateCastlingRights(Move &move)
     move.setPreviousCastlingRights(myCastling); // store for undoMove
 
     /* Update Castling rights for king move */
-    int isKingMove(move.getPieceType() == Piece::KING_TYPE);
+    unsigned int isKingMove(move.getPieceType() == Piece::KING_TYPE);
     myCastling &= ~((isKingMove*3) << (myColorToPlay*2));
     /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 
     /* Update Castling Rights for rook moves */
-    int origin = move.getOrigin();
+    unsigned int origin = move.getOrigin();
     if (((1LL << origin)&LookUpTables::ROOK_INITIAL_POS)!=0)
     {
         // King side produces bit 0, queen side produces bit 1
-        int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
-        int mask = ~(0b0001 << shift);
+        unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
+        unsigned int mask = ~(0b0001 << shift);
         myCastling &= mask;
         /* 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
     }
 
-    int destination = move.getDestination();
+    unsigned int destination = move.getDestination();
     if (((1LL << destination)&LookUpTables::ROOK_INITIAL_POS)!=0)
     {
         /* Update Castling Rights for rook capture */
-        int shift(((~destination)&0b0001) + 2*((destination&0b1000)>>3));
-        int mask = ~(0b0001 << shift);
+        unsigned int shift(((~destination)&0b0001) + 2*((destination&0b1000)>>3));
+        unsigned int mask = ~(0b0001 << shift);
         myCastling &= mask;
     }
 }
@@ -810,8 +810,8 @@ void Board::rewindCastlingRights(const Move &move)
 
 void Board::updatePinnedPieces()
 {
-	int color = getColorToPlay();
-	int oppositeColor = Utils::getOppositeColor(color);
+	unsigned int color = getColorToPlay();
+	unsigned int oppositeColor = Utils::getOppositeColor(color);
 	U64 occ = getAllPieces();
 	U64 kingBitboard = getKing(color);
 	U64 kiSq = BitBoardUtils::getMsbIndex(kingBitboard);
@@ -824,7 +824,7 @@ void Board::updatePinnedPieces()
 
 	while ( pinners )
 	{
-		int pinnerSq = BitBoardUtils::getMsbIndex(pinners);
+		unsigned int pinnerSq = BitBoardUtils::getMsbIndex(pinners);
 		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
 
 	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq, kiSq);
@@ -838,7 +838,7 @@ void Board::updatePinnedPieces()
 
 	while ( pinners )
 	{
-		int pinnerSq = BitBoardUtils::getMsbIndex(pinners);
+		unsigned int pinnerSq = BitBoardUtils::getMsbIndex(pinners);
 		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
 
 	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq,kiSq);

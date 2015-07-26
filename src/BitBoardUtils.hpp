@@ -10,12 +10,12 @@
 
 namespace BitBoardUtils
 {
-	U64 inBetween(int sq1, int sq2);
+	U64 inBetween(unsigned int sq1, unsigned int sq2);
 	std::string printBitBoard(const U64 &bitBoard);
 
 	/* Bit Hacks*/
 	// Source : https://graphics.stanford.edu/~seander/bithacks.html
-	inline int countBBBitsSet(const U64 bitboard)
+	inline unsigned int countBBBitsSet(const U64 bitboard)
 	{
 		return __builtin_popcountll(bitboard);
 	}
@@ -24,11 +24,11 @@ namespace BitBoardUtils
 	// https://chessprogramming.wikispaces.com/BitScan
 	// http://stackoverflow.com/questions/671815/
 	// http://stackoverflow.com/questions/20713017/
-	inline int getMsbIndex(const U64 bitboard) {return __builtin_ctzll(bitboard);}
+	inline unsigned int getMsbIndex(const U64 bitboard) {return __builtin_ctzll(bitboard);}
 
-	inline bool isBitSet(const U64 bitBoard, const int x, const int y)
+	inline bool isBitSet(const U64 bitBoard, const unsigned int x, const unsigned int y)
 	{
-		int shift = 8*y + x;
+		unsigned int shift = 8*y + x;
 
 		return (0 | 1LL << shift) & bitBoard;
 	}

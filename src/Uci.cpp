@@ -101,7 +101,7 @@ void Uci::loop()
 		else if (token == "position")
 			updatePosition(is);
 
-		else if (token == "print")
+		else if (token == "prunsigned int")
 			std::cout << *boardPtr << std::endl;
 
 		else if (token == "go")
@@ -133,7 +133,7 @@ void Uci::search()
 {
 	Search search(boardPtr); //Note this could be done earlier before the search
 
-	int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, boardPtr->getColorToPlay());
+	unsigned int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, boardPtr->getColorToPlay());
 	//std::cout << "Romain time allocated " << timeMS << std::endl;
 
 	search.negaMaxRootIterativeDeepening(timeMS);

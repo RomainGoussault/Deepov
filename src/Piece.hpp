@@ -3,7 +3,7 @@
 
 namespace Piece
 {
-    enum PieceType : int
+    enum PieceType : unsigned int
     {
         PAWN_TYPE = 0,
         KNIGHT_TYPE = 1,
@@ -14,7 +14,7 @@ namespace Piece
         NO_PIECE_TYPE=6
     };
 
-    enum PieceValue : int
+    enum PieceValue : unsigned int
     {
         QUEEN_VALUE = 900,
         ROOK_VALUE = 500,
