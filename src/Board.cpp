@@ -186,7 +186,14 @@ bool Board::isCheck(const unsigned int color) const
 	return isCheck;
 }
 
-U64 Board::getAttackedPositions(const unsigned int color) const {
+U64 Board::getAttacksFromSq(const unsigned int position) const
+{
+    Piece::PieceType whiteType = findWhitePieceType(position);
+    Piece::PieceType blackType = findBlackPieceType(position);
+}
+
+U64 Board::getAttackedPositions(const unsigned int color) const
+{
 	U64 kingAttackedPosition = getKingAttackedPositions(color);
 	U64 queenAttackedPosition = getQueenAttackedPositions(color);
 	U64 rookAttackedPosition = getRookAttackedPositions(color);
