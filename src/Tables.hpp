@@ -67,15 +67,15 @@ namespace Tables
 
     void init();
     /* The 2 following functions can be changed as const Look Up Tables if we need them faster */
-    U64 frontBB(const unsigned int posIndex,Color color);
-    U64 sidesBB(const unsigned int posIndex,Color color); // his is the BB in front of the pawn at NEIGHBOR_FILES
+    U64 frontBB(const unsigned int pos,Color color);
+    U64 sidesBB(const unsigned int pos,Color color); // his is the BB in front of the pawn at NEIGHBOR_FILES
 
     // Piece Attacks
-    U64 getKingAttackedPositions(const unsigned int posIndex) const;
-    U64 getQueenAttackedPositions(const unsigned int posIndex) const;
-    U64 getRookAttackedPositions(const unsigned int posIndex) const;
-    U64 getBishopAttackedPositions(const unsigned int posIndex) const;
-    U64 getKnightAttackedPositions(const unsigned int posIndex) const;
+    U64 getKingAttacks(const unsigned int pos) const;
+    U64 getQueenAttacks(const unsigned int pos) const;
+    U64 getRookAttacks(const unsigned int pos) const;
+    U64 getBishopAttacks(const unsigned int pos) const;
+    U64 getKnightAttacks(const unsigned int pos) const;
 }
 
 

@@ -20,21 +20,46 @@ void Tables::init()
     }
 }
 
-U64 Tables::frontBB(const unsigned int posIndex,Color color)
+U64 Tables::frontBB(const unsigned int pos,Color color)
 {
-    U64 shift = 0xffffffffffffffff << (posIndex+1); // posIndex+1 for WHITE, take the complement for BLACk
+    U64 shift = 0xffffffffffffffff << (pos+1); // pos+1 for WHITE, take the complement for BLACk
     if (color == BLACK){shift = (~shift) >> 1;}
-    return  shift & MASK_FILE[Utils::getFile(posIndex)];
+    return  shift & MASK_FILE[Utils::getFile(pos)];
 }
 
 
-U64 Tables::sidesBB(const unsigned int posIndex,Color color)
+U64 Tables::sidesBB(const unsigned int pos,Color color)
 {
-    unsigned int file = Utils::getFile(posIndex);
+    unsigned int file = Utils::getFile(pos);
     U64 leftSide(0);
     U64 rightSide(0);
-    if (file > 0){leftSide=frontBB(posIndex-1,color);}
-    if (file < 7){rightSide=frontBB(posIndex+1,color);}
+    if (file > 0){leftSide=frontBB(pos-1,color);}
+    if (file < 7){rightSide=frontBB(pos+1,color);}
     return leftSide | rightSide;
 }
 
+
+U64 Tables::getKingAttacks(const unsigned int pos) const
+{
+
+}
+
+U64 Tables::getQueenAttacks(const unsigned int pos) const
+{
+
+}
+
+U64 Tables::getRookAttacks(const unsigned int pos) const
+{
+
+}
+
+U64 Tables::getBishopAttacks(const unsigned int pos) const
+{
+
+}
+
+U64 Tables::getKnightAttacks(const unsigned int pos) const
+{
+
+}

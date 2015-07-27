@@ -65,7 +65,7 @@ TEST_CASE( "Test the update of evaluation for promotion moves", "[Eval]")
     Eval eval(sp);
 
     Move promotion(14,7,0b1111,Piece::PAWN); // Queen promotion-capture
-    promotion.setCapturedPieceType(Piece::ROOK_TYPE);
+    promotion.setCapturedPieceType(Piece::ROOK);
 
     int materialScore = eval.getMaterialScore();
     int pawnScore = eval.getPawnScore();
