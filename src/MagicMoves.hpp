@@ -27,7 +27,7 @@
  *Occupancy is any unsigned 64-bit integer that describes which squares on
  *the board are occupied.
  *
- *The following macros are identical to Rmagic and Bmagic except that the 
+ *The following macros are identical to Rmagic and Bmagic except that the
  *occupancy is assumed to already have been "masked".  Look at the following
  *source or read up on the internet about magic bitboard move generation to
  *understand the usage of these macros and what it means by "an occupancy that
@@ -74,7 +74,13 @@
 
 #ifndef _magicmovesh
 #define _magicmovesh
-#include "Board.hpp"
+
+#include <cstdint>
+
+#ifndef _U64
+typedef std::uint64_t U64;
+#define _U64
+#endif // _U64
 
 namespace MagicMoves
 {

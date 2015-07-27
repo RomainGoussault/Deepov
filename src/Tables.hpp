@@ -3,6 +3,7 @@
 
 #include "Color.hpp"
 #include "Utils.hpp"
+#include "MagicMoves.hpp"
 
 namespace Tables
 {
@@ -71,11 +72,18 @@ namespace Tables
     U64 sidesBB(const unsigned int pos,Color color); // his is the BB in front of the pawn at NEIGHBOR_FILES
 
     // Piece Attacks
-    U64 getKingAttacks(const unsigned int pos) const;
-    U64 getQueenAttacks(const unsigned int pos) const;
-    U64 getRookAttacks(const unsigned int pos) const;
-    U64 getBishopAttacks(const unsigned int pos) const;
-    U64 getKnightAttacks(const unsigned int pos) const;
+    /* See PAWN_ATTACK_SPANS for pawns; 0 for NO_PIECE_TYPE;*/
+    /* Non-sliding Pieces*/
+    U64 getKingAttacks(const unsigned int pos);
+    U64 getKnightAttacks(const unsigned int pos);
+
+    /* Sliding Pieces : !!! these tables does not replace moveGen !!! */
+    inline U64 getBishopAttacks(const unsigned int pos){return MagicMoves::Bmagic(pos, 0x0);};
+    inline U64 getRookAttacks(const unsigned int pos){return MagicMoves::Rmagic(pos, 0x0);};
+    inline U64 getQueenAttacks(const unsigned int pos)
+    {
+        return  (getBishopAttacks(pos) | getRookAttacks(pos));
+    };
 }
 
 

@@ -39,27 +39,49 @@ U64 Tables::sidesBB(const unsigned int pos,Color color)
 }
 
 
-U64 Tables::getKingAttacks(const unsigned int pos) const
+U64 Tables::getKingAttacks(const unsigned int pos)
 {
+	/* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
+	/* we can ignore the rank clipping since the overflow/underflow with
+	respect to rank simply vanishes. We only care about the file
+	overflow/underflow. */
+	U64	king_clip_file_h(pos & Tables::CLEAR_FILE[7]);
+	U64 king_clip_file_a(pos & Tables::CLEAR_FILE[0]);
 
+	/* remember the representation of the board in relation to the bitindex
+	when looking at these shifts.... There is an error in the source link
+	the code is copied from !! */
+	U64 NW(king_clip_file_a << 7);
+	U64 N(pos << 8);
+	U64 NE(king_clip_file_h << 9);
+	U64 E(king_clip_file_h << 1);
+
+	U64 SE(king_clip_file_h >> 7);
+	U64 S(pos >> 8);
+	U64 SW(king_clip_file_a >> 9);
+	U64 W(king_clip_file_a >> 1);
+
+	/* N = north, NW = North West, from King location, etc */
+	return (NW | N | NE | E | SE | S | SW | W);
 }
 
-U64 Tables::getQueenAttacks(const unsigned int pos) const
+U64 Tables::getKnightAttacks(const unsigned int pos)
 {
+    U64	knight_clip_file_h(pos & Tables::CLEAR_FILE[7]);
+	U64 knight_clip_file_a(pos & Tables::CLEAR_FILE[0]);
+	U64	knight_clip_file_gh(pos & Tables::CLEAR_FILE[7] & Tables::CLEAR_FILE[6]);
+	U64 knight_clip_file_ab(pos & Tables::CLEAR_FILE[0] & Tables::CLEAR_FILE[1]);
 
-}
+	U64 WNW(knight_clip_file_ab << 6);
+	U64 NNW(knight_clip_file_a << 15);
+	U64 NNE(knight_clip_file_h << 17);
+	U64 ENE(knight_clip_file_gh << 10);
 
-U64 Tables::getRookAttacks(const unsigned int pos) const
-{
+	U64 ESE(knight_clip_file_gh >> 6);
+	U64 SSE(knight_clip_file_h >> 15);
+	U64 SSW(knight_clip_file_a >> 17);
+	U64 WSW(knight_clip_file_ab >> 10);
 
-}
-
-U64 Tables::getBishopAttacks(const unsigned int pos) const
-{
-
-}
-
-U64 Tables::getKnightAttacks(const unsigned int pos) const
-{
-
+	/* N = north, NW = North West, from knight location, etc */
+	return (WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW);
 }
