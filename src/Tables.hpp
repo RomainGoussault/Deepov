@@ -1,10 +1,10 @@
-#ifndef LOOKUPTABLES_HPP_
-#define LOOKUPTABLES_HPP_
+#ifndef Tables_HPP_
+#define Tables_HPP_
 
 #include "Color.hpp"
 #include "Utils.hpp"
 
-namespace LookUpTables
+namespace Tables
 {
     const U64 MASK_RANK[]={0xFF,
                                 0xFF00,

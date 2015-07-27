@@ -21,7 +21,7 @@
 typedef std::uint64_t U64;
 
 #include "Move.hpp"
-#include "LookUpTables.hpp"
+#include "Tables.hpp"
 #include "Color.hpp"
 
 

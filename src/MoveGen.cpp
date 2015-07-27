@@ -277,15 +277,15 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 		/* for all moves that came from rank 2 (home row), and passed the above
 		filter, thereby being on rank 3, ie. on MASK_RANK[2], check and see if I can move forward
 		one more */
-		U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces();
+		U64 twoSteps = ((firstStep & Tables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces();
 
 		/* next we calculate the pawn attacks */
 
 		/* check the left side of the pawn, minding the underflow File A */
-		U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) << 7;
+		U64 leftAttack = (pawnPos & Tables::CLEAR_FILE[0]) << 7;
 
 		/* then check the right side of the pawn, minding the overflow File H */
-		U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) << 9;
+		U64 rightAttack = (pawnPos & Tables::CLEAR_FILE[7]) << 9;
 
 		/* the union of the left and right attacks together make up all the
         possible attacks
@@ -297,11 +297,11 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 		attack/move. */
 		// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[7], pawnIndex, moves, Piece::PAWN_TYPE);
-		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[7], pawnIndex, moves);
-		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[7], pawnIndex, moves);
-		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[7], pawnIndex, moves, Piece::PAWN_TYPE);
-		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[7], pawnIndex, moves);
+		addQuietMoves(firstStep & Tables::CLEAR_RANK[7], pawnIndex, moves, Piece::PAWN_TYPE);
+		addDoublePawnPushMoves(twoSteps & Tables::CLEAR_RANK[7], pawnIndex, moves);
+		addPromotionMoves(firstStep & Tables::MASK_RANK[7], pawnIndex, moves);
+		addCaptureMoves(validAttacks & Tables::CLEAR_RANK[7], pawnIndex, moves, Piece::PAWN_TYPE);
+		addPromotionCaptureMoves(validAttacks & Tables::MASK_RANK[7], pawnIndex, moves);
 	}
 }
 
@@ -322,15 +322,15 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 		/* for all moves that came from rank 7 (home row), and passed the above
 		filter, thereby being on rank 6, ie. on MASK_RANK[5], check and see if I can move forward
 		one more */
-		U64 twoSteps = ((firstStep & LookUpTables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces();
+		U64 twoSteps = ((firstStep & Tables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces();
 
 		/* next we calculate the pawn attacks */
 
 		/* check the left side of the pawn, minding the underflow File A */
-		U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) >> 7;
+		U64 leftAttack = (pawnPos & Tables::CLEAR_FILE[7]) >> 7;
 
 		/* then check the right side of the pawn, minding the overflow File H */
-		U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) >> 9;
+		U64 rightAttack = (pawnPos & Tables::CLEAR_FILE[0]) >> 9;
 
 		/* the union of the left and right attacks together make up all the
         possible attacks
@@ -342,11 +342,11 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 		attack/move. */
 		// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & LookUpTables::CLEAR_RANK[0], pawnIndex, moves, Piece::PAWN_TYPE);
-		addDoublePawnPushMoves(twoSteps & LookUpTables::CLEAR_RANK[0], pawnIndex, moves);
-		addPromotionMoves(firstStep & LookUpTables::MASK_RANK[0], pawnIndex, moves);
-		addCaptureMoves(validAttacks & LookUpTables::CLEAR_RANK[0], pawnIndex, moves, Piece::PAWN_TYPE);
-		addPromotionCaptureMoves(validAttacks & LookUpTables::MASK_RANK[0], pawnIndex, moves);
+		addQuietMoves(firstStep & Tables::CLEAR_RANK[0], pawnIndex, moves, Piece::PAWN_TYPE);
+		addDoublePawnPushMoves(twoSteps & Tables::CLEAR_RANK[0], pawnIndex, moves);
+		addPromotionMoves(firstStep & Tables::MASK_RANK[0], pawnIndex, moves);
+		addCaptureMoves(validAttacks & Tables::CLEAR_RANK[0], pawnIndex, moves, Piece::PAWN_TYPE);
+		addPromotionCaptureMoves(validAttacks & Tables::MASK_RANK[0], pawnIndex, moves);
 	}
 }
 
@@ -392,7 +392,7 @@ std::vector<Move> MoveGen::getLegalMoves(const unsigned int color)
   /* Special Moves */
 void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
 {
-	U64 validPawns = (myBoard->getWhitePawns() & LookUpTables::MASK_RANK[4]);
+	U64 validPawns = (myBoard->getWhitePawns() & Tables::MASK_RANK[4]);
 
 	/* Easiest test first */
 	if (validPawns == 0) {return;}
@@ -425,7 +425,7 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
 
 void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
 {
-	U64 validPawns = (myBoard->getBlackPawns() & LookUpTables::MASK_RANK[3]);
+	U64 validPawns = (myBoard->getBlackPawns() & Tables::MASK_RANK[3]);
 
 	/* Easiest test first */
 	if (validPawns == 0) {return;}

@@ -37,7 +37,7 @@ unsigned int Pawn::initPassedPawns(const Board &board)
         //Removing the MSB
 		whitePawns = whitePawns ^ (0 | 1LL << positionMsb);
         // Add 1 if condition is true
-        whiteCount += ((LookUpTables::PASSED_PAWN_MASK[WHITE][positionMsb] & blackPawns) == 0);
+        whiteCount += ((Tables::PASSED_PAWN_MASK[WHITE][positionMsb] & blackPawns) == 0);
     }
 
     whitePawns = board.getWhitePawns(); // reloads the white pawns bitboard
@@ -49,7 +49,7 @@ unsigned int Pawn::initPassedPawns(const Board &board)
         //Removing the MSB
 		blackPawns = blackPawns ^ (0 | 1LL << positionMsb);
         // Add 1 if condition is true
-        blackCount += ((LookUpTables::PASSED_PAWN_MASK[BLACK][positionMsb] & whitePawns) == 0);
+        blackCount += ((Tables::PASSED_PAWN_MASK[BLACK][positionMsb] & whitePawns) == 0);
     }
 
 	return (whiteCount-blackCount)*PASSED_PAWN_BONUS;

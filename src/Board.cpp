@@ -243,8 +243,8 @@ U64 Board::getKingDestinations(const U64 kingPos, const unsigned int& color) con
 	/* we can ignore the rank clipping since the overflow/underflow with
 	respect to rank simply vanishes. We only care about the file
 	overflow/underflow. */
-	U64	king_clip_file_h(kingPos & LookUpTables::CLEAR_FILE[7]);
-	U64 king_clip_file_a(kingPos & LookUpTables::CLEAR_FILE[0]);
+	U64	king_clip_file_h(kingPos & Tables::CLEAR_FILE[7]);
+	U64 king_clip_file_a(kingPos & Tables::CLEAR_FILE[0]);
 
 	/* remember the representation of the board in relation to the bitindex
 	when looking at these shifts.... There is an error in the source link
@@ -334,10 +334,10 @@ U64 Board::getWhitePawnAttackedPositions() const
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
 		/* check the left side of the pawn, minding the underflow File A */
-		U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) << 7;
+		U64 leftAttack = (pawnPos & Tables::CLEAR_FILE[0]) << 7;
 
 		/* then check the right side of the pawn, minding the overflow File H */
-		U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) << 9;
+		U64 rightAttack = (pawnPos & Tables::CLEAR_FILE[7]) << 9;
 
 		U64 pawnDestinations = leftAttack | rightAttack;
 		U64 pawnValidDestinations = pawnDestinations & ~getWhitePieces();
@@ -360,10 +360,10 @@ U64 Board::getBlackPawnAttackedPositions() const
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
 		/* check the left side of the pawn, minding the underflow File A */
-		U64 leftAttack = (pawnPos & LookUpTables::CLEAR_FILE[7]) >> 7;
+		U64 leftAttack = (pawnPos & Tables::CLEAR_FILE[7]) >> 7;
 
 		/* then check the right side of the pawn, minding the overflow File H */
-		U64 rightAttack = (pawnPos & LookUpTables::CLEAR_FILE[0]) >> 9;
+		U64 rightAttack = (pawnPos & Tables::CLEAR_FILE[0]) >> 9;
 
 		U64 pawnDestinations = leftAttack | rightAttack;
 		U64 pawnValidDestinations = pawnDestinations & ~getBlackPieces();
@@ -392,11 +392,11 @@ U64 Board::getKnightDestinations(const unsigned int knightIndex, const unsigned 
 	/* we can ignore the rank clipping since the overflow/underflow with
 		respect to rank simply vanishes. We only care about the file
 		overflow/underflow. */
-	U64	knight_clip_file_h(knightPos & LookUpTables::CLEAR_FILE[7]);
-	U64 knight_clip_file_a(knightPos & LookUpTables::CLEAR_FILE[0]);
+	U64	knight_clip_file_h(knightPos & Tables::CLEAR_FILE[7]);
+	U64 knight_clip_file_a(knightPos & Tables::CLEAR_FILE[0]);
 
-	U64	knight_clip_file_gh(knightPos & LookUpTables::CLEAR_FILE[7] & LookUpTables::CLEAR_FILE[6]);
-	U64 knight_clip_file_ab(knightPos & LookUpTables::CLEAR_FILE[0] & LookUpTables::CLEAR_FILE[1]);
+	U64	knight_clip_file_gh(knightPos & Tables::CLEAR_FILE[7] & Tables::CLEAR_FILE[6]);
+	U64 knight_clip_file_ab(knightPos & Tables::CLEAR_FILE[0] & Tables::CLEAR_FILE[1]);
 
 	U64 WNW(knight_clip_file_ab << 6);
 	U64 NNW(knight_clip_file_a << 15);
@@ -794,7 +794,7 @@ void Board::updateCastlingRights(Move &move)
 
     /* Update Castling Rights for rook moves */
     unsigned int origin = move.getOrigin();
-    if (((1LL << origin)&LookUpTables::ROOK_INITIAL_POS)!=0)
+    if (((1LL << origin)&Tables::ROOK_INITIAL_POS)!=0)
     {
         // King side produces bit 0, queen side produces bit 1
         unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
@@ -804,7 +804,7 @@ void Board::updateCastlingRights(Move &move)
     }
 
     unsigned int destination = move.getDestination();
-    if (((1LL << destination)&LookUpTables::ROOK_INITIAL_POS)!=0)
+    if (((1LL << destination)&Tables::ROOK_INITIAL_POS)!=0)
     {
         /* Update Castling Rights for rook capture */
         unsigned int shift(((~destination)&0b0001) + 2*((destination&0b1000)>>3));

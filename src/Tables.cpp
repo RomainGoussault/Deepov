@@ -1,12 +1,12 @@
-#include "LookUpTables.hpp"
+#include "Tables.hpp"
 
 /* List of tables declarations*/
-U64 LookUpTables::FRONT_SPANS[2][64];
-U64 LookUpTables::PAWN_ATTACK_SPANS[2][64];
-U64 LookUpTables::PASSED_PAWN_MASK[2][64];
+U64 Tables::FRONT_SPANS[2][64];
+U64 Tables::PAWN_ATTACK_SPANS[2][64];
+U64 Tables::PASSED_PAWN_MASK[2][64];
 
 /* Methods */
-void LookUpTables::init()
+void Tables::init()
 {
     for (unsigned int square=0; square<64; ++square)
     {
@@ -19,14 +19,14 @@ void LookUpTables::init()
     }
 }
 
-U64 LookUpTables::frontBB(const unsigned int posIndex,unsigned int color)
+U64 Tables::frontBB(const unsigned int posIndex,unsigned int color)
 {
     U64 shift = 0xffffffffffffffff << (posIndex+1); // posIndex+1 for WHITE, take the complement for BLACk
     if (color == BLACK){shift = (~shift) >> 1;}
     return  shift & MASK_FILE[Utils::getFile(posIndex)];
 }
 
-U64 LookUpTables::sidesBB(const unsigned int posIndex,unsigned int color)
+U64 Tables::sidesBB(const unsigned int posIndex,unsigned int color)
 {
     unsigned int file = Utils::getFile(posIndex);
     U64 leftSide(0);
