@@ -136,7 +136,7 @@ Piece::PieceType Board::findWhitePieceType(const unsigned int position) const
  *  of the piece at the given position (MSB index) and for the given
  *  color.
  */
-Piece::PieceType Board::findPieceType(const unsigned int position, const unsigned int color) const
+Piece::PieceType Board::findPieceType(const unsigned int position, const Color color) const
 {
 	if(color == WHITE)
 	{
@@ -161,7 +161,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 {
 	bool isLegalMove = true;
 	bool isEnPassant = move.getFlags() == Move::EP_CAPTURE_FLAG;
-	unsigned int color = myColorToPlay;
+	Color color = myColorToPlay;
 
 	unsigned int origin = move.getOrigin();
 	U64 oribb = 1LL << origin;
@@ -184,9 +184,9 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	return isLegalMove;
 }
 
-bool Board::isCheck(const unsigned int color) const
+bool Board::isCheck(const Color color) const
 {
-	unsigned int ennemyColor = Utils::getOppositeColor(color);
+	Color ennemyColor = Utils::getOppositeColor(color);
 	U64 ennemyAttackingPositions = getAttackedPositions(ennemyColor);
 
 	U64 kingPosition = getKing(color);
@@ -195,7 +195,7 @@ bool Board::isCheck(const unsigned int color) const
 	return isCheck;
 }
 
-U64 Board::getAttackedPositions(const unsigned int color) const
+U64 Board::getAttackedPositions(const Color color) const
 {
 	U64 kingAttackedPosition = getKingAttackedPositions(color);
 	U64 queenAttackedPosition = getQueenAttackedPositions(color);
@@ -210,7 +210,7 @@ U64 Board::getAttackedPositions(const unsigned int color) const
 	return attackedPositions;
 }
 
-U64 Board::getKnightAttackedPositions(const unsigned int& color) const
+U64 Board::getKnightAttackedPositions(const Color color) const
 {
 	U64 knightAttackedDestinations = 0LL;
 
@@ -229,7 +229,7 @@ U64 Board::getKnightAttackedPositions(const unsigned int& color) const
 	return knightAttackedDestinations;
 }
 
-U64 Board::getKingAttackedPositions(const unsigned int& color) const
+U64 Board::getKingAttackedPositions(const Color color) const
 {
 	U64 kingPosition = getKing(color);
 	U64 kingAttackedDestinations = getKingDestinations(kingPosition, color);
@@ -237,7 +237,7 @@ U64 Board::getKingAttackedPositions(const unsigned int& color) const
 	return kingAttackedDestinations;
 }
 
-U64 Board::getKingDestinations(const U64 kingPos, const unsigned int& color) const
+U64 Board::getKingDestinations(const U64 kingPos, const Color color) const
 {
 	/* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
 	/* we can ignore the rank clipping since the overflow/underflow with
@@ -266,7 +266,7 @@ U64 Board::getKingDestinations(const U64 kingPos, const unsigned int& color) con
 	return kingValidDestinations;
 }
 
-U64 Board::getRookAttackedPositions(const unsigned int& color) const
+U64 Board::getRookAttackedPositions(const Color color) const
 {
 	U64 rookAttackedDestinations = 0LL;
 	U64 rookPositions = getRooks(color);
@@ -284,7 +284,7 @@ U64 Board::getRookAttackedPositions(const unsigned int& color) const
 	return rookAttackedDestinations;
 }
 
-U64 Board::getBishopAttackedPositions(const unsigned int& color) const
+U64 Board::getBishopAttackedPositions(const Color color) const
 {
 	U64 bishopAttackedDestinations = 0LL;
 	U64 bishopPositions = getBishops(color);
@@ -302,7 +302,7 @@ U64 Board::getBishopAttackedPositions(const unsigned int& color) const
 	return bishopAttackedDestinations;
 }
 
-U64 Board::getQueenAttackedPositions(const unsigned int& color) const
+U64 Board::getQueenAttackedPositions(const Color color) const
 {
 	U64 queenAttackedDestinations = 0LL;
 	U64 queenPositions = getQueens(color);
@@ -373,7 +373,7 @@ U64 Board::getBlackPawnAttackedPositions() const
 	return pawnAttackedDestinations;
 }
 
-U64 Board::getPawnAttackedPositions(const unsigned int& color) const
+U64 Board::getPawnAttackedPositions(const Color color) const
 {
 	if(color == WHITE)
 	{
@@ -385,7 +385,7 @@ U64 Board::getPawnAttackedPositions(const unsigned int& color) const
 	}
 }
 
-U64 Board::getKnightDestinations(const unsigned int knightIndex, const unsigned int& color) const
+U64 Board::getKnightDestinations(const unsigned int knightIndex, const Color color) const
 {
 	const U64 knightPos = 0 | 1LL << knightIndex;
 
@@ -419,7 +419,7 @@ void Board::executeMove(Move &move)
 	unsigned int origin = move.getOrigin();
 	unsigned int destination = move.getDestination();
 	unsigned int pieceType = move.getPieceType();
-	unsigned int oppositeColor = Utils::getOppositeColor(myColorToPlay);
+	Color oppositeColor = Utils::getOppositeColor(myColorToPlay);
 
 	if(move.isQuiet())
 	{
@@ -497,7 +497,7 @@ void Board::undoMove(Move &move)
 	unsigned int origin = move.getOrigin();
 	unsigned int destination = move.getDestination();
 	unsigned int pieceType = move.getPieceType();
-	unsigned int oppositeColor = Utils::getOppositeColor(myColorToPlay);
+	Color oppositeColor = Utils::getOppositeColor(myColorToPlay);
 
 	/* Be careful to get the valid move color  */
 	rewindCastlingRights(move);
@@ -820,8 +820,8 @@ void Board::rewindCastlingRights(const Move &move)
 
 void Board::updatePinnedPieces()
 {
-	unsigned int color = getColorToPlay();
-	unsigned int oppositeColor = Utils::getOppositeColor(color);
+	Color color = getColorToPlay();
+	Color oppositeColor = Utils::getOppositeColor(color);
 	U64 occ = getAllPieces();
 	U64 kingBitboard = getKing(color);
 	U64 kiSq = BitBoardUtils::getMsbIndex(kingBitboard);

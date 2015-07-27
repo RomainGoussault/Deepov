@@ -19,14 +19,15 @@ void Tables::init()
     }
 }
 
-U64 Tables::frontBB(const unsigned int posIndex,unsigned int color)
+U64 Tables::frontBB(const unsigned int posIndex,Color color)
 {
     U64 shift = 0xffffffffffffffff << (posIndex+1); // posIndex+1 for WHITE, take the complement for BLACk
     if (color == BLACK){shift = (~shift) >> 1;}
     return  shift & MASK_FILE[Utils::getFile(posIndex)];
 }
 
-U64 Tables::sidesBB(const unsigned int posIndex,unsigned int color)
+
+U64 Tables::sidesBB(const unsigned int posIndex,Color color)
 {
     unsigned int file = Utils::getFile(posIndex);
     U64 leftSide(0);

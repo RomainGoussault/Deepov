@@ -107,13 +107,13 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, unsigned int p
 }
 
     /* Get moves methods */
-void MoveGen::appendKingPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const
+void MoveGen::appendKingPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	U64 kingPos = myBoard->getKing(color);
 
 	U64 kingValidDestinations = myBoard->getKingDestinations(kingPos, color);
 
-	unsigned int ennemyColor = Utils::getOppositeColor(color);
+	Color ennemyColor = Utils::getOppositeColor(color);
 	unsigned int kingIndex = BitBoardUtils::getMsbIndex(kingPos);
 
 	U64 kingCaptureDestinations = kingValidDestinations & myBoard->getPieces(ennemyColor);
@@ -125,7 +125,7 @@ void MoveGen::appendKingPseudoLegalMoves(const unsigned int& color, std::vector<
 	addQueenSideCastlingMove(color, kingIndex, moves);
 }
 
-void MoveGen::addKingSideCastlingMove(unsigned int color, unsigned int kingIndex, std::vector<Move>& moves) const
+void MoveGen::addKingSideCastlingMove(Color color, unsigned int kingIndex, std::vector<Move>& moves) const
 {
 	if(isKingSideCastlingPossible(color))
 	{
@@ -135,7 +135,7 @@ void MoveGen::addKingSideCastlingMove(unsigned int color, unsigned int kingIndex
 	}
 }
 
-void MoveGen::addQueenSideCastlingMove(unsigned int color, unsigned int kingIndex, std::vector<Move>& moves) const
+void MoveGen::addQueenSideCastlingMove(Color color, unsigned int kingIndex, std::vector<Move>& moves) const
 {
 	if(isQueenSideCastlingPossible(color))
 	{
@@ -145,7 +145,7 @@ void MoveGen::addQueenSideCastlingMove(unsigned int color, unsigned int kingInde
 	}
 }
 
-void MoveGen::appendQueenPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const
+void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	U64 queenPositions = myBoard->getQueens(color);
 
@@ -155,7 +155,7 @@ void MoveGen::appendQueenPseudoLegalMoves(const unsigned int& color, std::vector
 		unsigned int queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
-		unsigned int ennemyColor = Utils::getOppositeColor(color);
+		Color ennemyColor = Utils::getOppositeColor(color);
 
 		U64 bishopDestinations = MagicMoves::Bmagic(queenIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
 		U64 rookDestinations = MagicMoves::Rmagic(queenIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
@@ -169,7 +169,7 @@ void MoveGen::appendQueenPseudoLegalMoves(const unsigned int& color, std::vector
 	}
 }
 
-void MoveGen::appendBishopPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const
+void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	U64 bishopPositions = myBoard->getBishops(color);
 
@@ -179,7 +179,7 @@ void MoveGen::appendBishopPseudoLegalMoves(const unsigned int& color, std::vecto
 		unsigned int bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
-		unsigned int ennemyColor = Utils::getOppositeColor(color);
+		Color ennemyColor = Utils::getOppositeColor(color);
 
 		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
 
@@ -191,7 +191,7 @@ void MoveGen::appendBishopPseudoLegalMoves(const unsigned int& color, std::vecto
 	}
 }
 
-void MoveGen::appendRookPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const
+void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	U64 rookPositions = myBoard->getRooks(color);
 
@@ -201,7 +201,7 @@ void MoveGen::appendRookPseudoLegalMoves(const unsigned int& color, std::vector<
 		unsigned int rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
-		unsigned int ennemyColor = Utils::getOppositeColor(color);
+		Color ennemyColor = Utils::getOppositeColor(color);
 
 		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
 
@@ -213,7 +213,7 @@ void MoveGen::appendRookPseudoLegalMoves(const unsigned int& color, std::vector<
 	}
 }
 /*
-std::vector<Move> MoveGen::getPawnPseudoLegalMoves(const unsigned int& color) const
+std::vector<Move> MoveGen::getPawnPseudoLegalMoves(const Color color) const
 {
 	if(color == WHITE)
 	{
@@ -225,7 +225,7 @@ std::vector<Move> MoveGen::getPawnPseudoLegalMoves(const unsigned int& color) co
 	}
 }*/
 
-void MoveGen::appendPawnPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const
+void MoveGen::appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	if(color == WHITE)
 	{
@@ -236,7 +236,7 @@ void MoveGen::appendPawnPseudoLegalMoves(const unsigned int& color, std::vector<
 		appendBlackPawnPseudoLegalMoves(moves);
 	}
 }
-void MoveGen::appendKnightPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const
+void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	U64 knightPositions = myBoard->getKnights(color);
 
@@ -248,7 +248,7 @@ void MoveGen::appendKnightPseudoLegalMoves(const unsigned int& color, std::vecto
 		/* compute only the places where the knight can move and attack. The caller
 		will unsigned interpret this as a white or black knight. */
 
-		unsigned int ennemyColor = Utils::getOppositeColor(color);
+		Color ennemyColor = Utils::getOppositeColor(color);
 
 		U64 knightCaptureDestinations = knightValidDestinations & myBoard->getPieces(ennemyColor);
 		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
@@ -355,7 +355,7 @@ std::vector<Move> MoveGen::getPseudoLegalMoves()
 	return getLegalMoves(myBoard->getColorToPlay());
 }
 
-std::vector<Move> MoveGen::getPseudoLegalMoves(const unsigned int color)
+std::vector<Move> MoveGen::getPseudoLegalMoves(const Color color)
 {
 	std::vector<Move> legalMoves;
 	legalMoves.reserve(218);
@@ -375,7 +375,7 @@ std::vector<Move> MoveGen::getLegalMoves()
 	return getLegalMoves(myBoard->getColorToPlay());
 }
 
-std::vector<Move> MoveGen::getLegalMoves(const unsigned int color)
+std::vector<Move> MoveGen::getLegalMoves(const Color color)
 {
 	std::vector<Move> moves = getPseudoLegalMoves(color);
 
@@ -458,14 +458,14 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
 	return;
 }
 
-bool MoveGen::isQueenSideCastlingPossible(const unsigned int color) const
+bool MoveGen::isQueenSideCastlingPossible(const Color color) const
 {
 	//This return false if the queen side rook or the king has already moved
 	bool iQSCP = myBoard->isQueenSideCastlingAllowed(color); //TODO
 
 	if(!iQSCP) return false;
 
-	unsigned int ennemyColor = color == WHITE ? BLACK : WHITE;
+	Color ennemyColor = color == WHITE ? BLACK : WHITE;
 	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
 
 	//check if positions between the rook and the king are not attacked
@@ -479,14 +479,14 @@ bool MoveGen::isQueenSideCastlingPossible(const unsigned int color) const
 	return iQSCP;
 }
 
-bool MoveGen::isKingSideCastlingPossible(const unsigned int color) const
+bool MoveGen::isKingSideCastlingPossible(const Color color) const
 {
 	//This return false if the king side rook or the king has already moved
 	bool iKSCP = myBoard->isKingSideCastlingAllowed(color);
 
 	if(!iKSCP) return false;
 
-	unsigned int ennemyColor = color == WHITE ? BLACK : WHITE;
+	Color ennemyColor = color == WHITE ? BLACK : WHITE;
 	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
 
 	//check if positions between the rook and the king are not attacked

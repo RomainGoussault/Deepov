@@ -19,7 +19,7 @@ namespace Utils
 	void getCastling(std::string const& castleString, unsigned int &castlingRights);
 	unsigned int convertStringToInt(std::string const& fenMoveCounter);
 	void getPerformanceIndicator();
-	inline constexpr unsigned int getOppositeColor(const unsigned int color){return color ^ 1;};
+	inline constexpr Color getOppositeColor(const Color color){return Color(color ^ 1);};
 	inline unsigned int getFile(const unsigned int positionIndex){return positionIndex%8;};
 };
 
