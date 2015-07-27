@@ -66,8 +66,8 @@ namespace LookUpTables
 
     void init();
     /* The 2 following functions can be changed as const Look Up Tables if we need them faster */
-    U64 frontBB(const unsigned int posIndex,unsigned int color);
-    U64 sidesBB(const unsigned int posIndex,unsigned int color); // his is the BB in front of the pawn at NEIGHBOR_FILES
+    U64 frontBB(const unsigned int posIndex,Color color);
+    U64 sidesBB(const unsigned int posIndex,Color color); // his is the BB in front of the pawn at NEIGHBOR_FILES
 }
 
 

@@ -24,51 +24,51 @@ public:
     void appendBlackEnPassantMoves(std::vector<Move>& moves) const;
 
     /* Pseudo Legal Moves */
-    void appendQueenPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const;
-    void appendKnightPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const;
-    void appendKingPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const;
-    void appendRookPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const;
-    void appendBishopPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const;
-    void appendPawnPseudoLegalMoves(const unsigned int& color, std::vector<Move>& moves) const;
+    void appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
+    void appendKnightPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
+    void appendKingPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
+    void appendRookPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
+    void appendBishopPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
+    void appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
     void appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const;
     void appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const;
 
-	std::vector<Move> getRookPseudoLegalMoves(const unsigned int& color) const
+	std::vector<Move> getRookPseudoLegalMoves(const Color color) const
 	{
 		std::vector<Move> moves;
 		appendRookPseudoLegalMoves(color, moves);
 		return moves;
 	}
 
-	std::vector<Move> getQueenPseudoLegalMoves(const unsigned int& color) const
+	std::vector<Move> getQueenPseudoLegalMoves(const Color color) const
 	{
 		std::vector<Move> moves;
 		appendQueenPseudoLegalMoves(color, moves);
 		return moves;
 	}
 
-    std::vector<Move> getKingPseudoLegalMoves(const unsigned int& color)
+    std::vector<Move> getKingPseudoLegalMoves(const Color color)
 	{
 		std::vector<Move> moves;
 		appendKingPseudoLegalMoves(color, moves);
 		return moves;
 	}
 
-	std::vector<Move> getBishopPseudoLegalMoves(const unsigned int& color) const
+	std::vector<Move> getBishopPseudoLegalMoves(const Color color) const
 	{
 		std::vector<Move> moves;
 		appendBishopPseudoLegalMoves(color, moves);
 		return moves;
 	}
 
-    std::vector<Move> getKnightPseudoLegalMoves(const unsigned int& color) const
+    std::vector<Move> getKnightPseudoLegalMoves(const Color color) const
     {
     	std::vector<Move> moves;
     	appendKnightPseudoLegalMoves(color, moves);
     	return moves;
     }
 
-    std::vector<Move> getPawnPseudoLegalMoves(const unsigned int& color) const
+    std::vector<Move> getPawnPseudoLegalMoves(const Color color) const
     {
        	std::vector<Move> moves;
        	appendPawnPseudoLegalMoves(color, moves);
@@ -91,15 +91,15 @@ public:
 
     /* Moves */
     std::vector<Move> getPseudoLegalMoves();
-    std::vector<Move> getPseudoLegalMoves(const unsigned int color);
+    std::vector<Move> getPseudoLegalMoves(const Color color);
     std::vector<Move> getLegalMoves();
-    std::vector<Move> getLegalMoves(const unsigned int color);
+    std::vector<Move> getLegalMoves(const Color color);
 
     //Castling
-    void addKingSideCastlingMove(unsigned int color, unsigned int kingIndex, std::vector<Move>& moves) const;
-    void addQueenSideCastlingMove(unsigned int color, unsigned int kingIndex, std::vector<Move>& moves) const;
-	bool isQueenSideCastlingPossible(const unsigned int color) const;
-	bool isKingSideCastlingPossible(const unsigned int color) const;
+    void addKingSideCastlingMove(Color color, unsigned int kingIndex, std::vector<Move>& moves) const;
+    void addQueenSideCastlingMove(Color color, unsigned int kingIndex, std::vector<Move>& moves) const;
+	bool isQueenSideCastlingPossible(const Color color) const;
+	bool isKingSideCastlingPossible(const Color color) const;
 
 
 private:
