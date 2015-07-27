@@ -8,8 +8,7 @@
 #ifndef COLOR_HPP_
 #define COLOR_HPP_
 
-
-#define WHITE 0
-#define BLACK 1
-
+enum Color {
+	WHITE, BLACK, NO_COLOR, COLOR_NB = 2
+};
 #endif /* COLOR_HPP_ */

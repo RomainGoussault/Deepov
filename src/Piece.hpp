@@ -11,7 +11,7 @@ namespace Piece
         ROOK_TYPE = 3,
         QUEEN_TYPE = 4,
         KING_TYPE = 5,
-        NO_PIECE_TYPE=6
+        NO_PIECE_TYPE= 6
     };
 
     enum PieceValue : unsigned int
