@@ -21,3 +21,12 @@ C++ Chess Engine
 * FEN editor: http://en.lichess.org/editor
 * Bit Twiddling Hacks: https://graphics.stanford.edu/~seander/bithacks.html
 * BitBoard Calculator: http://cinnamonchess.altervista.org/bitboard_calculator/Calc.html
+
+
+======
+
+###Other Open Source C++ Engines:
+* StockFish: https://github.com/mcostalba/Stockfish/
+* Faile: http://faile.sourceforge.net/
+* Senpai: https://chessprogramming.wikispaces.com/Senpai
+* Maverick: http://www.chessprogramming.net/downloads/
