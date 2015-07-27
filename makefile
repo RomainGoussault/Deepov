@@ -1,6 +1,6 @@
 # Var definitions
 
-#export MAKEFLAGS=-j4
+#export MAKEFLAGS=-j8
 
 CXX = g++-5 -O3
 CC_FLAGS = -W -Wall -g -fno-rtti -ansi -Wshadow -Wextra -std=c++14 

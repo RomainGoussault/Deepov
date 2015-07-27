@@ -148,6 +148,15 @@ Piece::PieceType Board::findPieceType(const unsigned int position, const unsigne
 	}
 }
 
+Piece::Piece Board::findPieceType(const unsigned int position) const
+{
+    Piece::PieceType whiteType = findWhitePieceType(position);
+    Piece::PieceType blackType = findBlackPieceType(position);
+
+    return static_cast<Piece::Piece>(whiteType + blackType*(whiteType == 6));
+    //  = whiteType if piece is white, = 6+blackType if piece is black
+}
+
 bool Board::isMoveLegal(Move &move, bool isCheckb)
 {
 	bool isLegalMove = true;
@@ -186,7 +195,8 @@ bool Board::isCheck(const unsigned int color) const
 	return isCheck;
 }
 
-U64 Board::getAttackedPositions(const unsigned int color) const {
+U64 Board::getAttackedPositions(const unsigned int color) const
+{
 	U64 kingAttackedPosition = getKingAttackedPositions(color);
 	U64 queenAttackedPosition = getQueenAttackedPositions(color);
 	U64 rookAttackedPosition = getRookAttackedPositions(color);

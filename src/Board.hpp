@@ -73,8 +73,10 @@ public:
 
 	inline U64 getBitBoard(Piece::PieceType pieceType, unsigned int color) const{return bitboards[pieceType+6*color];};
 
-    void updatePinnedPieces();
+	inline U64 getAtkFr(unsigned int sq) const {return myAtkFr[sq];};
+	inline U64 getAtkTo(unsigned int sq) const {return myAtkTo[sq];};
 
+    void updatePinnedPieces();
 
 	inline bool getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
@@ -100,6 +102,7 @@ public:
 
 
     //PieceType method
+    Piece::Piece findPieceType(const unsigned int position) const;
     Piece::PieceType findPieceType(const unsigned int position, const unsigned int color) const;
     Piece::PieceType findWhitePieceType(const unsigned int position) const;
     Piece::PieceType findBlackPieceType(const unsigned int position) const;
@@ -108,6 +111,8 @@ public:
     bool isCheck(const unsigned int color) const;
 
     //Attacked positions
+    inline U64 getAttacksFromSq(const unsigned int position) const {return getPieceAttacks(findPieceType(position));};
+    U64 getPieceAttacks(Piece::Piece piece) const; // use template ??
     U64 getAttackedPositions(const unsigned int color) const;
     U64 getKingAttackedPositions(const unsigned int& color) const;
     U64 getKingDestinations(const U64 kingPos, const unsigned int& color) const;
@@ -131,6 +136,8 @@ public:
 
 private:
     std::array<U64, 12> bitboards;
+    U64 myAtkTo[64]; // Locations of pieces that attack to the square
+    U64 myAtkFr[64]; // Attacks from the piece on the square
 
 	U64 myWhitePieces;
 	U64 myBlackPieces;
