@@ -125,19 +125,19 @@ public:
 				promotedType -= Move::CAPTURE_FLAG;
 			}
 
-			if(promotedType == Piece::KNIGHT_TYPE)
+			if(promotedType == Piece::KNIGHT)
 			{
 				promotionLetter = "n";
 			}
-			else if(promotedType == Piece::BISHOP_TYPE)
+			else if(promotedType == Piece::BISHOP)
 			{
 				promotionLetter = "b";
 			}
-			else if(promotedType == Piece::ROOK_TYPE)
+			else if(promotedType == Piece::ROOK)
 			{
 				promotionLetter = "r";
 			}
-			else if(promotedType == Piece::QUEEN_TYPE)
+			else if(promotedType == Piece::QUEEN)
 			{
 				promotionLetter = "q";
 			}

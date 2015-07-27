@@ -38,7 +38,7 @@ void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, unsigned int pieceInd
         //Getting the index of the MSB
 		unsigned int positionMsb = BitBoardUtils::getMsbIndex(pawnDestinations);
 
-        Move move = Move(pieceIndex, positionMsb, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN_TYPE);
+        Move move = Move(pieceIndex, positionMsb, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		moves.push_back(move);
 
         //Removing the MSB
@@ -68,7 +68,7 @@ void MoveGen::addPromotionMoves(U64 promotionDestinations, unsigned int pieceInd
 	{
 		//Getting the index of the MSB
 		unsigned int positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
-		Move move = Move(pieceIndex, positionMsb, Move::PROMOTION_FLAG, Piece::PAWN_TYPE);
+		Move move = Move(pieceIndex, positionMsb, Move::PROMOTION_FLAG, Piece::PAWN);
 		moves.push_back(move);
 		move.setFlags(Move::PROMOTION_FLAG+1);
 		moves.push_back(move);
@@ -89,7 +89,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, unsigned int p
 		//Getting the index of the MSB
 		unsigned int positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
 		unsigned int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
-		Move move = Move(pieceIndex, positionMsb, flag, Piece::PAWN_TYPE);
+		Move move = Move(pieceIndex, positionMsb, flag, Piece::PAWN);
         Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
 
@@ -119,8 +119,8 @@ void MoveGen::appendKingPseudoLegalMoves(const Color color, std::vector<Move>& m
 	U64 kingCaptureDestinations = kingValidDestinations & myBoard->getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 
-	addQuietMoves(kingQuietDestinations, kingIndex, moves, Piece::KING_TYPE);
-	addCaptureMoves(kingCaptureDestinations, kingIndex, moves, Piece::KING_TYPE);
+	addQuietMoves(kingQuietDestinations, kingIndex, moves, Piece::KING);
+	addCaptureMoves(kingCaptureDestinations, kingIndex, moves, Piece::KING);
 	addKingSideCastlingMove(color, kingIndex, moves);
 	addQueenSideCastlingMove(color, kingIndex, moves);
 }
@@ -130,7 +130,7 @@ void MoveGen::addKingSideCastlingMove(Color color, unsigned int kingIndex, std::
 	if(isKingSideCastlingPossible(color))
 	{
 		unsigned int destination = color == WHITE ? 6 : 62;
-		Move move = Move(kingIndex, destination, Move::KING_SIDE_CASTLING, Piece::KING_TYPE);
+		Move move = Move(kingIndex, destination, Move::KING_SIDE_CASTLING, Piece::KING);
 		moves.push_back(move);
 	}
 }
@@ -140,7 +140,7 @@ void MoveGen::addQueenSideCastlingMove(Color color, unsigned int kingIndex, std:
 	if(isQueenSideCastlingPossible(color))
 	{
 		unsigned int destination = color == WHITE ? 2 : 58;
-		Move move = Move(kingIndex, destination, Move::QUEEN_SIDE_CASTLING, Piece::KING_TYPE);
+		Move move = Move(kingIndex, destination, Move::QUEEN_SIDE_CASTLING, Piece::KING);
 		moves.push_back(move);
 	}
 }
@@ -164,8 +164,8 @@ void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& 
 		U64 queenCaptureDestinations = queenDestinations & myBoard->getPieces(ennemyColor);
 		U64 queenQuietDestinations = queenDestinations ^ queenCaptureDestinations;
 
-		addQuietMoves(queenQuietDestinations, queenIndex, moves, Piece::QUEEN_TYPE);
-		addCaptureMoves(queenCaptureDestinations, queenIndex, moves, Piece::QUEEN_TYPE);
+		addQuietMoves(queenQuietDestinations, queenIndex, moves, Piece::QUEEN);
+		addCaptureMoves(queenCaptureDestinations, queenIndex, moves, Piece::QUEEN);
 	}
 }
 
@@ -186,8 +186,8 @@ void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>&
 		U64 bishopCaptureDestinations = bishopDestinations & myBoard->getPieces(ennemyColor);
 		U64 bishopQuietDestinations = bishopDestinations ^ bishopCaptureDestinations;
 
-		addQuietMoves(bishopQuietDestinations, bishopIndex, moves, Piece::BISHOP_TYPE);
-		addCaptureMoves(bishopCaptureDestinations, bishopIndex, moves, Piece::BISHOP_TYPE);
+		addQuietMoves(bishopQuietDestinations, bishopIndex, moves, Piece::BISHOP);
+		addCaptureMoves(bishopCaptureDestinations, bishopIndex, moves, Piece::BISHOP);
 	}
 }
 
@@ -208,8 +208,8 @@ void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& m
 		U64 rookCaptureDestinations = rookDestinations & myBoard->getPieces(ennemyColor);
 		U64 rookQuietDestinations = rookDestinations ^ rookCaptureDestinations;
 
-		addQuietMoves(rookQuietDestinations, rookIndex, moves, Piece::ROOK_TYPE);
-		addCaptureMoves(rookCaptureDestinations, rookIndex, moves, Piece::ROOK_TYPE);
+		addQuietMoves(rookQuietDestinations, rookIndex, moves, Piece::ROOK);
+		addCaptureMoves(rookCaptureDestinations, rookIndex, moves, Piece::ROOK);
 	}
 }
 /*
@@ -253,8 +253,8 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 		U64 knightCaptureDestinations = knightValidDestinations & myBoard->getPieces(ennemyColor);
 		U64 knightQuietDestinations = knightValidDestinations ^ knightCaptureDestinations;
 
-		addQuietMoves(knightQuietDestinations, knightIndex, moves, Piece::KNIGHT_TYPE);
-		addCaptureMoves(knightCaptureDestinations, knightIndex, moves, Piece::KNIGHT_TYPE);
+		addQuietMoves(knightQuietDestinations, knightIndex, moves, Piece::KNIGHT);
+		addCaptureMoves(knightCaptureDestinations, knightIndex, moves, Piece::KNIGHT);
 
 		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
 	}
@@ -297,10 +297,10 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 		attack/move. */
 		// whitePawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & Tables::CLEAR_RANK[7], pawnIndex, moves, Piece::PAWN_TYPE);
+		addQuietMoves(firstStep & Tables::CLEAR_RANK[7], pawnIndex, moves, Piece::PAWN);
 		addDoublePawnPushMoves(twoSteps & Tables::CLEAR_RANK[7], pawnIndex, moves);
 		addPromotionMoves(firstStep & Tables::MASK_RANK[7], pawnIndex, moves);
-		addCaptureMoves(validAttacks & Tables::CLEAR_RANK[7], pawnIndex, moves, Piece::PAWN_TYPE);
+		addCaptureMoves(validAttacks & Tables::CLEAR_RANK[7], pawnIndex, moves, Piece::PAWN);
 		addPromotionCaptureMoves(validAttacks & Tables::MASK_RANK[7], pawnIndex, moves);
 	}
 }
@@ -342,10 +342,10 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 		attack/move. */
 		// blackPawnValid = (firstStep | twoSteps) | validAttacks; // not needed for now
 
-		addQuietMoves(firstStep & Tables::CLEAR_RANK[0], pawnIndex, moves, Piece::PAWN_TYPE);
+		addQuietMoves(firstStep & Tables::CLEAR_RANK[0], pawnIndex, moves, Piece::PAWN);
 		addDoublePawnPushMoves(twoSteps & Tables::CLEAR_RANK[0], pawnIndex, moves);
 		addPromotionMoves(firstStep & Tables::MASK_RANK[0], pawnIndex, moves);
-		addCaptureMoves(validAttacks & Tables::CLEAR_RANK[0], pawnIndex, moves, Piece::PAWN_TYPE);
+		addCaptureMoves(validAttacks & Tables::CLEAR_RANK[0], pawnIndex, moves, Piece::PAWN);
 		addPromotionCaptureMoves(validAttacks & Tables::MASK_RANK[0], pawnIndex, moves);
 	}
 }
@@ -413,8 +413,8 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
-                Move epMove(validPawnIndex,enemyDestination+8,Move::EP_CAPTURE_FLAG,Piece::PAWN_TYPE);
-                epMove.setCapturedPieceType(Piece::PAWN_TYPE);
+                Move epMove(validPawnIndex,enemyDestination+8,Move::EP_CAPTURE_FLAG,Piece::PAWN);
+                epMove.setCapturedPieceType(Piece::PAWN);
                 moves.push_back(epMove);
             }
         }
@@ -446,8 +446,8 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
-                Move epMove(validPawnIndex,enemyDestination-8,Move::EP_CAPTURE_FLAG,Piece::PAWN_TYPE);
-                epMove.setCapturedPieceType(Piece::PAWN_TYPE);
+                Move epMove(validPawnIndex,enemyDestination-8,Move::EP_CAPTURE_FLAG,Piece::PAWN);
+                epMove.setCapturedPieceType(Piece::PAWN);
                 moves.push_back(epMove);
             }
         }

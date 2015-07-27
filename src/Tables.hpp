@@ -62,12 +62,20 @@ namespace Tables
     extern U64 FRONT_SPANS[2][64]; // Squares in front
     extern U64 PAWN_ATTACK_SPANS[2][64]; // Neighbors files in front
     extern U64 PASSED_PAWN_MASK[2][64]; // Combination of the 2 previous
+    extern U64 ATTACK_TABLE[Piece::PIECE_TYPE_NB][64]; // ATTACK TABLES for each type
 
 
     void init();
     /* The 2 following functions can be changed as const Look Up Tables if we need them faster */
     U64 frontBB(const unsigned int posIndex,Color color);
     U64 sidesBB(const unsigned int posIndex,Color color); // his is the BB in front of the pawn at NEIGHBOR_FILES
+
+    // Piece Attacks
+    U64 getKingAttackedPositions(const unsigned int posIndex) const;
+    U64 getQueenAttackedPositions(const unsigned int posIndex) const;
+    U64 getRookAttackedPositions(const unsigned int posIndex) const;
+    U64 getBishopAttackedPositions(const unsigned int posIndex) const;
+    U64 getKnightAttackedPositions(const unsigned int posIndex) const;
 }
 
 

@@ -40,7 +40,7 @@ bitboards(), myPinnedPieces(), myCastling()
 		unsigned int epIndex = getIndexFromChar(spaceSplit[3]);
 		unsigned int origin = epIndex + 8 - 16*myColorToPlay;
 		unsigned int destination = epIndex - 8 + 16*myColorToPlay;
-		Move lastMove(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN_TYPE);
+		Move lastMove(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		myMoves.push_back(lastMove);
 	}
 
@@ -71,27 +71,27 @@ Piece::PieceType Board::findBlackPieceType(const unsigned int position) const
 {
 	if (bitboards[6]&(1LL << position))
 	{
-		return Piece::PAWN_TYPE;
+		return Piece::PAWN;
 	}
 	else if (bitboards[7]&(1LL << position))
 	{
-		return Piece::KNIGHT_TYPE;
+		return Piece::KNIGHT;
 	}
 	else if (bitboards[8]&(1LL << position))
 	{
-		return Piece::BISHOP_TYPE;
+		return Piece::BISHOP;
 	}
 	else if (bitboards[9]&(1LL << position))
 	{
-		return Piece::ROOK_TYPE;
+		return Piece::ROOK;
 	}
 	else if (bitboards[10]&(1LL << position))
 	{
-		return Piece::QUEEN_TYPE;
+		return Piece::QUEEN;
 	}
     else if (bitboards[11]&(1LL << position))
 	{
-		return Piece::KING_TYPE;
+		return Piece::KING;
 	}
 	else
 	{
@@ -103,27 +103,27 @@ Piece::PieceType Board::findWhitePieceType(const unsigned int position) const
 {
 	if (bitboards[0]&(1LL << position))
 	{
-		return Piece::PAWN_TYPE;
+		return Piece::PAWN;
 	}
 	else if (bitboards[1]&(1LL << position))
 	{
-		return Piece::KNIGHT_TYPE;
+		return Piece::KNIGHT;
 	}
 	else if (bitboards[2]&(1LL << position))
 	{
-		return Piece::BISHOP_TYPE;
+		return Piece::BISHOP;
 	}
 	else if (bitboards[3]&(1LL << position))
 	{
-		return Piece::ROOK_TYPE;
+		return Piece::ROOK;
 	}
 	else if (bitboards[4]&(1LL << position))
 	{
-		return Piece::QUEEN_TYPE;
+		return Piece::QUEEN;
 	}
 	else if (bitboards[5]&(1LL << position))
 	{
-		return Piece::KING_TYPE;
+		return Piece::KING;
 	}
 	else
 	{
@@ -166,7 +166,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	unsigned int origin = move.getOrigin();
 	U64 oribb = 1LL << origin;
 	bool isPinned = oribb & getPinnedPieces();
-	bool isKingMove = move.getPieceType() == Piece::KING_TYPE;
+	bool isKingMove = move.getPieceType() == Piece::KING;
 
 
 	if (isKingMove || isCheckb || isEnPassant || isPinned)
@@ -447,7 +447,7 @@ void Board::executeMove(Move &move)
 			}
 
 			//move rook
-			movePiece(rookOrigin, rookDestination, Piece::ROOK_TYPE, myColorToPlay);
+			movePiece(rookOrigin, rookDestination, Piece::ROOK, myColorToPlay);
 		}
 		else if (move.isPromotion())
 		{
@@ -460,7 +460,7 @@ void Board::executeMove(Move &move)
 				removePiece(destination, capturedPieceType, oppositeColor);
 			}
 
-			removePiece(origin, Piece::PAWN_TYPE, myColorToPlay);
+			removePiece(origin, Piece::PAWN, myColorToPlay);
 			addPiece(destination, promotedType, myColorToPlay);
 		}
 		else
@@ -468,7 +468,7 @@ void Board::executeMove(Move &move)
 			if (move.isEnPassant()) // watch out ep capture is a capture
 			{
 				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
-				removePiece(capturedPawnIndex, Piece::PAWN_TYPE, oppositeColor);
+				removePiece(capturedPawnIndex, Piece::PAWN, oppositeColor);
 			}
 			else //Move is capture
 			{
@@ -528,7 +528,7 @@ void Board::undoMove(Move &move)
 			}
 
 			//move rook
-			movePiece(rookDestination, rookOrigin, Piece::ROOK_TYPE, oppositeColor);
+			movePiece(rookDestination, rookOrigin, Piece::ROOK, oppositeColor);
 		}
 		else if(move.isPromotion())
 		{
@@ -543,7 +543,7 @@ void Board::undoMove(Move &move)
 			}
 
 			removePiece(destination, promotedType, oppositeColor);
-			addPiece(origin, Piece::PAWN_TYPE, oppositeColor);
+			addPiece(origin, Piece::PAWN, oppositeColor);
 		}
 		else
 		{
@@ -552,7 +552,7 @@ void Board::undoMove(Move &move)
 			if (move.isEnPassant()) // watch out ep capture is a capture
 			{
 				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*oppositeColor;
-				addPiece(capturedPawnIndex, Piece::PAWN_TYPE, myColorToPlay);
+				addPiece(capturedPawnIndex, Piece::PAWN, myColorToPlay);
 			}
 			else //Move is capture
 			{
@@ -788,7 +788,7 @@ void Board::updateCastlingRights(Move &move)
     move.setPreviousCastlingRights(myCastling); // store for undoMove
 
     /* Update Castling rights for king move */
-    unsigned int isKingMove(move.getPieceType() == Piece::KING_TYPE);
+    unsigned int isKingMove(move.getPieceType() == Piece::KING);
     myCastling &= ~((isKingMove*3) << (myColorToPlay*2));
     /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 

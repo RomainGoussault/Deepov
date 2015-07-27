@@ -4,6 +4,7 @@
 U64 Tables::FRONT_SPANS[2][64];
 U64 Tables::PAWN_ATTACK_SPANS[2][64];
 U64 Tables::PASSED_PAWN_MASK[2][64];
+U64 Tables::ATTACK_TABLE[Piece::PIECE_TYPE_NB][64];
 
 /* Methods */
 void Tables::init()

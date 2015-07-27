@@ -5,13 +5,14 @@ namespace Piece
 {
     enum PieceType : unsigned int
     {
-        PAWN_TYPE = 0,
-        KNIGHT_TYPE = 1,
-        BISHOP_TYPE = 2,
-        ROOK_TYPE = 3,
-        QUEEN_TYPE = 4,
-        KING_TYPE = 5,
-        NO_PIECE_TYPE= 6
+        PAWN = 0,
+        KNIGHT = 1,
+        BISHOP = 2,
+        ROOK = 3,
+        QUEEN = 4,
+        KING = 5,
+        NO_PIECE_TYPE = 6,
+        PIECE_TYPE_NB = 7
     };
 
     enum Piece: unsigned int

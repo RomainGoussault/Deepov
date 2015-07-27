@@ -22,7 +22,7 @@ namespace Pawn
 	/** Utils **/
     inline unsigned int countPawnsInFile(const Board &board, const unsigned int file, const Color color)
     {
-        return BitBoardUtils::countBBBitsSet(board.getBitBoard(Piece::PAWN_TYPE,color) & Tables::MASK_FILE[file]);
+        return BitBoardUtils::countBBBitsSet(board.getBitBoard(Piece::PAWN,color) & Tables::MASK_FILE[file]);
     };
 
 	inline unsigned int countPawns(const Board &board, const Color color)

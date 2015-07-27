@@ -58,12 +58,12 @@ public:
 	inline U64 getBlackQueens() const{return bitboards[10];}
 	inline U64 getBlackKing() const{return bitboards[11];}
 
-	inline U64 getPawns(Color color) const{return getBitBoard(Piece::PAWN_TYPE, color);}
-	inline U64 getKnights(Color color) const{return getBitBoard(Piece::KNIGHT_TYPE, color);}
-	inline U64 getBishops(Color color) const{return getBitBoard(Piece::BISHOP_TYPE, color);}
-	inline U64 getRooks(Color color) const{return getBitBoard(Piece::ROOK_TYPE, color);}
-	inline U64 getQueens(Color color) const{return getBitBoard(Piece::QUEEN_TYPE, color);}
-	inline U64 getKing(Color color) const{return getBitBoard(Piece::KING_TYPE, color);}
+	inline U64 getPawns(Color color) const{return getBitBoard(Piece::PAWN, color);}
+	inline U64 getKnights(Color color) const{return getBitBoard(Piece::KNIGHT, color);}
+	inline U64 getBishops(Color color) const{return getBitBoard(Piece::BISHOP, color);}
+	inline U64 getRooks(Color color) const{return getBitBoard(Piece::ROOK, color);}
+	inline U64 getQueens(Color color) const{return getBitBoard(Piece::QUEEN, color);}
+	inline U64 getKing(Color color) const{return getBitBoard(Piece::KING, color);}
 
 	inline U64 getWhitePieces() const{return myWhitePieces;}
 	inline U64 getBlackPieces() const{return myBlackPieces;}

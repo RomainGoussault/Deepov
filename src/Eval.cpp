@@ -212,7 +212,7 @@ void Eval::updateEvalAttributes(const Move &move)
         myMaterialScore += (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
     }
 
-    if (pieceType == Piece::PAWN_TYPE || move.getCapturedPieceType() == Piece::PAWN_TYPE)
+    if (pieceType == Piece::PAWN || move.getCapturedPieceType() == Piece::PAWN)
     {
         myPawnScore = Pawn::initScore(*myBoard);
     }
@@ -244,7 +244,7 @@ void Eval::rewindEvalAttributes(const Move &move)
         myMaterialScore -= (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
     }
 
-    if (pieceType == Piece::PAWN_TYPE || move.getCapturedPieceType() == Piece::PAWN_TYPE)
+    if (pieceType == Piece::PAWN || move.getCapturedPieceType() == Piece::PAWN)
     {
         myPawnScore = Pawn::initScore(*myBoard);
     }
