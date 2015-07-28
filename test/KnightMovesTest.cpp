@@ -5,6 +5,8 @@
 
 TEST_CASE( "Knight moves", "[knight]" )
 {
+    Tables::init();
+
 	SECTION("Test pseudo-legal moves with one knight")
 	{
 		Board board("8/4kB2/8/5b2/8/1bqKN3/8/n7 w - -");

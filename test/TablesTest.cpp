@@ -4,9 +4,10 @@
 
 TEST_CASE( "Tables" )
 {
+    Tables::init();
+
     SECTION("Bitboard calculations")
     {
-        Tables::init();
         unsigned int posIndex = 10;
         U64 frontMask=Tables::frontBB(posIndex,WHITE);
         REQUIRE(frontMask == 0x404040404040000);
@@ -17,7 +18,6 @@ TEST_CASE( "Tables" )
 
     SECTION("Front spans")
     {
-        Tables::init();
         REQUIRE(Tables::PASSED_PAWN_MASK[WHITE][34] == 0xe0e0e0000000000);
         REQUIRE(Tables::PASSED_PAWN_MASK[BLACK][34] == 0xe0e0e0e);
         REQUIRE(Tables::FRONT_SPANS[WHITE][34] == 0x404040000000000);

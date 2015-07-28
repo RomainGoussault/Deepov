@@ -5,6 +5,8 @@
 
 TEST_CASE( "Pawn moves", "[pawn]" )
 {
+    Tables::init();
+
 	SECTION("starting position")
 	{
 		Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -39,6 +41,8 @@ TEST_CASE( "Pawn moves", "[pawn]" )
 
 TEST_CASE( "Pawn promotions", "[pawn]" )
 {
+    Tables::init();
+
     SECTION("Promotion")
 	{
 		Board board("8/2P1k3/8/3K4/8/8/8/8 w - - 0 1");

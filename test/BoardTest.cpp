@@ -2,6 +2,7 @@
 #include "Board.hpp"
 #include "BitBoardUtils.hpp"
 #include "MagicMoves.hpp"
+#include "Tables.hpp"
 #include "MoveGen.hpp"
 
 
@@ -26,6 +27,7 @@ TEST_CASE( "is bit Set method" )
 
 TEST_CASE( "Move methods" )
 {
+    Tables::init();
 	Board board;
 	MoveGen moveGen(board);
 
@@ -42,6 +44,7 @@ TEST_CASE( "Move methods" )
 TEST_CASE( "Perft from initial position ", "[perft]")
 {
 	MagicMoves::initmagicmoves();
+    Tables::init();
 
 	SECTION("Perft 0")
 	{
@@ -89,6 +92,7 @@ TEST_CASE( "Perft from initial position ", "[perft]")
 TEST_CASE( "Perft position 2 (Kiwipete)", "[perft]")
 {
 	MagicMoves::initmagicmoves();
+    Tables::init();
     Board board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
 
 	SECTION("Perft 1")
@@ -120,6 +124,7 @@ TEST_CASE( "Perft position 2 (Kiwipete)", "[perft]")
 TEST_CASE( "Perft position 3 ", "[perft]")
 {
 	MagicMoves::initmagicmoves();
+    Tables::init();
 
 	SECTION("Perft 0")
 	{
@@ -161,6 +166,7 @@ TEST_CASE( "Perft position 3 ", "[perft]")
 TEST_CASE( "Perft position 4 ", "[perft]")
 {
 	MagicMoves::initmagicmoves();
+    Tables::init();
 	Board board("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1");
 	Board boardMirrored("r2q1rk1/pP1p2pp/Q4n2/bbp1p3/Np6/1B3NBn/pPPP1PPP/R3K2R b KQ - 0 1");
 
@@ -205,6 +211,7 @@ TEST_CASE( "Perft position 4 ", "[perft]")
 TEST_CASE( "Perft position 5 ", "[perft]") //Note The ChessProgramming website gives another FEN for this position
 {
 	MagicMoves::initmagicmoves();
+	Tables::init();
     Board board("rnbqkb1r/pp1p1ppp/2p5/4P3/2B5/8/PPP1NnPP/RNBQK2R w KQkq - 0 6");
 
 	SECTION("Perft 1")
@@ -226,6 +233,7 @@ TEST_CASE( "Perft position 5 ", "[perft]") //Note The ChessProgramming website g
 TEST_CASE( "Perft position 5 bis", "[perft]") //Results from stockfish
 {
 	MagicMoves::initmagicmoves();
+	Tables::init();
     Board board("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8");
 
 	SECTION("Perft 1")
@@ -247,6 +255,7 @@ TEST_CASE( "Perft position 5 bis", "[perft]") //Results from stockfish
 TEST_CASE( "Perft position 6 ", "[perft]")
 {
 	MagicMoves::initmagicmoves();
+	Tables::init();
 
 	SECTION("Perft 0")
 	{
@@ -282,6 +291,7 @@ TEST_CASE( "Perft position 6 ", "[perft]")
 TEST_CASE( "Perft Promotion", "[perft]") //Taken from http://www.rocechess.ch/perft.html
 {
 	MagicMoves::initmagicmoves();
+	Tables::init();
     Board board("n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1");
 
 	SECTION("Perft 1")

@@ -6,6 +6,7 @@
 TEST_CASE( "Search", "[search]" )
 {
 	MagicMoves::initmagicmoves();
+    Tables::init();
 
 	SECTION("Test search depth 1 white")
 	{

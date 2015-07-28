@@ -7,6 +7,7 @@
 TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 {
     MagicMoves::initmagicmoves();
+    Tables::init();
 
     SECTION("EnPassant from FEN")
     {
@@ -51,6 +52,7 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 
 TEST_CASE( "Castling" )
 {
+    Tables::init();
 	SECTION("Castling possible")
 	{
 		Board board("r3k2r/pppppppp/8/2nqn3/1NBQ1N2/8/PPPPPPPP/R3K2R w KQkq -");

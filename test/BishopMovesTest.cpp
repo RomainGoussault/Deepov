@@ -7,6 +7,7 @@
 TEST_CASE( "Bishop moves", "[bishop]" )
 {
 	MagicMoves::initmagicmoves();
+	Tables::init();
 
 	SECTION("Test pseudo-legal moves")
 	{

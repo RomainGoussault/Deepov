@@ -30,6 +30,7 @@
 int main() {
 
 	MagicMoves::initmagicmoves();
+	Tables::init();
 
 	#ifdef PERFORMANCE_TEST
 
