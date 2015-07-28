@@ -114,14 +114,22 @@ public:
 
     //Attacked positions
     inline U64 getAttacksFromSq(const unsigned int position) const {return getPieceAttacks(findPieceType(position));};
+    inline U64 getKnightDestinations(const unsigned int pos, const Color color) const
+    {
+        return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
+    };
+    inline U64 getKingDestinations(const U64 pos, const Color color) const
+    {
+        return Tables::ATTACK_TABLE[Piece::KING][pos] & ~getPieces(color);
+    };
+
     U64 getPieceAttacks(Piece::Piece piece) const; // use template ??
     U64 getAttackedPositions(const Color color) const;
     U64 getKingAttackedPositions(const Color color) const;
-    U64 getKingDestinations(const U64 kingPos, const Color color) const;
+
     U64 getQueenAttackedPositions(const Color color) const;
     U64 getRookAttackedPositions(const Color color) const;
     U64 getBishopAttackedPositions(const Color color) const;
-    U64 getKnightDestinations(const unsigned int knightIndex, const Color color) const;
     U64 getKnightAttackedPositions(const Color color) const;
     U64 getPawnAttackedPositions(const Color color) const;
     U64 getWhitePawnAttackedPositions() const;

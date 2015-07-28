@@ -237,35 +237,6 @@ U64 Board::getKingAttackedPositions(const Color color) const
 	return kingAttackedDestinations;
 }
 
-U64 Board::getKingDestinations(const U64 kingPos, const Color color) const
-{
-	/* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
-	/* we can ignore the rank clipping since the overflow/underflow with
-	respect to rank simply vanishes. We only care about the file
-	overflow/underflow. */
-	U64	king_clip_file_h(kingPos & Tables::CLEAR_FILE[7]);
-	U64 king_clip_file_a(kingPos & Tables::CLEAR_FILE[0]);
-
-	/* remember the representation of the board in relation to the bitindex
-	when looking at these shifts.... There is an error in the source link
-	the code is copied from !! */
-	U64 NW(king_clip_file_a << 7);
-	U64 N(kingPos << 8);
-	U64 NE(king_clip_file_h << 9);
-	U64 E(king_clip_file_h << 1);
-
-	U64 SE(king_clip_file_h >> 7);
-	U64 S(kingPos >> 8);
-	U64 SW(king_clip_file_a >> 9);
-	U64 W(king_clip_file_a >> 1);
-
-	/* N = north, NW = North West, from King location, etc */
-	U64 kingDestinations = NW | N | NE | E | SE | S | SW | W;
-	U64 kingValidDestinations = kingDestinations & ~getPieces(color);
-
-	return kingValidDestinations;
-}
-
 U64 Board::getRookAttackedPositions(const Color color) const
 {
 	U64 rookAttackedDestinations = 0LL;
@@ -383,35 +354,6 @@ U64 Board::getPawnAttackedPositions(const Color color) const
 	{
 		return getBlackPawnAttackedPositions();
 	}
-}
-
-U64 Board::getKnightDestinations(const unsigned int knightIndex, const Color color) const
-{
-	const U64 knightPos = 0 | 1LL << knightIndex;
-
-	/* we can ignore the rank clipping since the overflow/underflow with
-		respect to rank simply vanishes. We only care about the file
-		overflow/underflow. */
-	U64	knight_clip_file_h(knightPos & Tables::CLEAR_FILE[7]);
-	U64 knight_clip_file_a(knightPos & Tables::CLEAR_FILE[0]);
-
-	U64	knight_clip_file_gh(knightPos & Tables::CLEAR_FILE[7] & Tables::CLEAR_FILE[6]);
-	U64 knight_clip_file_ab(knightPos & Tables::CLEAR_FILE[0] & Tables::CLEAR_FILE[1]);
-
-	U64 WNW(knight_clip_file_ab << 6);
-	U64 NNW(knight_clip_file_a << 15);
-	U64 NNE(knight_clip_file_h << 17);
-	U64 ENE(knight_clip_file_gh << 10);
-
-	U64 ESE(knight_clip_file_gh >> 6);
-	U64 SSE(knight_clip_file_h >> 15);
-	U64 SSW(knight_clip_file_a >> 17);
-	U64 WSW(knight_clip_file_ab >> 10);
-
-	/* N = north, NW = North West, from knight location, etc */
-	U64 knightValidDestinations = (WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW) & ~getPieces(color);
-
-	return knightValidDestinations;
 }
 
 void Board::executeMove(Move &move)

@@ -2,6 +2,7 @@
 #define Tables_HPP_
 
 #include "Color.hpp"
+#include "Piece.hpp"
 #include "Utils.hpp"
 #include "MagicMoves.hpp"
 

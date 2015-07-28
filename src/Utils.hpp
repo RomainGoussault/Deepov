@@ -12,7 +12,9 @@
 #include <iostream>
 #include <math.h>
 
-#include "Board.hpp"
+#include "Color.hpp"
+
+class Board;
 
 namespace Utils
 {
