@@ -17,6 +17,13 @@ void Tables::init()
         PAWN_ATTACK_SPANS[BLACK][square] = sidesBB(square,BLACK);
         PASSED_PAWN_MASK[WHITE][square] = FRONT_SPANS[WHITE][square] | PAWN_ATTACK_SPANS[WHITE][square];
         PASSED_PAWN_MASK[BLACK][square] = FRONT_SPANS[BLACK][square] | PAWN_ATTACK_SPANS[BLACK][square];
+        ATTACK_TABLE[Piece::KNIGHT][square] = getKnightAttacks(square);
+        ATTACK_TABLE[Piece::KING][square] = getKingAttacks(square);
+        ATTACK_TABLE[Piece::PAWN][square] = 0x0;
+        ATTACK_TABLE[Piece::BISHOP][square] = getBishopAttacks(square);
+        ATTACK_TABLE[Piece::ROOK][square] = getRookAttacks(square);
+        ATTACK_TABLE[Piece::QUEEN][square] = getQueenAttacks(square);
+        ATTACK_TABLE[Piece::NO_PIECE_TYPE][square] = 0x0;
     }
 }
 
