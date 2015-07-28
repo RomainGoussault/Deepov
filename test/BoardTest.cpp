@@ -91,8 +91,8 @@ TEST_CASE( "Perft from initial position ", "[perft]")
 
 TEST_CASE( "Perft position 2 (Kiwipete)", "[perft]")
 {
-	MagicMoves::initmagicmoves();
     Tables::init();
+	MagicMoves::initmagicmoves();
     Board board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
 
 	SECTION("Perft 1")

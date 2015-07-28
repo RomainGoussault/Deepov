@@ -232,7 +232,8 @@ U64 Board::getKnightAttackedPositions(const Color color) const
 U64 Board::getKingAttackedPositions(const Color color) const
 {
 	U64 kingPosition = getKing(color);
-	U64 kingAttackedDestinations = getKingDestinations(kingPosition, color);
+	unsigned int index = BitBoardUtils::getMsbIndex(kingPosition);
+	U64 kingAttackedDestinations = getKingDestinations(index, color);
 
 	return kingAttackedDestinations;
 }

@@ -118,7 +118,7 @@ public:
     {
         return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
     };
-    inline U64 getKingDestinations(const U64 pos, const Color color) const
+    inline U64 getKingDestinations(const unsigned int pos, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KING][pos] & ~getPieces(color);
     };

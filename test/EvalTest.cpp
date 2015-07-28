@@ -3,7 +3,8 @@
 #include "Search.hpp"
 
 TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
-{
+{;
+    Tables::init();
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Eval initEval(sp);
     REQUIRE(EvalTables::AllPSQT[WHITE][0][0][42] == 15);
@@ -23,6 +24,7 @@ TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
 
 TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
 {
+    Tables::init();
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Eval eval(sp);
     REQUIRE(eval.getOpeningPSQValue()==0);
@@ -43,6 +45,7 @@ TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
 
 TEST_CASE( "Test the update of material evaluation attributes", "[Eval]")
 {
+    Tables::init();
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Search search(sp);
     REQUIRE(search.getCurrentScore() == 0);
@@ -52,6 +55,7 @@ TEST_CASE( "Test the update of material evaluation attributes", "[Eval]")
 
 TEST_CASE( "Test the update of material evaluation attributes 2", "[Eval]")
 {
+    Tables::init();
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"));
     Search search(sp);
     unsigned int initScore = search.getCurrentScore();
@@ -61,6 +65,7 @@ TEST_CASE( "Test the update of material evaluation attributes 2", "[Eval]")
 
 TEST_CASE( "Test the update of evaluation for promotion moves", "[Eval]")
 {
+    Tables::init();
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q2/PPPBBPpP/R3K2R b KQkq - 0 1"));
     Eval eval(sp);
 
