@@ -114,8 +114,6 @@ void MoveGen::appendKingPseudoLegalMoves(const Color color, std::vector<Move>& m
 	U64 kingValidDestinations = myBoard->getKingDestinations(kingIndex, color);
 
 	Color ennemyColor = Utils::getOppositeColor(color);
-
-
 	U64 kingCaptureDestinations = kingValidDestinations & myBoard->getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
 

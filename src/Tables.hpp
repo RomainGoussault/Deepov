@@ -64,8 +64,8 @@ namespace Tables
     extern U64 FRONT_SPANS[2][64]; // Squares in front
     extern U64 PAWN_ATTACK_SPANS[2][64]; // Neighbors files in front
     extern U64 PASSED_PAWN_MASK[2][64]; // Combination of the 2 previous
-    extern U64 ATTACK_TABLE[Piece::PIECE_TYPE_NB][64]; // ATTACK TABLES for each type
-
+    extern U64 ATTACK_TABLE[Piece::PIECE_TYPE_NB][64]; // ATTACK TABLES for each type;
+    extern U64 PAWN_ATTACK_TABLE[Color::COLOR_NB][64]; // Merge with ATTACK_TABLE ??
 
     void init();
     /* The 2 following functions can be changed as const Look Up Tables if we need them faster */
@@ -77,6 +77,7 @@ namespace Tables
     /* Non-sliding Pieces*/
     U64 kingAttacks(const unsigned int pos);
     U64 knightAttacks(const unsigned int pos);
+    U64 pawnAttacks(const unsigned int pos, Color color);
 
     /* Sliding Pieces : !!! these tables does not replace moveGen !!! */
     inline U64 bishopAttacks(const unsigned int pos){return MagicMoves::Bmagic(pos, 0x0);};

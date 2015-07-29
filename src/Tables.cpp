@@ -5,6 +5,7 @@ U64 Tables::FRONT_SPANS[2][64];
 U64 Tables::PAWN_ATTACK_SPANS[2][64];
 U64 Tables::PASSED_PAWN_MASK[2][64];
 U64 Tables::ATTACK_TABLE[Piece::PIECE_TYPE_NB][64];
+U64 Tables::PAWN_ATTACK_TABLE[Color::COLOR_NB][64];
 
 /* Methods */
 void Tables::init()
@@ -94,4 +95,24 @@ U64 Tables::knightAttacks(const unsigned int pos)
 
 	/* N = north, NW = North West, from knight location, etc */
 	return (WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW);
+}
+
+U64 Tables::pawnAttacks(const unsigned int pos, Color color)
+{
+    U64 posBB = 0 | 1LL << pos;
+    U64 leftAttack(0);
+    U64 rightAttack(0);
+
+    if (color == WHITE)
+    {
+        leftAttack = (posBB & Tables::CLEAR_FILE[0]) << 7;
+        rightAttack = (posBB & Tables::CLEAR_FILE[7]) << 9;
+    }
+    else if (color == BLACK)
+    {
+		leftAttack = (posBB & Tables::CLEAR_FILE[7]) >> 7;
+        rightAttack = (posBB & Tables::CLEAR_FILE[0]) >> 9;
+    }
+
+    return (leftAttack | rightAttack);
 }
