@@ -3,7 +3,7 @@
 #include "Search.hpp"
 
 TEST_CASE( "Test the initialisation of EvalTables", "[EvalTables]")
-{;
+{
     Tables::init();
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Eval initEval(sp);

@@ -110,11 +110,11 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, unsigned int p
 void MoveGen::appendKingPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	U64 kingPos = myBoard->getKing(color);
-
-	U64 kingValidDestinations = myBoard->getKingDestinations(kingPos, color);
+    unsigned int kingIndex = BitBoardUtils::getMsbIndex(kingPos);
+	U64 kingValidDestinations = myBoard->getKingDestinations(kingIndex, color);
 
 	Color ennemyColor = Utils::getOppositeColor(color);
-	unsigned int kingIndex = BitBoardUtils::getMsbIndex(kingPos);
+
 
 	U64 kingCaptureDestinations = kingValidDestinations & myBoard->getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingValidDestinations ^ kingCaptureDestinations;
