@@ -133,8 +133,6 @@ public:
     U64 getBishopAttackedPositions(const Color color) const;
     U64 getKnightAttackedPositions(const Color color) const;
     U64 getPawnAttackedPositions(const Color color) const;
-    U64 getWhitePawnAttackedPositions() const;
-    U64 getBlackPawnAttackedPositions() const;
 
 	/* ************* */
     char getChar(const unsigned int file, const unsigned int rank) const;

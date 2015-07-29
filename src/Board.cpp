@@ -293,68 +293,22 @@ U64 Board::getQueenAttackedPositions(const Color color) const
 	return queenAttackedDestinations;
 }
 
-U64 Board::getWhitePawnAttackedPositions() const
-{
-	U64 pawnAttackedDestinations = 0LL;
-	U64 pawnPositions = getWhitePawns();
-
-	//loop through the pawns:
-	while(pawnPositions)
-	{
-		unsigned int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
-		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
-		U64 pawnPos = 0 | 1LL << pawnIndex;
-
-		/* check the left side of the pawn, minding the underflow File A */
-		U64 leftAttack = (pawnPos & Tables::CLEAR_FILE[0]) << 7;
-
-		/* then check the right side of the pawn, minding the overflow File H */
-		U64 rightAttack = (pawnPos & Tables::CLEAR_FILE[7]) << 9;
-
-		U64 pawnDestinations = leftAttack | rightAttack;
-		U64 pawnValidDestinations = pawnDestinations & ~getWhitePieces();
-		pawnAttackedDestinations |= pawnValidDestinations;
-	}
-
-	return pawnAttackedDestinations;
-}
-
-U64 Board::getBlackPawnAttackedPositions() const
-{
-	U64 pawnAttackedDestinations = 0LL;
-	U64 pawnPositions = getBlackPawns();
-
-	//loop through the pawns:
-	while(pawnPositions)
-	{
-		unsigned int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
-		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
-		U64 pawnPos = 0 | 1LL << pawnIndex;
-
-		/* check the left side of the pawn, minding the underflow File A */
-		U64 leftAttack = (pawnPos & Tables::CLEAR_FILE[7]) >> 7;
-
-		/* then check the right side of the pawn, minding the overflow File H */
-		U64 rightAttack = (pawnPos & Tables::CLEAR_FILE[0]) >> 9;
-
-		U64 pawnDestinations = leftAttack | rightAttack;
-		U64 pawnValidDestinations = pawnDestinations & ~getBlackPieces();
-		pawnAttackedDestinations |= pawnValidDestinations;
-	}
-
-	return pawnAttackedDestinations;
-}
 
 U64 Board::getPawnAttackedPositions(const Color color) const
 {
-	if(color == WHITE)
+	U64 pawnAttackedDestinations = 0LL;
+	U64 pawnPositions = getPawns(color);
+
+	//loop through the pawns:
+	while(pawnPositions)
 	{
-		return getWhitePawnAttackedPositions();
+		unsigned int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
+		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
+		U64 pawnValidDestinations = Tables::PAWN_ATTACK_TABLE[color][pawnIndex] & ~getPieces(color);
+		pawnAttackedDestinations |= pawnValidDestinations;
 	}
-	else
-	{
-		return getBlackPawnAttackedPositions();
-	}
+
+	return pawnAttackedDestinations;
 }
 
 void Board::executeMove(Move &move)
