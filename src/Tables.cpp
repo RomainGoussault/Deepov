@@ -25,6 +25,8 @@ void Tables::init()
         ATTACK_TABLE[Piece::ROOK][square] = rookAttacks(square);
         ATTACK_TABLE[Piece::QUEEN][square] = queenAttacks(square);
         ATTACK_TABLE[Piece::NO_PIECE_TYPE][square] = 0x0;
+        PAWN_ATTACK_TABLE[WHITE][square] = pawnAttacks(square,WHITE);
+        PAWN_ATTACK_TABLE[BLACK][square] = pawnAttacks(square,BLACK);
     }
 }
 
