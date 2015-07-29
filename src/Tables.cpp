@@ -9,7 +9,7 @@ U64 Tables::ATTACK_TABLE[Piece::PIECE_TYPE_NB][64];
 /* Methods */
 void Tables::init()
 {
-    for (unsigned int square=0; square<64; ++square)
+    for (unsigned int square = 0; square < 64; ++square)
     {
         FRONT_SPANS[WHITE][square] = frontBB(square,WHITE);
         FRONT_SPANS[BLACK][square] = frontBB(square,BLACK);

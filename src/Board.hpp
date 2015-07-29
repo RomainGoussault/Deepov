@@ -26,6 +26,7 @@ typedef std::uint64_t U64;
 #include "Move.hpp"
 #include "Color.hpp"
 #include "Tables.hpp"
+#include "Piece.hpp"
 
 /*
 Note: We use Little-Endian Rank-File Mapping
