@@ -17,12 +17,12 @@ void Tables::init()
         PAWN_ATTACK_SPANS[BLACK][square] = sidesBB(square,BLACK);
         PASSED_PAWN_MASK[WHITE][square] = FRONT_SPANS[WHITE][square] | PAWN_ATTACK_SPANS[WHITE][square];
         PASSED_PAWN_MASK[BLACK][square] = FRONT_SPANS[BLACK][square] | PAWN_ATTACK_SPANS[BLACK][square];
-        ATTACK_TABLE[Piece::KNIGHT][square] = getKnightAttacks(square);
-        ATTACK_TABLE[Piece::KING][square] = getKingAttacks(square);
+        ATTACK_TABLE[Piece::KNIGHT][square] = knightAttacks(square);
+        ATTACK_TABLE[Piece::KING][square] = kingAttacks(square);
         ATTACK_TABLE[Piece::PAWN][square] = 0x0;
-        ATTACK_TABLE[Piece::BISHOP][square] = getBishopAttacks(square);
-        ATTACK_TABLE[Piece::ROOK][square] = getRookAttacks(square);
-        ATTACK_TABLE[Piece::QUEEN][square] = getQueenAttacks(square);
+        ATTACK_TABLE[Piece::BISHOP][square] = bishopAttacks(square);
+        ATTACK_TABLE[Piece::ROOK][square] = rookAttacks(square);
+        ATTACK_TABLE[Piece::QUEEN][square] = queenAttacks(square);
         ATTACK_TABLE[Piece::NO_PIECE_TYPE][square] = 0x0;
     }
 }
@@ -46,25 +46,26 @@ U64 Tables::sidesBB(const unsigned int pos,Color color)
 }
 
 
-U64 Tables::getKingAttacks(const unsigned int pos)
+U64 Tables::kingAttacks(const unsigned int pos)
 {
+     U64 posBB = 0 | 1LL << pos;
 	/* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
 	/* we can ignore the rank clipping since the overflow/underflow with
 	respect to rank simply vanishes. We only care about the file
 	overflow/underflow. */
-	U64	king_clip_file_h(pos & Tables::CLEAR_FILE[7]);
-	U64 king_clip_file_a(pos & Tables::CLEAR_FILE[0]);
+	U64	king_clip_file_h(posBB & Tables::CLEAR_FILE[7]);
+	U64 king_clip_file_a(posBB & Tables::CLEAR_FILE[0]);
 
 	/* remember the representation of the board in relation to the bitindex
 	when looking at these shifts.... There is an error in the source link
 	the code is copied from !! */
 	U64 NW(king_clip_file_a << 7);
-	U64 N(pos << 8);
+	U64 N(posBB << 8);
 	U64 NE(king_clip_file_h << 9);
 	U64 E(king_clip_file_h << 1);
 
 	U64 SE(king_clip_file_h >> 7);
-	U64 S(pos >> 8);
+	U64 S(posBB >> 8);
 	U64 SW(king_clip_file_a >> 9);
 	U64 W(king_clip_file_a >> 1);
 
@@ -72,12 +73,14 @@ U64 Tables::getKingAttacks(const unsigned int pos)
 	return (NW | N | NE | E | SE | S | SW | W);
 }
 
-U64 Tables::getKnightAttacks(const unsigned int pos)
+U64 Tables::knightAttacks(const unsigned int pos)
 {
-    U64	knight_clip_file_h(pos & Tables::CLEAR_FILE[7]);
-	U64 knight_clip_file_a(pos & Tables::CLEAR_FILE[0]);
-	U64	knight_clip_file_gh(pos & Tables::CLEAR_FILE[7] & Tables::CLEAR_FILE[6]);
-	U64 knight_clip_file_ab(pos & Tables::CLEAR_FILE[0] & Tables::CLEAR_FILE[1]);
+
+    U64 posBB = 0 | 1LL << pos;
+    U64	knight_clip_file_h(posBB & Tables::CLEAR_FILE[7]);
+	U64 knight_clip_file_a(posBB & Tables::CLEAR_FILE[0]);
+	U64	knight_clip_file_gh(posBB & Tables::CLEAR_FILE[7] & Tables::CLEAR_FILE[6]);
+	U64 knight_clip_file_ab(posBB & Tables::CLEAR_FILE[0] & Tables::CLEAR_FILE[1]);
 
 	U64 WNW(knight_clip_file_ab << 6);
 	U64 NNW(knight_clip_file_a << 15);

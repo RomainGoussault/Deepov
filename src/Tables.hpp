@@ -75,15 +75,15 @@ namespace Tables
     // Piece Attacks
     /* See PAWN_ATTACK_SPANS for pawns; 0 for NO_PIECE_TYPE;*/
     /* Non-sliding Pieces*/
-    U64 getKingAttacks(const unsigned int pos);
-    U64 getKnightAttacks(const unsigned int pos);
+    U64 kingAttacks(const unsigned int pos);
+    U64 knightAttacks(const unsigned int pos);
 
     /* Sliding Pieces : !!! these tables does not replace moveGen !!! */
-    inline U64 getBishopAttacks(const unsigned int pos){return MagicMoves::Bmagic(pos, 0x0);};
-    inline U64 getRookAttacks(const unsigned int pos){return MagicMoves::Rmagic(pos, 0x0);};
-    inline U64 getQueenAttacks(const unsigned int pos)
+    inline U64 bishopAttacks(const unsigned int pos){return MagicMoves::Bmagic(pos, 0x0);};
+    inline U64 rookAttacks(const unsigned int pos){return MagicMoves::Rmagic(pos, 0x0);};
+    inline U64 queenAttacks(const unsigned int pos)
     {
-        return  (getBishopAttacks(pos) | getRookAttacks(pos));
+        return  (bishopAttacks(pos) | rookAttacks(pos));
     };
 }
 
