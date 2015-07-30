@@ -79,7 +79,6 @@ public:
 	inline U64 getAtkFr(Square sq) const {return myAtkFr[sq];};
 	inline U64 getAtkTo(Square sq) const {return myAtkTo[sq];};
 
-    void updatePinnedPieces();
 
 	inline Color getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
@@ -88,6 +87,8 @@ public:
 
 	void setBitBoards(const std::string piecesString, const unsigned int rank);
 	void updateConvenienceBitboards();
+    void updatePinnedPieces();
+    void updateAtkFr();
 
 	/* Moves methods */
     bool isMoveLegal(Move &move, bool isCheck); // uses executeMove and undoMove so it can't be const
@@ -114,7 +115,8 @@ public:
     bool isCheck(const Color color) const;
 
     //Attacked positions
-    inline U64 getAttacksFromSq(const Square position) const {return getPieceAttacks(findPieceType(position));};
+    U64 getAttacksFromSq(const Square position, const Color color) const;
+
     inline U64 getKnightDestinations(const Square pos, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
@@ -124,7 +126,6 @@ public:
         return Tables::ATTACK_TABLE[Piece::KING][pos] & ~getPieces(color);
     };
 
-    U64 getPieceAttacks(Piece::Piece piece) const; // use template ??
     U64 getAttackedPositions(const Color color) const;
     U64 getKingAttackedPositions(const Color color) const;
 

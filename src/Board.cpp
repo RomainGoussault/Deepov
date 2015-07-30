@@ -131,6 +131,41 @@ Piece::PieceType Board::findWhitePieceType(const Square position) const
 	}
 }
 
+U64 Board::getAttacksFromSq(const Square square, const Color color) const
+{
+	//TODO Implement the commented functions
+	if (bitboards[0]&(1LL << square))
+	{
+		//return getPawnDestinations(square, color);
+	}
+	else if (bitboards[1]&(1LL << square))
+	{
+		return getKnightDestinations(square, color);
+	}
+	else if (bitboards[2]&(1LL << square))
+	{
+		//return getBishopDestinations(square, color);
+	}
+	else if (bitboards[3]&(1LL << square))
+	{
+		//return getRookDestinations(square, color);
+	}
+	else if (bitboards[4]&(1LL << square))
+	{
+		//return getQueenDestinations(square, color);
+	}
+	else if (bitboards[5]&(1LL << square))
+	{
+		return getKingDestinations(square, color);
+	}
+	else
+	{
+		return 0LL;
+	}
+
+	return 0LL;
+}
+
 /**
  * This method returns an unsigned int between 0 and 5 representing the type
  *  of the piece at the given position (MSB index) and for the given
@@ -476,6 +511,14 @@ void Board::updateConvenienceBitboards()
 	myWhitePieces = bitboards[0] | bitboards[1] | bitboards[2] | bitboards[3] | bitboards[4] | bitboards[5];
 	myBlackPieces = bitboards[6] | bitboards[7] | bitboards[8] | bitboards[9] | bitboards[10] | bitboards[11];
 	myAllPieces = myBlackPieces | myWhitePieces;
+}
+
+void Board::updateAtkFr()
+{
+	for(Square sq = SQ_A1; sq < SQUARE_NB; ++sq)
+	{
+		myAtkFr[sq] = getAttacksFromSq(sq, myColorToPlay);
+	}
 }
 
 //This methods returns the char representing the piece at the given position (file,rank)
