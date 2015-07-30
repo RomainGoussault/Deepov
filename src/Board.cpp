@@ -334,13 +334,13 @@ void Board::executeMove(Move &move)
 
 			if(move.isKingSideCastling())
 			{
-				rookOrigin = static_cast<Square>(myColorToPlay == WHITE ? 7 : 63);
-				rookDestination = static_cast<Square>(myColorToPlay == WHITE ? 5 : 61);
+				rookOrigin = myColorToPlay == WHITE ? SQ_H1 : SQ_H8;
+				rookDestination = myColorToPlay == WHITE ? SQ_F1 : SQ_F8;
 			}
 			else // QueenSideCastling
 			{
-				rookOrigin = static_cast<Square>(myColorToPlay == WHITE ? 0 : 56);
-				rookDestination =  static_cast<Square>(myColorToPlay == WHITE ? 3 : 59);
+				rookOrigin = myColorToPlay == WHITE ? SQ_A1 : SQ_A8;
+				rookDestination = myColorToPlay == WHITE ? SQ_D1 : SQ_D8;
 			}
 
 			//move rook
@@ -415,13 +415,13 @@ void Board::undoMove(Move &move)
 
 			if(move.isKingSideCastling())
 			{
-				rookOrigin = static_cast<Square>(oppositeColor == WHITE ? 7 : 63);
-				rookDestination = static_cast<Square>(oppositeColor == WHITE ? 5 : 61);
+				rookOrigin = oppositeColor == WHITE ? SQ_H1 : SQ_H8;
+				rookDestination = oppositeColor == WHITE ? SQ_F1 : SQ_F8;
 			}
 			else // QueenSideCastling
 			{
-				rookOrigin = static_cast<Square>(oppositeColor == WHITE ? 0 : 56);
-				rookDestination =  static_cast<Square>(oppositeColor == WHITE ? 3 : 59);
+				rookOrigin = oppositeColor == WHITE ? SQ_A1 : SQ_A8;
+				rookDestination = oppositeColor == WHITE ? SQ_D1 : SQ_D8;
 			}
 
 			//move rook
