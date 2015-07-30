@@ -68,10 +68,10 @@ public:
 	inline U64 getQueens(Color color) const{return getBitBoard(Piece::QUEEN, color);}
 	inline U64 getKing(Color color) const{return getBitBoard(Piece::KING, color);}
 
-	inline U64 getWhitePieces() const{return myWhitePieces;}
-	inline U64 getBlackPieces() const{return myBlackPieces;}
+	inline U64 getWhitePieces() const{return myBitboards[12];}
+	inline U64 getBlackPieces() const{return myBitboards[13];}
 	inline U64 getAllPieces() const{return myAllPieces;}
-	inline U64 getPieces(const Color color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
+	inline U64 getPieces(const Color color) const {return myBitboards[12+color];}
 	inline U64 getPinnedPieces() const{return myPinnedPieces;}
 
 	inline U64 getBitBoard(Piece::PieceType pieceType, Color color) const{return myBitboards[pieceType+6*color];};
@@ -145,14 +145,12 @@ public:
 
 
 private:
-    std::array<U64, 12> myBitboards;
-    U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
-    U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
-
-	U64 myWhitePieces;
-	U64 myBlackPieces;
+    std::array<U64, 14> myBitboards;
 	U64 myAllPieces;
 	U64 myPinnedPieces;
+
+	U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
+    U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
 
 	Color myColorToPlay;
     unsigned int myMovesCounter;

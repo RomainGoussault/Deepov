@@ -7,7 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-myBitboards(), myAtkTo(), myAtkFr(), myPinnedPieces(), myCastling()
+myBitboards(), myPinnedPieces(), myAtkTo(), myAtkFr(), myCastling()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -508,9 +508,9 @@ void Board::undoMove(Move &move)
 
 void Board::updateConvenienceBitboards()
 {
-	myWhitePieces = myBitboards[0] | myBitboards[1] | myBitboards[2] | myBitboards[3] | myBitboards[4] | myBitboards[5];
-	myBlackPieces = myBitboards[6] | myBitboards[7] | myBitboards[8] | myBitboards[9] | myBitboards[10] | myBitboards[11];
-	myAllPieces = myBlackPieces | myWhitePieces;
+	myBitboards[12] = myBitboards[0] | myBitboards[1] | myBitboards[2] | myBitboards[3] | myBitboards[4] | myBitboards[5];
+	myBitboards[13] = myBitboards[6] | myBitboards[7] | myBitboards[8] | myBitboards[9] | myBitboards[10] | myBitboards[11];
+	myAllPieces = myBitboards[12] | myBitboards[13];
 }
 
 void Board::updateAtkFr()
