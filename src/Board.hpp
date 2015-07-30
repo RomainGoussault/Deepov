@@ -47,19 +47,19 @@ public:
 	Board(const std::string fen);
 
 	/* BitBoard getters */
-	inline U64 getWhitePawns() const{return bitboards[0];}
-	inline U64 getWhiteKnights() const{return bitboards[1];}
-	inline U64 getWhiteBishops() const{return bitboards[2];}
-	inline U64 getWhiteRooks() const{return bitboards[3];}
-	inline U64 getWhiteQueens() const{return bitboards[4];}
-	inline U64 getWhiteKing() const{return bitboards[5];}
+	inline U64 getWhitePawns() const{return myBitboards[0];}
+	inline U64 getWhiteKnights() const{return myBitboards[1];}
+	inline U64 getWhiteBishops() const{return myBitboards[2];}
+	inline U64 getWhiteRooks() const{return myBitboards[3];}
+	inline U64 getWhiteQueens() const{return myBitboards[4];}
+	inline U64 getWhiteKing() const{return myBitboards[5];}
 
-	inline U64 getBlackPawns() const{return bitboards[6];}
-	inline U64 getBlackKnights() const{return bitboards[7];}
-	inline U64 getBlackBishops() const{return bitboards[8];}
-	inline U64 getBlackRooks() const{return bitboards[9];}
-	inline U64 getBlackQueens() const{return bitboards[10];}
-	inline U64 getBlackKing() const{return bitboards[11];}
+	inline U64 getBlackPawns() const{return myBitboards[6];}
+	inline U64 getBlackKnights() const{return myBitboards[7];}
+	inline U64 getBlackBishops() const{return myBitboards[8];}
+	inline U64 getBlackRooks() const{return myBitboards[9];}
+	inline U64 getBlackQueens() const{return myBitboards[10];}
+	inline U64 getBlackKing() const{return myBitboards[11];}
 
 	inline U64 getPawns(Color color) const{return getBitBoard(Piece::PAWN, color);}
 	inline U64 getKnights(Color color) const{return getBitBoard(Piece::KNIGHT, color);}
@@ -74,7 +74,7 @@ public:
 	inline U64 getPieces(const Color color) const {return color == WHITE ? getWhitePieces() : getBlackPieces();}
 	inline U64 getPinnedPieces() const{return myPinnedPieces;}
 
-	inline U64 getBitBoard(Piece::PieceType pieceType, Color color) const{return bitboards[pieceType+6*color];};
+	inline U64 getBitBoard(Piece::PieceType pieceType, Color color) const{return myBitboards[pieceType+6*color];};
 
 	inline U64 getAtkFr(Square sq) const {return myAtkFr[sq];};
 	inline U64 getAtkTo(Square sq) const {return myAtkTo[sq];};
@@ -145,7 +145,7 @@ public:
 
 
 private:
-    std::array<U64, 12> bitboards;
+    std::array<U64, 12> myBitboards;
     U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
     U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
 
@@ -166,17 +166,17 @@ private:
     //Move methods
     inline void movePiece(const Square origin, const Square destination, const unsigned int pieceType, const Color color)
     {
-    	movePiece(origin, destination, bitboards[pieceType+color*6]);
+    	movePiece(origin, destination, myBitboards[pieceType+color*6]);
     }
 
     inline void removePiece(const Square index, const unsigned int pieceType, const Color color)
     {
-    	removePiece(index, bitboards[pieceType+color*6]);
+    	removePiece(index, myBitboards[pieceType+color*6]);
     }
 
     inline void addPiece(const Square index, const unsigned int pieceType, const Color color)
     {
-    	addPiece(index, bitboards[pieceType+color*6]);
+    	addPiece(index, myBitboards[pieceType+color*6]);
     }
     inline void removePiece(const Square index, U64 &bitBoard)
     {

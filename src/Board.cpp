@@ -7,7 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-bitboards(), myPinnedPieces(), myCastling()
+myBitboards(), myPinnedPieces(), myCastling()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -69,27 +69,27 @@ bitboards(), myPinnedPieces(), myCastling()
 
 Piece::PieceType Board::findBlackPieceType(const Square position) const
 {
-	if (bitboards[6]&(1LL << position))
+	if (myBitboards[6]&(1LL << position))
 	{
 		return Piece::PAWN;
 	}
-	else if (bitboards[7]&(1LL << position))
+	else if (myBitboards[7]&(1LL << position))
 	{
 		return Piece::KNIGHT;
 	}
-	else if (bitboards[8]&(1LL << position))
+	else if (myBitboards[8]&(1LL << position))
 	{
 		return Piece::BISHOP;
 	}
-	else if (bitboards[9]&(1LL << position))
+	else if (myBitboards[9]&(1LL << position))
 	{
 		return Piece::ROOK;
 	}
-	else if (bitboards[10]&(1LL << position))
+	else if (myBitboards[10]&(1LL << position))
 	{
 		return Piece::QUEEN;
 	}
-    else if (bitboards[11]&(1LL << position))
+    else if (myBitboards[11]&(1LL << position))
 	{
 		return Piece::KING;
 	}
@@ -101,27 +101,27 @@ Piece::PieceType Board::findBlackPieceType(const Square position) const
 
 Piece::PieceType Board::findWhitePieceType(const Square position) const
 {
-	if (bitboards[0]&(1LL << position))
+	if (myBitboards[0]&(1LL << position))
 	{
 		return Piece::PAWN;
 	}
-	else if (bitboards[1]&(1LL << position))
+	else if (myBitboards[1]&(1LL << position))
 	{
 		return Piece::KNIGHT;
 	}
-	else if (bitboards[2]&(1LL << position))
+	else if (myBitboards[2]&(1LL << position))
 	{
 		return Piece::BISHOP;
 	}
-	else if (bitboards[3]&(1LL << position))
+	else if (myBitboards[3]&(1LL << position))
 	{
 		return Piece::ROOK;
 	}
-	else if (bitboards[4]&(1LL << position))
+	else if (myBitboards[4]&(1LL << position))
 	{
 		return Piece::QUEEN;
 	}
-	else if (bitboards[5]&(1LL << position))
+	else if (myBitboards[5]&(1LL << position))
 	{
 		return Piece::KING;
 	}
@@ -134,27 +134,27 @@ Piece::PieceType Board::findWhitePieceType(const Square position) const
 U64 Board::getAttacksFromSq(const Square square, const Color color) const
 {
 	//TODO Implement the commented functions
-	if (bitboards[0]&(1LL << square))
+	if (myBitboards[0]&(1LL << square))
 	{
 		//return getPawnDestinations(square, color);
 	}
-	else if (bitboards[1]&(1LL << square))
+	else if (myBitboards[1]&(1LL << square))
 	{
 		return getKnightDestinations(square, color);
 	}
-	else if (bitboards[2]&(1LL << square))
+	else if (myBitboards[2]&(1LL << square))
 	{
 		//return getBishopDestinations(square, color);
 	}
-	else if (bitboards[3]&(1LL << square))
+	else if (myBitboards[3]&(1LL << square))
 	{
 		//return getRookDestinations(square, color);
 	}
-	else if (bitboards[4]&(1LL << square))
+	else if (myBitboards[4]&(1LL << square))
 	{
 		//return getQueenDestinations(square, color);
 	}
-	else if (bitboards[5]&(1LL << square))
+	else if (myBitboards[5]&(1LL << square))
 	{
 		return getKingDestinations(square, color);
 	}
@@ -508,8 +508,8 @@ void Board::undoMove(Move &move)
 
 void Board::updateConvenienceBitboards()
 {
-	myWhitePieces = bitboards[0] | bitboards[1] | bitboards[2] | bitboards[3] | bitboards[4] | bitboards[5];
-	myBlackPieces = bitboards[6] | bitboards[7] | bitboards[8] | bitboards[9] | bitboards[10] | bitboards[11];
+	myWhitePieces = myBitboards[0] | myBitboards[1] | myBitboards[2] | myBitboards[3] | myBitboards[4] | myBitboards[5];
+	myBlackPieces = myBitboards[6] | myBitboards[7] | myBitboards[8] | myBitboards[9] | myBitboards[10] | myBitboards[11];
 	myAllPieces = myBlackPieces | myWhitePieces;
 }
 
@@ -603,51 +603,51 @@ void Board::setBitBoards(const std::string piecesString, const unsigned int rank
 
 			if (pieceChar == 'K')
 			{
-				bitboards[5] |= 1LL << (8*rank + x);
+				myBitboards[5] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'R')
 			{
-				bitboards[3] |= 1LL << (8*rank + x);
+				myBitboards[3] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'B')
 			{
-				bitboards[2] |= 1LL << (8*rank + x);
+				myBitboards[2] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'Q')
 			{
-				bitboards[4] |= 1LL << (8*rank + x);
+				myBitboards[4] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'N')
 			{
-				bitboards[1] |= 1LL << (8*rank + x);
+				myBitboards[1] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'P')
 			{
-				bitboards[0] |= 1LL << (8*rank + x);
+				myBitboards[0] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'k')
 			{
-				bitboards[11] |= 1LL << (8*rank + x);
+				myBitboards[11] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'r')
 			{
-				bitboards[9] |= 1LL << (8*rank + x);
+				myBitboards[9] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'b')
 			{
-				bitboards[8] |= 1LL << (8*rank + x);
+				myBitboards[8] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'q')
 			{
-				bitboards[10] |= 1LL << (8*rank + x);
+				myBitboards[10] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'n')
 			{
-				bitboards[7] |= 1LL << (8*rank + x);
+				myBitboards[7] |= 1LL << (8*rank + x);
 			}
 			else if (pieceChar == 'p')
 			{
-				bitboards[6]|= 1LL << (8*rank + x);
+				myBitboards[6]|= 1LL << (8*rank + x);
 			}
 		}
 	}
