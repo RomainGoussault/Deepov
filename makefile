@@ -26,6 +26,7 @@ Deepov: $(OBJ_FILES)
 	$(CXX)  -o $@ $^ $(LD_FLAGS)
 
 obj/%.o: src/%.cpp
+	mkdir -p obj
 	$(CXX) $(CC_FLAGS) -c -o $@ $<
 
 clean:
