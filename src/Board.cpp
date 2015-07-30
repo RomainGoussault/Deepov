@@ -7,7 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-myBitboards(), myPinnedPieces(), myCastling()
+myBitboards(), myAtkTo(), myAtkFr(), myPinnedPieces(), myCastling()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
