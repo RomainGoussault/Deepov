@@ -1,7 +1,7 @@
 #ifndef Tables_HPP_
 #define Tables_HPP_
 
-#include "Color.hpp"
+#include "Types.hpp"
 #include "Piece.hpp"
 #include "Utils.hpp"
 #include "MagicMoves.hpp"
@@ -69,20 +69,20 @@ namespace Tables
 
     void init();
     /* The 2 following functions can be changed as const Look Up Tables if we need them faster */
-    U64 frontBB(const unsigned int pos,Color color);
-    U64 sidesBB(const unsigned int pos,Color color); // his is the BB in front of the pawn at NEIGHBOR_FILES
+    U64 frontBB(const Square pos,Color color);
+    U64 sidesBB(const Square pos,Color color); // his is the BB in front of the pawn at NEIGHBOR_FILES
 
     // Piece Attacks
     /* See PAWN_ATTACK_SPANS for pawns; 0 for NO_PIECE_TYPE;*/
     /* Non-sliding Pieces*/
-    U64 kingAttacks(const unsigned int pos);
-    U64 knightAttacks(const unsigned int pos);
-    U64 pawnAttacks(const unsigned int pos, Color color);
+    U64 kingAttacks(const Square pos);
+    U64 knightAttacks(const Square pos);
+    U64 pawnAttacks(const Square pos, Color color);
 
     /* Sliding Pieces : !!! these tables does not replace moveGen !!! */
-    inline U64 bishopAttacks(const unsigned int pos){return MagicMoves::Bmagic(pos, 0x0);};
-    inline U64 rookAttacks(const unsigned int pos){return MagicMoves::Rmagic(pos, 0x0);};
-    inline U64 queenAttacks(const unsigned int pos)
+    inline U64 bishopAttacks(const Square pos){return MagicMoves::Bmagic(pos, 0x0);};
+    inline U64 rookAttacks(const Square pos){return MagicMoves::Rmagic(pos, 0x0);};
+    inline U64 queenAttacks(const Square pos)
     {
         return  (bishopAttacks(pos) | rookAttacks(pos));
     };

@@ -1,4 +1,5 @@
 #include "Tables.hpp"
+#include "Types.hpp"
 
 /* List of tables declarations*/
 U64 Tables::FRONT_SPANS[2][64];
@@ -10,7 +11,7 @@ U64 Tables::PAWN_ATTACK_TABLE[Color::COLOR_NB][64];
 /* Methods */
 void Tables::init()
 {
-    for (unsigned int square = 0; square < 64; ++square)
+    for (Square square = SQ_A1; square < SQUARE_NB; ++square)
     {
         FRONT_SPANS[WHITE][square] = frontBB(square,WHITE);
         FRONT_SPANS[BLACK][square] = frontBB(square,BLACK);
@@ -30,7 +31,7 @@ void Tables::init()
     }
 }
 
-U64 Tables::frontBB(const unsigned int pos,Color color)
+U64 Tables::frontBB(const Square pos,Color color)
 {
     U64 shift = 0xffffffffffffffff << (pos+1); // pos+1 for WHITE, take the complement for BLACk
     if (color == BLACK){shift = (~shift) >> 1;}
@@ -38,18 +39,18 @@ U64 Tables::frontBB(const unsigned int pos,Color color)
 }
 
 
-U64 Tables::sidesBB(const unsigned int pos,Color color)
+U64 Tables::sidesBB(const Square pos,Color color)
 {
     unsigned int file = Utils::getFile(pos);
     U64 leftSide(0);
     U64 rightSide(0);
-    if (file > 0){leftSide=frontBB(pos-1,color);}
-    if (file < 7){rightSide=frontBB(pos+1,color);}
+    if (file > 0){leftSide = frontBB(static_cast<Square>(pos-1), color);}
+    if (file < 7){rightSide = frontBB(static_cast<Square>(pos+1), color);}
     return leftSide | rightSide;
 }
 
 
-U64 Tables::kingAttacks(const unsigned int pos)
+U64 Tables::kingAttacks(const Square pos)
 {
      U64 posBB = 0 | 1LL << pos;
 	/* Copied from http://pages.cs.wisc.edu/~psilord/blog/data/chess-pages/nonsliding.html */
@@ -76,7 +77,7 @@ U64 Tables::kingAttacks(const unsigned int pos)
 	return (NW | N | NE | E | SE | S | SW | W);
 }
 
-U64 Tables::knightAttacks(const unsigned int pos)
+U64 Tables::knightAttacks(const Square pos)
 {
 
     U64 posBB = 0 | 1LL << pos;
@@ -99,7 +100,7 @@ U64 Tables::knightAttacks(const unsigned int pos)
 	return (WNW | NNW | NNE | ENE | ESE | SSE | SSW | WSW);
 }
 
-U64 Tables::pawnAttacks(const unsigned int pos, Color color)
+U64 Tables::pawnAttacks(const Square pos, Color color)
 {
     U64 posBB = 0 | 1LL << pos;
     U64 leftAttack(0);

@@ -12,7 +12,7 @@
 #include <iostream>
 #include <math.h>
 
-#include "Color.hpp"
+#include "Types.hpp"
 
 class Board;
 
@@ -22,7 +22,7 @@ namespace Utils
 	unsigned int convertStringToInt(std::string const& fenMoveCounter);
 	void getPerformanceIndicator();
 	inline constexpr Color getOppositeColor(const Color color){return Color(color ^ 1);};
-	inline unsigned int getFile(const unsigned int positionIndex){return positionIndex%8;};
+	inline unsigned int getFile(const Square positionIndex){return positionIndex%8;};
 };
 
 

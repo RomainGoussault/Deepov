@@ -13,7 +13,7 @@
 #include <ctime>
 #include <ratio>
 
-#include "Color.hpp"
+#include "Types.hpp"
 #include "Eval.hpp"
 #include "Search.hpp"
 #include "Board.hpp"

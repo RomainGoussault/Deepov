@@ -67,7 +67,7 @@ TEST_CASE( "CastlingRights", "[king]" )
 
 	SECTION("Test 2 King move")
 	{
-		Move whiteKingMove(4,5,0,Piece::KING);
+		Move whiteKingMove(static_cast<Square>(4),static_cast<Square>(5),0,Piece::KING);
 		board.executeMove(whiteKingMove);
 		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
 		REQUIRE(board.isKingSideCastlingAllowed(WHITE) == 0);
@@ -83,7 +83,7 @@ TEST_CASE( "CastlingRights", "[king]" )
 		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
 		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
 
-		Move whiteRookMove(0,16,0,Piece::ROOK);
+		Move whiteRookMove(static_cast<Square>(0),static_cast<Square>(16),0,Piece::ROOK);
 		board.executeMove(whiteRookMove);
 
 		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == 0);
@@ -106,7 +106,7 @@ TEST_CASE( "CastlingRights", "[king]" )
 		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
 		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
 
-		Move whiteRookMove(07,23,0,Piece::ROOK);
+		Move whiteRookMove(static_cast<Square>(7),static_cast<Square>(23),0,Piece::ROOK);
 		board.executeMove(whiteRookMove);
 
 		REQUIRE(board.isQueenSideCastlingAllowed(WHITE) == true);
@@ -124,7 +124,7 @@ TEST_CASE( "CastlingRights", "[king]" )
 
 	SECTION("Test 4 Rook Capture")
 	{
-		Move captureMove(27,63,Move::CAPTURE_FLAG,Piece::BISHOP);
+		Move captureMove(static_cast<Square>(27),static_cast<Square>(63),Move::CAPTURE_FLAG,Piece::BISHOP);
 		captureMove.setCapturedPieceType(Piece::ROOK);
 
 		board.executeMove(captureMove);

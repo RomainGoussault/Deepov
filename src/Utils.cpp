@@ -4,7 +4,7 @@
  *  Created on: 24 sept. 2014
  */
 #include "Utils.hpp"
-#include "Color.hpp"
+#include "Types.hpp"
 #include "MoveGen.hpp"
 #include "Search.hpp"
 #include "MagicMoves.hpp"

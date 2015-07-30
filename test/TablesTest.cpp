@@ -1,6 +1,6 @@
 #include "catch.hpp"
 #include "Tables.hpp"
-#include "Color.hpp"
+#include "Types.hpp"
 
 TEST_CASE( "Tables" )
 {
@@ -8,7 +8,7 @@ TEST_CASE( "Tables" )
 
     SECTION("Bitboard calculations")
     {
-        unsigned int posIndex = 10;
+        Square posIndex = static_cast<Square>(10);
         U64 frontMask=Tables::frontBB(posIndex,WHITE);
         REQUIRE(frontMask == 0x404040404040000);
 

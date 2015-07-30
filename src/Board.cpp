@@ -38,8 +38,8 @@ bitboards(), myPinnedPieces(), myCastling()
 	if ((spaceSplit[3][0] != '-') && (getMovesHistory().size() == 0))
 	{
 		unsigned int epIndex = getIndexFromChar(spaceSplit[3]);
-		unsigned int origin = epIndex + 8 - 16*myColorToPlay;
-		unsigned int destination = epIndex - 8 + 16*myColorToPlay;
+		Square origin = static_cast<Square>(epIndex + 8 - 16*myColorToPlay);
+		Square destination = static_cast<Square>(epIndex - 8 + 16*myColorToPlay);
 		Move lastMove(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		myMoves.push_back(lastMove);
 	}
@@ -67,7 +67,7 @@ bitboards(), myPinnedPieces(), myCastling()
 	}
 }
 
-Piece::PieceType Board::findBlackPieceType(const unsigned int position) const
+Piece::PieceType Board::findBlackPieceType(const Square position) const
 {
 	if (bitboards[6]&(1LL << position))
 	{
@@ -99,7 +99,7 @@ Piece::PieceType Board::findBlackPieceType(const unsigned int position) const
 	}
 }
 
-Piece::PieceType Board::findWhitePieceType(const unsigned int position) const
+Piece::PieceType Board::findWhitePieceType(const Square position) const
 {
 	if (bitboards[0]&(1LL << position))
 	{
@@ -136,7 +136,7 @@ Piece::PieceType Board::findWhitePieceType(const unsigned int position) const
  *  of the piece at the given position (MSB index) and for the given
  *  color.
  */
-Piece::PieceType Board::findPieceType(const unsigned int position, const Color color) const
+Piece::PieceType Board::findPieceType(const Square position, const Color color) const
 {
 	if(color == WHITE)
 	{
@@ -148,7 +148,7 @@ Piece::PieceType Board::findPieceType(const unsigned int position, const Color c
 	}
 }
 
-Piece::Piece Board::findPieceType(const unsigned int position) const
+Piece::Piece Board::findPieceType(const Square position) const
 {
     Piece::PieceType whiteType = findWhitePieceType(position);
     Piece::PieceType blackType = findBlackPieceType(position);
@@ -163,7 +163,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	bool isEnPassant = move.getFlags() == Move::EP_CAPTURE_FLAG;
 	Color color = myColorToPlay;
 
-	unsigned int origin = move.getOrigin();
+	Square origin = move.getOrigin();
 	U64 oribb = 1LL << origin;
 	bool isPinned = oribb & getPinnedPieces();
 	bool isKingMove = move.getPieceType() == Piece::KING;
@@ -219,7 +219,7 @@ U64 Board::getKnightAttackedPositions(const Color color) const
 	//loop through the knights:
 	while(knightPositions)
 	{
-		const unsigned int knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
+		const Square knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
 		U64 knightValidDestinations = getKnightDestinations(knightIndex, color);
 		knightAttackedDestinations |= knightValidDestinations;
 
@@ -232,7 +232,7 @@ U64 Board::getKnightAttackedPositions(const Color color) const
 U64 Board::getKingAttackedPositions(const Color color) const
 {
 	U64 kingPosition = getKing(color);
-	unsigned int index = BitBoardUtils::getMsbIndex(kingPosition);
+	Square index = BitBoardUtils::getMsbIndex(kingPosition);
 	U64 kingAttackedDestinations = getKingDestinations(index, color);
 
 	return kingAttackedDestinations;
@@ -246,7 +246,7 @@ U64 Board::getRookAttackedPositions(const Color color) const
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		unsigned int rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
+		Square rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
 		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, getAllPieces()) & ~getPieces(color);
@@ -264,7 +264,7 @@ U64 Board::getBishopAttackedPositions(const Color color) const
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		unsigned int bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
+		Square bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
 		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, getAllPieces()) & ~getPieces(color);
@@ -282,7 +282,7 @@ U64 Board::getQueenAttackedPositions(const Color color) const
 	//loop through the queens:
 	while(queenPositions)
 	{
-		unsigned int queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
+		Square queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
 		U64 queenDestinations = MagicMoves::Rmagic(queenIndex, getAllPieces()) | MagicMoves::Bmagic(queenIndex, getAllPieces());
@@ -302,7 +302,7 @@ U64 Board::getPawnAttackedPositions(const Color color) const
 	//loop through the pawns:
 	while(pawnPositions)
 	{
-		unsigned int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
+		Square pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 		U64 pawnValidDestinations = Tables::PAWN_ATTACK_TABLE[color][pawnIndex] & ~getPieces(color);
 		pawnAttackedDestinations |= pawnValidDestinations;
@@ -313,8 +313,8 @@ U64 Board::getPawnAttackedPositions(const Color color) const
 
 void Board::executeMove(Move &move)
 {
-	unsigned int origin = move.getOrigin();
-	unsigned int destination = move.getDestination();
+	Square origin = move.getOrigin();
+	Square destination = move.getDestination();
 	unsigned int pieceType = move.getPieceType();
 	Color oppositeColor = Utils::getOppositeColor(myColorToPlay);
 
@@ -329,18 +329,18 @@ void Board::executeMove(Move &move)
 			//move King
 			movePiece(origin, destination, pieceType, myColorToPlay);
 
-			unsigned int rookOrigin = 0;
-			unsigned int rookDestination = 0;
+			Square rookOrigin = SQ_NONE;
+			Square rookDestination = SQ_NONE;
 
 			if(move.isKingSideCastling())
 			{
-				rookOrigin = myColorToPlay == WHITE ? 7 : 63;
-				rookDestination = myColorToPlay == WHITE ? 5 : 61;
+				rookOrigin = static_cast<Square>(myColorToPlay == WHITE ? 7 : 63);
+				rookDestination = static_cast<Square>(myColorToPlay == WHITE ? 5 : 61);
 			}
 			else // QueenSideCastling
 			{
-				rookOrigin = myColorToPlay == WHITE ? 0 : 56;
-				rookDestination =  myColorToPlay == WHITE ? 3 : 59;
+				rookOrigin = static_cast<Square>(myColorToPlay == WHITE ? 0 : 56);
+				rookDestination =  static_cast<Square>(myColorToPlay == WHITE ? 3 : 59);
 			}
 
 			//move rook
@@ -364,7 +364,7 @@ void Board::executeMove(Move &move)
 		{
 			if (move.isEnPassant()) // watch out ep capture is a capture
 			{
-				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*myColorToPlay;
+				Square capturedPawnIndex = static_cast<Square>(move.getDestination() - 8 + 16*myColorToPlay);
 				removePiece(capturedPawnIndex, Piece::PAWN, oppositeColor);
 			}
 			else //Move is capture
@@ -391,8 +391,8 @@ void Board::executeMove(Move &move)
 
 void Board::undoMove(Move &move)
 {
-	unsigned int origin = move.getOrigin();
-	unsigned int destination = move.getDestination();
+	Square origin = move.getOrigin();
+	Square destination = move.getDestination();
 	unsigned int pieceType = move.getPieceType();
 	Color oppositeColor = Utils::getOppositeColor(myColorToPlay);
 
@@ -410,18 +410,18 @@ void Board::undoMove(Move &move)
 			//move King
 			movePiece(destination, origin, pieceType, oppositeColor);
 
-			unsigned int rookOrigin = 0;
-			unsigned int rookDestination = 0;
+			Square rookOrigin = SQ_NONE;
+			Square rookDestination = SQ_NONE;
 
 			if(move.isKingSideCastling())
 			{
-				rookOrigin = oppositeColor == WHITE ? 7 : 63;
-				rookDestination = oppositeColor == WHITE ? 5 : 61;
+				rookOrigin = static_cast<Square>(oppositeColor == WHITE ? 7 : 63);
+				rookDestination = static_cast<Square>(oppositeColor == WHITE ? 5 : 61);
 			}
 			else // QueenSideCastling
 			{
-				rookOrigin = oppositeColor == WHITE ? 0 : 56;
-				rookDestination =  oppositeColor == WHITE ? 3 : 59;
+				rookOrigin = static_cast<Square>(oppositeColor == WHITE ? 0 : 56);
+				rookDestination =  static_cast<Square>(oppositeColor == WHITE ? 3 : 59);
 			}
 
 			//move rook
@@ -448,7 +448,7 @@ void Board::undoMove(Move &move)
 
 			if (move.isEnPassant()) // watch out ep capture is a capture
 			{
-				unsigned int capturedPawnIndex = move.getDestination() - 8 + 16*oppositeColor;
+				Square capturedPawnIndex = static_cast<Square>(move.getDestination() - 8 + 16*oppositeColor);
 				addPiece(capturedPawnIndex, Piece::PAWN, myColorToPlay);
 			}
 			else //Move is capture
@@ -690,7 +690,7 @@ void Board::updateCastlingRights(Move &move)
     /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 
     /* Update Castling Rights for rook moves */
-    unsigned int origin = move.getOrigin();
+    Square origin = move.getOrigin();
     if (((1LL << origin)&Tables::ROOK_INITIAL_POS)!=0)
     {
         // King side produces bit 0, queen side produces bit 1
@@ -700,7 +700,7 @@ void Board::updateCastlingRights(Move &move)
         /* 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
     }
 
-    unsigned int destination = move.getDestination();
+    Square destination = move.getDestination();
     if (((1LL << destination)&Tables::ROOK_INITIAL_POS)!=0)
     {
         /* Update Castling Rights for rook capture */

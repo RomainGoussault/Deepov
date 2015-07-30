@@ -7,6 +7,7 @@
 #include <array>
 
 #include "Piece.hpp"
+#include "Types.hpp"
 
 class Move
 {
@@ -23,20 +24,20 @@ public:
 	{
 	}
 
-	inline Move(unsigned int origin, unsigned int destination, unsigned int flags, Piece::PieceType pieceType)
+	inline Move(Square origin, Square destination, unsigned int flags, Piece::PieceType pieceType)
 	{
         int capturedPieceType = Piece::NO_PIECE_TYPE;
 		myMove = ((capturedPieceType & 0x7) << 19) | ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
 	}
 
-	inline unsigned int getDestination() const
+	inline Square getDestination() const
 	{
-		return myMove & 0x3f;
+		return static_cast<Square>(myMove & 0x3f);
 	}
 
-	inline unsigned int getOrigin() const
+	inline Square getOrigin() const
 	{
-		return (myMove >> 6) & 0x3f;
+		return static_cast<Square>((myMove >> 6) & 0x3f);
 	}
 
 	inline unsigned int getFlags() const
@@ -64,13 +65,13 @@ public:
 	    return (myMove >> 22) & 0xf;
 	}
 
-    inline void setDestination(const unsigned int destination)
+    inline void setDestination(const Square destination)
     {
         myMove &= ~0x3f; // clear the first 6 bits
         myMove |= (destination & 0x3f); // mask on the first 6 bits and OR it with myMoves
     }
 
-    inline void setOrigin(const unsigned int origin)
+    inline void setOrigin(const Square origin)
     {
         myMove &= ~0xfc0; myMove |= ((origin & 0x3f) << 6);
     }

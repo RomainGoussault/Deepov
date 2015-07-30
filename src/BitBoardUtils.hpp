@@ -24,7 +24,7 @@ namespace BitBoardUtils
 	// https://chessprogramming.wikispaces.com/BitScan
 	// http://stackoverflow.com/questions/671815/
 	// http://stackoverflow.com/questions/20713017/
-	inline unsigned int getMsbIndex(const U64 bitboard) {return __builtin_ctzll(bitboard);}
+	inline Square getMsbIndex(const U64 bitboard) {return static_cast<Square>(__builtin_ctzll(bitboard));}
 
 	inline bool isBitSet(const U64 bitBoard, const unsigned int x, const unsigned int y)
 	{

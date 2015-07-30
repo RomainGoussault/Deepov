@@ -29,7 +29,7 @@ TEST_CASE( "Test the update of evaluation attributes", "[Eval]")
     Eval eval(sp);
     REQUIRE(eval.getOpeningPSQValue()==0);
     REQUIRE(sp->getColorToPlay()==WHITE);
-    Move e2e4(12,28,0,Piece::PAWN);
+    Move e2e4(static_cast<Square>(12),static_cast<Square>(28),0,Piece::PAWN);
     sp->executeMove(e2e4);
     eval.updateEvalAttributes(e2e4);
 
@@ -69,7 +69,7 @@ TEST_CASE( "Test the update of evaluation for promotion moves", "[Eval]")
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q2/PPPBBPpP/R3K2R b KQkq - 0 1"));
     Eval eval(sp);
 
-    Move promotion(14,7,0b1111,Piece::PAWN); // Queen promotion-capture
+    Move promotion(static_cast<Square>(14),static_cast<Square>(7),0b1111,Piece::PAWN); // Queen promotion-capture
     promotion.setCapturedPieceType(Piece::ROOK);
 
     int materialScore = eval.getMaterialScore();

@@ -25,8 +25,8 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 	{
     	std::shared_ptr<Board> boardPtr = std::make_shared<Board>("rnbqkbnr/1ppppppp/p7/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2");
         MoveGen moveGen(boardPtr);
-		unsigned int origin = 53; // F7
-		unsigned int destination = 37; // F5
+		Square origin = SQ_F7; // F7
+		Square destination = SQ_F5; // F5
 
 		Move move(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		boardPtr->executeMove(move);

@@ -33,7 +33,7 @@ unsigned int Pawn::initPassedPawns(const Board &board)
     while (whitePawns)
 	{
 		//Getting the index of the MSB
-		unsigned int positionMsb = BitBoardUtils::getMsbIndex(whitePawns);
+		Square positionMsb = BitBoardUtils::getMsbIndex(whitePawns);
         //Removing the MSB
 		whitePawns = whitePawns ^ (0 | 1LL << positionMsb);
         // Add 1 if condition is true
@@ -45,7 +45,7 @@ unsigned int Pawn::initPassedPawns(const Board &board)
     while (blackPawns)
 	{
 		//Getting the index of the MSB
-		unsigned int positionMsb = BitBoardUtils::getMsbIndex(blackPawns);
+		Square positionMsb = BitBoardUtils::getMsbIndex(blackPawns);
         //Removing the MSB
 		blackPawns = blackPawns ^ (0 | 1LL << positionMsb);
         // Add 1 if condition is true

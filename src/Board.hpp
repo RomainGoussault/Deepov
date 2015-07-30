@@ -24,7 +24,7 @@ typedef std::uint64_t U64;
 #endif // _U64
 
 #include "Move.hpp"
-#include "Color.hpp"
+#include "Types.hpp"
 #include "Tables.hpp"
 #include "Piece.hpp"
 
@@ -76,8 +76,8 @@ public:
 
 	inline U64 getBitBoard(Piece::PieceType pieceType, Color color) const{return bitboards[pieceType+6*color];};
 
-	inline U64 getAtkFr(unsigned int sq) const {return myAtkFr[sq];};
-	inline U64 getAtkTo(unsigned int sq) const {return myAtkTo[sq];};
+	inline U64 getAtkFr(Square sq) const {return myAtkFr[sq];};
+	inline U64 getAtkTo(Square sq) const {return myAtkTo[sq];};
 
     void updatePinnedPieces();
 
@@ -105,21 +105,21 @@ public:
 
 
     //PieceType method
-    Piece::Piece findPieceType(const unsigned int position) const;
-    Piece::PieceType findPieceType(const unsigned int position, const Color color) const;
-    Piece::PieceType findWhitePieceType(const unsigned int position) const;
-    Piece::PieceType findBlackPieceType(const unsigned int position) const;
+    Piece::Piece findPieceType(const Square position) const;
+    Piece::PieceType findPieceType(const Square position, const Color color) const;
+    Piece::PieceType findWhitePieceType(const Square position) const;
+    Piece::PieceType findBlackPieceType(const Square position) const;
 
     //Check methods
     bool isCheck(const Color color) const;
 
     //Attacked positions
-    inline U64 getAttacksFromSq(const unsigned int position) const {return getPieceAttacks(findPieceType(position));};
-    inline U64 getKnightDestinations(const unsigned int pos, const Color color) const
+    inline U64 getAttacksFromSq(const Square position) const {return getPieceAttacks(findPieceType(position));};
+    inline U64 getKnightDestinations(const Square pos, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
     };
-    inline U64 getKingDestinations(const unsigned int pos, const Color color) const
+    inline U64 getKingDestinations(const Square pos, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KING][pos] & ~getPieces(color);
     };
@@ -145,8 +145,8 @@ public:
 
 private:
     std::array<U64, 12> bitboards;
-    U64 myAtkTo[64]; // Locations of pieces that attack to the square
-    U64 myAtkFr[64]; // Attacks from the piece on the square
+    U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
+    U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
 
 	U64 myWhitePieces;
 	U64 myBlackPieces;
@@ -163,31 +163,31 @@ private:
     std::vector<Move> myMoves;
 
     //Move methods
-    inline void movePiece(const unsigned int origin, const unsigned int destination, const unsigned int pieceType, const Color color)
+    inline void movePiece(const Square origin, const Square destination, const unsigned int pieceType, const Color color)
     {
     	movePiece(origin, destination, bitboards[pieceType+color*6]);
     }
 
-    inline void removePiece(const unsigned int index, const unsigned int pieceType, const Color color)
+    inline void removePiece(const Square index, const unsigned int pieceType, const Color color)
     {
     	removePiece(index, bitboards[pieceType+color*6]);
     }
 
-    inline void addPiece(const unsigned int index, const unsigned int pieceType, const Color color)
+    inline void addPiece(const Square index, const unsigned int pieceType, const Color color)
     {
     	addPiece(index, bitboards[pieceType+color*6]);
     }
-    inline void removePiece(const unsigned int index, U64 &bitBoard)
+    inline void removePiece(const Square index, U64 &bitBoard)
     {
     	bitBoard &= ~(1LL << index);
     }
 
-    inline void addPiece(const unsigned int index, U64 &bitBoard)
+    inline void addPiece(const Square index, U64 &bitBoard)
     {
     	bitBoard |=  1LL << index;
     }
 
-    inline void movePiece(const unsigned int origin, const unsigned int destination, U64 &bitBoard)
+    inline void movePiece(const Square origin, const Square destination, U64 &bitBoard)
     {
     	//Remove piece from origin position
     	removePiece(origin, bitBoard);

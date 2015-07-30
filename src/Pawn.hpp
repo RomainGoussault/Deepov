@@ -3,7 +3,7 @@
 
 
 #include "Board.hpp"
-#include "Color.hpp"
+#include "Types.hpp"
 #include "BitBoardUtils.hpp"
 
 namespace Pawn

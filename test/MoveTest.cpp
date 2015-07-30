@@ -7,8 +7,8 @@
 
 TEST_CASE( "Constructor and methods" )
 {
-    unsigned int origin = 4;
-    unsigned int destination = 5;
+    Square origin = static_cast<Square>(4);
+    Square destination = static_cast<Square>(5);
     unsigned int flags = 6;
     Piece::PieceType pieceType = Piece::BISHOP;
     Move move(origin, destination, flags, pieceType);
@@ -18,13 +18,13 @@ TEST_CASE( "Constructor and methods" )
     REQUIRE(move.getFlags() == flags);
     REQUIRE(move.getPieceType() == pieceType);
 
-    move.setDestination(3);
-    move.setOrigin(22);
+    move.setDestination(static_cast<Square>(3));
+    move.setOrigin(static_cast<Square>(22));
     move.setFlags(0b1000);
 
-    REQUIRE(move.getOrigin() == 22);
-    REQUIRE(move.getDestination() == 3);
-    REQUIRE(move.getFlags() == 8);
+    REQUIRE(move.getOrigin() == static_cast<Square>(22));
+    REQUIRE(move.getDestination() == static_cast<Square>(3));
+    REQUIRE(move.getFlags() == static_cast<Square>(8));
 }
 
 TEST_CASE( "is capture" )

@@ -1,6 +1,6 @@
 # Var definitions
 
-#export MAKEFLAGS=-j7
+export MAKEFLAGS=-j3
 
 CXX = g++-5 -O3
 #CXX = clang++-3.6

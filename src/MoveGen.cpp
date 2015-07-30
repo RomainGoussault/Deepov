@@ -16,12 +16,12 @@ MoveGen::MoveGen(std::shared_ptr<Board> boardPtr)
 
 /* Moves private methods */
 
-void MoveGen::addQuietMoves(U64 quietDestinations, unsigned int pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const
+void MoveGen::addQuietMoves(U64 quietDestinations, Square pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const
 {
 	while (quietDestinations)
 	{
 		//Getting the index of the MSB
-		unsigned int positionMsb = BitBoardUtils::getMsbIndex(quietDestinations);
+		Square positionMsb = BitBoardUtils::getMsbIndex(quietDestinations);
 
 		Move move = Move(pieceIndex, positionMsb, 0, pieceType);
 		moves.push_back(move);
@@ -31,12 +31,12 @@ void MoveGen::addQuietMoves(U64 quietDestinations, unsigned int pieceIndex, std:
 	}
 }
 
-void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, unsigned int pieceIndex, std::vector<Move>& moves) const
+void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, Square pieceIndex, std::vector<Move>& moves) const
 {
     while (pawnDestinations)
     {
         //Getting the index of the MSB
-		unsigned int positionMsb = BitBoardUtils::getMsbIndex(pawnDestinations);
+		Square positionMsb = BitBoardUtils::getMsbIndex(pawnDestinations);
 
         Move move = Move(pieceIndex, positionMsb, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		moves.push_back(move);
@@ -46,12 +46,12 @@ void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, unsigned int pieceInd
     }
 }
 
-void MoveGen::addCaptureMoves(U64 captureDestinations, unsigned int pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const
+void MoveGen::addCaptureMoves(U64 captureDestinations, Square pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const
 {
 	while (captureDestinations)
 	{
 		//Getting the index of the MSB
-		unsigned int positionMsb = BitBoardUtils::getMsbIndex(captureDestinations);
+		Square positionMsb = BitBoardUtils::getMsbIndex(captureDestinations);
 		Move move = Move(pieceIndex, positionMsb, Move::CAPTURE_FLAG, pieceType);
         Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
@@ -62,12 +62,12 @@ void MoveGen::addCaptureMoves(U64 captureDestinations, unsigned int pieceIndex, 
 	}
 }
 
-void MoveGen::addPromotionMoves(U64 promotionDestinations, unsigned int pieceIndex, std::vector<Move>& moves) const
+void MoveGen::addPromotionMoves(U64 promotionDestinations, Square pieceIndex, std::vector<Move>& moves) const
 {
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		unsigned int positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
+		Square positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
 		Move move = Move(pieceIndex, positionMsb, Move::PROMOTION_FLAG, Piece::PAWN);
 		moves.push_back(move);
 		move.setFlags(Move::PROMOTION_FLAG+1);
@@ -82,12 +82,12 @@ void MoveGen::addPromotionMoves(U64 promotionDestinations, unsigned int pieceInd
 	}
 }
 
-void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, unsigned int pieceIndex, std::vector<Move>& moves) const
+void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, Square pieceIndex, std::vector<Move>& moves) const
 {
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		unsigned int positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
+		Square positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
 		unsigned int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
 		Move move = Move(pieceIndex, positionMsb, flag, Piece::PAWN);
         Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
@@ -110,7 +110,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, unsigned int p
 void MoveGen::appendKingPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	U64 kingPos = myBoard->getKing(color);
-    unsigned int kingIndex = BitBoardUtils::getMsbIndex(kingPos);
+    Square kingIndex = BitBoardUtils::getMsbIndex(kingPos);
 	U64 kingValidDestinations = myBoard->getKingDestinations(kingIndex, color);
 
 	Color ennemyColor = Utils::getOppositeColor(color);
@@ -123,21 +123,21 @@ void MoveGen::appendKingPseudoLegalMoves(const Color color, std::vector<Move>& m
 	addQueenSideCastlingMove(color, kingIndex, moves);
 }
 
-void MoveGen::addKingSideCastlingMove(Color color, unsigned int kingIndex, std::vector<Move>& moves) const
+void MoveGen::addKingSideCastlingMove(Color color, Square kingIndex, std::vector<Move>& moves) const
 {
 	if(isKingSideCastlingPossible(color))
 	{
-		unsigned int destination = color == WHITE ? 6 : 62;
+		Square destination = static_cast<Square>(color == WHITE ? 6 : 62);
 		Move move = Move(kingIndex, destination, Move::KING_SIDE_CASTLING, Piece::KING);
 		moves.push_back(move);
 	}
 }
 
-void MoveGen::addQueenSideCastlingMove(Color color, unsigned int kingIndex, std::vector<Move>& moves) const
+void MoveGen::addQueenSideCastlingMove(Color color, Square kingIndex, std::vector<Move>& moves) const
 {
 	if(isQueenSideCastlingPossible(color))
 	{
-		unsigned int destination = color == WHITE ? 2 : 58;
+		Square destination = static_cast<Square>(color == WHITE ? 2 : 58);
 		Move move = Move(kingIndex, destination, Move::QUEEN_SIDE_CASTLING, Piece::KING);
 		moves.push_back(move);
 	}
@@ -150,7 +150,7 @@ void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& 
 	//loop through the queens:
 	while(queenPositions)
 	{
-		unsigned int queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
+		Square queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
@@ -174,7 +174,7 @@ void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>&
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		unsigned int bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
+		Square bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
@@ -196,7 +196,7 @@ void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& m
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		unsigned int rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
+		Square rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
@@ -241,7 +241,7 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 	//loop through the knights:
 	while(knightPositions)
 	{
-		const unsigned int knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
+		const Square knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
 		U64 knightValidDestinations = myBoard->getKnightDestinations(knightIndex, color);
 		/* compute only the places where the knight can move and attack. The caller
 		will unsigned interpret this as a white or black knight. */
@@ -265,7 +265,7 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 
 	while(pawnPositions)
 	{
-		unsigned int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
+		Square pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
@@ -310,7 +310,7 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 
 	while(pawnPositions)
 	{
-		unsigned int pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
+		Square pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
@@ -405,13 +405,14 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
     {
         while (validPawns)
         {
-            unsigned int enemyDestination = enemyLastMove->getDestination();
-            unsigned int validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
+            Square enemyDestination = enemyLastMove->getDestination();
+            Square validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
-                Move epMove(validPawnIndex,enemyDestination+8,Move::EP_CAPTURE_FLAG,Piece::PAWN);
+            	Square destination = static_cast<Square>(enemyDestination+8);
+                Move epMove(validPawnIndex,destination,Move::EP_CAPTURE_FLAG,Piece::PAWN);
                 epMove.setCapturedPieceType(Piece::PAWN);
                 moves.push_back(epMove);
             }
@@ -438,13 +439,14 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
 	{
         while (validPawns)
         {
-            unsigned int enemyDestination = enemyLastMove->getDestination();
-            unsigned int validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
+        	Square enemyDestination = enemyLastMove->getDestination();
+        	Square validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
-                Move epMove(validPawnIndex,enemyDestination-8,Move::EP_CAPTURE_FLAG,Piece::PAWN);
+            	Square destination = static_cast<Square>(enemyDestination-8);
+                Move epMove(validPawnIndex, destination, Move::EP_CAPTURE_FLAG, Piece::PAWN);
                 epMove.setCapturedPieceType(Piece::PAWN);
                 moves.push_back(epMove);
             }

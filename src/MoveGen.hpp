@@ -96,8 +96,8 @@ public:
     std::vector<Move> getLegalMoves(const Color color);
 
     //Castling
-    void addKingSideCastlingMove(Color color, unsigned int kingIndex, std::vector<Move>& moves) const;
-    void addQueenSideCastlingMove(Color color, unsigned int kingIndex, std::vector<Move>& moves) const;
+    void addKingSideCastlingMove(Color color, Square kingIndex, std::vector<Move>& moves) const;
+    void addQueenSideCastlingMove(Color color, Square kingIndex, std::vector<Move>& moves) const;
 	bool isQueenSideCastlingPossible(const Color color) const;
 	bool isKingSideCastlingPossible(const Color color) const;
 
@@ -106,11 +106,11 @@ private:
 
     std::shared_ptr<Board> myBoard;
 
-	void addQuietMoves(U64 quietDestinations, unsigned int pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const;
-	void addDoublePawnPushMoves(U64 pawnDestinations, unsigned int pieceIndex, std::vector<Move>& moves) const;
-	void addCaptureMoves(U64 captureDestinations, unsigned int pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const;
-	void addPromotionMoves(U64 promotionDestinations, unsigned int pieceIndex, std::vector<Move>& moves) const;
-	void addPromotionCaptureMoves(U64 promotionDestinations, unsigned int pieceIndex, std::vector<Move>& moves) const;
+	void addQuietMoves(U64 quietDestinations, Square pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const;
+	void addDoublePawnPushMoves(U64 pawnDestinations, Square pieceIndex, std::vector<Move>& moves) const;
+	void addCaptureMoves(U64 captureDestinations, Square pieceIndex, std::vector<Move>& moves, Piece::PieceType pieceType) const;
+	void addPromotionMoves(U64 promotionDestinations, Square pieceIndex, std::vector<Move>& moves) const;
+	void addPromotionCaptureMoves(U64 promotionDestinations, Square pieceIndex, std::vector<Move>& moves) const;
 
 };
 
