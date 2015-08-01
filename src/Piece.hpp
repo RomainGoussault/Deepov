@@ -29,7 +29,9 @@ namespace Piece
         B_ROOK = 9,
         B_QUEEN = 10,
         B_KING = 11,
-        NO_PIECE = 12
+        W_PIECES = 12,
+        B_PIECES = 13,
+        NO_PIECE = 14
 
     };
 
