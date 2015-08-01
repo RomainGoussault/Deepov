@@ -515,10 +515,20 @@ void Board::updateConvenienceBitboards()
 
 void Board::updateAtkFr()
 {
-	for(Square sq = SQ_A1; sq < SQUARE_NB; ++sq)
+    std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
+    U64 currentBB = myAllPieces;
+
+    // TODO : separate the two colors
+	//loop through the pieces:
+	while(currentBB)
 	{
-		myAtkFr[sq] = getAttacksFromSq(sq, myColorToPlay);
+		const Square index = BitBoardUtils::getMsbIndex(currentBB);
+        myAtkFr[index] = getAttacksFromSq(index, myColorToPlay);
+
+		currentBB = currentBB ^ ( 0 | 1LL << index);
 	}
+
+
 }
 
 //This methods returns the char representing the piece at the given position (file,rank)
