@@ -27,6 +27,7 @@ typedef std::uint64_t U64;
 #include "Types.hpp"
 #include "Tables.hpp"
 #include "Piece.hpp"
+#include "BitBoardUtils.hpp"
 
 /*
 Note: We use Little-Endian Rank-File Mapping
@@ -129,9 +130,9 @@ public:
         return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
     };
 
-    inline U64 getPawnAttackedDestinations(const Square square) const
+    inline U64 getPawnAttackedDestinations(const Square square, const Color color) const
     {
-        return Tables::PAWN_ATTACK_TABLE[myColorToPlay][square];
+        return Tables::PAWN_ATTACK_TABLE[color][square];
     };
 
     inline U64 getKnightAttackedDestinations(const Square square) const
@@ -163,6 +164,8 @@ public:
     {
         return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
     };
+
+    bool isSquareAttacked(U64 bitboard, Color color) const;
 
     U64 getAttackedPositions(const Color color) const;
     U64 getKingAttackedPositions(const Color color) const;

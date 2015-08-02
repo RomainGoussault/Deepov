@@ -205,7 +205,6 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	bool isPinned = oribb & getPinnedPieces();
 	bool isKingMove = move.getPieceType() == Piece::KING;
 
-
 	if (isKingMove || isCheckb || isEnPassant || isPinned)
 	{
 		executeMove(move);
@@ -223,14 +222,30 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 
 bool Board::isCheck(const Color color) const
 {
-	Color ennemyColor = Utils::getOppositeColor(color);
-	U64 ennemyAttackingPositions = getAttackedPositions(ennemyColor);
-
 	U64 kingPosition = getKing(color);
-	bool isCheck = ennemyAttackingPositions & kingPosition;
-
-	return isCheck;
+	return isSquareAttacked(kingPosition, color);
 }
+
+bool Board::isSquareAttacked(U64 bitboard, Color color) const
+   {
+   	bool isAttacked = false;
+   	Color ennemyColor = Utils::getOppositeColor(color);
+
+   	U64 attackers = getPieces(ennemyColor);
+
+    while(attackers)
+   	{
+       	Square attackerSquare = BitBoardUtils::getMsbIndex(attackers);
+
+       	U64 attackFr = getAtkFr(attackerSquare);
+
+       	isAttacked |= bitboard & attackFr;
+
+       	attackers = attackers ^ (0 | 1LL << attackerSquare);
+   	}
+
+       return isAttacked;
+   };
 
 U64 Board::getAttackedPositions(const Color color) const
 {
@@ -538,11 +553,20 @@ void Board::updateAtkFr()
 {
 	std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
 
-	U64 currentBB = getAllPawns();
+	U64 currentBB = getWhitePawns();
 	while(currentBB)
 	{
 		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getPawnAttackedDestinations(square);
+		myAtkFr[square] = getPawnAttackedDestinations(square, WHITE);
+
+		currentBB = currentBB ^ ( 0 | 1LL << square);
+	}
+
+	currentBB = getBlackPawns();
+	while(currentBB)
+	{
+		const Square square = BitBoardUtils::getMsbIndex(currentBB);
+		myAtkFr[square] = getPawnAttackedDestinations(square, BLACK);
 
 		currentBB = currentBB ^ ( 0 | 1LL << square);
 	}
