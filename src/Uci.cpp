@@ -101,7 +101,7 @@ void Uci::loop()
 		else if (token == "position")
 			updatePosition(is);
 
-		else if (token == "prunsigned int")
+		else if (token == "print")
 			std::cout << *boardPtr << std::endl;
 
 		else if (token == "go")
