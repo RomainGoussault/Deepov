@@ -33,10 +33,16 @@ TEST_CASE( "AtkFr" )
 	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
 
 	REQUIRE(sp->getAtkFr(SQ_C5) == 0);
-	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B1)) == 3);
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B1)) == 3);//Knight
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_C1)) == 2);//Bishop
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_A1)) == 2);//Rook
 
-	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_A2)) == 1);
-	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B2)) == 2);
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_A2)) == 1); //Pawn
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B2)) == 2); //Pawn
 
-	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_C7)) == 2);
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_C7)) == 2); //Black Pawn
+
+	sp = std::shared_ptr<Board>(new Board("r1b1k2r/p1pp1p1p/np2pn2/4b2K/8/P1P3q1/4NPPP/3R1pNR w KQkq -"));
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_E5)) == 7); //Bishop
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_D1)) == 11); //Rook
 }
