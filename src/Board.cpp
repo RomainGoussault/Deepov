@@ -65,6 +65,8 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr
 	{
 		myHalfMovesCounter = 0;
 	}
+
+	updateAtkFr();
 }
 
 Piece::PieceType Board::findBlackPieceType(const Square position) const
@@ -533,14 +535,13 @@ void Board::updateConvenienceBitboards()
 void Board::updateAtkFr()
 {
     std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
-    U64 currentBB = myAllPieces;
 
-    // TODO : separate the two colors
-	//loop through the pieces:
+    U64 currentBB = getAllKnights();
+
 	while(currentBB)
 	{
 		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-        myAtkFr[square] = getAttacksFromSq(square);
+        myAtkFr[square] = getKnightDestinations(square);
 
 		currentBB = currentBB ^ ( 0 | 1LL << square);
 	}
