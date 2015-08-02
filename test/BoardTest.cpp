@@ -24,3 +24,14 @@ TEST_CASE( "is bit Set method" )
 	REQUIRE(BitBoardUtils::isBitSet(whitePawns, 2, 2) == false);
 	REQUIRE(BitBoardUtils::isBitSet(whitePawns, 2, 7) == false);
 }
+
+TEST_CASE( "AtkFr" )
+{
+	MagicMoves::initmagicmoves();
+	Tables::init();
+
+	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
+
+	REQUIRE(sp->getAtkFr(SQ_C5) == 0);
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B1)) == 3);
+}
