@@ -278,18 +278,8 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 		U64 twoSteps = ((firstStep & Tables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces();
 
 		/* next we calculate the pawn attacks */
-
-		/* check the left side of the pawn, minding the underflow File A */
-		U64 leftAttack = (pawnPos & Tables::CLEAR_FILE[0]) << 7;
-
-		/* then check the right side of the pawn, minding the overflow File H */
-		U64 rightAttack = (pawnPos & Tables::CLEAR_FILE[7]) << 9;
-
-		/* the union of the left and right attacks together make up all the
-        possible attacks
-	   Calculate where I can _actually_ attack something */
-
-		U64 validAttacks = (leftAttack | rightAttack) & myBoard->getBlackPieces();
+		U64 attacks = myBoard->getAtkFr(pawnIndex);
+		U64 validAttacks = attacks & myBoard->getBlackPieces();
 
 		/* then we combine the two situations in which a white pawn can legally
 		attack/move. */
@@ -323,18 +313,8 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 		U64 twoSteps = ((firstStep & Tables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces();
 
 		/* next we calculate the pawn attacks */
-
-		/* check the left side of the pawn, minding the underflow File A */
-		U64 leftAttack = (pawnPos & Tables::CLEAR_FILE[7]) >> 7;
-
-		/* then check the right side of the pawn, minding the overflow File H */
-		U64 rightAttack = (pawnPos & Tables::CLEAR_FILE[0]) >> 9;
-
-		/* the union of the left and right attacks together make up all the
-        possible attacks
-	   Calculate where I can _actually_ attack something */
-
-		U64 validAttacks = (leftAttack | rightAttack) & myBoard->getWhitePieces();
+		U64 attacks = myBoard->getAtkFr(pawnIndex);
+		U64 validAttacks = attacks & myBoard->getWhitePieces();
 
 		/* then we combine the two situations in which a white pawn can legally
 		attack/move. */
