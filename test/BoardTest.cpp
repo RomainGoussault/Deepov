@@ -36,7 +36,8 @@ TEST_CASE( "AtkFr" )
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B1)) == 3);//Knight
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_C1)) == 2);//Bishop
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_A1)) == 2);//Rook
-	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_D1)) == 5);//Rook
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_D1)) == 5);//Queen
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_E1)) == 5);//King
 
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_A2)) == 1); //Pawn
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B2)) == 2); //Pawn
@@ -47,4 +48,5 @@ TEST_CASE( "AtkFr" )
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_E5)) == 7); //Bishop
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_D1)) == 11); //Rook
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_D7)) == 16); //Queen
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_E8)) == 5); //King
 }

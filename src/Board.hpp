@@ -154,6 +154,11 @@ public:
         return getBishopAttackedDestinations(square) | getRookAttackedDestinations(square);
     };
 
+    inline U64 getKingAttackedDestinations(const Square square) const
+    {
+        return Tables::ATTACK_TABLE[Piece::KING][square];
+    };
+
     inline U64 getKingDestinations(const Square square, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
