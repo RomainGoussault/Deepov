@@ -165,7 +165,7 @@ public:
         return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
     };
 
-    bool isSquareAttacked(U64 bitboard, Color color) const;
+    bool isBitBoardAttacked(U64 bitboard, Color color) const;
 
     U64 getAttackedPositions(const Color color) const;
     U64 getKingAttackedPositions(const Color color) const;

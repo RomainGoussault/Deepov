@@ -223,10 +223,10 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 bool Board::isCheck(const Color color) const
 {
 	U64 kingPosition = getKing(color);
-	return isSquareAttacked(kingPosition, color);
+	return isBitBoardAttacked(kingPosition, color);
 }
 
-bool Board::isSquareAttacked(U64 bitboard, Color color) const
+bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
    {
    	bool isAttacked = false;
    	Color ennemyColor = Utils::getOppositeColor(color);
