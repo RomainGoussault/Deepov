@@ -34,4 +34,9 @@ TEST_CASE( "AtkFr" )
 
 	REQUIRE(sp->getAtkFr(SQ_C5) == 0);
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B1)) == 3);
+
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_A2)) == 1);
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B2)) == 2);
+
+	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_C7)) == 2);
 }

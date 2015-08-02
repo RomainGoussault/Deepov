@@ -142,7 +142,7 @@ U64 Board::getAttacksFromSq(const Square square) const
 	}
 	else if (myBitboards[1]&(1LL << square))
 	{
-		return getKnightDestinations(square);
+		return getKnightAttackedDestinations(square);
 	}
 	else if (myBitboards[2]&(1LL << square))
 	{
@@ -424,6 +424,7 @@ void Board::executeMove(Move &move)
 	myColorToPlay = oppositeColor;
 
 	updateConvenienceBitboards();
+	updateAtkFr();
 }
 
 void Board::undoMove(Move &move)
@@ -506,6 +507,7 @@ void Board::undoMove(Move &move)
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 
 	updateConvenienceBitboards();
+	updateAtkFr();
 }
 
 void Board::updateConvenienceBitboards()
@@ -534,19 +536,25 @@ void Board::updateConvenienceBitboards()
 
 void Board::updateAtkFr()
 {
-    std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
+	std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
 
-    U64 currentBB = getAllKnights();
-
+	U64 currentBB = getAllPawns();
 	while(currentBB)
 	{
 		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-        myAtkFr[square] = getKnightDestinations(square);
+		myAtkFr[square] = getPawnAttackedDestinations(square);
 
 		currentBB = currentBB ^ ( 0 | 1LL << square);
 	}
 
+	currentBB = getAllKnights();
+	while(currentBB)
+	{
+		const Square square = BitBoardUtils::getMsbIndex(currentBB);
+		myAtkFr[square] = getKnightAttackedDestinations(square);
 
+		currentBB = currentBB ^ ( 0 | 1LL << square);
+	}
 }
 
 //This methods returns the char representing the piece at the given position (file,rank)
