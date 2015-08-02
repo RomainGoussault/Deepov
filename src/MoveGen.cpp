@@ -466,11 +466,10 @@ bool MoveGen::isQueenSideCastlingPossible(const Color color) const
 	if(!iQSCP) return false;
 
 	Color ennemyColor = color == WHITE ? BLACK : WHITE;
-	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
 
 	//check if positions between the rook and the king are not attacked
 	const U64 bitBoardNotTobeAttacked = color == WHITE ? 28 : 2017612633061982208LL;
-	iQSCP &= !(bitBoardNotTobeAttacked & attackedPositions);
+	iQSCP &= !myBoard->isSquareAttacked(bitBoardNotTobeAttacked, color);
 
 	//check if positions between the rook and the king are free
 	const U64 bitBoardToBeFree = color == WHITE ? 14 : 1008806316530991104LL;
@@ -487,11 +486,10 @@ bool MoveGen::isKingSideCastlingPossible(const Color color) const
 	if(!iKSCP) return false;
 
 	Color ennemyColor = color == WHITE ? BLACK : WHITE;
-	U64 attackedPositions = myBoard->getAttackedPositions(ennemyColor);
 
 	//check if positions between the rook and the king are not attacked
 	const U64 bitBoardNotTobeAttacked = color == WHITE ? 112 : 8070450532247928832LL;
-	iKSCP &= !(bitBoardNotTobeAttacked & attackedPositions);
+	iKSCP &= !myBoard->isSquareAttacked(bitBoardNotTobeAttacked, color);
 
 	//check if positions between the rook and the king are free
 	const U64 bitBoardToBeFree = color == WHITE ? 96 : 6917529027641081856LL;
