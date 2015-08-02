@@ -7,7 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-myBitboards(), myPinnedPieces(), myAtkTo(), myAtkFr(), myCastling()
+myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -131,7 +131,7 @@ Piece::PieceType Board::findWhitePieceType(const Square position) const
 	}
 }
 
-U64 Board::getAttacksFromSq(const Square square, const Color color) const
+U64 Board::getAttacksFromSq(const Square square) const
 {
 	//TODO Implement the commented functions
 	if (myBitboards[0]&(1LL << square))
@@ -140,7 +140,7 @@ U64 Board::getAttacksFromSq(const Square square, const Color color) const
 	}
 	else if (myBitboards[1]&(1LL << square))
 	{
-		return getKnightDestinations(square, color);
+		return getKnightDestinations(square);
 	}
 	else if (myBitboards[2]&(1LL << square))
 	{
@@ -156,7 +156,7 @@ U64 Board::getAttacksFromSq(const Square square, const Color color) const
 	}
 	else if (myBitboards[5]&(1LL << square))
 	{
-		return getKingDestinations(square, color);
+		//return getKingDestinations(square);
 	}
 	else
 	{
@@ -508,9 +508,26 @@ void Board::undoMove(Move &move)
 
 void Board::updateConvenienceBitboards()
 {
+	// White Pieces bitboard
 	myBitboards[12] = myBitboards[0] | myBitboards[1] | myBitboards[2] | myBitboards[3] | myBitboards[4] | myBitboards[5];
+
+	// Black Pieces bitboard
 	myBitboards[13] = myBitboards[6] | myBitboards[7] | myBitboards[8] | myBitboards[9] | myBitboards[10] | myBitboards[11];
-	myAllPieces = myBitboards[12] | myBitboards[13];
+
+	// All Pawns bitboard
+	myBitboards[14] = myBitboards[0] ^ myBitboards[6];
+	// All Knights bitboard
+	myBitboards[15] = myBitboards[1] ^ myBitboards[7];
+	// All Bishops bitboard
+	myBitboards[16] = myBitboards[2] ^ myBitboards[8];
+	// All Rooks bitboard
+	myBitboards[17] = myBitboards[3] ^ myBitboards[9];
+	// All Queens bitboard
+	myBitboards[18] = myBitboards[4] ^ myBitboards[10];
+	// All Kings bitboard
+	myBitboards[19] = myBitboards[5] ^ myBitboards[11];
+
+	myAllPieces = myBitboards[12] ^ myBitboards[13];
 }
 
 void Board::updateAtkFr()
@@ -522,10 +539,10 @@ void Board::updateAtkFr()
 	//loop through the pieces:
 	while(currentBB)
 	{
-		const Square index = BitBoardUtils::getMsbIndex(currentBB);
-        myAtkFr[index] = getAttacksFromSq(index, myColorToPlay);
+		const Square square = BitBoardUtils::getMsbIndex(currentBB);
+        myAtkFr[square] = getAttacksFromSq(square);
 
-		currentBB = currentBB ^ ( 0 | 1LL << index);
+		currentBB = currentBB ^ ( 0 | 1LL << square);
 	}
 
 

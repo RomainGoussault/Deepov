@@ -68,6 +68,13 @@ public:
 	inline U64 getQueens(Color color) const{return getBitBoard(Piece::QUEEN, color);}
 	inline U64 getKing(Color color) const{return getBitBoard(Piece::KING, color);}
 
+	inline U64 getAllPawns() const{return myBitboards[14];}
+	inline U64 getAllKnights() const{return myBitboards[15];}
+	inline U64 getAllBishops() const{return myBitboards[16];}
+	inline U64 getAllRooks() const{return myBitboards[17];}
+	inline U64 getAllQueens() const{return myBitboards[18];}
+	inline U64 getAllKings() const{return myBitboards[19];}
+
 	inline U64 getWhitePieces() const{return myBitboards[12];}
 	inline U64 getBlackPieces() const{return myBitboards[13];}
 	inline U64 getAllPieces() const{return myAllPieces;}
@@ -115,12 +122,18 @@ public:
     bool isCheck(const Color color) const;
 
     //Attacked positions
-    U64 getAttacksFromSq(const Square position, const Color color) const;
+    U64 getAttacksFromSq(const Square position) const;
 
     inline U64 getKnightDestinations(const Square pos, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
     };
+
+    inline U64 getKnightDestinations(const Square pos) const
+    {
+        return Tables::ATTACK_TABLE[Piece::KNIGHT][pos];
+    };
+
     inline U64 getKingDestinations(const Square pos, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KING][pos] & ~getPieces(color);
@@ -145,19 +158,20 @@ public:
 
 
 private:
-    std::array<U64, 14> myBitboards;
+    std::array<U64, 20> myBitboards;
 	U64 myAllPieces;
 	U64 myPinnedPieces;
 
-	U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
-    U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
-
 	Color myColorToPlay;
-    unsigned int myMovesCounter;
-    unsigned int myHalfMovesCounter;
     unsigned int myCastling; /* Same order as FEN
     RIGHT BIT : white king side, white queen side, black king side, black queen side : LEFT BIT
     e.g. the order is 1111 = qkQK */
+
+    U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
+    U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
+
+    unsigned int myMovesCounter;
+    unsigned int myHalfMovesCounter;
 
     std::vector<Move> myMoves;
 
