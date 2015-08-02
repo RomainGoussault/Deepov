@@ -134,24 +134,29 @@ public:
         return Tables::PAWN_ATTACK_TABLE[myColorToPlay][square];
     };
 
-    inline U64 getKnightAttackedDestinations(const Square pos) const
+    inline U64 getKnightAttackedDestinations(const Square square) const
     {
-        return Tables::ATTACK_TABLE[Piece::KNIGHT][pos];
+        return Tables::ATTACK_TABLE[Piece::KNIGHT][square];
     };
 
-    inline U64 getBishopAttackedDestinations(const Square pos) const
+    inline U64 getBishopAttackedDestinations(const Square square) const
     {
-        return MagicMoves::Bmagic(pos, getAllPieces());
+        return MagicMoves::Bmagic(square, getAllPieces());
     };
 
-    inline U64 getRookAttackedDestinations(const Square pos) const
+    inline U64 getRookAttackedDestinations(const Square square) const
     {
-        return MagicMoves::Rmagic(pos, getAllPieces());
+        return MagicMoves::Rmagic(square, getAllPieces());
     };
 
-    inline U64 getKingDestinations(const Square pos, const Color color) const
+    inline U64 getQueenAttackedDestinations(const Square square) const
     {
-        return Tables::ATTACK_TABLE[Piece::KING][pos] & ~getPieces(color);
+        return getBishopAttackedDestinations(square) | getRookAttackedDestinations(square);
+    };
+
+    inline U64 getKingDestinations(const Square square, const Color color) const
+    {
+        return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
     };
 
     U64 getAttackedPositions(const Color color) const;

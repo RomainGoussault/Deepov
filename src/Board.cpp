@@ -573,6 +573,15 @@ void Board::updateAtkFr()
 
 		currentBB = currentBB ^ ( 0 | 1LL << square);
 	}
+
+	currentBB = getAllQueens();
+	while(currentBB)
+	{
+		const Square square = BitBoardUtils::getMsbIndex(currentBB);
+		myAtkFr[square] = getQueenAttackedDestinations(square);
+
+		currentBB = currentBB ^ ( 0 | 1LL << square);
+	}
 }
 
 //This methods returns the char representing the piece at the given position (file,rank)
