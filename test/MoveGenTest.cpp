@@ -3,6 +3,21 @@
 #include "MagicMoves.hpp"
 #include "MoveGen.hpp"
 
+TEST_CASE( "Movegen" )
+{
+    Tables::init();
+	Board board;
+	MoveGen moveGen(board);
+
+	std::vector<Move> moveList = moveGen.getWhitePawnPseudoLegalMoves();
+	REQUIRE(moveList.size() == 16);
+
+	moveList = moveGen.getKingPseudoLegalMoves(WHITE);
+	REQUIRE(moveList.size() == 0);
+
+	moveList = moveGen.getKnightPseudoLegalMoves(WHITE);
+	REQUIRE(moveList.size() == 4);
+}
 
 TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 {
