@@ -440,7 +440,7 @@ void Board::updateConvenienceBitboards()
 void Board::updateAtkFr()
 {
 	std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
-	U64 currentBB(0);
+	U64 currentBB(0LL);
 
     for (int i = WHITE; i<COLOR_NB; i++)
     {
