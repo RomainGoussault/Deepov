@@ -125,42 +125,32 @@ public:
     //Attacked positions
     U64 getAttacksFromSq(const Square position) const;
 
-    inline U64 getKnightDestinations(const Square pos, const Color color) const
+    inline U64 getKnightAttacks(const Square pos, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
     };
 
-    inline U64 getPawnAttackedDestinations(const Square square, const Color color) const
+    inline U64 getPawnAttacks(const Square square, const Color color) const
     {
-        return Tables::PAWN_ATTACK_TABLE[color][square];
+        return Tables::PAWN_ATTACK_TABLE[color][square] & ~getPieces(color);
     };
 
-    inline U64 getKnightAttackedDestinations(const Square square) const
+    inline U64 getBishopAttacks(const Square square, const Color color) const
     {
-        return Tables::ATTACK_TABLE[Piece::KNIGHT][square];
+        return MagicMoves::Bmagic(square, getAllPieces()) & ~getPieces(color);
     };
 
-    inline U64 getBishopAttackedDestinations(const Square square) const
+    inline U64 getRookAttacks(const Square square, const Color color) const
     {
-        return MagicMoves::Bmagic(square, getAllPieces());
+        return MagicMoves::Rmagic(square, getAllPieces()) & ~getPieces(color);
     };
 
-    inline U64 getRookAttackedDestinations(const Square square) const
+    inline U64 getQueenAttacks(const Square square, const Color color) const
     {
-        return MagicMoves::Rmagic(square, getAllPieces());
+        return getBishopAttacks(square,color) | getRookAttacks(square,color);
     };
 
-    inline U64 getQueenAttackedDestinations(const Square square) const
-    {
-        return getBishopAttackedDestinations(square) | getRookAttackedDestinations(square);
-    };
-
-    inline U64 getKingAttackedDestinations(const Square square) const
-    {
-        return Tables::ATTACK_TABLE[Piece::KING][square];
-    };
-
-    inline U64 getKingDestinations(const Square square, const Color color) const
+    inline U64 getKingAttacks(const Square square, const Color color) const
     {
         return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
     };
@@ -169,7 +159,6 @@ public:
 
     U64 getAttackedPositions(const Color color) const;
     U64 getKingAttackedPositions(const Color color) const;
-
     U64 getQueenAttackedPositions(const Color color) const;
     U64 getRookAttackedPositions(const Color color) const;
     U64 getBishopAttackedPositions(const Color color) const;

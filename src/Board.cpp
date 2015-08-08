@@ -247,121 +247,6 @@ bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
        return isAttacked;
    };
 
-U64 Board::getAttackedPositions(const Color color) const
-{
-	U64 kingAttackedPosition = getKingAttackedPositions(color);
-	U64 queenAttackedPosition = getQueenAttackedPositions(color);
-	U64 rookAttackedPosition = getRookAttackedPositions(color);
-	U64 bishopAttackedPosition = getBishopAttackedPositions(color);
-	U64 knightAttackedDestinations = getKnightAttackedPositions(color);
-	U64 pawnAttackedPosition = getPawnAttackedPositions(color);
-
-	U64 attackedPositions = knightAttackedDestinations | rookAttackedPosition
-			| bishopAttackedPosition | queenAttackedPosition
-			| kingAttackedPosition | pawnAttackedPosition;
-	return attackedPositions;
-}
-
-U64 Board::getKnightAttackedPositions(const Color color) const
-{
-	U64 knightAttackedDestinations = 0LL;
-
-	U64 knightPositions = getKnights(color);
-
-	//loop through the knights:
-	while(knightPositions)
-	{
-		const Square knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
-		U64 knightValidDestinations = getKnightDestinations(knightIndex, color);
-		knightAttackedDestinations |= knightValidDestinations;
-
-		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
-	}
-
-	return knightAttackedDestinations;
-}
-
-U64 Board::getKingAttackedPositions(const Color color) const
-{
-	U64 kingPosition = getKing(color);
-	Square index = BitBoardUtils::getMsbIndex(kingPosition);
-	U64 kingAttackedDestinations = getKingDestinations(index, color);
-
-	return kingAttackedDestinations;
-}
-
-U64 Board::getRookAttackedPositions(const Color color) const
-{
-	U64 rookAttackedDestinations = 0LL;
-	U64 rookPositions = getRooks(color);
-
-	//loop through the rooks:
-	while(rookPositions)
-	{
-		Square rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
-		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
-
-		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, getAllPieces()) & ~getPieces(color);
-		rookAttackedDestinations |= rookDestinations;
-	}
-
-	return rookAttackedDestinations;
-}
-
-U64 Board::getBishopAttackedPositions(const Color color) const
-{
-	U64 bishopAttackedDestinations = 0LL;
-	U64 bishopPositions = getBishops(color);
-
-	//loop through the bishops:
-	while(bishopPositions)
-	{
-		Square bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
-		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
-
-		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, getAllPieces()) & ~getPieces(color);
-		bishopAttackedDestinations |= bishopDestinations;
-	}
-
-	return bishopAttackedDestinations;
-}
-
-U64 Board::getQueenAttackedPositions(const Color color) const
-{
-	U64 queenAttackedDestinations = 0LL;
-	U64 queenPositions = getQueens(color);
-
-	//loop through the queens:
-	while(queenPositions)
-	{
-		Square queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
-		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
-
-		U64 queenDestinations = MagicMoves::Rmagic(queenIndex, getAllPieces()) | MagicMoves::Bmagic(queenIndex, getAllPieces());
-		U64 queenValidDestinations = queenDestinations & ~getPieces(color);
-		queenAttackedDestinations |= queenValidDestinations;
-	}
-
-	return queenAttackedDestinations;
-}
-
-
-U64 Board::getPawnAttackedPositions(const Color color) const
-{
-	U64 pawnAttackedDestinations = 0LL;
-	U64 pawnPositions = getPawns(color);
-
-	//loop through the pawns:
-	while(pawnPositions)
-	{
-		Square pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
-		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
-		U64 pawnValidDestinations = Tables::PAWN_ATTACK_TABLE[color][pawnIndex] & ~getPieces(color);
-		pawnAttackedDestinations |= pawnValidDestinations;
-	}
-
-	return pawnAttackedDestinations;
-}
 
 void Board::executeMove(Move &move)
 {
@@ -557,8 +442,7 @@ void Board::updateAtkFr()
 	while(currentBB)
 	{
 		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getPawnAttackedDestinations(square, WHITE);
-
+		myAtkFr[square] = getPawnAttacks(square, WHITE);
 		currentBB = currentBB ^ ( 0 | 1LL << square);
 	}
 
@@ -566,17 +450,15 @@ void Board::updateAtkFr()
 	while(currentBB)
 	{
 		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getPawnAttackedDestinations(square, BLACK);
-
+		myAtkFr[square] = getPawnAttacks(square, BLACK);
 		currentBB = currentBB ^ ( 0 | 1LL << square);
 	}
 
-	currentBB = getAllKnights();
+	currentBB = getWhiteKnights();
 	while(currentBB)
 	{
 		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getKnightAttackedDestinations(square);
-
+		myAtkFr[square] = getKnightAttacks(square,WHITE);
 		currentBB = currentBB ^ ( 0 | 1LL << square);
 	}
 
