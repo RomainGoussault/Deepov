@@ -133,40 +133,43 @@ Piece::PieceType Board::findWhitePieceType(const Square position) const
 	}
 }
 
-U64 Board::getAttacksFromSq(const Square square) const
-{
-	//TODO Implement the commented functions
-	if (myBitboards[0]&(1LL << square))
-	{
-		//return getPawnDestinations(square, color);
-	}
-	else if (myBitboards[1]&(1LL << square))
-	{
-		return getKnightAttackedDestinations(square);
-	}
-	else if (myBitboards[2]&(1LL << square))
-	{
-		//return getBishopDestinations(square, color);
-	}
-	else if (myBitboards[3]&(1LL << square))
-	{
-		//return getRookDestinations(square, color);
-	}
-	else if (myBitboards[4]&(1LL << square))
-	{
-		//return getQueenDestinations(square, color);
-	}
-	else if (myBitboards[5]&(1LL << square))
-	{
-		//return getKingDestinations(square);
-	}
-	else
-	{
-		return 0LL;
-	}
 
-	return 0LL;
-}
+/* Commented until proven useful */
+
+//U64 Board::getAttacksFromSq(const Square square) const
+//{
+//	//TODO Implement the commented functions
+//	if (myBitboards[0]&(1LL << square))
+//	{
+//		//return getPawnDestinations(square, color);
+//	}
+//	else if (myBitboards[1]&(1LL << square))
+//	{
+//		return getKnightAttackedDestinations(square);
+//	}
+//	else if (myBitboards[2]&(1LL << square))
+//	{
+//		//return getBishopDestinations(square, color);
+//	}
+//	else if (myBitboards[3]&(1LL << square))
+//	{
+//		//return getRookDestinations(square, color);
+//	}
+//	else if (myBitboards[4]&(1LL << square))
+//	{
+//		//return getQueenDestinations(square, color);
+//	}
+//	else if (myBitboards[5]&(1LL << square))
+//	{
+//		//return getKingDestinations(square);
+//	}
+//	else
+//	{
+//		return 0LL;
+//	}
+//
+//	return 0LL;
+//}
 
 /**
  * This method returns an unsigned int between 0 and 5 representing the type
@@ -437,66 +440,57 @@ void Board::updateConvenienceBitboards()
 void Board::updateAtkFr()
 {
 	std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
+	U64 currentBB(0);
 
-    for
-	U64 currentBB = getWhitePawns();
-	while(currentBB)
-	{
-		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getPawnAttacks(square, WHITE);
-		currentBB = currentBB ^ ( 0 | 1LL << square);
-	}
+    for (int i = WHITE; i<COLOR_NB; i++)
+    {
+        currentBB = getBitBoard(Piece::PAWN,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            myAtkFr[square] = getPawnAttacks(square, static_cast<Color>(i));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
 
-	currentBB = getBlackPawns();
-	while(currentBB)
-	{
-		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getPawnAttacks(square, BLACK);
-		currentBB = currentBB ^ ( 0 | 1LL << square);
-	}
+        currentBB = getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            myAtkFr[square] = getKnightAttacks(square,static_cast<Color>(i));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
 
-	currentBB = getWhiteKnights();
-	while(currentBB)
-	{
-		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getKnightAttacks(square,WHITE);
-		currentBB = currentBB ^ ( 0 | 1LL << square);
-	}
+        currentBB = getBitBoard(Piece::BISHOP,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            myAtkFr[square] = getBishopAttacks(square,static_cast<Color>(i));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
 
-	currentBB = getAllBishops();
-	while(currentBB)
-	{
-		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getBishopAttackedDestinations(square);
+        currentBB = getBitBoard(Piece::ROOK,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            myAtkFr[square] = getRookAttacks(square,static_cast<Color>(i));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
 
-		currentBB = currentBB ^ ( 0 | 1LL << square);
-	}
+        currentBB = getBitBoard(Piece::QUEEN,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            myAtkFr[square] = getQueenAttacks(square,static_cast<Color>(i));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
 
-	currentBB = getAllRooks();
-	while(currentBB)
-	{
-		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getRookAttackedDestinations(square);
-
-		currentBB = currentBB ^ ( 0 | 1LL << square);
-	}
-
-	currentBB = getAllQueens();
-	while(currentBB)
-	{
-		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getQueenAttackedDestinations(square);
-
-		currentBB = currentBB ^ ( 0 | 1LL << square);
-	}
-
-	currentBB = getAllKings();
-	while(currentBB)
-	{
-		const Square square = BitBoardUtils::getMsbIndex(currentBB);
-		myAtkFr[square] = getKingAttackedDestinations(square);
-
-		currentBB = currentBB ^ ( 0 | 1LL << square);
+        currentBB = getBitBoard(Piece::KING,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            myAtkFr[square] = getKingAttacks(square,static_cast<Color>(i));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
 	}
 }
 

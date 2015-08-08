@@ -111,7 +111,7 @@ void MoveGen::appendKingPseudoLegalMoves(const Color color, std::vector<Move>& m
 {
 	U64 kingPos = myBoard->getKing(color);
     Square kingIndex = BitBoardUtils::getMsbIndex(kingPos);
-	U64 kingValidDestinations = myBoard->getKingDestinations(kingIndex, color);
+	U64 kingValidDestinations = myBoard->getKingAttacks(kingIndex, color);
 
 	Color ennemyColor = Utils::getOppositeColor(color);
 	U64 kingCaptureDestinations = kingValidDestinations & myBoard->getPieces(ennemyColor);
@@ -242,7 +242,7 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 	while(knightPositions)
 	{
 		const Square knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
-		U64 knightValidDestinations = myBoard->getKnightDestinations(knightIndex, color);
+		U64 knightValidDestinations = myBoard->getKnightAttacks(knightIndex, color);
 		/* compute only the places where the knight can move and attack. The caller
 		will unsigned interpret this as a white or black knight. */
 
