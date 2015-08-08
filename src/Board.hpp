@@ -157,13 +157,6 @@ public:
 
     bool isBitBoardAttacked(U64 bitboard, Color color) const;
 
-    U64 getAttackedPositions(const Color color) const;
-    U64 getKingAttackedPositions(const Color color) const;
-    U64 getQueenAttackedPositions(const Color color) const;
-    U64 getRookAttackedPositions(const Color color) const;
-    U64 getBishopAttackedPositions(const Color color) const;
-    U64 getKnightAttackedPositions(const Color color) const;
-    U64 getPawnAttackedPositions(const Color color) const;
 
 	/* ************* */
     char getChar(const unsigned int file, const unsigned int rank) const;

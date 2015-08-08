@@ -3,7 +3,10 @@
 #define TYPES_HPP_
 
 enum Color {
-	WHITE, BLACK, NO_COLOR, COLOR_NB = 2
+	WHITE = 0,
+	BLACK = 1,
+    NO_COLOR,
+    COLOR_NB = 2
 };
 
 enum Square {

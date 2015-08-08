@@ -438,6 +438,7 @@ void Board::updateAtkFr()
 {
 	std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
 
+    for
 	U64 currentBB = getWhitePawns();
 	while(currentBB)
 	{
