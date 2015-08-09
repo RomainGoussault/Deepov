@@ -230,11 +230,11 @@ bool Board::isCheck(const Color color) const
 }
 
 bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
-   {
+{
    	bool isAttacked = false;
-   	Color ennemyColor = Utils::getOppositeColor(color);
+   	Color enemyColor = Utils::getOppositeColor(color);
 
-   	U64 attackers = getPieces(ennemyColor);
+   	U64 attackers = getPieces(enemyColor);
 
     while(attackers)
    	{
@@ -248,8 +248,39 @@ bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
    	}
 
        return isAttacked;
-   };
+};
 
+bool Board::isSquareAttacked(Square square, Color color) const
+{
+    Color enemyColor = Utils::getOppositeColor(color);
+    if (Tables::PAWN_ATTACK_SPANS[color][square] & getPawns(enemyColor))
+    {
+        return true;
+    }
+    else if (Tables::ATTACK_TABLE[Piece::KNIGHT][square] & getKnights(enemyColor))
+    {
+        return true;
+    }
+    else if (Tables::ATTACK_TABLE[Piece::KING][square] & getPawns(enemyColor))
+    {
+        return true;
+    }
+
+    U64 potentialAttackers = MagicMoves::Bmagic(square, getAllPieces());
+    if (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)))
+    {
+        return true;
+    }
+
+    potentialAttackers = MagicMoves::Rmagic(square, getAllPieces());
+    if (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)))
+    {
+        return true;
+    }
+
+    return false;
+
+}
 
 void Board::executeMove(Move &move)
 {
