@@ -23,7 +23,7 @@
 #include "Utils.hpp"
 #include "Uci.hpp"
 
-//#define PERFORMANCE_TEST
+#define PERFORMANCE_TEST
 
 
 

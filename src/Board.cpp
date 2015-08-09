@@ -66,7 +66,7 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr
 		myHalfMovesCounter = 0;
 	}
 
-	updateAtkFr();
+	//updateAtkFr();
 }
 
 Piece::PieceType Board::findBlackPieceType(const Square position) const
@@ -226,7 +226,8 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 bool Board::isCheck(const Color color) const
 {
 	U64 kingPosition = getKing(color);
-	return isBitBoardAttacked(kingPosition, color);
+	Square kingSquare = BitBoardUtils::getMsbIndex(kingPosition);
+	return isSquareAttacked(kingSquare, color);
 }
 
 bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
@@ -253,7 +254,7 @@ bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
 bool Board::isSquareAttacked(Square square, Color color) const
 {
     Color enemyColor = Utils::getOppositeColor(color);
-    if (Tables::PAWN_ATTACK_SPANS[color][square] & getPawns(enemyColor))
+    if (Tables::PAWN_ATTACK_TABLE[color][square] & getPawns(enemyColor))
     {
         return true;
     }
@@ -261,7 +262,7 @@ bool Board::isSquareAttacked(Square square, Color color) const
     {
         return true;
     }
-    else if (Tables::ATTACK_TABLE[Piece::KING][square] & getPawns(enemyColor))
+    else if (Tables::ATTACK_TABLE[Piece::KING][square] & getKing(enemyColor))
     {
         return true;
     }
@@ -358,7 +359,7 @@ void Board::executeMove(Move &move)
 	myColorToPlay = oppositeColor;
 
 	updateConvenienceBitboards();
-	updateAtkFr();
+	//updateAtkFr();
 }
 
 void Board::undoMove(Move &move)
@@ -441,7 +442,7 @@ void Board::undoMove(Move &move)
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
 
 	updateConvenienceBitboards();
-	updateAtkFr();
+	//updateAtkFr();
 }
 
 void Board::updateConvenienceBitboards()

@@ -278,8 +278,7 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 		U64 twoSteps = ((firstStep & Tables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces();
 
 		/* next we calculate the pawn attacks */
-		U64 attacks = myBoard->getAtkFr(pawnIndex);
-		U64 validAttacks = attacks & myBoard->getBlackPieces();
+		U64 validAttacks = Tables::PAWN_ATTACK_TABLE[WHITE][pawnIndex] & myBoard->getBlackPieces();
 
 		/* then we combine the two situations in which a white pawn can legally
 		attack/move. */
@@ -313,8 +312,7 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 		U64 twoSteps = ((firstStep & Tables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces();
 
 		/* next we calculate the pawn attacks */
-		U64 attacks = myBoard->getAtkFr(pawnIndex);
-		U64 validAttacks = attacks & myBoard->getWhitePieces();
+		U64 validAttacks = Tables::PAWN_ATTACK_TABLE[BLACK][pawnIndex] & myBoard->getWhitePieces();
 
 		/* then we combine the two situations in which a white pawn can legally
 		attack/move. */
@@ -445,13 +443,19 @@ bool MoveGen::isQueenSideCastlingPossible(const Color color) const
 
 	if(!iQSCP) return false;
 
-	//check if positions between the rook and the king are not attacked
-	const U64 bitBoardNotTobeAttacked = color == WHITE ? 28 : 2017612633061982208LL;
-	iQSCP &= !myBoard->isBitBoardAttacked(bitBoardNotTobeAttacked, color);
-
-	//check if positions between the rook and the king are free
+    //check if positions between the rook and the king are free
 	const U64 bitBoardToBeFree = color == WHITE ? 14 : 1008806316530991104LL;
 	iQSCP &= !(bitBoardToBeFree & myBoard->getAllPieces());
+
+	//check if positions between the rook and the king are not attacked
+	Square squareNotTobeAttacked = color == WHITE ? SQ_E1 : SQ_E8;
+	iQSCP &= !myBoard->isSquareAttacked(squareNotTobeAttacked, color);
+
+	squareNotTobeAttacked = color == WHITE ? SQ_D1 : SQ_D8;
+	iQSCP &= !myBoard->isSquareAttacked(squareNotTobeAttacked, color);
+
+	squareNotTobeAttacked = color == WHITE ? SQ_C1 : SQ_C8;
+	iQSCP &= !myBoard->isSquareAttacked(squareNotTobeAttacked, color);
 
 	return iQSCP;
 }
@@ -463,13 +467,19 @@ bool MoveGen::isKingSideCastlingPossible(const Color color) const
 
 	if(!iKSCP) return false;
 
-	//check if positions between the rook and the king are not attacked
-	const U64 bitBoardNotTobeAttacked = color == WHITE ? 112 : 8070450532247928832LL;
-	iKSCP &= !myBoard->isBitBoardAttacked(bitBoardNotTobeAttacked, color);
-
 	//check if positions between the rook and the king are free
 	const U64 bitBoardToBeFree = color == WHITE ? 96 : 6917529027641081856LL;
 	iKSCP &= !(bitBoardToBeFree & myBoard->getAllPieces());
+
+    //check if positions between the rook and the king are not attacked
+	Square squareNotTobeAttacked = color == WHITE ? SQ_E1 : SQ_E8;
+	iKSCP &= !myBoard->isSquareAttacked(squareNotTobeAttacked, color);
+
+	squareNotTobeAttacked = color == WHITE ? SQ_F1 : SQ_F8;
+	iKSCP &= !myBoard->isSquareAttacked(squareNotTobeAttacked, color);
+
+	squareNotTobeAttacked = color == WHITE ? SQ_G1 : SQ_G8;
+	iKSCP &= !myBoard->isSquareAttacked(squareNotTobeAttacked, color);
 
 	return iKSCP;
 }

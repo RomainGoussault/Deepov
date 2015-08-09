@@ -157,7 +157,7 @@ public:
 
     /* I keep both functions to compare their performance */
     bool isBitBoardAttacked(U64 bitboard, Color color) const;
-    bool isSquareAttacked(Square square, Color color) const;
+    bool isSquareAttacked(Square square, Color color) const; // is square attacked by the opposite color of "Color color"
 
 
 	/* ************* */
