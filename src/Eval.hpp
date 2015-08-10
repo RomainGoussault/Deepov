@@ -19,10 +19,13 @@ public:
     void updateEvalAttributes(const Move &move);
     void rewindEvalAttributes(const Move &move);
 
+    /* Functions that calculate eval parameters */
+    int calcMobilityScore(const int64_t alpha) const; // alpha is TOTAL_MATERIAL-myGameStage
+
     /* These functions are mainly for tests */
     inline int getOpeningPSQValue() const {return myOpeningPSQValue;};
     inline int getEndgamePSQValue()const {return myEndgamePSQValue;};
-    inline int getGameStage() const {return myGameStage;};
+    inline int64_t getGameStage() const {return myGameStage;};
 	inline int getPawnScore() const {return myPawnScore;};
 	inline int getMaterialScore() const {return myMaterialScore;};
 
@@ -32,7 +35,7 @@ public:
 private:
 
     std::shared_ptr<Board> myBoard;
-    int myGameStage; // Total material for both sides
+    int64_t myGameStage; // Total material for both sides
     int myOpeningPSQValue; // Updated after each move in evaluate
     int myEndgamePSQValue;
     int myMaterialScore;
@@ -42,7 +45,6 @@ private:
 
     int getWhitePiecesValue() const;
     int getBlackPiecesValue() const;
-    int getMobilityScore() const;
     inline int initPawnScore(){return Pawn::initScore(*myBoard);}; // Calculated with namespace Pawn methods, used in init()
     static int pieceTypeToValue(int type);
 

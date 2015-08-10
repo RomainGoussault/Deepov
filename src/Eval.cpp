@@ -18,7 +18,10 @@ int Eval::evaluate()
 	int64_t diff = openingValue + endGameValue;
 	int positionScore =  diff/TOTAL_MATERIAL;
 
-	return myMaterialScore + positionScore + myPawnScore;
+    myBoard->updateAtkFr();
+	int mobilityScore = calcMobilityScore(alpha);
+
+	return myMaterialScore + positionScore + myPawnScore + mobilityScore;
 }
 
 void Eval::init()
@@ -157,9 +160,78 @@ void Eval::init()
     myPawnScore = initPawnScore();
 }
 
-int Eval::getMobilityScore() const
+int Eval::calcMobilityScore(const int64_t alpha) const
 {
-    return 0; // Need a way to efficiently get attacking squares => look at Board::getAttackedPositions()
+    int64_t score(0);
+    U64 currentBB(0LL);
+    int pieceMobility(0);
+
+    for (int i = WHITE; i<COLOR_NB; i++)
+    {
+        // PAWN : not implemented for now.
+
+        // KNIGHT
+        currentBB = myBoard->getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square)); // Sums attacking squares
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
+
+        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
+        EvalTables::MobilityScaling[ENDGAME][Piece::KNIGHT]*alpha)*(-2*i + 1); // Scaling for game stage and color
+
+        // BISHOP
+        pieceMobility = 0 ; // Re-initialize tmp variable
+        currentBB = myBoard->getBitBoard(Piece::BISHOP,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
+
+        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
+        EvalTables::MobilityScaling[ENDGAME][Piece::BISHOP]*alpha)*(-2*i + 1); // Scaling for game stage and color
+
+        // ROOK
+        pieceMobility = 0 ; // Re-initialize tmp variable
+        currentBB = myBoard->getBitBoard(Piece::ROOK,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
+
+        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
+        EvalTables::MobilityScaling[ENDGAME][Piece::ROOK]*alpha)*(-2*i + 1); // Scaling for game stage and color
+
+        // QUEEN
+        pieceMobility = 0 ; // Re-initialize tmp variable
+        currentBB = myBoard->getBitBoard(Piece::QUEEN,static_cast<Color>(i));
+        while(currentBB)
+        {
+            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
+            currentBB = currentBB ^ ( 0 | 1LL << square);
+        }
+
+        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
+        EvalTables::MobilityScaling[ENDGAME][Piece::QUEEN]*alpha)*(-2*i + 1); // Scaling for game stage and color
+
+        // KING : while loop unnecessary
+        pieceMobility = 0 ; // Re-initialize tmp variable
+        currentBB = myBoard->getBitBoard(Piece::KING,static_cast<Color>(i));
+        const Square square = BitBoardUtils::getMsbIndex(currentBB);
+        pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
+
+        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
+        EvalTables::MobilityScaling[ENDGAME][Piece::KING]*alpha)*(-2*i + 1); // Scaling for game stage and color
+
+	}
+    return score/TOTAL_MATERIAL;
 }
 
 int Eval::getWhitePiecesValue() const

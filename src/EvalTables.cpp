@@ -328,21 +328,10 @@ namespace EvalTables
 
 
     const int MobilityScaling[2][6] = {
-
-    { //Start OPENING
-    // PAWN
-    {0,2}
-    // KNIGHT
-    {4,2}
-    // BISHOP
-    {3,2}
-    // ROOK
-    {1,2}
-    // QUEEN
-    {1,2}
-    // KING
-    {1,2}
-
+    { // Start OPENING
+    0,3,2,0,0,0},
+    { // Start ENDGAME
+    2,1,1,1,1,1}
     };
 
 
