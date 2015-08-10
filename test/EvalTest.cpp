@@ -85,3 +85,34 @@ TEST_CASE( "Test the update of evaluation for promotion moves", "[Eval]")
     changedValue = Pawn::PASSED_PAWN_BONUS + Pawn::DOUBLED_PAWN_PENALTY;
     REQUIRE(eval.getPawnScore() == pawnScore + changedValue);
 }
+
+
+TEST_CASE( "Test the mobility calculation", "[Eval]")
+{
+    Tables::init();
+    std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
+    Eval eval(sp);
+    int mobilityScore = eval.calcMobilityScore(0LL);
+    REQUIRE(mobilityScore == 0);
+
+    Move e2e4(static_cast<Square>(12),static_cast<Square>(28),0,Piece::PAWN);
+    sp->executeMove(e2e4);
+    // val.updateEvalAttributes(e2e4) not needed
+    sp->updateAtkFr();
+
+    REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_F1)) == 5); // Verify the attacked squares
+    REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_D1)) == 4);
+
+    int64_t gameStage = eval.getGameStage();
+
+    mobilityScore = eval.calcMobilityScore(0LL);
+    int score(0);
+    score += EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*gameStage; //+1 square for knight
+    score += 5*EvalTables::MobilityScaling[OPENING][Piece::BISHOP]*gameStage; // +5 squares for bishop
+    score += 4*EvalTables::MobilityScaling[OPENING][Piece::QUEEN]*gameStage; // +4 squares for queen
+
+    score  = score / Eval::TOTAL_MATERIAL;
+    REQUIRE(mobilityScore == score);
+
+
+}

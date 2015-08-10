@@ -19,9 +19,9 @@ int Eval::evaluate()
 	int positionScore =  diff/TOTAL_MATERIAL;
 
     myBoard->updateAtkFr();
-	int mobilityScore = calcMobilityScore(alpha);
+	//int mobilityScore = calcMobilityScore(alpha);
 
-	return myMaterialScore + positionScore + myPawnScore + mobilityScore;
+	return myMaterialScore + positionScore + myPawnScore; // + mobilityScore;
 }
 
 void Eval::init()
@@ -165,16 +165,18 @@ int Eval::calcMobilityScore(const int64_t alpha) const
     int64_t score(0);
     U64 currentBB(0LL);
     int pieceMobility(0);
+    Square square;
 
-    for (int i = WHITE; i<COLOR_NB; i++)
+    for (int i = 0; i<COLOR_NB; i++)
     {
         // PAWN : not implemented for now.
 
         // KNIGHT
+        pieceMobility = 0 ; // Re-initialize tmp variable
         currentBB = myBoard->getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            square = BitBoardUtils::getMsbIndex(currentBB);
             pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square)); // Sums attacking squares
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -187,12 +189,12 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::BISHOP,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            square = BitBoardUtils::getMsbIndex(currentBB);
             pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
-        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
+        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::BISHOP]*myGameStage +
         EvalTables::MobilityScaling[ENDGAME][Piece::BISHOP]*alpha)*(-2*i + 1); // Scaling for game stage and color
 
         // ROOK
@@ -200,12 +202,12 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::ROOK,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            square = BitBoardUtils::getMsbIndex(currentBB);
             pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
-        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
+        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::ROOK]*myGameStage +
         EvalTables::MobilityScaling[ENDGAME][Piece::ROOK]*alpha)*(-2*i + 1); // Scaling for game stage and color
 
         // QUEEN
@@ -213,24 +215,16 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::QUEEN,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            square = BitBoardUtils::getMsbIndex(currentBB);
             pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
-        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
+        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::QUEEN]*myGameStage +
         EvalTables::MobilityScaling[ENDGAME][Piece::QUEEN]*alpha)*(-2*i + 1); // Scaling for game stage and color
 
-        // KING : while loop unnecessary
-        pieceMobility = 0 ; // Re-initialize tmp variable
-        currentBB = myBoard->getBitBoard(Piece::KING,static_cast<Color>(i));
-        const Square square = BitBoardUtils::getMsbIndex(currentBB);
-        pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
-
-        score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
-        EvalTables::MobilityScaling[ENDGAME][Piece::KING]*alpha)*(-2*i + 1); // Scaling for game stage and color
-
 	}
+
     return score/TOTAL_MATERIAL;
 }
 
