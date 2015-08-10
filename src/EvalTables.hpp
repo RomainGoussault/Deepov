@@ -3,6 +3,8 @@
 
 namespace EvalTables
 {
+    /* Piece square tables */
+
     // All constants are for white, need to flip to get the little-endian ...
 
     /*
@@ -15,6 +17,9 @@ namespace EvalTables
     */
 
     extern const int AllPSQT[2][2][6][64];
+
+    /* Mobility tables */
+    extern const int MobilityScaling[2][6];
 }
 
 #endif // EVALTABLES_H_INCLUDED

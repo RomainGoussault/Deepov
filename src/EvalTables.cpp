@@ -327,5 +327,24 @@ namespace EvalTables
     };
 
 
+    const int MobilityScaling[2][6] = {
+
+    { //Start OPENING
+    // PAWN
+    {0,2}
+    // KNIGHT
+    {4,2}
+    // BISHOP
+    {3,2}
+    // ROOK
+    {1,2}
+    // QUEEN
+    {1,2}
+    // KING
+    {1,2}
+
+    };
+
+
 }
 
