@@ -266,15 +266,20 @@ void Eval::updateEvalAttributes(const Move &move)
                         -EvalTables::AllPSQT[color][1][pieceType][origin]);
     if (move.isCapture())
     {
-        int pieceValue = pieceTypeToValue(move.getCapturedPieceType());
+        int capturedPieceType = move.getCapturedPieceType();
+        int pieceValue = pieceTypeToValue(capturedPieceType);
         myGameStage -= pieceValue;
         myMaterialScore +=  (-2*color + 1)*pieceValue;
+        myOpeningPSQValue += (-2*color + 1)*EvalTables::AllPSQT[color][0][capturedPieceType][destination];
+        myEndgamePSQValue += (-2*color + 1)*EvalTables::AllPSQT[color][1][capturedPieceType][destination];
     }
 
     if (move.isPromotion())
     {
         int promotedPieceType = move.getPromotedPieceType();
         myMaterialScore += (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
+        myOpeningPSQValue += (-2*color + 1)*EvalTables::AllPSQT[color][0][promotedPieceType][destination];
+        myEndgamePSQValue += (-2*color + 1)*EvalTables::AllPSQT[color][1][promotedPieceType][destination];
     }
 }
 
@@ -293,15 +298,20 @@ void Eval::rewindEvalAttributes(const Move &move)
                         -EvalTables::AllPSQT[color][1][pieceType][origin]);
     if (move.isCapture())
     {
-        int pieceValue = pieceTypeToValue(move.getCapturedPieceType());
+        int capturedPieceType = move.getCapturedPieceType();
+        int pieceValue = pieceTypeToValue(capturedPieceType);
         myGameStage += pieceValue;
         myMaterialScore -=  (-2*color + 1)*pieceValue;
+        myOpeningPSQValue -= (-2*color + 1)*EvalTables::AllPSQT[color][0][capturedPieceType][destination];
+        myEndgamePSQValue -= (-2*color + 1)*EvalTables::AllPSQT[color][1][capturedPieceType][destination];
     }
 
     if (move.isPromotion())
     {
         int promotedPieceType = move.getPromotedPieceType();
         myMaterialScore -= (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
+        myOpeningPSQValue -= (-2*color + 1)*EvalTables::AllPSQT[color][0][promotedPieceType][destination];
+        myEndgamePSQValue -= (-2*color + 1)*EvalTables::AllPSQT[color][1][promotedPieceType][destination];
     }
 }
 
