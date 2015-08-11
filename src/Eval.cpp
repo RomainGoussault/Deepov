@@ -19,9 +19,9 @@ int Eval::evaluate()
 	int positionScore =  diff/TOTAL_MATERIAL;
 
     myBoard->updateAtkFr();
-	//int mobilityScore = calcMobilityScore(alpha);
+	int mobilityScore = calcMobilityScore(alpha);
 
-	return myMaterialScore + positionScore + myPawnScore; // + mobilityScore;
+	return myMaterialScore + positionScore + myPawnScore + mobilityScore;
 }
 
 void Eval::init()

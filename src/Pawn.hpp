@@ -17,16 +17,14 @@ namespace Pawn
 
     }
 
-	const static unsigned int DOUBLED_PAWN_PENALTY = -20;
-	const static unsigned int ISOLATED_PAWN_PENALTY = -10;
-	const static unsigned int PASSED_PAWN_BONUS = 15;
-
 	/** Score calculation **/
-	unsigned int initScore(const Board &board);
-	unsigned int initDoubledPawns(const Board &board);
-	unsigned int initPassedPawns(const Board &board); // TODO : take are of doubled passed pawns
+	unsigned int pawnScore(const Board &board, const int64_t gameStage, const int64_t alpha);
+
+	/** Count Pawns of each status **/
+	unsigned int doubledPawns(const Board &board);
+	unsigned int passedPawns(const Board &board); // TODO : take are of doubled passed pawns
 	// TODO : calculate set-wise instead of pawn by pawn
-	unsigned int initIsolatedPawns(const Board &board);
+	unsigned int isolatedPawns(const Board &board);
 
 	/** Utils **/
     inline unsigned int countPawnsInFile(const Board &board, const unsigned int file, const Color color)

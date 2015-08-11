@@ -3,12 +3,17 @@
 
 #include "Pawn.hpp"
 
-unsigned int Pawn::initScore(const Board &board)
+unsigned int Pawn::pawnScore(const Board &board, const int64_t gameStage, const int64_t alpha)
 {
-	return initDoubledPawns(board)+initPassedPawns(board)+initIsolatedPawns(board);
+    unsigned int doubled = doubledPawns(board);
+    unsigned int passed = passedPawns(board);
+    unsigned int isolated = isolatedPawns(board);
+	return passed*(PawnTable[OPENING][0]*gameStage+PawnTable[ENDGAME][0]*alpha) +
+	doubled*(PawnTable[OPENING][1]*gameStage+PawnTable[ENDGAME][1]*alpha) +
+	isolated*((PawnTable[OPENING][2]*gameStage+PawnTable[ENDGAME][2]*alpha));
 }
 
-unsigned int Pawn::initDoubledPawns(const Board &board)
+unsigned int Pawn::doubledPawns(const Board &board)
 {
 	unsigned int whiteCount(0);
 	unsigned int blackCount(0);
@@ -20,10 +25,10 @@ unsigned int Pawn::initDoubledPawns(const Board &board)
 		count=countPawnsInFile(board,column,BLACK);
 		blackCount += (count>1)*(count-1);
 	}
-	return (whiteCount-blackCount)*DOUBLED_PAWN_PENALTY;
+	return whiteCount-blackCount;
 }
 
-unsigned int Pawn::initPassedPawns(const Board &board)
+unsigned int Pawn::passedPawns(const Board &board)
 {
     unsigned int whiteCount(0);
 	unsigned int blackCount(0);
@@ -52,10 +57,10 @@ unsigned int Pawn::initPassedPawns(const Board &board)
         blackCount += ((Tables::PASSED_PAWN_MASK[BLACK][positionMsb] & whitePawns) == 0);
     }
 
-	return (whiteCount-blackCount)*PASSED_PAWN_BONUS;
+	return whiteCount-blackCount;
 }
 
-unsigned int Pawn::initIsolatedPawns(const Board &board)
+unsigned int Pawn::isolatedPawns(const Board &board)
 {
     unsigned int whiteCount(0);
 	unsigned int blackCount(0);
@@ -69,7 +74,7 @@ unsigned int Pawn::initIsolatedPawns(const Board &board)
 		blackCount += (count>0)&(!hasNeighbors(board,column,BLACK));
 	}
 
-	return (whiteCount-blackCount)*ISOLATED_PAWN_PENALTY;
+	return whiteCount-blackCount;
 }
 
 
