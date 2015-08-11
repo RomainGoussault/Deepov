@@ -329,9 +329,9 @@ namespace EvalTables
 
     const int MobilityScaling[2][6] = {
     { // Start OPENING
-    0,3,2,0,0,0},
+    0,6,2,0,0,0},
     { // Start ENDGAME
-    2,1,1,1,1,1}
+    2,3,1,1,1,1}
     };
 
 
