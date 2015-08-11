@@ -1,5 +1,4 @@
 #include "Eval.hpp"
-#include "BitBoardUtils.hpp"
 
 Eval::Eval(std::shared_ptr<Board> boardPtr)
 {
@@ -28,7 +27,7 @@ int Eval::evaluate()
 
 void Eval::init()
 {
-    /* These values for the initial position. If i can test that the position is initial, i don't need to calculate
+    /* These values are for the initial position :
     myMaterialScore = 0
     myGameStage = TOTAL_MATERIAL;
     myPSQvalue = 0;  */
@@ -38,7 +37,7 @@ void Eval::init()
 
     // Calculate game stage
     /* Currently it is a simple linear interpolation with material score but this will be upgraded */
-   // int maxValue = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
+   // int TOTAL_MATERIAL = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
     myGameStage = (getWhitePiecesValue() + getBlackPiecesValue() - 2*Piece::KING_VALUE);
 
     // Calculate initial PSQ value

@@ -9,7 +9,7 @@
 TEST_CASE( "is bit Set method" )
 {
 	//whitePawnStartingPosition
-	U64 whitePawns(0 | 0xFF << 8 );
+	U64 whitePawns(0LL | 0xFFLL << 8 );
 
 	REQUIRE(BitBoardUtils::isBitSet(0, 5, 5) == false);
 	REQUIRE(BitBoardUtils::isBitSet(whitePawns, 0, 0) == false);
@@ -32,7 +32,7 @@ TEST_CASE( "AtkFr" )
 
 	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     sp->updateAtkFr();
-	REQUIRE(sp->getAtkFr(SQ_C5) == 0);
+	REQUIRE(sp->getAtkFr(SQ_C5) == 0LL);
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_B1)) == 2);//Knight
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_C1)) == 0);//Bishop
 	REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_A1)) == 0);//Rook
