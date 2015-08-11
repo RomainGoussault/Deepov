@@ -8,9 +8,9 @@ unsigned int Pawn::pawnScore(const Board &board, const int64_t gameStage, const 
     unsigned int doubled = doubledPawns(board);
     unsigned int passed = passedPawns(board);
     unsigned int isolated = isolatedPawns(board);
-	return (passed*(EvalTables::PawnTable[OPENING][0]*gameStage + EvalTables::PawnTable[ENDGAME][0]*alpha) +
-	doubled*(EvalTables::PawnTable[OPENING][1]*gameStage + EvalTables::PawnTable[ENDGAME][1]*alpha) +
-	isolated*(EvalTables::PawnTable[OPENING][2]*gameStage + EvalTables::PawnTable[ENDGAME][2]*alpha))
+	return (passed*(EvalTables::PawnTable[OPENING][PASSED]*gameStage + EvalTables::PawnTable[ENDGAME][PASSED]*alpha) +
+	doubled*(EvalTables::PawnTable[OPENING][DOUBLED]*gameStage + EvalTables::PawnTable[ENDGAME][DOUBLED]*alpha) +
+	isolated*(EvalTables::PawnTable[OPENING][ISOLATED]*gameStage + EvalTables::PawnTable[ENDGAME][ISOLATED]*alpha))
 	/Eval::TOTAL_MATERIAL;
 }
 

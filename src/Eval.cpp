@@ -21,7 +21,9 @@ int Eval::evaluate()
     myBoard->updateAtkFr();
 	int mobilityScore = calcMobilityScore(alpha);
 
-	return myMaterialScore + positionScore + mobilityScore;
+	int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
+
+	return myMaterialScore + positionScore + mobilityScore + pawnScore ;
 }
 
 void Eval::init()

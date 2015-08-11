@@ -11,6 +11,7 @@ TEST_CASE("Pawn structure")
         Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         REQUIRE(Pawn::doubledPawns(board) == 0);
         REQUIRE(Pawn::countPawns(board,WHITE) == 8);
+        REQUIRE(Pawn::pawnScore(board,Eval::TOTAL_MATERIAL,0) == 0);
     }
 
 	SECTION("Doubled Pawns")

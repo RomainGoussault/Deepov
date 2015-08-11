@@ -6,6 +6,7 @@
 #include "Types.hpp"
 #include "BitBoardUtils.hpp"
 #include "EvalTables.hpp"
+#include "Eval.hpp"
 
 namespace Pawn
 {
