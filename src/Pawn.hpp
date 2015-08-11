@@ -19,7 +19,7 @@ namespace Pawn
     };
 
 	/** Score calculation **/
-	unsigned int pawnScore(const Board &board, const int gameStage, const int alpha);
+	int pawnScore(const Board &board, const int gameStage, const int alpha);
 
 	/** Count Pawns of each status **/
 	unsigned int doubledPawns(const Board &board);

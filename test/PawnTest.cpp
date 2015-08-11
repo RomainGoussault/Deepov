@@ -21,6 +21,14 @@ TEST_CASE("Pawn structure")
         REQUIRE(Pawn::countPawnsInFile(board,3,BLACK) == 1);
         REQUIRE(Pawn::countPawnsInFile(board,7,BLACK) == 0);
         REQUIRE(Pawn::countPawns(board,BLACK) == 8);
+
+        int gameStage = Eval::TOTAL_MATERIAL;
+        int alpha = 0;
+        int pawnScore = Pawn::pawnScore(board,gameStage,alpha);
+        int oneBlackDoubledPawn = -(EvalTables::PawnTable[OPENING][Pawn::DOUBLED]*gameStage +
+        EvalTables::PawnTable[ENDGAME][Pawn::DOUBLED]*alpha)/Eval::TOTAL_MATERIAL;
+
+        REQUIRE(pawnScore == oneBlackDoubledPawn);
     }
 
     SECTION("Isolated/Passed Pawns")
