@@ -21,7 +21,7 @@ int Eval::evaluate()
     myBoard->updateAtkFr();
 	int mobilityScore = calcMobilityScore(alpha);
 
-	return myMaterialScore + positionScore + myPawnScore + mobilityScore;
+	return myMaterialScore + positionScore + mobilityScore;
 }
 
 void Eval::init()
@@ -156,8 +156,6 @@ void Eval::init()
     myOpeningPSQValue = whiteOpeningValue - blackOpeningValue;
     myEndgamePSQValue = whiteEndgameValue - blackEndgameValue;
 
-    // Init Pawn structure score
-    myPawnScore = initPawnScore();
 }
 
 int Eval::calcMobilityScore(const int64_t alpha) const
@@ -277,11 +275,6 @@ void Eval::updateEvalAttributes(const Move &move)
         int promotedPieceType = move.getPromotedPieceType();
         myMaterialScore += (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
     }
-
-    if (pieceType == Piece::PAWN || move.getCapturedPieceType() == Piece::PAWN)
-    {
-        myPawnScore = Pawn::initScore(*myBoard);
-    }
 }
 
 void Eval::rewindEvalAttributes(const Move &move)
@@ -308,11 +301,6 @@ void Eval::rewindEvalAttributes(const Move &move)
     {
         int promotedPieceType = move.getPromotedPieceType();
         myMaterialScore -= (-2*color + 1)*(pieceTypeToValue(promotedPieceType)-Piece::PAWN_VALUE);
-    }
-
-    if (pieceType == Piece::PAWN || move.getCapturedPieceType() == Piece::PAWN)
-    {
-        myPawnScore = Pawn::initScore(*myBoard);
     }
 }
 

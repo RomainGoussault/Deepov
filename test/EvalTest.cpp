@@ -73,17 +73,12 @@ TEST_CASE( "Test the update of evaluation for promotion moves", "[Eval]")
     promotion.setCapturedPieceType(Piece::ROOK);
 
     int materialScore = eval.getMaterialScore();
-    int pawnScore = eval.getPawnScore();
-
-    REQUIRE(pawnScore == Pawn::ISOLATED_PAWN_PENALTY - Pawn::DOUBLED_PAWN_PENALTY - Pawn::PASSED_PAWN_BONUS);
 
     sp->executeMove(promotion);
     eval.updateEvalAttributes(promotion);
 
     int changedValue = - Piece::ROOK_VALUE - Piece::QUEEN_VALUE + Piece::PAWN_VALUE;
     REQUIRE(eval.getMaterialScore() == materialScore + changedValue);
-    changedValue = Pawn::PASSED_PAWN_BONUS + Pawn::DOUBLED_PAWN_PENALTY;
-    REQUIRE(eval.getPawnScore() == pawnScore + changedValue);
 }
 
 

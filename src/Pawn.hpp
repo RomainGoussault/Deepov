@@ -5,6 +5,7 @@
 #include "Board.hpp"
 #include "Types.hpp"
 #include "BitBoardUtils.hpp"
+#include "EvalTables.hpp"
 
 namespace Pawn
 {
@@ -14,8 +15,7 @@ namespace Pawn
         PASSED = 0,
         DOUBLED = 1,
         ISOLATED = 2
-
-    }
+    };
 
 	/** Score calculation **/
 	unsigned int pawnScore(const Board &board, const int64_t gameStage, const int64_t alpha);

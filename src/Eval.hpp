@@ -26,7 +26,6 @@ public:
     inline int getOpeningPSQValue() const {return myOpeningPSQValue;};
     inline int getEndgamePSQValue()const {return myEndgamePSQValue;};
     inline int64_t getGameStage() const {return myGameStage;};
-	inline int getPawnScore() const {return myPawnScore;};
 	inline int getMaterialScore() const {return myMaterialScore;};
 
     /* Move ordering */
@@ -39,13 +38,11 @@ private:
     int myOpeningPSQValue; // Updated after each move in evaluate
     int myEndgamePSQValue;
     int myMaterialScore;
-	int myPawnScore; // Updated in Pawn namespace
 
     void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
 
     int getWhitePiecesValue() const;
     int getBlackPiecesValue() const;
-    inline int initPawnScore(){return Pawn::initScore(*myBoard);}; // Calculated with namespace Pawn methods, used in init()
     static int pieceTypeToValue(int type);
 
 };
