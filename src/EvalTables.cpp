@@ -334,6 +334,11 @@ namespace EvalTables
     2,3,1,1,1,1}
     };
 
-
+    const int PawnTable[2][3] = {
+    { // Start OPENING
+    30,-30,-30},
+    { // Start ENDGAME
+    200,-100,-40}
+    };
 }
 

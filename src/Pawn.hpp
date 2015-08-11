@@ -8,6 +8,15 @@
 
 namespace Pawn
 {
+
+    enum Status
+    {
+        PASSED = 0,
+        DOUBLED = 1,
+        ISOLATED = 2
+
+    }
+
 	const static unsigned int DOUBLED_PAWN_PENALTY = -20;
 	const static unsigned int ISOLATED_PAWN_PENALTY = -10;
 	const static unsigned int PASSED_PAWN_BONUS = 15;

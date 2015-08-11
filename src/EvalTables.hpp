@@ -20,6 +20,9 @@ namespace EvalTables
 
     /* Mobility tables */
     extern const int MobilityScaling[2][6];
+
+    /* Pawn tables */
+    extern const int PawnTable[2][3]; // 0 = passed, 1 = doubled, 2 = isolated
 }
 
 #endif // EVALTABLES_H_INCLUDED
