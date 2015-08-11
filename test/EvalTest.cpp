@@ -109,5 +109,4 @@ TEST_CASE( "Test the mobility calculation", "[Eval]")
     score  = score / Eval::TOTAL_MATERIAL;
     REQUIRE(mobilityScore == score);
 
-
 }
