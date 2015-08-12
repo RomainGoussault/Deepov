@@ -256,7 +256,8 @@ void Eval::updateEvalAttributes(const Move &move)
     int origin = move.getOrigin();
     int destination = move.getDestination();
     int pieceType = move.getPieceType();
-    Color color = Utils::getOppositeColor(myBoard->getColorToPlay());
+    Color nextToPlay = myBoard->getColorToPlay();
+    Color color = Utils::getOppositeColor(nextToPlay);
 
     myOpeningPSQValue += (-2*color + 1)*
                         (EvalTables::AllPSQT[color][0][pieceType][destination]
@@ -270,8 +271,8 @@ void Eval::updateEvalAttributes(const Move &move)
         int pieceValue = pieceTypeToValue(capturedPieceType);
         myGameStage -= pieceValue;
         myMaterialScore +=  (-2*color + 1)*pieceValue;
-        myOpeningPSQValue += (-2*color + 1)*EvalTables::AllPSQT[color][0][capturedPieceType][destination];
-        myEndgamePSQValue += (-2*color + 1)*EvalTables::AllPSQT[color][1][capturedPieceType][destination];
+        myOpeningPSQValue += (-2*color + 1)*EvalTables::AllPSQT[nextToPlay][0][capturedPieceType][destination];
+        myEndgamePSQValue += (-2*color + 1)*EvalTables::AllPSQT[nextToPlay][1][capturedPieceType][destination];
     }
 
     if (move.isPromotion())
@@ -288,7 +289,8 @@ void Eval::rewindEvalAttributes(const Move &move)
     int origin=move.getOrigin();
     int destination=move.getDestination();
     int pieceType=move.getPieceType();
-    int color=myBoard->getColorToPlay();
+    Color color=myBoard->getColorToPlay();
+    Color oppositeColor = Utils::getOppositeColor(color);
 
     myOpeningPSQValue -= (-2*color + 1)*
                         (EvalTables::AllPSQT[color][0][pieceType][destination]
@@ -302,8 +304,8 @@ void Eval::rewindEvalAttributes(const Move &move)
         int pieceValue = pieceTypeToValue(capturedPieceType);
         myGameStage += pieceValue;
         myMaterialScore -=  (-2*color + 1)*pieceValue;
-        myOpeningPSQValue -= (-2*color + 1)*EvalTables::AllPSQT[color][0][capturedPieceType][destination];
-        myEndgamePSQValue -= (-2*color + 1)*EvalTables::AllPSQT[color][1][capturedPieceType][destination];
+        myOpeningPSQValue -= (-2*color + 1)*EvalTables::AllPSQT[oppositeColor][0][capturedPieceType][destination];
+        myEndgamePSQValue -= (-2*color + 1)*EvalTables::AllPSQT[oppositeColor][1][capturedPieceType][destination];
     }
 
     if (move.isPromotion())
