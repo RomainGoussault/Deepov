@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="resource-type" content="document"/>
+<link rel="stylesheet" href="man-style.css" type="text/css" media="all"/>
+<title>
+CUTECHESS-CLI(6)</title>
+</head>
+<body>
+<div class="mandoc">
+<table summary="Document Header" class="head" width="100%">
+<col width="30%"/>
+<col width="30%"/>
+<col width="30%"/>
+<tbody>
+<tr>
+<td class="head-ltitle">
+CUTECHESS-CLI(6)</td>
+<td class="head-vol" align="center">
+Games Manual</td>
+<td class="head-rtitle" align="right">
+CUTECHESS-CLI(6)</td>
+</tr>
+</tbody>
+</table>
+<div class="section">
+<h1 id="x4e414d45">NAME</h1> <b class="name">cutechess-cli</b> &#8212; <span class="desc">Automate chess engine tournaments</span></div>
+<div class="section">
+<h1 id="x53594e4f50534953">SYNOPSIS</h1><table class="synopsis">
+<col style="width: 13.00ex;"/>
+<col/>
+<tbody>
+<tr>
+<td>
+cutechess-cli</td>
+<td>
+<b class="flag">&#45;engine</b> <i class="arg">engine-options</i> <b class="flag">&#45;engine</b> <i class="arg">engine-options</i> &#91;<span class="opt"><b class="flag">&#45;engine</b> <i class="arg">engine-options ...</i></span>&#93; &#91;<span class="opt">options</span>&#93;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section">
+<h1 id="x4445534352495054494f4e">DESCRIPTION</h1> The <b class="name">cutechess-cli</b> utility automates chess engine tournaments.<p/>
+Its options are as follows:<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;engine</b> <i class="arg">engine-options</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Add an engine defined by <i class="arg">engine-options</i> to the tournament. See <i class="link-sec"><a class="link-sec" href="#x456e67696e65204f7074696f6e73">Engine Options</a></i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;each</b> <i class="arg">engine-options</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Apply <i class="arg">engine-options</i> to each engine in the tournament. See <i class="link-sec"><a class="link-sec" href="#x456e67696e65204f7074696f6e73">Engine Options</a></i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;variant</b> <i class="arg">variant</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the chess variant, where <i class="arg">variant</i> is one of: <b class="flag">atomic</b>, <b class="flag">capablanca</b>, <b class="flag">caparandom</b>, <b class="flag">crazyhouse</b>, <b class="flag">fischerandom</b>, <b class="flag">gothic</b>, <b class="flag">losers</b> or <b class="flag">standard</b> (default).</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;concurrency</b> <i class="arg">n</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the maximum number of concurrent games to <i class="arg">n</i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;draw</b> <b class="flag">movenumber</b>=<i class="arg">number</i> <b class="flag">movecount</b>=<i class="arg">count</i> <b class="flag">score</b>=<i class="arg">score</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Adjudicate the game as draw if the score of both engines is within <i class="arg">score</i> centipawns from zero for at least <i class="arg">count</i> consecutive moves, and at least <i class="arg">number</i> full moves have been played.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;resign</b> <b class="flag">movecount</b>=<i class="arg">count</i> <b class="flag">score</b>=<i class="arg">score</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Adjudicate the game as a loss if an engine's score is at least <i class="arg">score</i> centipawns below zero for at least <i class="arg">count</i> consecutive moves.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;gtb</b> <i class="arg">paths</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Adjudicate games using Gaviota tablebases. <i class="arg">Paths</i> should be semicolon-delimited list of paths to the compressed tablebase files. At the moment only scheme 4 compression is supported.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;tournament</b> <i class="arg">type</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the tournament type, where <i class="arg">type</i> is either <b class="flag">round-robin</b> (default) or <b class="flag">gauntlet</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;event</b> <i class="arg">arg</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the event name to <i class="arg">arg</i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;games</b> <i class="arg">n</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Play <i class="arg">n</i> games per encounter. This value should be set to an even number in tournaments with more than two players to make sure that each player plays an equal number of games with white and black pieces.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;rounds</b> <i class="arg">n</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Multiply the number of rounds to play by <i class="arg">n</i>. For two-player tournaments this option should be used to set the total number of games to play.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;sprt</b> <b class="flag">elo0</b>=<i class="arg">E0</i> <b class="flag">elo1</b>=<i class="arg">E1</i> <b class="flag">alpha</b>=<i class="arg">&#945;</i> <b class="flag">beta</b>=<i class="arg">&#946;</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Use a Sequential Probability Ratio Test as a termination criterion for the match.<p/>
+This option should only be used in matches between two players to test if engine P1 is stronger than engine P2. Hypothesis H1 is that P1 is stronger than P2 by at least <i class="arg">E0</i> ELO points, and H0 (the null hypothesis) is that P1 is not stronger than P2 by at least <i class="arg">E1</i> ELO points. The maximum probabilities for type I and type II errors outside the interval [ <i class="arg">E0</i>, <i class="arg">E1</i> ] are <i class="arg">&#945;</i> and <i class="arg">&#946;</i>.<p/>
+The match is stopped if either H0 or H1 is accepted or if the maximum number of games set by <b class="flag">&#45;rounds</b> and / or <b class="flag">&#45;games</b> is reached.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;ratinginterval</b> <i class="arg">n</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the interval for printing the ratings to <i class="arg">n</i> games.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;debug</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Display all engine input and output.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;openings</b> <b class="flag">file</b>=<i class="arg">file</i> <b class="flag">format</b>=[<b class="flag">epd</b> | <b class="flag">pgn</b>] <b class="flag">order</b>=[<b class="flag">random</b> | <b class="flag">sequential</b>] <b class="flag">plies</b>=<i class="arg">plies</i> <b class="flag">start</b>=<i class="arg">start</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Pick game openings from <i class="arg">file</i>. The file can be either in <b class="flag">epd</b> (Extended Position Description) or <b class="flag">pgn</b> (Portable Game Notation) format. The default format is <b class="flag">pgn</b>. Openings can be picked in <b class="flag">random</b> or <b class="flag">sequential</b> (default) order. The opening depth is limited to <i class="arg">plies</i> number of plies. If <b class="flag">plies</b> is not set the opening depth is unlimited. In sequential mode <i class="arg">start</i> is the number of the first opening that will be played. The minimum value for <i class="arg">start</i> is 1 (default).</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;pgnout</b> <i class="arg">file</i> &#91;<b class="flag">min</b>&#93;</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Save the games to <i class="arg">file</i> in PGN format. Use the <b class="flag">min</b> argument to save in a minimal PGN format.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;recover</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Restart crashed engines instead of stopping the game.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;repeat</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Play each opening twice so that both players get to play it on both sides.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;site</b> <i class="arg">arg</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the site / location to <i class="arg">arg</i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;srand</b> <i class="arg">seed</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the random seed for the book move selector.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;wait</b> <i class="arg">n</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Wait <i class="arg">n</i> milliseconds between games. The default is 0.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;-version</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Display the version information.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;-help</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Display help information.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">&#45;-engines</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Display a list of configured engines and exit.</dd>
+</dl>
+<div class="subsection">
+<h2 id="x456e67696e65204f7074696f6e73">Engine Options</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">conf</b>=<i class="arg">arg</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Use an engine with the name <i class="arg">arg</i> from engine configuration file.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">name</b>=<i class="arg">arg</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the name to <i class="arg">arg</i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">cmd</b>=<i class="arg">arg</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the command to <i class="arg">arg</i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">dir</b>=<i class="arg">arg</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the working directory to <i class="arg">arg</i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">proto</b>=[<b class="flag">uci</b> | <b class="flag">xboard</b>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the chess protocol.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">tc</b>=[<i class="arg">tcformat</i> | <b class="flag">inf</b>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the time control. The format is moves/time+increment, where <i class="arg">moves</i> is the number of moves per tc, <i class="arg">time</i> is time per tc (either seconds or minutes:seconds), and <i class="arg">increment</i> is the time increment per move in seconds.<p/>
+Infinite time control can be set with <b class="flag">inf</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">option.</b><i class="arg">name</i>=<i class="arg">value</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set custom engine option.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">arg</b>=<i class="arg">arg</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Pass <i class="arg">arg</i> to the engine as a command line argument.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">initstr</b>=<i class="arg">arg</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Send <i class="arg">arg</i> to the engine's standard input at startup.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">restart</b>=[<b class="flag">auto</b> | <b class="flag">on</b> | <b class="flag">off</b>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the engine restart mode. <b class="flag">auto</b> means the engine decides whether to restart (default), <b class="flag">on</b> means the engine is always restarted between games and <b class="flag">off</b> means the engine is never restarted between games.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">trust</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Trust result claims from the engine without validation. By default all claims are validated.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">st</b>=<i class="arg">n</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the time limit for each move to <i class="arg">n</i> seconds. This option cannot be used in combination with the <b class="cmd">tc</b> option.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">timemargin</b>=<i class="arg">n</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Let engines go <i class="arg">n</i> milliseconds over the time limit.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">book</b>=<i class="arg">file</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Use <i class="arg">file</i> (Polyglot book file) as the opening book.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">bookdepth</b>=<i class="arg">n</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the maximum book depth (in fullmoves) to <i class="arg">n</i>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">whitepov</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Invert the engine's scores when it plays black. This option should be used with engines that always report scores from white's perspective.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">depth</b>=<i class="arg">plies</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the search depth limit.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="cmd">nodes</b>=<i class="arg">count</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Set the node count limit.</dd>
+</dl>
+</div>
+</div>
+<div class="section">
+<h1 id="x4558414d504c4553">EXAMPLES</h1> Play ten games between two Sloppy engines with a time control of 40 moves in 60 seconds:<p/>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">$ cutechess-cli &#45;engine cmd=sloppy -engine cmd=sloppy -each proto=xboard tc=40/60 -rounds 10</code></div>
+</blockquote>
+<p/>
+Play a single game between Atak and Glaurung engines with a time control of 40 moves in one minute and 30 seconds with one second increment:<p/>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">$ cutechess-cli &#45;engine name=Atak cmd=Atak32.exe dir=C:&#92;atak proto=xboard -engine cmd=glaurung proto=uci option.Threads=1 -both tc=40/1:30+1</code></div>
+</blockquote>
+<ul style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-bul">
+<li class="list-bul" style="margin-top: 1.00em;">
+Use the name=Atak parameter because it's a Xboard protocol 1 engine and doesn't tell its name.</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+Use the dir=C:&#92;atak parameter to point the location of the executable.</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+Glaurung can tell its name and is in the PATH variable so only the command is needed.</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+Set Glaurung to use 1 thread.</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+Set the time control to 40 moves in one minute and 30 seconds with one second increment.</li>
+</ul>
+<p/>
+Play a Round-Robin tournament between Fruit, Crafty, Stockfish and Sloppy:<p/>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">$ cutechess-cli &#45;engine conf=Fruit -engine conf=Crafty -engine conf=Stockfish -engine conf=Sloppy -each tc=4 book=book.bin -games 2 -rounds 10 -repeat</code></div>
+</blockquote>
+<ul style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-bul">
+<li class="list-bul" style="margin-top: 1.00em;">
+Play two games per encounter, effectively multiplying the number of games by 2.</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+Play 10 times the minimum amount of rounds (3). So the total number of rounds to play will be 30, and the total number of games 120.</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+In each two-game encounter colors are switched between games and the same opening line is played in both games.</li>
+</ul>
+</div>
+<div class="section">
+<h1 id="x53454520414c534f">SEE ALSO</h1> <a class="link-man">engines.json(5)</a></div>
+<div class="section">
+<h1 id="x415554484f5253">AUTHORS</h1> The <b class="name">cutechess-cli</b> utility was written by <span class="author">Ilari Pihlajisto</span>, <a class="link-mail" href="mailto:ilari.pihlajisto@mbnet.fi">ilari.pihlajisto@mbnet.fi</a>; and <span class="author">Arto Jonsson</span>, <a class="link-mail" href="mailto:ajonsson@kapsi.fi">ajonsson@kapsi.fi</a>.</div>
+<div class="section">
+<h1 id="x5245534f5552434553">RESOURCES</h1><ul style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-bul">
+<li class="list-bul" style="margin-top: 1.00em;">
+Project page: <a class="link-ext" href="http://github.com/cutechess/cutechess">http://github.com/cutechess/cutechess</a></li>
+<li class="list-bul" style="margin-top: 1.00em;">
+Mailing list: <a class="link-ext" href="https://list.kapsi.fi/listinfo/cutechess">https://list.kapsi.fi/listinfo/cutechess</a></li>
+</ul>
+</div>
+<table summary="Document Footer" class="foot" width="100%">
+<col width="50%"/>
+<col width="50%"/>
+<tbody>
+<tr>
+<td class="foot-date">
+July 12, 2013</td>
+<td class="foot-os" align="right">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>
+
