@@ -17,12 +17,12 @@ int Eval::evaluate()
 	int64_t diff = openingValue + endGameValue;
 	int positionScore =  diff/TOTAL_MATERIAL;
 
-    myBoard->updateAtkFr();
+        myBoard->updateAtkFr();
 	int mobilityScore = calcMobilityScore(alpha);
 
-	int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
+	// int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
 
-	return myMaterialScore + positionScore + mobilityScore + pawnScore ;
+	return myMaterialScore + positionScore + mobilityScore ; //+ pawnScore ;
 }
 
 void Eval::init()
