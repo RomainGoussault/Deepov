@@ -8,10 +8,18 @@ int Pawn::pawnScore(const Board &board, const int gameStage, const int alpha)
     unsigned int doubled = doubledPawns(board);
     unsigned int passed = passedPawns(board);
     unsigned int isolated = isolatedPawns(board);
-	return (passed*(EvalTables::PawnTable[OPENING][PASSED]*gameStage + EvalTables::PawnTable[ENDGAME][PASSED]*alpha) +
-	doubled*(EvalTables::PawnTable[OPENING][DOUBLED]*gameStage + EvalTables::PawnTable[ENDGAME][DOUBLED]*alpha) +
-	isolated*(EvalTables::PawnTable[OPENING][ISOLATED]*gameStage + EvalTables::PawnTable[ENDGAME][ISOLATED]*alpha))/
-	Eval::TOTAL_MATERIAL;
+
+    int passedScore = passed*(EvalTables::PawnTable[OPENING][PASSED]*gameStage + EvalTables::PawnTable[ENDGAME][PASSED]*alpha);
+    int doubledScore  = doubled*(EvalTables::PawnTable[OPENING][DOUBLED]*gameStage + EvalTables::PawnTable[ENDGAME][DOUBLED]*alpha);
+    int isolatedScore = isolated*(EvalTables::PawnTable[OPENING][ISOLATED]*gameStage + EvalTables::PawnTable[ENDGAME][ISOLATED]*alpha);
+    int score =  (passedScore + doubledScore + isolatedScore) / Eval::TOTAL_MATERIAL;
+
+    if (score > 1000000)
+    {
+    	std::cout << "ERROR pawn score is too high " << score << std::endl;
+    }
+
+    return score;
 }
 
 unsigned int Pawn::doubledPawns(const Board &board)
