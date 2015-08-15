@@ -340,5 +340,12 @@ namespace EvalTables
     { // Start ENDGAME
     200,-100,-40}
     };
+
+    const int BishopPair[2] = {
+    40,60
+    };
+
+    const int KnightValue = 32;
+    const int BishopValue = 16;
 }
 

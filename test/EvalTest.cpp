@@ -110,3 +110,18 @@ TEST_CASE( "Test the mobility calculation", "[Eval]")
     REQUIRE(mobilityScore == score);
 
 }
+
+TEST_CASE( "Test the eval of material ", "[Eval]")
+{
+    Tables::init();
+    std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("kn6/nn2rr2/8/4Q3/8/2p1p2b/1Q6/KN6 w - -"));
+    Eval eval(sp);
+
+    int whitePieceValue = 2*Piece::QUEEN_VALUE + Piece::KNIGHT_VALUE + Piece::KING_VALUE;
+    int blackPieceValue = 3*Piece::KNIGHT_VALUE + 2*Piece::ROOK_VALUE + 2*Piece::PAWN_VALUE + Piece::BISHOP_VALUE + Piece::KING_VALUE;
+
+    REQUIRE(eval.getWhitePiecesValue() == whitePieceValue);
+    REQUIRE(eval.getBlackPiecesValue() == blackPieceValue);
+
+}
+

@@ -23,12 +23,16 @@ public:
 
     /* Functions that calculate eval parameters */
     int calcMobilityScore(const int64_t alpha) const; // alpha is TOTAL_MATERIAL-myGameStage
+    int calcMaterialAdjustments(const int64_t alpha) const; // material evaluations that are not updated at each move
 
     /* These functions are mainly for tests */
     inline int getOpeningPSQValue() const {return myOpeningPSQValue;};
     inline int getEndgamePSQValue()const {return myEndgamePSQValue;};
     inline int64_t getGameStage() const {return myGameStage;};
 	inline int getMaterialScore() const {return myMaterialScore;};
+
+    int getWhitePiecesValue() const;
+    int getBlackPiecesValue() const;
 
     /* Move ordering */
 	static void sortMoveList(std::vector<Move>& moveList);
@@ -43,8 +47,7 @@ private:
 
     void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
 
-    int getWhitePiecesValue() const;
-    int getBlackPiecesValue() const;
+
     static int pieceTypeToValue(int type);
 
 };

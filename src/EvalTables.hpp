@@ -23,6 +23,14 @@ namespace EvalTables
 
     /* Pawn tables */
     extern const int PawnTable[2][3]; // 0 = passed, 1 = doubled, 2 = isolated
+
+    /* Material Tables */
+    extern const int BishopPair[2]; // OPENGING and ENDGAME bonus values
+
+    extern const int KnightValue;
+    extern const int BishopValue; /* Minor pieces bonus depending on pawns number
+    0 = knight, 1 = bishop */
+
 }
 
 #endif // EVALTABLES_H_INCLUDED

@@ -19,10 +19,11 @@ int Eval::evaluate()
 
 	myBoard->updateAtkFr();
 	int mobilityScore = calcMobilityScore(alpha);
+	int materialScore = myMaterialScore + calcMaterialAdjustments(alpha);
 
 	//int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
 
-	return myMaterialScore + positionScore + mobilityScore; // + pawnScore ;
+	return materialScore + positionScore + mobilityScore; // + pawnScore ;
 }
 
 void Eval::init()
@@ -225,6 +226,29 @@ int Eval::calcMobilityScore(const int64_t alpha) const
 	}
 
     return score/TOTAL_MATERIAL;
+}
+
+int Eval::calcMaterialAdjustments(const int64_t alpha) const
+{
+    /* Minor pieces value depending on pawns */
+    unsigned int whitePawns = Pawn::countPawns(*myBoard,WHITE);
+    unsigned int blackPawns = Pawn::countPawns(*myBoard,BLACK);
+    unsigned int whiteKnights = BitBoardUtils::countBBBitsSet(myBoard->getWhiteKnights());
+    unsigned int blackKnights = BitBoardUtils::countBBBitsSet(myBoard->getBlackKnights());
+    unsigned int whiteBishops = BitBoardUtils::countBBBitsSet(myBoard->getWhiteBishops());
+    unsigned int blackBishops = BitBoardUtils::countBBBitsSet(myBoard->getBlackBishops());
+    int knightBonus = EvalTables::KnightValue*static_cast<int>(whiteKnights*whitePawns-blackKnights*blackPawns)/8;
+    int bishopBonus = EvalTables::BishopValue*static_cast<int>(whiteBishops*whitePawns-blackBishops*blackPawns)/8;
+
+    /* Bishop pair */
+    unsigned int whiteBishopCount = BitBoardUtils::countBBBitsSet(myBoard->getWhiteBishops());
+    unsigned int blackBishopCount = BitBoardUtils::countBBBitsSet(myBoard->getBlackBishops());
+    int pairCount = (whiteBishopCount > 1) - (blackBishopCount > 1);
+
+    int bishopPairBonus = pairCount*(EvalTables::BishopPair[OPENING]*myGameStage +
+    EvalTables::BishopPair[ENDGAME]*alpha)/Eval::TOTAL_MATERIAL;
+
+    return knightBonus + bishopBonus + bishopPairBonus;
 }
 
 int Eval::getWhitePiecesValue() const
