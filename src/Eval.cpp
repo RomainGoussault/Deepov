@@ -21,9 +21,9 @@ int Eval::evaluate()
 	int mobilityScore = calcMobilityScore(alpha);
 	int materialScore = myMaterialScore + calcMaterialAdjustments(alpha);
 
-	//int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
+	int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
 
-	return materialScore + positionScore + mobilityScore; // + pawnScore ;
+	return materialScore + positionScore + mobilityScore + pawnScore ;
 }
 
 void Eval::init()

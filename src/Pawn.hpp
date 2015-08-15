@@ -22,10 +22,10 @@ namespace Pawn
 	int pawnScore(const Board &board, const int gameStage, const int alpha);
 
 	/** Count Pawns of each status **/
-	unsigned int doubledPawns(const Board &board);
-	unsigned int passedPawns(const Board &board); // TODO : take are of doubled passed pawns
+	int doubledPawns(const Board &board);
+	int passedPawns(const Board &board); // TODO : take are of doubled passed pawns
 	// TODO : calculate set-wise instead of pawn by pawn
-	unsigned int isolatedPawns(const Board &board);
+	int isolatedPawns(const Board &board);
 
 	/** Utils **/
     inline unsigned int countPawnsInFile(const Board &board, const unsigned int file, const Color color)

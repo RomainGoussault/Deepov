@@ -5,9 +5,9 @@
 
 int Pawn::pawnScore(const Board &board, const int gameStage, const int alpha)
 {
-    unsigned int doubled = doubledPawns(board);
-    unsigned int passed = passedPawns(board);
-    unsigned int isolated = isolatedPawns(board);
+    int doubled = doubledPawns(board);
+    int passed = passedPawns(board);
+    int isolated = isolatedPawns(board);
 
     int passedScore = passed*(EvalTables::PawnTable[OPENING][PASSED]*gameStage + EvalTables::PawnTable[ENDGAME][PASSED]*alpha);
     int doubledScore  = doubled*(EvalTables::PawnTable[OPENING][DOUBLED]*gameStage + EvalTables::PawnTable[ENDGAME][DOUBLED]*alpha);
@@ -22,7 +22,7 @@ int Pawn::pawnScore(const Board &board, const int gameStage, const int alpha)
     return score;
 }
 
-unsigned int Pawn::doubledPawns(const Board &board)
+int Pawn::doubledPawns(const Board &board)
 {
 	unsigned int whiteCount(0);
 	unsigned int blackCount(0);
@@ -34,10 +34,10 @@ unsigned int Pawn::doubledPawns(const Board &board)
 		count=countPawnsInFile(board,column,BLACK);
 		blackCount += (count>1)*(count-1);
 	}
-	return whiteCount-blackCount;
+	return static_cast<int>(whiteCount-blackCount);
 }
 
-unsigned int Pawn::passedPawns(const Board &board)
+int Pawn::passedPawns(const Board &board)
 {
     unsigned int whiteCount(0);
 	unsigned int blackCount(0);
@@ -66,10 +66,10 @@ unsigned int Pawn::passedPawns(const Board &board)
         blackCount += ((Tables::PASSED_PAWN_MASK[BLACK][positionMsb] & whitePawns) == 0);
     }
 
-	return whiteCount-blackCount;
+	return static_cast<int>(whiteCount-blackCount);
 }
 
-unsigned int Pawn::isolatedPawns(const Board &board)
+int Pawn::isolatedPawns(const Board &board)
 {
     unsigned int whiteCount(0);
 	unsigned int blackCount(0);
@@ -83,7 +83,7 @@ unsigned int Pawn::isolatedPawns(const Board &board)
 		blackCount += (count>0)&(!hasNeighbors(board,column,BLACK));
 	}
 
-	return whiteCount-blackCount;
+	return static_cast<int>(whiteCount-blackCount);
 }
 
 
