@@ -10,7 +10,7 @@ Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr)
 	myBoard = boardPtr;
 }
 
-int Search::negaMax(const int depth, int alpha, const int beta)
+int Search::negaMax(int depth, int alpha, const int beta)
 {
 	int score = 0;
 
@@ -18,7 +18,14 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 
 	if (depth == 0)
 	{
-		return evaluate();
+		if(myBoard->isCheck())
+		{
+			depth++; //If in check search one ply further
+		}
+		else
+		{
+			return evaluate();
+		}
 	}
 
 	std::vector<Move> moveList = moveGen.getMoves();

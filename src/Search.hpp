@@ -21,7 +21,7 @@ private:
     std::shared_ptr<Board> myBoard;
     Eval myEval;
 
-    int negaMax(const int depth, int alpha, const int beta);
+    int negaMax(int depth, int alpha, const int beta);
     int evaluate();
 };
 
