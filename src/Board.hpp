@@ -121,6 +121,10 @@ public:
 
     //Check methods
     bool isCheck(const Color color) const;
+    inline bool isCheck() const
+    {
+    	return isCheck(myColorToPlay);
+    };
 
     //Attacked positions
     U64 getAttacksFromSq(const Square position) const;

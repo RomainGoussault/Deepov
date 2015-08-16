@@ -356,7 +356,7 @@ std::vector<Move> MoveGen::getLegalMoves(const Color color)
 	std::vector<Move> moves = getPseudoLegalMoves(color);
 
 	myBoard->updatePinnedPieces();
-	bool isCheck = myBoard->isCheck(myBoard->getColorToPlay());
+	bool isCheck = myBoard->isCheck();
 
 	moves.erase(std::remove_if(moves.begin(), moves.end(),
 			[&](Move move) mutable { return !myBoard->isMoveLegal(move, isCheck); }), moves.end());
