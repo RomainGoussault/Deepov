@@ -236,7 +236,7 @@ void MoveGen::appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& m
 }
 void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
-	U64 knightPositions = myBoard->getKnights(color);
+	U64 knightPositions = myBoard->getKnights(color) & ~myBoard->getPinnedPieces();
 
 	//loop through the knights:
 	while(knightPositions)

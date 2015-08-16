@@ -765,6 +765,7 @@ void Board::rewindCastlingRights(const Move &move)
 
 void Board::updatePinnedPieces()
 {
+	myPinnedPieces = 0LL;
 	Color color = getColorToPlay();
 	Color oppositeColor = Utils::getOppositeColor(color);
 	U64 occ = getAllPieces();
