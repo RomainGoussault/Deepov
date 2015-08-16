@@ -19,7 +19,7 @@ int Eval::evaluate()
 
 	myBoard->updateAtkFr();
 	int mobilityScore = calcMobilityScore(alpha);
-	int materialScore = myMaterialScore + calcMaterialAdjustments(alpha);
+	int materialScore = myMaterialScore;// + calcMaterialAdjustments(alpha);
 
 	//int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
 
