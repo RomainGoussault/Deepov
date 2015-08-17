@@ -21,13 +21,10 @@ void MoveGen::addQuietMoves(U64 quietDestinations, Square pieceIndex, std::vecto
 	while (quietDestinations)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = BitBoardUtils::getMsbIndex(quietDestinations);
+		Square positionMsb = BitBoardUtils::pop_lsb(&quietDestinations);
 
 		Move move = Move(pieceIndex, positionMsb, 0, pieceType);
 		moves.push_back(move);
-
-		//Removing the MSB
-		quietDestinations = quietDestinations ^ (0 | 1LL << positionMsb);
 	}
 }
 
@@ -51,14 +48,12 @@ void MoveGen::addCaptureMoves(U64 captureDestinations, Square pieceIndex, std::v
 	while (captureDestinations)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = BitBoardUtils::getMsbIndex(captureDestinations);
+		Square positionMsb = BitBoardUtils::pop_lsb(&captureDestinations);
 		Move move = Move(pieceIndex, positionMsb, Move::CAPTURE_FLAG, pieceType);
         Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
 		moves.push_back(move);
 
-		//Removing the MSB
-		captureDestinations = captureDestinations ^ (0 | 1LL << positionMsb);
 	}
 }
 
@@ -241,7 +236,7 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 	//loop through the knights:
 	while(knightPositions)
 	{
-		const Square knightIndex = BitBoardUtils::getMsbIndex(knightPositions);
+		const Square knightIndex = BitBoardUtils::pop_lsb(&knightPositions);
 		U64 knightValidDestinations = myBoard->getKnightAttacks(knightIndex, color);
 		/* compute only the places where the knight can move and attack. The caller
 		will unsigned interpret this as a white or black knight. */
@@ -254,7 +249,7 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 		addQuietMoves(knightQuietDestinations, knightIndex, moves, Piece::KNIGHT);
 		addCaptureMoves(knightCaptureDestinations, knightIndex, moves, Piece::KNIGHT);
 
-		knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
+		//knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
 	}
 }
 
@@ -265,9 +260,8 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 
 	while(pawnPositions)
 	{
-		Square pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
+		Square pawnIndex = BitBoardUtils::pop_lsb(&pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
-		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
 		/* check the single space in front of the white pawn */
 		U64 firstStep = (pawnPos << 8) & ~myBoard->getAllPieces();
@@ -299,9 +293,8 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 
 	while(pawnPositions)
 	{
-		Square pawnIndex = BitBoardUtils::getMsbIndex(pawnPositions);
+		Square pawnIndex = BitBoardUtils::pop_lsb(&pawnPositions);
 		U64 pawnPos = 0 | 1LL << pawnIndex;
-		pawnPositions = pawnPositions ^ ( 0 | 1LL << pawnIndex);
 
 		/* check the single space in front of the white pawn */
 		U64 firstStep = (pawnPos >> 8) & ~myBoard->getAllPieces();

@@ -31,7 +31,26 @@ namespace BitBoardUtils
 	// https://chessprogramming.wikispaces.com/BitScan
 	// http://stackoverflow.com/questions/671815/
 	// http://stackoverflow.com/questions/20713017/
-	inline Square getMsbIndex(const U64 bitboard) {return static_cast<Square>(__builtin_ctzll(bitboard));}
+	//https://github.com/mcostalba/Stockfish/blob/master/src/bitboard.h#L305
+	inline Square getMsbIndex(const U64 bitboard)
+	{
+		  U64 idx;
+		  __asm__("bsrq %1, %0": "=r"(idx): "rm"(bitboard) );
+		  return (Square) idx;
+//		return static_cast<Square>(__builtin_ctzll(bitboard));
+	}
+
+	inline Square lsb(U64 b) { // Assembly code by Heinz van Saanen
+		U64 idx;
+		__asm__("bsfq %1, %0": "=r"(idx): "rm"(b) );
+		return (Square) idx;
+	}
+
+	inline Square pop_lsb(U64* b) {
+		const Square s = lsb(*b);
+		*b &= *b - 1;
+		return s;
+	}
 
 	inline bool isBitSet(const U64 bitBoard, const unsigned int x, const unsigned int y)
 	{
