@@ -239,13 +239,11 @@ bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
 
     while(attackers)
    	{
-       	Square attackerSquare = msb(attackers);
+       	Square attackerSquare = pop_lsb(&attackers);
 
        	U64 attackFr = getAtkFr(attackerSquare);
 
        	isAttacked |= bitboard & attackFr;
-
-       	attackers = attackers ^ (0 | 1LL << attackerSquare);
    	}
 
        return isAttacked;
@@ -479,49 +477,43 @@ void Board::updateAtkFr()
         currentBB = getBitBoard(Piece::PAWN,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = msb(currentBB);
+            const Square square = pop_lsb(&currentBB);
             myAtkFr[square] = getPawnAttacks(square, static_cast<Color>(i));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         currentBB = getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = msb(currentBB);
+            const Square square = pop_lsb(&currentBB);
             myAtkFr[square] = getKnightAttacks(square,static_cast<Color>(i));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         currentBB = getBitBoard(Piece::BISHOP,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = msb(currentBB);
+            const Square square = pop_lsb(&currentBB);
             myAtkFr[square] = getBishopAttacks(square,static_cast<Color>(i));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         currentBB = getBitBoard(Piece::ROOK,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = msb(currentBB);
+            const Square square = pop_lsb(&currentBB);
             myAtkFr[square] = getRookAttacks(square,static_cast<Color>(i));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         currentBB = getBitBoard(Piece::QUEEN,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = msb(currentBB);
+            const Square square = pop_lsb(&currentBB);
             myAtkFr[square] = getQueenAttacks(square,static_cast<Color>(i));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         currentBB = getBitBoard(Piece::KING,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = msb(currentBB);
+            const Square square = pop_lsb(&currentBB);
             myAtkFr[square] = getKingAttacks(square,static_cast<Color>(i));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 	}
 }
@@ -780,9 +772,7 @@ void Board::updatePinnedPieces()
 
 	while ( pinners )
 	{
-		unsigned int pinnerSq = msb(pinners);
-		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
-
+		unsigned int pinnerSq = pop_lsb(&pinners);
 	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq, kiSq);
 	}
 
@@ -794,9 +784,7 @@ void Board::updatePinnedPieces()
 
 	while ( pinners )
 	{
-		unsigned int pinnerSq = msb(pinners);
-		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
-
+		unsigned int pinnerSq = pop_lsb(&pinners);
 	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq,kiSq);
 	}
 }

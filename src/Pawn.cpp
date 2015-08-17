@@ -42,9 +42,7 @@ int Pawn::passedPawns(const Board &board)
     while (whitePawns)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = msb(whitePawns);
-        //Removing the MSB
-		whitePawns = whitePawns ^ (0 | 1LL << positionMsb);
+		Square positionMsb = pop_lsb(&whitePawns);
         // Add 1 if condition is true
         whiteCount += ((Tables::PASSED_PAWN_MASK[WHITE][positionMsb] & blackPawns) == 0);
     }
@@ -54,9 +52,7 @@ int Pawn::passedPawns(const Board &board)
     while (blackPawns)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = msb(blackPawns);
-        //Removing the MSB
-		blackPawns = blackPawns ^ (0 | 1LL << positionMsb);
+		Square positionMsb = pop_lsb(&blackPawns);
         // Add 1 if condition is true
         blackCount += ((Tables::PASSED_PAWN_MASK[BLACK][positionMsb] & whitePawns) == 0);
     }

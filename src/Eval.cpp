@@ -176,9 +176,8 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
         while(currentBB)
         {
-            square = msb(currentBB);
+            square = pop_lsb(&currentBB);
             pieceMobility += popcount(myBoard->getAtkFr(square)); // Sums attacking squares
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::KNIGHT]*myGameStage +
@@ -189,9 +188,8 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::BISHOP,static_cast<Color>(i));
         while(currentBB)
         {
-            square = msb(currentBB);
+            square = pop_lsb(&currentBB);
             pieceMobility += popcount(myBoard->getAtkFr(square));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::BISHOP]*myGameStage +
@@ -202,9 +200,8 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::ROOK,static_cast<Color>(i));
         while(currentBB)
         {
-            square = msb(currentBB);
+            square = pop_lsb(&currentBB);
             pieceMobility += popcount(myBoard->getAtkFr(square));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::ROOK]*myGameStage +
@@ -215,9 +212,8 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::QUEEN,static_cast<Color>(i));
         while(currentBB)
         {
-            square = msb(currentBB);
+            square = pop_lsb(&currentBB);
             pieceMobility += popcount(myBoard->getAtkFr(square));
-            currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
         score += pieceMobility*(EvalTables::MobilityScaling[OPENING][Piece::QUEEN]*myGameStage +

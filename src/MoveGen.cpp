@@ -33,13 +33,10 @@ void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, Square pieceIndex, st
     while (pawnDestinations)
     {
         //Getting the index of the MSB
-		Square positionMsb = msb(pawnDestinations);
+		Square positionMsb = pop_lsb(&pawnDestinations);
 
         Move move = Move(pieceIndex, positionMsb, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		moves.push_back(move);
-
-        //Removing the MSB
-		pawnDestinations = pawnDestinations ^ (0 | 1LL << positionMsb);
     }
 }
 
@@ -62,7 +59,7 @@ void MoveGen::addPromotionMoves(U64 promotionDestinations, Square pieceIndex, st
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = msb(promotionDestinations);
+		Square positionMsb = pop_lsb(&promotionDestinations);
 		Move move = Move(pieceIndex, positionMsb, Move::PROMOTION_FLAG, Piece::PAWN);
 		moves.push_back(move);
 		move.setFlags(Move::PROMOTION_FLAG+1);
@@ -73,7 +70,6 @@ void MoveGen::addPromotionMoves(U64 promotionDestinations, Square pieceIndex, st
 		moves.push_back(move);
 
 		//Removing the MSB
-		promotionDestinations = promotionDestinations ^ (0 | 1LL << positionMsb);
 	}
 }
 
@@ -82,10 +78,10 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, Square pieceIn
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = msb(promotionDestinations);
+		Square positionMsb = pop_lsb(&promotionDestinations);
 		unsigned int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
 		Move move = Move(pieceIndex, positionMsb, flag, Piece::PAWN);
-        Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
+        Piece::PieceType capturedType(myBoard->findPieceType(positionMsb, Utils::getOppositeColor(myBoard->getColorToPlay())));
 		move.setCapturedPieceType(capturedType);
 
 		moves.push_back(move);
@@ -95,9 +91,6 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, Square pieceIn
 		moves.push_back(move);
 		move.setFlags(flag+3);
 		moves.push_back(move);
-
-		//Removing the MSB
-		promotionDestinations = promotionDestinations ^ (0 | 1LL << positionMsb);
 	}
 }
 
@@ -145,8 +138,7 @@ void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& 
 	//loop through the queens:
 	while(queenPositions)
 	{
-		Square queenIndex = msb(queenPositions);
-		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
+		Square queenIndex = pop_lsb(&queenPositions);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
 
@@ -169,8 +161,7 @@ void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>&
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		Square bishopIndex = msb(bishopPositions);
-		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
+		Square bishopIndex = pop_lsb(&bishopPositions);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
 
@@ -191,8 +182,7 @@ void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& m
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		Square rookIndex = msb(rookPositions);
-		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
+		Square rookIndex = pop_lsb(&rookPositions);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
 
@@ -238,8 +228,6 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 	{
 		const Square knightIndex = pop_lsb(&knightPositions);
 		U64 knightValidDestinations = myBoard->getKnightAttacks(knightIndex, color);
-		/* compute only the places where the knight can move and attack. The caller
-		will unsigned interpret this as a white or black knight. */
 
 		Color ennemyColor = Utils::getOppositeColor(color);
 
@@ -248,8 +236,6 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 
 		addQuietMoves(knightQuietDestinations, knightIndex, moves, Piece::KNIGHT);
 		addCaptureMoves(knightCaptureDestinations, knightIndex, moves, Piece::KNIGHT);
-
-		//knightPositions = knightPositions ^ ( 0 | 1LL << knightIndex);
 	}
 }
 
@@ -377,8 +363,7 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
         while (validPawns)
         {
             Square enemyDestination = enemyLastMove->getDestination();
-            Square validPawnIndex = msb(validPawns);
-            validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
+            Square validPawnIndex = pop_lsb(&validPawns);
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
@@ -411,8 +396,7 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
         while (validPawns)
         {
         	Square enemyDestination = enemyLastMove->getDestination();
-        	Square validPawnIndex = msb(validPawns);
-            validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
+            Square validPawnIndex = pop_lsb(&validPawns);
 
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
