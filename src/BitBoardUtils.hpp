@@ -32,7 +32,7 @@ namespace BitBoardUtils
 	// http://stackoverflow.com/questions/671815/
 	// http://stackoverflow.com/questions/20713017/
 	//https://github.com/mcostalba/Stockfish/blob/master/src/bitboard.h#L305
-	inline Square getMsbIndex(const U64 bitboard)
+	inline Square msb(const U64 bitboard)
 	{
 		  U64 idx;
 		  __asm__("bsrq %1, %0": "=r"(idx): "rm"(bitboard) );

@@ -226,7 +226,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 bool Board::isCheck(const Color color) const
 {
 	U64 kingPosition = getKing(color);
-	Square kingSquare = BitBoardUtils::getMsbIndex(kingPosition);
+	Square kingSquare = BitBoardUtils::msb(kingPosition);
 	return isSquareAttacked(kingSquare, color);
 }
 
@@ -239,7 +239,7 @@ bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
 
     while(attackers)
    	{
-       	Square attackerSquare = BitBoardUtils::getMsbIndex(attackers);
+       	Square attackerSquare = BitBoardUtils::msb(attackers);
 
        	U64 attackFr = getAtkFr(attackerSquare);
 
@@ -479,7 +479,7 @@ void Board::updateAtkFr()
         currentBB = getBitBoard(Piece::PAWN,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            const Square square = BitBoardUtils::msb(currentBB);
             myAtkFr[square] = getPawnAttacks(square, static_cast<Color>(i));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -487,7 +487,7 @@ void Board::updateAtkFr()
         currentBB = getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            const Square square = BitBoardUtils::msb(currentBB);
             myAtkFr[square] = getKnightAttacks(square,static_cast<Color>(i));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -495,7 +495,7 @@ void Board::updateAtkFr()
         currentBB = getBitBoard(Piece::BISHOP,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            const Square square = BitBoardUtils::msb(currentBB);
             myAtkFr[square] = getBishopAttacks(square,static_cast<Color>(i));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -503,7 +503,7 @@ void Board::updateAtkFr()
         currentBB = getBitBoard(Piece::ROOK,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            const Square square = BitBoardUtils::msb(currentBB);
             myAtkFr[square] = getRookAttacks(square,static_cast<Color>(i));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -511,7 +511,7 @@ void Board::updateAtkFr()
         currentBB = getBitBoard(Piece::QUEEN,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            const Square square = BitBoardUtils::msb(currentBB);
             myAtkFr[square] = getQueenAttacks(square,static_cast<Color>(i));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -519,7 +519,7 @@ void Board::updateAtkFr()
         currentBB = getBitBoard(Piece::KING,static_cast<Color>(i));
         while(currentBB)
         {
-            const Square square = BitBoardUtils::getMsbIndex(currentBB);
+            const Square square = BitBoardUtils::msb(currentBB);
             myAtkFr[square] = getKingAttacks(square,static_cast<Color>(i));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -770,7 +770,7 @@ void Board::updatePinnedPieces()
 	Color oppositeColor = Utils::getOppositeColor(color);
 	U64 occ = getAllPieces();
 	U64 kingBitboard = getKing(color);
-	U64 kiSq = BitBoardUtils::getMsbIndex(kingBitboard);
+	U64 kiSq = BitBoardUtils::msb(kingBitboard);
 
 	U64 rookWise = MagicMoves::Rmagic(kiSq, occ);
 	U64 potPinned = rookWise & getPieces(color);
@@ -780,7 +780,7 @@ void Board::updatePinnedPieces()
 
 	while ( pinners )
 	{
-		unsigned int pinnerSq = BitBoardUtils::getMsbIndex(pinners);
+		unsigned int pinnerSq = BitBoardUtils::msb(pinners);
 		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
 
 	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq, kiSq);
@@ -794,7 +794,7 @@ void Board::updatePinnedPieces()
 
 	while ( pinners )
 	{
-		unsigned int pinnerSq = BitBoardUtils::getMsbIndex(pinners);
+		unsigned int pinnerSq = BitBoardUtils::msb(pinners);
 		pinners = pinners ^ ( 0 | 1LL << pinnerSq);
 
 	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq,kiSq);

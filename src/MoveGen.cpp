@@ -33,7 +33,7 @@ void MoveGen::addDoublePawnPushMoves(U64 pawnDestinations, Square pieceIndex, st
     while (pawnDestinations)
     {
         //Getting the index of the MSB
-		Square positionMsb = BitBoardUtils::getMsbIndex(pawnDestinations);
+		Square positionMsb = BitBoardUtils::msb(pawnDestinations);
 
         Move move = Move(pieceIndex, positionMsb, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		moves.push_back(move);
@@ -62,7 +62,7 @@ void MoveGen::addPromotionMoves(U64 promotionDestinations, Square pieceIndex, st
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
+		Square positionMsb = BitBoardUtils::msb(promotionDestinations);
 		Move move = Move(pieceIndex, positionMsb, Move::PROMOTION_FLAG, Piece::PAWN);
 		moves.push_back(move);
 		move.setFlags(Move::PROMOTION_FLAG+1);
@@ -82,7 +82,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, Square pieceIn
 	while (promotionDestinations)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = BitBoardUtils::getMsbIndex(promotionDestinations);
+		Square positionMsb = BitBoardUtils::msb(promotionDestinations);
 		unsigned int flag = Move::PROMOTION_FLAG+Move::CAPTURE_FLAG;
 		Move move = Move(pieceIndex, positionMsb, flag, Piece::PAWN);
         Piece::PieceType capturedType(myBoard->findPieceType(positionMsb,Utils::getOppositeColor(myBoard->getColorToPlay())));
@@ -105,7 +105,7 @@ void MoveGen::addPromotionCaptureMoves(U64 promotionDestinations, Square pieceIn
 void MoveGen::appendKingPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
 {
 	U64 kingPos = myBoard->getKing(color);
-    Square kingIndex = BitBoardUtils::getMsbIndex(kingPos);
+    Square kingIndex = BitBoardUtils::msb(kingPos);
 	U64 kingValidDestinations = myBoard->getKingAttacks(kingIndex, color);
 
 	Color ennemyColor = Utils::getOppositeColor(color);
@@ -145,7 +145,7 @@ void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& 
 	//loop through the queens:
 	while(queenPositions)
 	{
-		Square queenIndex = BitBoardUtils::getMsbIndex(queenPositions);
+		Square queenIndex = BitBoardUtils::msb(queenPositions);
 		queenPositions = queenPositions ^ ( 0 | 1LL << queenIndex);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
@@ -169,7 +169,7 @@ void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>&
 	//loop through the bishops:
 	while(bishopPositions)
 	{
-		Square bishopIndex = BitBoardUtils::getMsbIndex(bishopPositions);
+		Square bishopIndex = BitBoardUtils::msb(bishopPositions);
 		bishopPositions = bishopPositions ^ ( 0 | 1LL << bishopIndex);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
@@ -191,7 +191,7 @@ void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& m
 	//loop through the rooks:
 	while(rookPositions)
 	{
-		Square rookIndex = BitBoardUtils::getMsbIndex(rookPositions);
+		Square rookIndex = BitBoardUtils::msb(rookPositions);
 		rookPositions = rookPositions ^ ( 0 | 1LL << rookIndex);
 
 		Color ennemyColor = Utils::getOppositeColor(color);
@@ -377,7 +377,7 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
         while (validPawns)
         {
             Square enemyDestination = enemyLastMove->getDestination();
-            Square validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
+            Square validPawnIndex = BitBoardUtils::msb(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex); // reset the pawn to 0
 
             if (abs(validPawnIndex - enemyDestination) == 1)
@@ -411,7 +411,7 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
         while (validPawns)
         {
         	Square enemyDestination = enemyLastMove->getDestination();
-        	Square validPawnIndex = BitBoardUtils::getMsbIndex(validPawns);
+        	Square validPawnIndex = BitBoardUtils::msb(validPawns);
             validPawns = validPawns ^ ( 0 | 1LL << validPawnIndex);
 
             if (abs(validPawnIndex - enemyDestination) == 1)

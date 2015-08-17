@@ -50,7 +50,7 @@ void Eval::init()
     U64 myPos(myBoard->getWhitePawns());
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
@@ -60,7 +60,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteKnights();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
         myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][1][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][1][myIndex];
@@ -69,7 +69,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteBishops();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
         myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][2][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][2][myIndex];
@@ -78,7 +78,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteRooks();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][3][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][3][myIndex];
@@ -87,7 +87,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteQueens();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][4][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][4][myIndex];
@@ -96,7 +96,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteKing();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][5][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][5][myIndex];
@@ -107,7 +107,7 @@ void Eval::init()
     myPos=myBoard->getBlackPawns();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][0][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][0][myIndex];
@@ -117,7 +117,7 @@ void Eval::init()
 	myPos=myBoard->getBlackKnights();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][1][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][1][myIndex];
@@ -126,7 +126,7 @@ void Eval::init()
 	myPos=myBoard->getBlackBishops();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][2][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][2][myIndex];	}
@@ -134,7 +134,7 @@ void Eval::init()
 	myPos=myBoard->getBlackRooks();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][3][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][3][myIndex];	}
@@ -142,7 +142,7 @@ void Eval::init()
 	myPos=myBoard->getBlackQueens();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][4][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][4][myIndex];	}
@@ -150,7 +150,7 @@ void Eval::init()
 	myPos=myBoard->getBlackKing();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::getMsbIndex(myPos);
+		int myIndex = BitBoardUtils::msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][5][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][5][myIndex];	}
@@ -176,7 +176,7 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
         while(currentBB)
         {
-            square = BitBoardUtils::getMsbIndex(currentBB);
+            square = BitBoardUtils::msb(currentBB);
             pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square)); // Sums attacking squares
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -189,7 +189,7 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::BISHOP,static_cast<Color>(i));
         while(currentBB)
         {
-            square = BitBoardUtils::getMsbIndex(currentBB);
+            square = BitBoardUtils::msb(currentBB);
             pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -202,7 +202,7 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::ROOK,static_cast<Color>(i));
         while(currentBB)
         {
-            square = BitBoardUtils::getMsbIndex(currentBB);
+            square = BitBoardUtils::msb(currentBB);
             pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
@@ -215,7 +215,7 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::QUEEN,static_cast<Color>(i));
         while(currentBB)
         {
-            square = BitBoardUtils::getMsbIndex(currentBB);
+            square = BitBoardUtils::msb(currentBB);
             pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
