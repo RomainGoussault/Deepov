@@ -42,7 +42,7 @@ int Pawn::passedPawns(const Board &board)
     while (whitePawns)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = BitBoardUtils::msb(whitePawns);
+		Square positionMsb = msb(whitePawns);
         //Removing the MSB
 		whitePawns = whitePawns ^ (0 | 1LL << positionMsb);
         // Add 1 if condition is true
@@ -54,7 +54,7 @@ int Pawn::passedPawns(const Board &board)
     while (blackPawns)
 	{
 		//Getting the index of the MSB
-		Square positionMsb = BitBoardUtils::msb(blackPawns);
+		Square positionMsb = msb(blackPawns);
         //Removing the MSB
 		blackPawns = blackPawns ^ (0 | 1LL << positionMsb);
         // Add 1 if condition is true

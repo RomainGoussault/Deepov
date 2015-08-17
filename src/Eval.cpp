@@ -50,7 +50,7 @@ void Eval::init()
     U64 myPos(myBoard->getWhitePawns());
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][0][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][0][myIndex];
@@ -60,7 +60,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteKnights();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
         myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][1][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][1][myIndex];
@@ -69,7 +69,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteBishops();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
         myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][2][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][2][myIndex];
@@ -78,7 +78,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteRooks();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
 		whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][3][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][3][myIndex];
@@ -87,7 +87,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteQueens();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][4][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][4][myIndex];
@@ -96,7 +96,7 @@ void Eval::init()
 	myPos=myBoard->getWhiteKing();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         whiteOpeningValue+=EvalTables::AllPSQT[WHITE][0][5][myIndex];
 		whiteEndgameValue+=EvalTables::AllPSQT[WHITE][1][5][myIndex];
@@ -107,7 +107,7 @@ void Eval::init()
     myPos=myBoard->getBlackPawns();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][0][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][0][myIndex];
@@ -117,7 +117,7 @@ void Eval::init()
 	myPos=myBoard->getBlackKnights();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][1][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][1][myIndex];
@@ -126,7 +126,7 @@ void Eval::init()
 	myPos=myBoard->getBlackBishops();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][2][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][2][myIndex];	}
@@ -134,7 +134,7 @@ void Eval::init()
 	myPos=myBoard->getBlackRooks();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][3][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][3][myIndex];	}
@@ -142,7 +142,7 @@ void Eval::init()
 	myPos=myBoard->getBlackQueens();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][4][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][4][myIndex];	}
@@ -150,7 +150,7 @@ void Eval::init()
 	myPos=myBoard->getBlackKing();
     while(myPos)
 	{
-		int myIndex = BitBoardUtils::msb(myPos);
+		int myIndex = msb(myPos);
 		myPos = myPos ^ ( 0 | 1LL << myIndex);
         blackOpeningValue+=EvalTables::AllPSQT[BLACK][0][5][myIndex];
 		blackEndgameValue+=EvalTables::AllPSQT[BLACK][1][5][myIndex];	}
@@ -176,8 +176,8 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
         while(currentBB)
         {
-            square = BitBoardUtils::msb(currentBB);
-            pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square)); // Sums attacking squares
+            square = msb(currentBB);
+            pieceMobility += popcount(myBoard->getAtkFr(square)); // Sums attacking squares
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
@@ -189,8 +189,8 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::BISHOP,static_cast<Color>(i));
         while(currentBB)
         {
-            square = BitBoardUtils::msb(currentBB);
-            pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
+            square = msb(currentBB);
+            pieceMobility += popcount(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
@@ -202,8 +202,8 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::ROOK,static_cast<Color>(i));
         while(currentBB)
         {
-            square = BitBoardUtils::msb(currentBB);
-            pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
+            square = msb(currentBB);
+            pieceMobility += popcount(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
@@ -215,8 +215,8 @@ int Eval::calcMobilityScore(const int64_t alpha) const
         currentBB = myBoard->getBitBoard(Piece::QUEEN,static_cast<Color>(i));
         while(currentBB)
         {
-            square = BitBoardUtils::msb(currentBB);
-            pieceMobility += BitBoardUtils::countBBBitsSet(myBoard->getAtkFr(square));
+            square = msb(currentBB);
+            pieceMobility += popcount(myBoard->getAtkFr(square));
             currentBB = currentBB ^ ( 0 | 1LL << square);
         }
 
@@ -233,16 +233,16 @@ int Eval::calcMaterialAdjustments(const int64_t alpha) const
     /* Minor pieces value depending on pawns */
     unsigned int whitePawns = Pawn::countPawns(*myBoard,WHITE);
     unsigned int blackPawns = Pawn::countPawns(*myBoard,BLACK);
-    unsigned int whiteKnights = BitBoardUtils::countBBBitsSet(myBoard->getWhiteKnights());
-    unsigned int blackKnights = BitBoardUtils::countBBBitsSet(myBoard->getBlackKnights());
-    unsigned int whiteBishops = BitBoardUtils::countBBBitsSet(myBoard->getWhiteBishops());
-    unsigned int blackBishops = BitBoardUtils::countBBBitsSet(myBoard->getBlackBishops());
+    unsigned int whiteKnights = popcount(myBoard->getWhiteKnights());
+    unsigned int blackKnights = popcount(myBoard->getBlackKnights());
+    unsigned int whiteBishops = popcount(myBoard->getWhiteBishops());
+    unsigned int blackBishops = popcount(myBoard->getBlackBishops());
     int knightBonus = EvalTables::KnightValue*static_cast<int>(whiteKnights*whitePawns-blackKnights*blackPawns)/8;
     int bishopBonus = EvalTables::BishopValue*static_cast<int>(whiteBishops*whitePawns-blackBishops*blackPawns)/8;
 
     /* Bishop pair */
-    unsigned int whiteBishopCount = BitBoardUtils::countBBBitsSet(myBoard->getWhiteBishops());
-    unsigned int blackBishopCount = BitBoardUtils::countBBBitsSet(myBoard->getBlackBishops());
+    unsigned int whiteBishopCount = popcount(myBoard->getWhiteBishops());
+    unsigned int blackBishopCount = popcount(myBoard->getBlackBishops());
     int pairCount = (whiteBishopCount > 1) - (blackBishopCount > 1);
 
     int bishopPairBonus = pairCount*(EvalTables::BishopPair[OPENING]*myGameStage +
@@ -254,23 +254,23 @@ int Eval::calcMaterialAdjustments(const int64_t alpha) const
 int Eval::getWhitePiecesValue() const
 {
     int whitePiecesValue(0);
-    whitePiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getWhitePawns())*Piece::PAWN_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKnights())*Piece::KNIGHT_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteBishops())*Piece::BISHOP_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteRooks())*Piece::ROOK_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteQueens())*Piece::QUEEN_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getWhiteKing())*Piece::KING_VALUE;
+    whitePiecesValue += popcount(myBoard->getWhitePawns())*Piece::PAWN_VALUE
+                        + popcount(myBoard->getWhiteKnights())*Piece::KNIGHT_VALUE
+                        + popcount(myBoard->getWhiteBishops())*Piece::BISHOP_VALUE
+                        + popcount(myBoard->getWhiteRooks())*Piece::ROOK_VALUE
+                        + popcount(myBoard->getWhiteQueens())*Piece::QUEEN_VALUE
+                        + popcount(myBoard->getWhiteKing())*Piece::KING_VALUE;
     return whitePiecesValue;
 }
 int Eval::getBlackPiecesValue() const
 {
     int blackPiecesValue(0);
-    blackPiecesValue += BitBoardUtils::countBBBitsSet(myBoard->getBlackPawns())*Piece::PAWN_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackKnights())*Piece::KNIGHT_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackBishops())*Piece::BISHOP_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackRooks())*Piece::ROOK_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackQueens())*Piece::QUEEN_VALUE
-                        + BitBoardUtils::countBBBitsSet(myBoard->getBlackKing())*Piece::KING_VALUE;
+    blackPiecesValue += popcount(myBoard->getBlackPawns())*Piece::PAWN_VALUE
+                        + popcount(myBoard->getBlackKnights())*Piece::KNIGHT_VALUE
+                        + popcount(myBoard->getBlackBishops())*Piece::BISHOP_VALUE
+                        + popcount(myBoard->getBlackRooks())*Piece::ROOK_VALUE
+                        + popcount(myBoard->getBlackQueens())*Piece::QUEEN_VALUE
+                        + popcount(myBoard->getBlackKing())*Piece::KING_VALUE;
 
     return blackPiecesValue;
 }

@@ -23,13 +23,13 @@ TEST_CASE("Bit manipulation")
     SECTION("Count set bits")
     {
         U64 testInt(0x810001000);
-        REQUIRE(BitBoardUtils::countBBBitsSet(testInt)==3);
+        REQUIRE(popcount(testInt)==3);
 
         testInt=0x18060600045ead;
-        REQUIRE(BitBoardUtils::countBBBitsSet(testInt)==17);
+        REQUIRE(popcount(testInt)==17);
 
         testInt=0x0;
-        REQUIRE(BitBoardUtils::countBBBitsSet(testInt)==0);
+        REQUIRE(popcount(testInt)==0);
     }
 }
 

@@ -95,8 +95,8 @@ TEST_CASE( "Test the mobility calculation", "[Eval]")
     // val.updateEvalAttributes(e2e4) not needed
     sp->updateAtkFr();
 
-    REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_F1)) == 5); // Verify the attacked squares
-    REQUIRE(BitBoardUtils::countBBBitsSet(sp->getAtkFr(SQ_D1)) == 4);
+    REQUIRE(popcount(sp->getAtkFr(SQ_F1)) == 5); // Verify the attacked squares
+    REQUIRE(popcount(sp->getAtkFr(SQ_D1)) == 4);
 
     int64_t gameStage = eval.getGameStage();
 
