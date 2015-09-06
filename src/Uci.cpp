@@ -22,14 +22,14 @@ void Uci::updatePosition(std::istringstream& is)
 
 	if (token == "startpos")
 	{
-		boardPtr = std::shared_ptr<Board>(new Board());
+		myBoardPtr = std::shared_ptr<Board>(new Board());
 		//is >> token; // Consume "moves" token if any
 	}
 	else if (token == "fen")
 	{
 		while (is >> token && token != "moves")
 			fen += token + " ";
-		boardPtr = std::shared_ptr<Board>(new Board(fen));
+		myBoardPtr = std::shared_ptr<Board>(new Board(fen));
 	}
 	else
 	{
@@ -42,14 +42,14 @@ void Uci::updatePosition(std::istringstream& is)
 		if (token != "moves")
 		{
 			m = strToMove(token);
-			boardPtr->executeMove(m);
+			myBoardPtr->executeMove(m);
 		}
 	}
 }
 
 Move Uci::strToMove(std::string str)
 {
-	MoveGen mg(boardPtr);
+	MoveGen mg(myBoardPtr);
 	std::vector<Move> moves = mg.getLegalMoves();
 
 
@@ -92,7 +92,7 @@ void Uci::loop()
 
 		else if (token == "color")
 
-			std::cout << "colorToPlay: " << boardPtr->getColorToPlay() << std::endl;
+			std::cout << "colorToPlay: " << myBoardPtr->getColorToPlay() << std::endl;
 
 		else if (token == "ucinewgame")
 
@@ -102,7 +102,7 @@ void Uci::loop()
 			updatePosition(is);
 
 		else if (token == "print")
-			std::cout << *boardPtr << std::endl;
+			std::cout << *myBoardPtr << std::endl;
 
 		else if (token == "go")
 		{
@@ -131,9 +131,9 @@ void Uci::loop()
 
 void Uci::search()
 {
-	Search search(boardPtr); //Note this could be done earlier before the search
+	Search search(myBoardPtr); //Note this could be done earlier before the search
 
-	unsigned int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, boardPtr->getColorToPlay());
+	unsigned int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());
 	//std::cout << "Romain time allocated " << timeMS << std::endl;
 
 	search.negaMaxRootIterativeDeepening(timeMS);
