@@ -30,12 +30,12 @@ namespace Pawn
 	/** Utils **/
     inline unsigned int countPawnsInFile(const Board &board, const unsigned int file, const Color color)
     {
-        return BitBoardUtils::countBBBitsSet(board.getBitBoard(Piece::PAWN,color) & Tables::MASK_FILE[file]);
+        return popcount(board.getBitBoard(Piece::PAWN,color) & Tables::MASK_FILE[file]);
     };
 
 	inline unsigned int countPawns(const Board &board, const Color color)
 	{
-        return BitBoardUtils::countBBBitsSet(board.getPawns(color));
+        return popcount(board.getPawns(color));
     };
 
     inline bool hasNeighbors(const Board &board, const unsigned int file, const Color color)

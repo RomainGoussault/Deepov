@@ -10,14 +10,19 @@
 #include <chrono>
 #include <ctime>
 #include <ratio>
+#include <map>
 
 namespace thrd = boost;
 
 #include "Board.hpp"
 #include "Move.hpp"
+#include "UciOption.hpp"
 
 //Uci documentation:
 //http://wbec-ridderkerk.nl/html/UCIProtocol.html
+typedef std::map<std::string, UciOption> OptionsMap;
+
+
 
 class Uci
 {
@@ -25,14 +30,17 @@ public :
 
 	Uci() : wtime(1000), btime(1000), winc(1000), binc(1000)
 	{
-		boardPtr = std::shared_ptr<Board>(new Board());
+		myBoardPtr = std::shared_ptr<Board>(new Board());
+
+		//Init Options map
+		myOptionsMap["timeDivider"] = UciOption("70", "spin");
 	}
 
 	void loop();
 
 private:
 
-	std::shared_ptr<Board> boardPtr;
+	std::shared_ptr<Board> myBoardPtr;
 	thrd::thread myThread;
 	unsigned int wtime;
 	unsigned int btime;
@@ -42,6 +50,8 @@ private:
 	void updatePosition(std::istringstream& is);
 	Move strToMove(std::string str);
 	void search();
+
+	OptionsMap myOptionsMap;
 
 };
 
