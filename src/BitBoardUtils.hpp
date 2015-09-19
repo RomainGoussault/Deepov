@@ -14,6 +14,11 @@ typedef std::uint64_t U64;
 #define _U64
 #endif // _U64
 
+#ifdef __MSC_VER
+#  include <intrin.h>
+#  define __builtin_popcountll _mm_popcnt_u64
+#endif
+
 /* Bit Hacks*/
 // Source : https://graphics.stanford.edu/~seander/bithacks.html
 inline unsigned int popcount(const U64 bitboard)
