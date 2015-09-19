@@ -13,15 +13,14 @@
 typedef std::uint64_t U64;
 #define _U64
 #endif // _U64
-
-#ifdef __MSC_VER
-#  include <intrin.h>
+#ifdef _MSC_VER
+#  include <nmmintrin.h>
 #  define __builtin_popcountll _mm_popcnt_u64
 #endif
 
 /* Bit Hacks*/
 // Source : https://graphics.stanford.edu/~seander/bithacks.html
-inline unsigned int popcount(const U64 bitboard)
+inline unsigned int popcount(U64 bitboard)
 {
 	return __builtin_popcountll(bitboard);
 }
@@ -33,16 +32,33 @@ inline unsigned int popcount(const U64 bitboard)
 //https://github.com/mcostalba/Stockfish/blob/master/src/bitboard.h#L305
 inline Square msb(const U64 bitboard)
 {
+#ifdef _MSC_VER
+	unsigned long idx;
+	_BitScanReverse64(&idx, bitboard);
+	return (Square)idx;
+
+#else
 	U64 idx;
-	__asm__("bsrq %1, %0": "=r"(idx): "rm"(bitboard) );
+	__asm__("bsrq %1, %0": "=r"(idx) : "rm"(bitboard));
+
+#endif
+	
 	return (Square) idx;
-	//		return static_cast<Square>(__builtin_ctzll(bitboard));
+	//return static_cast<Square>(__builtin_ctzll(bitboard));
 }
 
-inline Square lsb(U64 b) { // Assembly code by Heinz van Saanen
+inline Square lsb(U64 bitboard) { // Assembly code by Heinz van Saanen
+#ifdef _MSC_VER
+	unsigned long idx;
+	_BitScanForward64(&idx, bitboard);
+	return (Square)idx;
+
+#else
 	U64 idx;
-	__asm__("bsfq %1, %0": "=r"(idx): "rm"(b) );
-	return (Square) idx;
+	__asm__("bsfq %1, %0": "=r"(idx): "rm"(bitboard) );
+	return (Square)idx;
+
+#endif
 }
 
 inline Square pop_lsb(U64* b) {

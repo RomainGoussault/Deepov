@@ -1,6 +1,8 @@
 #include <vector>
 #include <iostream>
 #include <math.h>
+#include <thread>         // std::thread
+
 
 #include "Board.hpp"
 #include "Move.hpp"

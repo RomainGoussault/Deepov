@@ -582,13 +582,7 @@ char Board::getChar(const unsigned int file, const unsigned int rank) const
 void Board::setBitBoards(const std::string piecesString, const unsigned int rank)
 {
 	unsigned int x = -1;
-	unsigned int piecesCharSize = piecesString.size();
-	char piecesChar[piecesCharSize];
-	strcpy(piecesChar, piecesString.c_str());
-
-	for (unsigned int i=0; i<piecesCharSize; i++)
-	{
-		char pieceChar = piecesChar[i];
+	for (const char& pieceChar : piecesString) {
 
 		if(isdigit(pieceChar))
 		{

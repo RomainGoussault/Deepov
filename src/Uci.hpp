@@ -5,14 +5,15 @@
 #include <vector>
 #include <iostream>
 #include <math.h>
-#include <boost/thread.hpp>
 #include <memory>
 #include <chrono>
 #include <ctime>
 #include <ratio>
 #include <map>
+#include <thread>
 
-namespace thrd = boost;
+
+namespace thrd = std;
 
 #include "Board.hpp"
 #include "Move.hpp"

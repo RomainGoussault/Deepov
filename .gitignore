@@ -36,3 +36,11 @@ DeepovTesting
 /makefile.save
 *.out.*
 /gprof.txt
+x64/
+*.cd
+*.opensdf
+*.sdf
+*.sln
+*.vcxproj
+*.filters
+*.user
