@@ -654,7 +654,7 @@ unsigned int Board::perft(unsigned int depth)
 	}
 
 	MoveGen movegen(*this);
-	std::vector<Move> moves(movegen.getMoves());
+	std::vector<Move> moves(movegen.generateMoves());
 
 	if (moves.empty())
 	{
@@ -684,7 +684,7 @@ unsigned int Board::divide(unsigned int depth)
 	}
 
 	MoveGen movegen(*this);
-	std::vector<Move> moves(movegen.getMoves());
+	std::vector<Move> moves(movegen.generateMoves());
 	nMoves = moves.size();
 
 	for (auto &move : moves)

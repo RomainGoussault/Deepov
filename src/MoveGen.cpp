@@ -305,12 +305,12 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 	}
 }
 
-std::vector<Move> MoveGen::getPseudoLegalMoves()
+std::vector<Move> MoveGen::generatePseudoLegalMoves()
 {
-	return getLegalMoves(myBoard->getColorToPlay());
+	return generateLegalMoves(myBoard->getColorToPlay());
 }
 
-std::vector<Move> MoveGen::getPseudoLegalMoves(const Color color)
+std::vector<Move> MoveGen::generatePseudoLegalMoves(const Color color)
 {
 	std::vector<Move> legalMoves;
 	legalMoves.reserve(218);
@@ -325,17 +325,33 @@ std::vector<Move> MoveGen::getPseudoLegalMoves(const Color color)
 	return legalMoves;
 }
 
-std::vector<Move> MoveGen::getLegalMoves()
+std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 {
-	return getLegalMoves(myBoard->getColorToPlay());
+	//TODO implement..
+
+	return generatePseudoLegalMoves(color);
 }
 
-std::vector<Move> MoveGen::getLegalMoves(const Color color)
+std::vector<Move> MoveGen::generateLegalMoves()
 {
-	std::vector<Move> moves = getPseudoLegalMoves(color);
+	return generateLegalMoves(myBoard->getColorToPlay());
+}
 
+std::vector<Move> MoveGen::generateLegalMoves(const Color color)
+{
 	myBoard->updatePinnedPieces();
 	bool isCheck = myBoard->isCheck();
+
+	std::vector<Move> moves;
+
+	if(isCheck)
+	{
+		moves = generateEvasionMoves(color);
+	}
+	else
+	{
+		moves = generatePseudoLegalMoves(color);
+	}
 
 	moves.erase(std::remove_if(moves.begin(), moves.end(),
 			[&](Move move) mutable { return !myBoard->isMoveLegal(move, isCheck); }), moves.end());

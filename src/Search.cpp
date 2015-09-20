@@ -21,7 +21,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		return evaluate();
 	}
 
-	std::vector<Move> moveList = moveGen.getMoves();
+	std::vector<Move> moveList = moveGen.generateMoves();
 
 	Eval::sortMoveList(moveList);
 
@@ -57,7 +57,7 @@ int Search::negaMaxRoot(const int depth)
 
 	MoveGen moveGen(myBoard);
 
-	std::vector<Move> moveList = moveGen.getMoves();
+	std::vector<Move> moveList = moveGen.generateMoves();
 
 	for (auto currentMove : moveList)
 	{
@@ -111,7 +111,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	    	if(durationMS > 0.3*allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
 	    }
 
-		std::vector<Move> moveList = moveGen.getMoves();
+		std::vector<Move> moveList = moveGen.generateMoves();
 
 		for (auto currentMove : moveList)
 		{

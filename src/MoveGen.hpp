@@ -17,7 +17,7 @@ public:
     MoveGen(std::shared_ptr<Board> boardPtr);
 
     /* Get Attributes */
-    inline std::vector<Move> getMoves() {return getLegalMoves();};
+    inline std::vector<Move> generateMoves() {return generateLegalMoves();};
 
     /* Special Moves */
     void appendWhiteEnPassantMoves(std::vector<Move>& moves) const;
@@ -90,10 +90,11 @@ public:
     }
 
     /* Moves */
-    std::vector<Move> getPseudoLegalMoves();
-    std::vector<Move> getPseudoLegalMoves(const Color color);
-    std::vector<Move> getLegalMoves();
-    std::vector<Move> getLegalMoves(const Color color);
+    std::vector<Move> generatePseudoLegalMoves();
+    std::vector<Move> generatePseudoLegalMoves(const Color color);
+    std::vector<Move> generateEvasionMoves(const Color color);
+    std::vector<Move> generateLegalMoves();
+    std::vector<Move> generateLegalMoves(const Color color);
 
     //Castling
     void addKingSideCastlingMove(Color color, Square kingIndex, std::vector<Move>& moves) const;

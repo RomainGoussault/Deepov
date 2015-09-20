@@ -52,7 +52,7 @@ void Uci::updatePosition(std::istringstream& is)
 Move Uci::strToMove(std::string str)
 {
 	MoveGen mg(myBoardPtr);
-	std::vector<Move> moves = mg.getLegalMoves();
+	std::vector<Move> moves = mg.generateLegalMoves();
 
 
 	for (auto move : moves)

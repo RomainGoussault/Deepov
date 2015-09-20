@@ -1,5 +1,5 @@
 //Based on the Stockfish ucioption class.
-
+//https://github.com/mcostalba/Stockfish/blob/master/src/ucioption.h
 
 #ifndef UCIOPTION_HPP_
 #define UCIOPTION_HPP_
