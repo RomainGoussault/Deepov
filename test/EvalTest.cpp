@@ -85,6 +85,8 @@ TEST_CASE( "Test the update of evaluation for promotion moves", "[Eval]")
 TEST_CASE( "Test the mobility calculation", "[Eval]")
 {
     Tables::init();
+	MagicMoves::initmagicmoves();
+
     std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
     Eval eval(sp);
     int mobilityScore = eval.calcMobilityScore(0LL);
