@@ -446,10 +446,10 @@ void Board::undoMove(Move &move)
 void Board::updateConvenienceBitboards()
 {
 	// White Pieces bitboard
-	myBitboards[12] = myBitboards[0] | myBitboards[1] | myBitboards[2] | myBitboards[3] | myBitboards[4] | myBitboards[5];
+	myBitboards[12] = myBitboards[0] ^ myBitboards[1] ^ myBitboards[2] ^ myBitboards[3] ^ myBitboards[4] ^ myBitboards[5];
 
 	// Black Pieces bitboard
-	myBitboards[13] = myBitboards[6] | myBitboards[7] | myBitboards[8] | myBitboards[9] | myBitboards[10] | myBitboards[11];
+	myBitboards[13] = myBitboards[6] ^ myBitboards[7] ^ myBitboards[8] ^ myBitboards[9] ^ myBitboards[10] ^ myBitboards[11];
 
 	// All Pawns bitboard
 	myBitboards[14] = myBitboards[0] ^ myBitboards[6];
