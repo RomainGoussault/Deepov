@@ -172,6 +172,11 @@ void Uci::loop()
 			thrd::swap(thr, myThread);
 			myThread.join();
 		}
+		else if (token == "quit")
+		{
+			std::cout << "Terminating.." << std::endl;
+			break;
+		}
 		else
 			// Command not handled
 			std::cout << "what?" << std::endl;
