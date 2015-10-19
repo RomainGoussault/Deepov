@@ -327,7 +327,15 @@ std::vector<Move> MoveGen::generatePseudoLegalMoves(const Color color)
 
 std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 {
-	//TODO implement..
+	//TODO implement
+
+	U64 sliderAttacks = 0;
+
+	//Generate sliders attack of piece(s) that gives checks
+
+	//Generate evasion move for king
+
+	//If there is only one checker, try to block it with another piece
 
 	return generatePseudoLegalMoves(color);
 }
