@@ -34,7 +34,7 @@ public :
 		myBoardPtr = std::shared_ptr<Board>(new Board());
 
 		//Init Options map
-		myOptionsMap["timeDivider"] = UciOption("70", "spin");
+		myOptionsMap["timeDivider"] = UciOption("50", "spin");
 	}
 
 	void loop();
@@ -52,7 +52,8 @@ private:
 	Move strToMove(std::string str);
 	void search();
 	void setoption(std::istringstream& is);
-	void printOptions();
+	void printOptions() const;
+	std::string getOption(const std::string str) const;
 
 	OptionsMap myOptionsMap;
 

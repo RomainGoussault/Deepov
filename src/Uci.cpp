@@ -50,6 +50,14 @@ void Uci::updatePosition(std::istringstream& is)
 	}
 }
 
+std::string Uci::getOption(const std::string str) const
+{
+	//Ugly and not safe
+	//TODO: Refactor
+	UciOption uciOption = (*(myOptionsMap.find(str))).second;
+	return uciOption.myCurrentValue;
+}
+
 // setoption() is called when engine receives the "setoption" UCI command. The
 // function updates the UCI option ("name") to the given value ("value").
 // Taken and adaptated from Stockfish
@@ -82,7 +90,7 @@ void Uci::setoption(std::istringstream& is) {
 	   std::cout << "No such option: " << name << std::endl;
  }
 
-void Uci::printOptions() {
+void Uci::printOptions() const{
 
 	std::cout << "Current options" << std::endl;
 
@@ -186,6 +194,9 @@ void Uci::loop()
 void Uci::search()
 {
 	Search search(myBoardPtr); //Note this could be done earlier before the search
+
+	TimeManager::divider = std::stoi(getOption("timeDivider"));
+	std::cout << "Romain time divider " << TimeManager::divider << std::endl;
 
 	unsigned int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());
 	//std::cout << "Romain time allocated " << timeMS << std::endl;

@@ -9,7 +9,7 @@
 
 namespace TimeManager
 {
-	constexpr unsigned int divider = 50;
+	unsigned int divider = 50; //this value is set by the timeDivider Option
 
 	//Note all values are in ms
 	unsigned int getTimeAllocatedMiliSec(const unsigned int wtime, const unsigned int btime, const unsigned int /*winc*/, const unsigned int /*binc*/, const Color colorToPlay)
