@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include <math.h>
 #include <thread>         // std::thread
 
@@ -49,6 +50,48 @@ void Uci::updatePosition(std::istringstream& is)
 	}
 }
 
+// setoption() is called when engine receives the "setoption" UCI command. The
+// function updates the UCI option ("name") to the given value ("value").
+// Taken and adaptated from Stockfish
+void Uci::setoption(std::istringstream& is) {
+
+   std::string token, name, value;
+
+   is >> token; // Consume "name" token
+
+   // Read option name (can contain spaces)
+   while (is >> token && token != "value")
+       name += std::string(" ", name.empty() ? 0 : 1) + token;
+
+   // Read option value (can contain spaces)
+   while (is >> token)
+       value += std::string(" ", value.empty() ? 0 : 1) + token;
+
+   if (myOptionsMap.count(name))
+   {
+	   //count returns the number of elements with key name
+	   // which is either 1 or 0 since this container does not allow duplicates
+
+	   //This calls the overloaded operator: UciOption& operator=
+	   myOptionsMap[name] = value;
+
+	   std::cout << "Option: " << name << " updated to "<< value << std::endl;
+
+   }
+   else
+	   std::cout << "No such option: " << name << std::endl;
+ }
+
+void Uci::printOptions() {
+
+	std::cout << "Current options" << std::endl;
+
+	for(auto elem : myOptionsMap)
+	{
+	   std::cout << "[" << elem.first << "]" << " " << elem.second  << std::endl;
+	}
+ }
+
 Move Uci::strToMove(std::string str)
 {
 	MoveGen mg(myBoardPtr);
@@ -74,6 +117,8 @@ void Uci::loop()
 	// Make sure that the outputs are sent straight away to the GUI
 	std::cout.setf (std::ios::unitbuf);
 
+	printOptions();
+
 	while (std::getline(std::cin, line))
 	{
 		std::istringstream is(line);
@@ -92,6 +137,9 @@ void Uci::loop()
 
 			std::cout << "readyok" << std::endl;
 
+		else if (token == "setoption")  setoption(is);
+
+
 		else if (token == "color")
 
 			std::cout << "colorToPlay: " << myBoardPtr->getColorToPlay() << std::endl;
@@ -105,6 +153,9 @@ void Uci::loop()
 
 		else if (token == "print")
 			std::cout << *myBoardPtr << std::endl;
+
+		else if (token == "printOptions")
+			printOptions();
 
 		else if (token == "go")
 		{
@@ -120,10 +171,6 @@ void Uci::loop()
 			thrd::thread thr(&Uci::search, this);
 			thrd::swap(thr, myThread);
 			myThread.join();
-			//1sec search only
-
-
-		//	search();
 		}
 		else
 			// Command not handled

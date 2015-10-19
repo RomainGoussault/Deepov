@@ -51,6 +51,8 @@ private:
 	void updatePosition(std::istringstream& is);
 	Move strToMove(std::string str);
 	void search();
+	void setoption(std::istringstream& is);
+	void printOptions();
 
 	OptionsMap myOptionsMap;
 

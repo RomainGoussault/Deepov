@@ -25,14 +25,40 @@ UciOption(std::string defaultValue, std::string type) :
 {
 };
 
+UciOption& operator=(const std::string& v )
+{
+//Blindly update for now
+
+//	if ((myType != "button" && v.empty())
+//			|| (myType == "check" && v != "true" && v != "false")
+//			|| (myType == "spin" && (stoi(v) < min || stoi(v) > max)))
+//		return *this;
+//
+//	if (myType != "button")
+		myCurrentValue = v;
+
+	return *this;
+}
+
+UciOption(const std::string v) : myType("string"), min(0), max(0)
+{ myDefaultValue = myCurrentValue = v; }
+
+//Everything public for now
+std::string myDefaultValue, myCurrentValue, myType;
+int min, max;
+
 private:
 
-	std::string myDefaultValue, myCurrentValue, myType;
-	int min, max;
+
 	//size_t idx;
 };
 
+inline std::ostream& operator<<(std::ostream &strm, const UciOption &UciOption) {
 
+	strm << UciOption.myCurrentValue << std::endl;
+
+	return strm;
+}
 ///// operator<<() is used to print all the options default values in chronological
 ///// insertion order (the idx field) and in the format defined by the UCI protocol.
 //
