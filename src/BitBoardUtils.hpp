@@ -18,6 +18,11 @@ typedef std::uint64_t U64;
 #  define __builtin_popcountll _mm_popcnt_u64
 #endif
 
+inline bool moreThanOne(U64 bitboard)
+{
+	return bitboard & (bitboard-1);
+}
+
 /* Bit Hacks*/
 // Source : https://graphics.stanford.edu/~seander/bithacks.html
 inline unsigned int popcount(U64 bitboard)
