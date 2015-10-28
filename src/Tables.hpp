@@ -8,6 +8,7 @@
 
 namespace Tables
 {
+	const U64 ALL = 0xffffffffffffffff;
     const U64 MASK_RANK[]={0xFF,
                                 0xFF00,
                                 0xFF0000,

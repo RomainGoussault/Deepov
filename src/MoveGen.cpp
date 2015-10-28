@@ -132,7 +132,7 @@ void MoveGen::addQueenSideCastlingMove(Color color, Square kingIndex, std::vecto
 	}
 }
 
-void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
+void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target) const
 {
 	U64 queenPositions = myBoard->getQueens(color);
 
@@ -145,7 +145,7 @@ void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& 
 
 		U64 bishopDestinations = MagicMoves::Bmagic(queenIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
 		U64 rookDestinations = MagicMoves::Rmagic(queenIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
-		U64 queenDestinations = bishopDestinations ^ rookDestinations ;
+		U64 queenDestinations = (bishopDestinations ^ rookDestinations) & target ;
 
 		U64 queenCaptureDestinations = queenDestinations & myBoard->getPieces(ennemyColor);
 		U64 queenQuietDestinations = queenDestinations ^ queenCaptureDestinations;
@@ -155,7 +155,7 @@ void MoveGen::appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& 
 	}
 }
 
-void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
+void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target) const
 {
 	U64 bishopPositions = myBoard->getBishops(color);
 
@@ -166,7 +166,7 @@ void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>&
 
 		Color ennemyColor = Utils::getOppositeColor(color);
 
-		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
+		U64 bishopDestinations = MagicMoves::Bmagic(bishopIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color) & target;
 
 		U64 bishopCaptureDestinations = bishopDestinations & myBoard->getPieces(ennemyColor);
 		U64 bishopQuietDestinations = bishopDestinations ^ bishopCaptureDestinations;
@@ -176,7 +176,7 @@ void MoveGen::appendBishopPseudoLegalMoves(const Color color, std::vector<Move>&
 	}
 }
 
-void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
+void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target) const
 {
 	U64 rookPositions = myBoard->getRooks(color);
 
@@ -187,7 +187,7 @@ void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& m
 
 		Color ennemyColor = Utils::getOppositeColor(color);
 
-		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color);
+		U64 rookDestinations = MagicMoves::Rmagic(rookIndex, myBoard->getAllPieces()) & ~myBoard->getPieces(color) & target;
 
 		U64 rookCaptureDestinations = rookDestinations & myBoard->getPieces(ennemyColor);
 		U64 rookQuietDestinations = rookDestinations ^ rookCaptureDestinations;
@@ -209,18 +209,18 @@ std::vector<Move> MoveGen::getPawnPseudoLegalMoves(const Color color) const
 	}
 }*/
 
-void MoveGen::appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
+void MoveGen::appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target) const
 {
 	if(color == WHITE)
 	{
-		appendWhitePawnPseudoLegalMoves(moves);
+		appendWhitePawnPseudoLegalMoves(moves, target);
 	}
 	else
 	{
-		appendBlackPawnPseudoLegalMoves(moves);
+		appendBlackPawnPseudoLegalMoves(moves, target);
 	}
 }
-void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>& moves) const
+void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target) const
 {
 	U64 knightPositions = myBoard->getKnights(color) & ~myBoard->getPinnedPieces();
 
@@ -228,7 +228,7 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 	while(knightPositions)
 	{
 		const Square knightIndex = pop_lsb(&knightPositions);
-		U64 knightValidDestinations = myBoard->getKnightAttacks(knightIndex, color);
+		U64 knightValidDestinations = myBoard->getKnightAttacks(knightIndex, color) & target;
 
 		Color ennemyColor = Utils::getOppositeColor(color);
 
@@ -240,9 +240,9 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 	}
 }
 
-void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
+void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves, U64 target) const
 {
-	appendWhiteEnPassantMoves(moves);
+	appendWhiteEnPassantMoves(moves, target);
 	U64 pawnPositions = myBoard->getWhitePawns();
 
 	while(pawnPositions)
@@ -251,15 +251,15 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
 		/* check the single space in front of the white pawn */
-		U64 firstStep = (pawnPos << 8) & ~myBoard->getAllPieces();
+		U64 firstStep = (pawnPos << 8) & ~myBoard->getAllPieces() & target;
 
 		/* for all moves that came from rank 2 (home row), and passed the above
 		filter, thereby being on rank 3, ie. on MASK_RANK[2], check and see if I can move forward
 		one more */
-		U64 twoSteps = ((firstStep & Tables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces();
+		U64 twoSteps = ((firstStep & Tables::MASK_RANK[2]) << 8) & ~myBoard->getAllPieces() & target;
 
 		/* next we calculate the pawn attacks */
-		U64 validAttacks = Tables::PAWN_ATTACK_TABLE[WHITE][pawnIndex] & myBoard->getBlackPieces();
+		U64 validAttacks = Tables::PAWN_ATTACK_TABLE[WHITE][pawnIndex] & myBoard->getBlackPieces() & target;
 
 		/* then we combine the two situations in which a white pawn can legally
 		attack/move. */
@@ -273,9 +273,9 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const
 	}
 }
 
-void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
+void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves, U64 target) const
 {
-	appendBlackEnPassantMoves(moves);
+	appendBlackEnPassantMoves(moves, target);
 	U64 pawnPositions = myBoard->getBlackPawns();
 
 	while(pawnPositions)
@@ -284,15 +284,15 @@ void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const
 		U64 pawnPos = 0 | 1LL << pawnIndex;
 
 		/* check the single space in front of the white pawn */
-		U64 firstStep = (pawnPos >> 8) & ~myBoard->getAllPieces();
+		U64 firstStep = (pawnPos >> 8) & ~myBoard->getAllPieces() & target;
 
 		/* for all moves that came from rank 7 (home row), and passed the above
 		filter, thereby being on rank 6, ie. on MASK_RANK[5], check and see if I can move forward
 		one more */
-		U64 twoSteps = ((firstStep & Tables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces();
+		U64 twoSteps = ((firstStep & Tables::MASK_RANK[5]) >> 8) & ~myBoard->getAllPieces() & target;
 
 		/* next we calculate the pawn attacks */
-		U64 validAttacks = Tables::PAWN_ATTACK_TABLE[BLACK][pawnIndex] & myBoard->getWhitePieces();
+		U64 validAttacks = Tables::PAWN_ATTACK_TABLE[BLACK][pawnIndex] & myBoard->getWhitePieces() & target;
 
 		/* then we combine the two situations in which a white pawn can legally
 		attack/move. */
@@ -326,30 +326,57 @@ std::vector<Move> MoveGen::generatePseudoLegalMoves(const Color color)
 	return legalMoves;
 }
 
+//based on https://github.com/mcostalba/Stockfish/blob/master/src/movegen.cpp#L365
 std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 {
-	//TODO implement
+	std::vector<Move> evasionMoves;
 
+	Color ennemyColor = Utils::getOppositeColor(color);
 	U64 sliderAttacks = 0;
 	U64 kbb = myBoard->getKing(color);
 	Square ksq = msb(kbb);
 
 	U64 kingAttackers = myBoard->getKingAtkTo(ksq, color);
+
 	U64 sliderAttackers = myBoard->getKingSliderAtkTo(ksq, color);
 
+	//Generate sliders attack of piece(s) that gives checks
 	  while (sliderAttackers)
 	  {
 	      Square checksq = pop_lsb(&sliderAttackers);
 	      sliderAttacks |= Tables::LINE_BB[checksq][ksq] ^ checksq;
 	  }
 
-	//Generate sliders attack of piece(s) that gives checks
-
 	//Generate evasion move for king
+	U64 kingAttacks = myBoard->getKingAttacks(ksq, color);
+	U64 kingEvasions = kingAttacks & ~sliderAttacks;
 
-	//If there is only one checker, try to block it with another piece
+	U64 kingCaptureDestinations = kingEvasions & myBoard->getPieces(ennemyColor);
+	U64 kingQuietDestinations = kingEvasions ^ kingCaptureDestinations;
 
-	return generatePseudoLegalMoves(color);
+	addQuietMoves(kingQuietDestinations, ksq, evasionMoves, Piece::KING);
+	addCaptureMoves(kingCaptureDestinations, ksq, evasionMoves, Piece::KING);
+
+	if(moreThanOne(kingAttackers))
+	{
+		return evasionMoves;
+	}
+
+	//We know there is only one piece that gives check
+	//Lets try to generate a moves that capture or blocks the checker piece
+	Square checkerSq = msb(kingAttackers);
+	U64 target = BitBoardUtils::inBetween(checkerSq, ksq) | checkerSq;
+
+	//Note: The target line is not continuous ( * X X * * X X) sometimes. I think it should?
+	//std::cout << BitBoardUtils::printBitBoard(target);
+
+	appendPawnPseudoLegalMoves(color, evasionMoves, target);
+	appendKnightPseudoLegalMoves(color, evasionMoves, target);
+	appendBishopPseudoLegalMoves(color, evasionMoves, target);
+	appendRookPseudoLegalMoves(color, evasionMoves, target);
+	appendQueenPseudoLegalMoves(color, evasionMoves, target);
+
+	return evasionMoves;
 }
 
 std::vector<Move> MoveGen::generateLegalMoves()
@@ -371,8 +398,8 @@ std::vector<Move> MoveGen::generateLegalMoves(const Color color)
 	else
 	{
 		moves = generatePseudoLegalMoves(color);
-	}
 
+	}
 	moves.erase(std::remove_if(moves.begin(), moves.end(),
 			[&](Move move) mutable { return !myBoard->isMoveLegal(move, isCheck); }), moves.end());
 	//TODO make this easier to understand..
@@ -381,7 +408,7 @@ std::vector<Move> MoveGen::generateLegalMoves(const Color color)
 }
 
   /* Special Moves */
-void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
+void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves, U64 target) const
 {
 	U64 validPawns = (myBoard->getWhitePawns() & Tables::MASK_RANK[4]);
 
@@ -404,9 +431,13 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
             	Square destination = static_cast<Square>(enemyDestination+8);
-                Move epMove(validPawnIndex,destination,Move::EP_CAPTURE_FLAG,Piece::PAWN);
-                epMove.setCapturedPieceType(Piece::PAWN);
-                moves.push_back(epMove);
+            	U64 destinationbb = 0 | 1LL << destinationbb;
+            	if(destinationbb && target)
+            	{
+            		Move epMove(validPawnIndex,destination,Move::EP_CAPTURE_FLAG,Piece::PAWN);
+            		epMove.setCapturedPieceType(Piece::PAWN);
+            		moves.push_back(epMove);
+            	}
             }
         }
     }
@@ -414,7 +445,7 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves) const
     return;
 }
 
-void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
+void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves, U64 target) const
 {
 	U64 validPawns = (myBoard->getBlackPawns() & Tables::MASK_RANK[3]);
 
@@ -437,9 +468,14 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves) const
             if (abs(validPawnIndex - enemyDestination) == 1)
             {
             	Square destination = static_cast<Square>(enemyDestination-8);
-                Move epMove(validPawnIndex, destination, Move::EP_CAPTURE_FLAG, Piece::PAWN);
-                epMove.setCapturedPieceType(Piece::PAWN);
-                moves.push_back(epMove);
+
+            	U64 destinationbb = 0 | 1LL << destinationbb;
+            	if(destinationbb && target)
+            	{
+            	Move epMove(validPawnIndex, destination, Move::EP_CAPTURE_FLAG, Piece::PAWN);
+            	epMove.setCapturedPieceType(Piece::PAWN);
+            	moves.push_back(epMove);
+            	}
             }
         }
 

@@ -20,18 +20,18 @@ public:
     inline std::vector<Move> generateMoves() {return generateLegalMoves();};
 
     /* Special Moves */
-    void appendWhiteEnPassantMoves(std::vector<Move>& moves) const;
-    void appendBlackEnPassantMoves(std::vector<Move>& moves) const;
+    void appendWhiteEnPassantMoves(std::vector<Move>& moves, U64 target = Tables::ALL) const;
+    void appendBlackEnPassantMoves(std::vector<Move>& moves, U64 target= Tables::ALL) const;
 
     /* Pseudo Legal Moves */
-    void appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
-    void appendKnightPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
+    void appendQueenPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target = Tables::ALL) const;
+    void appendKnightPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target = Tables::ALL) const;
     void appendKingPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
-    void appendRookPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
-    void appendBishopPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
-    void appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& moves) const;
-    void appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves) const;
-    void appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves) const;
+    void appendRookPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target = Tables::ALL) const;
+    void appendBishopPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target = Tables::ALL) const;
+    void appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target = Tables::ALL) const;
+    void appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves, U64 target = Tables::ALL) const;
+    void appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves, U64 target = Tables::ALL) const;
 
 	std::vector<Move> getRookPseudoLegalMoves(const Color color) const
 	{
