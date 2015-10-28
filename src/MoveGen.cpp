@@ -1,6 +1,7 @@
 #include "MoveGen.hpp"
 #include "BitBoardUtils.hpp"
 #include "MagicMoves.hpp"
+#include "Tables.hpp"
 #include <memory>
 
 
@@ -330,6 +331,17 @@ std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 	//TODO implement
 
 	U64 sliderAttacks = 0;
+	U64 kbb = myBoard->getKing(color);
+	Square ksq = msb(kbb);
+
+	U64 kingAttackers = myBoard->getKingAtkTo(ksq, color);
+	U64 sliderAttackers = myBoard->getKingSliderAtkTo(ksq, color);
+
+	  while (sliderAttackers)
+	  {
+	      Square checksq = pop_lsb(&sliderAttackers);
+	      sliderAttacks |= Tables::LINE_BB[checksq][ksq] ^ checksq;
+	  }
 
 	//Generate sliders attack of piece(s) that gives checks
 

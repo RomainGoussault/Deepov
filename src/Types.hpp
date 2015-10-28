@@ -27,6 +27,10 @@ enum Square {
   SQUARE_NB = 64
 };
 
+
 inline Square& operator++(Square& d) { return d = Square(int(d) + 1); }
+
+inline unsigned int getRank(Square& s) { return s >> 3;}
+inline unsigned int getLine(Square& s) { return s & 7;}
 
 #endif /* TYPES_HPP_ */

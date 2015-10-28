@@ -44,3 +44,5 @@ x64/
 *.vcxproj
 *.filters
 *.user
+/DeepovClang
+/DeepovMaster
