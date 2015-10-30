@@ -343,7 +343,7 @@ std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 	while (sliderAttackers)
 	{
 		Square checksq = pop_lsb(&sliderAttackers);
-		sliderAttacks |= Tables::LINE_BB[checksq][ksq] ^ checksq;
+		sliderAttacks |= Tables::LINE_BB[checksq][ksq];
 	}
 
 	//Generate evasion move for king
