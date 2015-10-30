@@ -19,7 +19,7 @@ U64 BitBoardUtils::inBetween(unsigned int sq1, unsigned int sq2) { //TODO an arr
    return line & btwn;   /* return the bits on that line in-between */
 }
 
-std::string BitBoardUtils::printBitBoard(const U64 &bitBoard)
+void BitBoardUtils::printBitBoard(const U64 &bitBoard)
 {
 	std::ostringstream strm;
 	for(int rank = 7; rank >= 0 ; rank--)
@@ -38,5 +38,5 @@ std::string BitBoardUtils::printBitBoard(const U64 &bitBoard)
 	strm << "   ________________" << std::endl;
 	strm << "    0 1 2 3 4 5 6 7" << std::endl;
 
-	return strm.str();
+	std::cout << strm.str() << std::endl;
 }

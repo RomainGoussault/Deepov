@@ -75,7 +75,7 @@ inline Square pop_lsb(U64* b) {
 namespace BitBoardUtils
 {
 U64 inBetween(unsigned int sq1, unsigned int sq2);
-std::string printBitBoard(const U64 &bitBoard);
+void printBitBoard(const U64 &bitBoard);
 
 inline bool isBitSet(const U64 bitBoard, const unsigned int x, const unsigned int y)
 {
