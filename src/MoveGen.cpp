@@ -428,7 +428,7 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves, U64 target) co
 			{
 				Square destination = static_cast<Square>(enemyDestination+8);
 				U64 destinationbb = 0 | 1LL << destination;
-				if(destinationbb && target)
+				if(destinationbb & target)
 				{
 					Move epMove(validPawnIndex,destination,Move::EP_CAPTURE_FLAG,Piece::PAWN);
 					epMove.setCapturedPieceType(Piece::PAWN);
@@ -466,7 +466,7 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves, U64 target) co
 				Square destination = static_cast<Square>(enemyDestination-8);
 
 				U64 destinationbb = 0 | 1LL << destination;
-				if(destinationbb && target)
+				if(destinationbb & target)
 				{
 					Move epMove(validPawnIndex, destination, Move::EP_CAPTURE_FLAG, Piece::PAWN);
 					epMove.setCapturedPieceType(Piece::PAWN);
