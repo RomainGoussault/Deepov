@@ -289,10 +289,10 @@ U64 Board::getKingAtkTo(Square ksq, Color color) const
     atkTo |= (Tables::ATTACK_TABLE[Piece::KNIGHT][ksq] & getKnights(enemyColor));
     atkTo |= (Tables::ATTACK_TABLE[Piece::KING][ksq] & getKing(enemyColor));
 
-    U64 potentialAttackers = MagicMoves::Bmagic(ksq, getAllPieces());
+    U64 potentialAttackers = MagicMoves::Bmagic(ksq, getAllPieces() & ~getPieces(color));
     atkTo |= (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
 
-    potentialAttackers = MagicMoves::Rmagic(ksq, getAllPieces());
+    potentialAttackers = MagicMoves::Rmagic(ksq, getAllPieces() & ~getPieces(color));
     atkTo |= (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)));
 
     return atkTo;
@@ -300,14 +300,13 @@ U64 Board::getKingAtkTo(Square ksq, Color color) const
 
 U64 Board::getKingSliderAtkTo(Square ksq, Color color) const
 {
-	U64 atkTo = 0;
 
     Color enemyColor = Utils::getOppositeColor(color);
 
-    U64 potentialAttackers = MagicMoves::Bmagic(ksq, getAllPieces());
-    atkTo |= (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
+    U64 potentialAttackers = MagicMoves::Bmagic(ksq, getAllPieces() & ~getPieces(color));
+    U64 atkTo = (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
 
-    potentialAttackers = MagicMoves::Rmagic(ksq, getAllPieces());
+    potentialAttackers = MagicMoves::Rmagic(ksq, getAllPieces() & ~getPieces(color));
     atkTo |= (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)));
 
     return atkTo;
