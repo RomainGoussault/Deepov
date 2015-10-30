@@ -7,7 +7,7 @@
 
 TEST_CASE( "King moves", "[king]" )
 {
-    Tables::init();
+	Tables::init();
 
 	SECTION("Test pseudo-legal moves")
 	{
@@ -136,5 +136,57 @@ TEST_CASE( "CastlingRights", "[king]" )
 
 		REQUIRE(board.isQueenSideCastlingAllowed(BLACK) == 1);
 		REQUIRE(board.isKingSideCastlingAllowed(BLACK) == 1);
+	}
+}
+
+TEST_CASE( "Evasion", "[king]" )
+{
+	MagicMoves::initmagicmoves();
+	Tables::init();
+
+	SECTION("Evasion vs one rook")
+	{
+		Board board("8/3r4/8/8/8/3K4/8/8 w - -");
+		MoveGen moveGen(board);
+
+		unsigned int whiteSize = moveGen.generateLegalMoves().size();
+		REQUIRE(whiteSize == 6);
+	}
+
+	SECTION("Evasion vs two rooks")
+	{
+		Board board("k7/3rr3/8/8/8/3K4/8/8 w - -");
+		MoveGen moveGen(board);
+
+		unsigned int whiteSize = moveGen.generateLegalMoves().size();
+		REQUIRE(whiteSize == 3);
+	}
+
+
+	SECTION("Evasion vs one knight")
+	{
+		Board board("K7/8/8/8/8/2N5/8/1k6 b - -");
+		MoveGen moveGen(board);
+
+		unsigned int size = moveGen.generateLegalMoves().size();
+		REQUIRE(size == 4);
+	}
+
+	SECTION("Evasion vs one rook + one rook ally")
+	{
+		Board board("k7/3r4/8/7R/8/3K4/8/8 w - -");
+		MoveGen moveGen(board);
+
+		unsigned int whiteSize = moveGen.generateLegalMoves().size();
+		REQUIRE(whiteSize == 7);
+	}
+
+	SECTION("Evasion vs one rook + one bishop ally ")
+	{
+		Board board("k7/8/8/8/3r4/3KB3/8/8 w - -");
+		MoveGen moveGen(board);
+
+		unsigned int whiteSize = moveGen.generateLegalMoves().size();
+		REQUIRE(whiteSize == 5);
 	}
 }
