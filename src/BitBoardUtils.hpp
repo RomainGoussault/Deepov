@@ -93,4 +93,24 @@ inline U64 operator&(U64 b, Square s) {
 	return b & Tables::SQUARE_BB[s];
 }
 
+inline U64 operator|(U64 b, Square s) {
+  return b | Tables::SQUARE_BB[s];
+}
+
+inline U64 operator^(U64 b, Square s) {
+  return b ^ Tables::SQUARE_BB[s];
+}
+
+inline U64& operator&=(U64& b, Square s) {
+  return b &= Tables::SQUARE_BB[s];
+}
+
+inline U64& operator|=(U64& b, Square s) {
+  return b |= Tables::SQUARE_BB[s];
+}
+
+inline U64& operator^=(U64& b, Square s) {
+  return b ^= Tables::SQUARE_BB[s];
+}
+
 #endif /* BITBOARDUTILS_HPP_ */

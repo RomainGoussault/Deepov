@@ -20,11 +20,11 @@ TEST_CASE( "Types" )
     }
 }
 
-TEST_CASE( "Bitboard and Squares" )
+TEST_CASE( "Bitboard and Squares Operator overloading" )
 {
     Tables::init();
 
-    SECTION("&")
+    SECTION("AND")
     {
     	Board board = Board();
     	U64 wr = board.getWhiteRooks();
@@ -35,5 +35,73 @@ TEST_CASE( "Bitboard and Squares" )
 
         U64 b2 = wr & SQ_A2;
         REQUIRE(popcount(b2) == 0);
+    }
+
+    SECTION("OR")
+    {
+    	Board board = Board();
+    	U64 wr = board.getWhiteRooks();
+        REQUIRE(popcount(wr) == 2);
+
+        U64 b1 = wr | SQ_A1;
+        REQUIRE(popcount(b1) == 2);
+
+        U64 b2 = wr | SQ_A2;
+        REQUIRE(popcount(b2) == 3);
+    }
+
+    SECTION("XOR")
+    {
+    	Board board = Board();
+    	U64 wr = board.getWhiteRooks();
+        REQUIRE(popcount(wr) == 2);
+
+        U64 b1 = wr ^ SQ_A1;
+        REQUIRE(popcount(b1) == 1);
+
+        U64 b2 = wr ^ SQ_A2;
+        REQUIRE(popcount(b2) == 3);
+    }
+
+    SECTION("=AND")
+    {
+    	Board board = Board();
+    	U64 wr = board.getWhiteRooks();
+        REQUIRE(popcount(wr) == 2);
+
+        wr &= SQ_A1;
+        REQUIRE(popcount(wr) == 1);
+
+        wr = board.getWhiteRooks();
+        wr &= SQ_A2;
+        REQUIRE(popcount(wr) == 0);
+    }
+
+    SECTION("=OR")
+    {
+    	Board board = Board();
+    	U64 wr = board.getWhiteRooks();
+        REQUIRE(popcount(wr) == 2);
+
+        wr |= SQ_A1;
+        REQUIRE(popcount(wr) == 2);
+
+        wr = board.getWhiteRooks();
+        wr |= SQ_A2;
+        REQUIRE(popcount(wr) == 3);
+    }
+
+    SECTION("=XOR")
+    {
+    	Board board = Board();
+    	U64 wr = board.getWhiteRooks();
+        REQUIRE(popcount(wr) == 2);
+
+        wr ^= SQ_A1;
+        REQUIRE(popcount(wr) == 1);
+
+        wr = board.getWhiteRooks();
+        wr ^= SQ_A2;
+        REQUIRE(popcount(wr) == 3);
     }
 }
