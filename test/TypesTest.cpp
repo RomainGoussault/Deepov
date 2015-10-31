@@ -6,10 +6,10 @@ TEST_CASE( "Types" )
 {
     Tables::init();
 
-    SECTION("getLine")
+    SECTION("getFile")
     {
-        REQUIRE(getLine(SQ_A1) == 0);
-        REQUIRE(getLine(SQ_C7) == 2);
+        REQUIRE(getFile(SQ_A1) == 0);
+        REQUIRE(getFile(SQ_C7) == 2);
     }
 
     SECTION("getRank")

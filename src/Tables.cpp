@@ -33,7 +33,7 @@ void Tables::init()
 
 		for (Square square2 = SQ_A1; square2 < SQUARE_NB; ++square2)
 		{
-			bool AreOnsameLine = getLine(square) == getLine(square2);
+			bool AreOnsameLine = getFile(square) == getFile(square2);
 			bool AreOnsameRank = getRank(square) == getRank(square2);
 
 			if(AreOnsameLine)
