@@ -1,5 +1,6 @@
 #include "Tables.hpp"
 #include "Types.hpp"
+#include "BitBoardUtils.hpp"
 
 /* List of tables declarations*/
 U64 Tables::FRONT_SPANS[2][64];
@@ -9,6 +10,7 @@ U64 Tables::ATTACK_TABLE[Piece::PIECE_TYPE_NB][64];
 U64 Tables::PAWN_ATTACK_TABLE[Color::COLOR_NB][64];
 U64 Tables::LINE_BB[SQUARE_NB][SQUARE_NB];
 U64 Tables::SQUARE_BB[SQUARE_NB];
+Square Tables::SQUARE[FILE_NB][RANK_NB];
 
 /* Methods */
 void Tables::init()
@@ -21,6 +23,7 @@ void Tables::init()
 		PAWN_ATTACK_SPANS[BLACK][square] = sidesBB(square,BLACK);
 		PASSED_PAWN_MASK[WHITE][square] = FRONT_SPANS[WHITE][square] | PAWN_ATTACK_SPANS[WHITE][square];
 		PASSED_PAWN_MASK[BLACK][square] = FRONT_SPANS[BLACK][square] | PAWN_ATTACK_SPANS[BLACK][square];
+
 		ATTACK_TABLE[Piece::KNIGHT][square] = knightAttacks(square);
 		ATTACK_TABLE[Piece::KING][square] = kingAttacks(square);
 		ATTACK_TABLE[Piece::PAWN][square] = 0x0;
@@ -30,20 +33,59 @@ void Tables::init()
 		ATTACK_TABLE[Piece::NO_PIECE_TYPE][square] = 0x0;
 		PAWN_ATTACK_TABLE[WHITE][square] = pawnAttacks(square,WHITE);
 		PAWN_ATTACK_TABLE[BLACK][square] = pawnAttacks(square,BLACK);
+
 		SQUARE_BB[square] = 1ULL << square;
 
+		File file = getFile(square);
+		Rank rank = getRank(square);
+		SQUARE[file][rank] = square;
+	}
 
+	for (Square square1 = SQ_A1; square1 < SQUARE_NB; ++square1)
+	{
+		if(square1 == SQ_A5)
+		{
+			std::cout << "gg";
+		}
 		for (Square square2 = SQ_A1; square2 < SQUARE_NB; ++square2)
 		{
-			bool AreOnsameLine = getFile(square) == getFile(square2);
-			bool AreOnsameRank = getRank(square) == getRank(square2);
+			File f1 = getFile(square1);
+			File f2 = getFile(square2);
+			Rank r1 = getRank(square1);
+			Rank r2 = getRank(square2);
 
-			if(AreOnsameLine)
+			bool AreOnsameFile = f1 == f2;
+			bool AreOnsameRank = r1 == r2;
+
+			U64 b = 0ULL;
+
+
+			if(AreOnsameFile)
 			{
-				U64 b = 0LL; //TODO finish implementing: needs to have a bitboard that's a line between square and square2
-				//Note better overload Square and Bitboard operator
-				LINE_BB[square][square2] = b;
+				//find lowest rank;
+				Rank rMin = std::min(r1, r2);
+				Rank rMax = std::max(r1, r2);
+
+				for (Rank r = rMin; r <= rMax; ++r)
+				{
+					Square s = SQUARE[f1][r];
+					b |= s;
+				}
 			}
+			else if(AreOnsameRank)
+			{
+				//find lowest file;
+				File fMin = std::min(f1, f2);
+				File fMax = std::max(f1, f2);
+
+				for (File f = fMin; f<= fMax; ++f)
+				{
+					Square s = SQUARE[f][r1];
+					b |= s;
+				}
+			}
+
+			LINE_BB[square1][square2] = b;
 
 			//ifSameRank
 

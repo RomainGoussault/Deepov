@@ -39,7 +39,7 @@ inline Square& operator++(Square& d) { return d = Square(int(d) + 1); }
 inline File& operator++(File& i) { return i = File(int(i) + 1); }
 inline Rank& operator++(Rank& i) { return i = Rank(int(i) + 1); }
 
-inline unsigned int getRank(const Square s) { return s >> 3;}
-inline unsigned int getFile(const Square s) { return s & 7;}
+inline Rank getRank(const Square s) { return Rank(s >> 3);}
+inline File getFile(const Square s) { return File(s & 7);}
 
 #endif /* TYPES_HPP_ */

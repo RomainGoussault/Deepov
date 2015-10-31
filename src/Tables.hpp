@@ -62,14 +62,14 @@ namespace Tables
 
     /* Extern tables (i.e. declared but not defined) */
     /* In 2 for colors, 64 for squares */
-    extern U64 FRONT_SPANS[2][64]; // Squares in front
-    extern U64 PAWN_ATTACK_SPANS[2][64]; // Neighbors files in front
-    extern U64 PASSED_PAWN_MASK[2][64]; // Combination of the 2 previous
-    extern U64 ATTACK_TABLE[Piece::PIECE_TYPE_NB][64]; // ATTACK TABLES for each type;
-    extern U64 PAWN_ATTACK_TABLE[Color::COLOR_NB][64]; // Merge with ATTACK_TABLE ??
+    extern U64 FRONT_SPANS[2][SQUARE_NB]; // Squares in front
+    extern U64 PAWN_ATTACK_SPANS[2][SQUARE_NB]; // Neighbors files in front
+    extern U64 PASSED_PAWN_MASK[2][SQUARE_NB]; // Combination of the 2 previous
+    extern U64 ATTACK_TABLE[Piece::PIECE_TYPE_NB][SQUARE_NB]; // ATTACK TABLES for each type;
+    extern U64 PAWN_ATTACK_TABLE[Color::COLOR_NB][SQUARE_NB]; // Merge with ATTACK_TABLE ??
     extern U64 LINE_BB[SQUARE_NB][SQUARE_NB];
     extern U64 SQUARE_BB[SQUARE_NB];
-
+    extern Square SQUARE[FILE_NB][RANK_NB];
 
     void init();
     /* The 2 following functions can be changed as const Look Up Tables if we need them faster */
