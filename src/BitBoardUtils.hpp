@@ -8,15 +8,18 @@
 #include <sstream>
 
 #include "Types.hpp"
+#include "Tables.hpp"
 
 #ifndef _U64
 typedef std::uint64_t U64;
 #define _U64
 #endif // _U64
+
 #ifdef _MSC_VER
 #  include <nmmintrin.h>
 #  define __builtin_popcountll _mm_popcnt_u64
 #endif
+
 
 inline bool moreThanOne(U64 bitboard)
 {
@@ -47,7 +50,7 @@ inline Square msb(const U64 bitboard)
 	__asm__("bsrq %1, %0": "=r"(idx) : "rm"(bitboard));
 
 #endif
-	
+
 	return (Square) idx;
 	//return static_cast<Square>(__builtin_ctzll(bitboard));
 }
@@ -85,5 +88,9 @@ inline bool isBitSet(const U64 bitBoard, const unsigned int x, const unsigned in
 }
 };
 
+//Operator overload for Bitboard and Square
+inline U64 operator&(U64 b, Square s) {
+	return b & Tables::SQUARE_BB[s];
+}
 
 #endif /* BITBOARDUTILS_HPP_ */

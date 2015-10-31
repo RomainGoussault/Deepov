@@ -8,7 +8,7 @@ U64 Tables::PASSED_PAWN_MASK[2][64];
 U64 Tables::ATTACK_TABLE[Piece::PIECE_TYPE_NB][64];
 U64 Tables::PAWN_ATTACK_TABLE[Color::COLOR_NB][64];
 U64 Tables::LINE_BB[SQUARE_NB][SQUARE_NB];
-
+U64 Tables::SQUARE_BB[SQUARE_NB];
 
 /* Methods */
 void Tables::init()
@@ -30,6 +30,8 @@ void Tables::init()
 		ATTACK_TABLE[Piece::NO_PIECE_TYPE][square] = 0x0;
 		PAWN_ATTACK_TABLE[WHITE][square] = pawnAttacks(square,WHITE);
 		PAWN_ATTACK_TABLE[BLACK][square] = pawnAttacks(square,BLACK);
+		SQUARE_BB[square] = 1ULL << square;
+
 
 		for (Square square2 = SQ_A1; square2 < SQUARE_NB; ++square2)
 		{

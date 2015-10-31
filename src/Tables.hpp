@@ -68,6 +68,8 @@ namespace Tables
     extern U64 ATTACK_TABLE[Piece::PIECE_TYPE_NB][64]; // ATTACK TABLES for each type;
     extern U64 PAWN_ATTACK_TABLE[Color::COLOR_NB][64]; // Merge with ATTACK_TABLE ??
     extern U64 LINE_BB[SQUARE_NB][SQUARE_NB];
+    extern U64 SQUARE_BB[SQUARE_NB];
+
 
     void init();
     /* The 2 following functions can be changed as const Look Up Tables if we need them faster */
