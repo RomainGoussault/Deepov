@@ -149,7 +149,7 @@ TEST_CASE( "Evasion", "[king]" )
 		Board board("8/3r4/8/8/8/3K4/8/8 w - -");
 		MoveGen moveGen(board);
 
-		unsigned int whiteSize = moveGen.generateLegalMoves().size();
+		auto whiteSize = moveGen.generateLegalMoves().size();
 		REQUIRE(whiteSize == 6);
 	}
 
@@ -158,7 +158,7 @@ TEST_CASE( "Evasion", "[king]" )
 		Board board("k7/3rr3/8/8/8/3K4/8/8 w - -");
 		MoveGen moveGen(board);
 
-		unsigned int whiteSize = moveGen.generateLegalMoves().size();
+		auto whiteSize = moveGen.generateLegalMoves().size();
 		REQUIRE(whiteSize == 3);
 	}
 
@@ -168,7 +168,7 @@ TEST_CASE( "Evasion", "[king]" )
 		Board board("K7/8/8/8/8/2N5/8/1k6 b - -");
 		MoveGen moveGen(board);
 
-		unsigned int size = moveGen.generateLegalMoves().size();
+		auto size = moveGen.generateLegalMoves().size();
 		REQUIRE(size == 4);
 	}
 
@@ -177,7 +177,7 @@ TEST_CASE( "Evasion", "[king]" )
 		Board board("k7/3r4/8/7R/8/3K4/8/8 w - -");
 		MoveGen moveGen(board);
 
-		unsigned int whiteSize = moveGen.generateLegalMoves().size();
+		auto whiteSize = moveGen.generateLegalMoves().size();
 		REQUIRE(whiteSize == 7);
 	}
 
@@ -186,7 +186,7 @@ TEST_CASE( "Evasion", "[king]" )
 		Board board("k7/8/8/8/3r4/3KB3/8/8 w - -");
 		MoveGen moveGen(board);
 
-		unsigned int whiteSize = moveGen.generateLegalMoves().size();
+		auto whiteSize = moveGen.generateLegalMoves().size();
 		REQUIRE(whiteSize == 5);
 	}
 }
