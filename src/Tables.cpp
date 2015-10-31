@@ -43,10 +43,6 @@ void Tables::init()
 
 	for (Square square1 = SQ_A1; square1 < SQUARE_NB; ++square1)
 	{
-		if(square1 == SQ_A5)
-		{
-			std::cout << "gg";
-		}
 		for (Square square2 = SQ_A1; square2 < SQUARE_NB; ++square2)
 		{
 			File f1 = getFile(square1);
@@ -54,18 +50,20 @@ void Tables::init()
 			Rank r1 = getRank(square1);
 			Rank r2 = getRank(square2);
 
+			//find max/min rank/file;
+			Rank rMin = std::min(r1, r2);
+			Rank rMax = std::max(r1, r2);
+			File fMin = std::min(f1, f2);
+			File fMax = std::max(f1, f2);
+
 			bool AreOnsameFile = f1 == f2;
 			bool AreOnsameRank = r1 == r2;
+			bool AreOnSameDiag = std::abs(f1-f2) == std::abs(r1-r2);
 
 			U64 b = 0ULL;
 
-
 			if(AreOnsameFile)
 			{
-				//find lowest rank;
-				Rank rMin = std::min(r1, r2);
-				Rank rMax = std::max(r1, r2);
-
 				for (Rank r = rMin; r <= rMax; ++r)
 				{
 					Square s = SQUARE[f1][r];
@@ -74,25 +72,24 @@ void Tables::init()
 			}
 			else if(AreOnsameRank)
 			{
-				//find lowest file;
-				File fMin = std::min(f1, f2);
-				File fMax = std::max(f1, f2);
-
 				for (File f = fMin; f<= fMax; ++f)
 				{
 					Square s = SQUARE[f][r1];
 					b |= s;
 				}
 			}
+			else if(AreOnSameDiag)
+			{
+				File f = fMin;
+				for (Rank r = rMin; r <= rMax; ++r)
+				{
+					Square s = SQUARE[f][r];
+					b |= s;
+					++f;
+				}
+			}
 
 			LINE_BB[square1][square2] = b;
-
-			//ifSameRank
-
-			//ifSameDiag
-
-			//Or use Magic Number?
-
 		}
 	}
 }
