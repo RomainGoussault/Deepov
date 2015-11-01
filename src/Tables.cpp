@@ -80,12 +80,27 @@ void Tables::init()
 			}
 			else if(AreOnSameDiag)
 			{
-				File f = fMin;
-				for (Rank r = rMin; r <= rMax; ++r)
+				bool positiveDiag = f2-f1 == r2-r1;
+
+				if(positiveDiag)
 				{
-					Square s = SQUARE[f][r];
-					b |= s;
-					++f;
+					File f = fMin;
+					for (Rank r = rMin; r <= rMax; ++r)
+					{
+						Square s = SQUARE[f][r];
+						b |= s;
+						++f;
+					}
+				}
+				else
+				{
+					File f = fMax;
+					for (Rank r = rMin; r <= rMax; ++r)
+					{
+						Square s = SQUARE[f][r];
+						b |= s;
+						--f;
+					}
 				}
 			}
 
