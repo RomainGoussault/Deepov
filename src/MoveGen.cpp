@@ -366,7 +366,7 @@ std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 	//We know there is only one piece that gives check
 	//Lets try to generate a moves that capture or blocks the checker piece
 	Square checkerSq = msb(kingAttackers);
-	U64 target = BitBoardUtils::inBetween(checkerSq, ksq) ^ kingAttackers;
+	U64 target = Tables::IN_BETWEEN[checkerSq][ksq] ^ kingAttackers;
 
 	appendPawnPseudoLegalMoves(color, evasionMoves, target);
 	appendKnightPseudoLegalMoves(color, evasionMoves, target);
@@ -389,7 +389,7 @@ std::vector<Move> MoveGen::generateLegalMoves(const Color color)
 
 	std::vector<Move> moves;
 
-	if(isCheck)
+	if(false)
 	{
 		moves = generateEvasionMoves(color);
 	}

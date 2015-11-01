@@ -9,6 +9,7 @@ U64 Tables::PASSED_PAWN_MASK[2][64];
 U64 Tables::ATTACK_TABLE[Piece::PIECE_TYPE_NB][64];
 U64 Tables::PAWN_ATTACK_TABLE[Color::COLOR_NB][64];
 U64 Tables::LINE_BB[SQUARE_NB][SQUARE_NB];
+U64 Tables::IN_BETWEEN[SQUARE_NB][SQUARE_NB];
 U64 Tables::SQUARE_BB[SQUARE_NB];
 Square Tables::SQUARE[FILE_NB][RANK_NB];
 
@@ -56,11 +57,14 @@ void Tables::init()
 			File fMin = std::min(f1, f2);
 			File fMax = std::max(f1, f2);
 
+			++rMin;--rMax;++fMin;--fMax;
+
 			bool AreOnsameFile = f1 == f2;
 			bool AreOnsameRank = r1 == r2;
 			bool AreOnSameDiag = std::abs(f1-f2) == std::abs(r1-r2);
 
 			U64 b = 0ULL;
+			U64 l = 0ULL;
 
 			if(AreOnsameFile)
 			{
@@ -91,7 +95,8 @@ void Tables::init()
 				}
 			}
 
-			LINE_BB[square1][square2] = b;
+			IN_BETWEEN[square1][square2] = b;
+			LINE_BB[square1][square2] = l;
 		}
 	}
 }

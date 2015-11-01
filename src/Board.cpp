@@ -788,7 +788,7 @@ void Board::updatePinnedPieces()
 	while ( pinners )
 	{
 		unsigned int pinnerSq = pop_lsb(&pinners);
-	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq, kiSq);
+	    myPinnedPieces  |= potPinned & Tables::IN_BETWEEN[pinnerSq][kiSq];
 	}
 
 	U64 bishopWise = MagicMoves::Bmagic(kiSq, occ);
@@ -800,6 +800,6 @@ void Board::updatePinnedPieces()
 	while ( pinners )
 	{
 		unsigned int pinnerSq = pop_lsb(&pinners);
-	    myPinnedPieces  |= potPinned & BitBoardUtils::inBetween(pinnerSq,kiSq);
+	    myPinnedPieces  |= potPinned & Tables::IN_BETWEEN[pinnerSq][kiSq];
 	}
 }
