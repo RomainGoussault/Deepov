@@ -7,7 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr()
+myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr(), myKingAttackers()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -223,11 +223,14 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	return isLegalMove;
 }
 
-bool Board::isCheck(const Color color) const
+bool Board::isCheck(const Color color)
 {
 	U64 kingPosition = getKing(color);
 	Square kingSquare = msb(kingPosition);
-	return isSquareAttacked(kingSquare, color);
+
+	//update myKingAttackers field;
+	myKingAttackers = getKingAtkTo(kingSquare, color);
+	return myKingAttackers;
 }
 
 bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
@@ -291,20 +294,6 @@ U64 Board::getKingAtkTo(Square ksq, Color color) const
 
     U64 potentialAttackers = MagicMoves::Bmagic(ksq, getAllPieces()) & ~getPieces(color);
     atkTo |= (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
-
-    potentialAttackers = MagicMoves::Rmagic(ksq, getAllPieces()) & ~getPieces(color);
-    atkTo |= (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)));
-
-    return atkTo;
-}
-
-U64 Board::getKingSliderAtkTo(Square ksq, Color color) const
-{
-
-    Color enemyColor = Utils::getOppositeColor(color);
-
-    U64 potentialAttackers = MagicMoves::Bmagic(ksq, getAllPieces()) & ~getPieces(color);
-    U64 atkTo = (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
 
     potentialAttackers = MagicMoves::Rmagic(ksq, getAllPieces()) & ~getPieces(color);
     atkTo |= (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)));

@@ -336,7 +336,7 @@ std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 	U64 kbb = myBoard->getKing(color);
 	Square ksq = msb(kbb);
 
-	U64 kingAttackers = myBoard->getKingAtkTo(ksq, color);
+	U64 kingAttackers = myBoard->getKingAttackers();
 	U64 sliderAttackers = kingAttackers & ~myBoard->getPawns(color) & ~myBoard->getKnights(color);
 
 	//Generate sliders attack of piece(s) that gives checks

@@ -85,9 +85,9 @@ public:
 
 	inline U64 getAtkFr(Square sq) const {return myAtkFr[sq];};
 	inline U64 getAtkTo(Square sq) const {return myAtkTo[sq];};
+	inline U64 getKingAttackers() const {return myKingAttackers;};
 
 	U64 getKingAtkTo(Square ksq, Color color) const;
-	U64 getKingSliderAtkTo(Square ksq, Color color) const;
 
 	inline Color getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
@@ -121,8 +121,8 @@ public:
     Piece::PieceType findBlackPieceType(const Square position) const;
 
     //Check methods
-    bool isCheck(const Color color) const;
-    inline bool isCheck() const
+    bool isCheck(const Color color);
+    inline bool isCheck()
     {
     	return isCheck(myColorToPlay);
     };
@@ -186,6 +186,7 @@ private:
 
     U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
     U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
+	U64 myKingAttackers;
 
     unsigned int myMovesCounter;
     unsigned int myHalfMovesCounter;
