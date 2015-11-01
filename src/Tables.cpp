@@ -82,25 +82,12 @@ void Tables::init()
 			{
 				bool positiveDiag = f2-f1 == r2-r1;
 
-				if(positiveDiag)
+				File f = positiveDiag ? fMin : fMax;
+				for (Rank r = rMin; r <= rMax; ++r)
 				{
-					File f = fMin;
-					for (Rank r = rMin; r <= rMax; ++r)
-					{
-						Square s = SQUARE[f][r];
-						b |= s;
-						++f;
-					}
-				}
-				else
-				{
-					File f = fMax;
-					for (Rank r = rMin; r <= rMax; ++r)
-					{
-						Square s = SQUARE[f][r];
-						b |= s;
-						--f;
-					}
+					Square s = SQUARE[f][r];
+					b |= s;
+					positiveDiag ? ++f : --f;
 				}
 			}
 
