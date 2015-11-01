@@ -733,15 +733,16 @@ unsigned int Board::divide(unsigned int depth)
 	return nodes;
 }
 
-boost::optional<Move> Board::getEnemyLastMove() const
+const Move* Board::getEnemyLastMove() const
 {
 	if (myMoves.size()>0)
 	{
-		return boost::optional<Move>(myMoves[myMoves.size()-1]);
+		const Move* lastMovePtr = &myMoves.back();
+		return lastMovePtr;
 	}
 	else
 	{
-		return boost::optional<Move>();
+		return nullptr;
 	}
 }
 

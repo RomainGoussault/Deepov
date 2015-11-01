@@ -12,7 +12,6 @@
 #include <bitset>
 #include <vector>
 #include <sstream>
-#include <boost/optional.hpp>
 #include <boost/algorithm/string.hpp>
 #include <memory>
 #include <array>
@@ -106,7 +105,7 @@ public:
     void undoMove(Move &move);
     unsigned int perft(unsigned int depth);
     unsigned int divide(unsigned int depth);
-    boost::optional<Move> getEnemyLastMove() const; // I use boost::optional in case there is no move to return
+    const Move* getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
     //Castling Methods
     inline bool isQueenSideCastlingAllowed(const Color color) const {return (myCastling >> (1+2*color)) & 0x1;}

@@ -47,7 +47,7 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
 		boardPtr->executeMove(move);
 		REQUIRE((boardPtr->getMovesHistory()).size() == 1);
 
-		boost::optional<Move> lastMove(boardPtr->getEnemyLastMove());
+		const Move* lastMove(boardPtr->getEnemyLastMove());
 		REQUIRE(lastMove);
 
 		REQUIRE((boardPtr->getMovesHistory()).size() == 1);
@@ -62,6 +62,7 @@ TEST_CASE( "Bitboard Pawn EP moves", "[pawn]" )
         boardPtr->undoMove(epMoves[0]);
 
         //TODO: Test something maybe?
+        //Call me maybe?
 	}
 }
 

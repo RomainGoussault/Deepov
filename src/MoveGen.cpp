@@ -413,7 +413,7 @@ void MoveGen::appendWhiteEnPassantMoves(std::vector<Move>& moves, U64 target) co
 	/* Easiest test first */
 	if (validPawns == 0) {return;}
 
-	boost::optional<Move> enemyLastMove(myBoard->getEnemyLastMove());
+	const Move* enemyLastMove(myBoard->getEnemyLastMove());
 
 	if (!enemyLastMove)
 	{
@@ -450,7 +450,7 @@ void MoveGen::appendBlackEnPassantMoves(std::vector<Move>& moves, U64 target) co
 	/* Easiest test first */
 	if (validPawns == 0) {return;}
 
-	boost::optional<Move> enemyLastMove(myBoard->getEnemyLastMove());
+	const Move* enemyLastMove(myBoard->getEnemyLastMove());
 
 	if (!enemyLastMove)
 	{
