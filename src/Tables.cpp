@@ -57,11 +57,11 @@ void Tables::init()
 			File fMin = std::min(f1, f2);
 			File fMax = std::max(f1, f2);
 
-			++rMin;--rMax;++fMin;--fMax;
-
 			bool AreOnsameFile = f1 == f2;
 			bool AreOnsameRank = r1 == r2;
-			bool AreOnSameDiag = std::abs(f1-f2) == std::abs(r1-r2);
+			bool AreOnSameDiag = fMax-fMin == rMax - rMin;
+
+			++rMin;--rMax;++fMin;--fMax;
 
 			U64 b = 0ULL;
 			U64 l = 0ULL;
