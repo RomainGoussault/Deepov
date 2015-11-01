@@ -73,6 +73,11 @@ void Tables::init()
 					Square s = SQUARE[f1][r];
 					b |= s;
 				}
+
+				for (Rank r = RANK_1; r <= RANK_8; ++r)
+				{
+					l |= SQUARE[f1][r];
+				}
 			}
 			else if(AreOnsameRank)
 			{
@@ -80,6 +85,11 @@ void Tables::init()
 				{
 					Square s = SQUARE[f][r1];
 					b |= s;
+				}
+
+				for (File f = FILE_A; f<= FILE_H; ++f)
+				{
+					l |= SQUARE[f][r1];
 				}
 			}
 			else if(AreOnSameDiag)
@@ -93,6 +103,8 @@ void Tables::init()
 					b |= s;
 					positiveDiag ? ++f : --f;
 				}
+
+				//TODO needs to implement LINE_BB in diagonal
 			}
 
 			IN_BETWEEN[square1][square2] = b;
