@@ -337,7 +337,7 @@ std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 	Square ksq = msb(kbb);
 
 	U64 kingAttackers = myBoard->getKingAttackers();
-	U64 sliderAttackers = kingAttackers & ~myBoard->getPawns(color) & ~myBoard->getKnights(color);
+	U64 sliderAttackers = kingAttackers & ~myBoard->getPawns(ennemyColor) & ~myBoard->getKnights(ennemyColor);
 
 	//Generate sliders attack of piece(s) that gives checks
 	while (sliderAttackers)
@@ -351,6 +351,9 @@ std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 	//Generate evasion move for king
 	U64 kingAttacks = myBoard->getKingAttacks(ksq, color);
 	U64 kingEvasions = kingAttacks & ~sliderAttacks;
+
+//	std::cout << "sliderAttacks" << std::endl;
+//	BitBoardUtils::printBitBoard(sliderAttacks);
 
 	U64 kingCaptureDestinations = kingEvasions & myBoard->getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingEvasions ^ kingCaptureDestinations;
@@ -389,7 +392,7 @@ std::vector<Move> MoveGen::generateLegalMoves(const Color color)
 
 	std::vector<Move> moves;
 
-	if(false)
+	if(isCheck)
 	{
 		moves = generateEvasionMoves(color);
 	}
