@@ -46,4 +46,6 @@ inline Rank& operator--(Rank& i) { return i = Rank(int(i) - 1); }
 inline Rank getRank(const Square s) { return Rank(s >> 3);}
 inline File getFile(const Square s) { return File(s & 7);}
 
+inline bool isOnBoard(const File f, const Rank r) { return f<FILE_NB && r<RANK_NB && f>=FILE_A && r>=RANK_1;}
+
 #endif /* TYPES_HPP_ */

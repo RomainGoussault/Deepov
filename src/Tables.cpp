@@ -104,7 +104,42 @@ void Tables::init()
 					positiveDiag ? ++f : --f;
 				}
 
-				//TODO needs to implement LINE_BB in diagonal
+				f = f1; Rank r = r1;
+
+				if(positiveDiag)
+				{
+					while(isOnBoard(f,r))
+					{
+						Square s = SQUARE[f][r];
+						l |= s;
+						++f; ++r;
+					}
+
+					f = f1; r = r1;
+					while(isOnBoard(f,r))
+					{
+						Square s = SQUARE[f][r];
+						l |= s;
+						--f; --r;
+					}
+				}
+				else //antidiag
+				{
+					while(isOnBoard(f,r))
+					{
+						Square s = SQUARE[f][r];
+						l |= s;
+						++f; --r;
+					}
+
+					f = f1; r = r1;
+					while(isOnBoard(f,r))
+					{
+						Square s = SQUARE[f][r];
+						l |= s;
+						--f; ++r;
+					}
+				}
 			}
 
 			IN_BETWEEN[square1][square2] = b;
