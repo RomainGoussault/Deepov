@@ -67,6 +67,7 @@ public:
 	inline U64 getRooks(Color color) const{return getBitBoard(Piece::ROOK, color);}
 	inline U64 getQueens(Color color) const{return getBitBoard(Piece::QUEEN, color);}
 	inline U64 getKing(Color color) const{return getBitBoard(Piece::KING, color);}
+	inline Square getKingSquare(Color color) const{return msb(getKing(color));}
 
 	inline U64 getAllPawns() const{return myBitboards[14];}
 	inline U64 getAllKnights() const{return myBitboards[15];}
