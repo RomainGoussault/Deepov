@@ -37,7 +37,7 @@ The compass is:
     +7  +8  +9
     -1   0  +1
     -9  -8  -7
-*/
+ */
 
 class Board : public std::enable_shared_from_this<Board>
 {
@@ -96,135 +96,141 @@ public:
 
 	void setBitBoards(const std::string piecesString, const unsigned int rank);
 	void updateConvenienceBitboards();
-    void updatePinnedPieces();
-    void updateAtkFr();
+	void updatePinnedPieces();
+	void updateAtkFr();
 
 	/* Moves methods */
-    bool isMoveLegal(Move &move, bool isCheck); // uses executeMove and undoMove so it can't be const
-    void executeMove(Move &move);
-    void undoMove(Move &move);
-    unsigned int perft(unsigned int depth);
-    unsigned int divide(unsigned int depth);
-    const Move* getEnemyLastMove() const; // I use boost::optional in case there is no move to return
+	bool isMoveLegal(Move &move, bool isCheck); // uses executeMove and undoMove so it can't be const
+	void executeMove(Move &move);
+	void undoMove(Move &move);
+	unsigned int perft(unsigned int depth);
+	unsigned int divide(unsigned int depth);
+	const Move* getEnemyLastMove() const; // I use boost::optional in case there is no move to return
 
-    //Castling Methods
-    inline bool isQueenSideCastlingAllowed(const Color color) const {return (myCastling >> (1+2*color)) & 0x1;}
-    inline bool isKingSideCastlingAllowed(const Color color) const {return (myCastling >> 2*color) & 0x1;}
-    void updateCastlingRights(Move &move);
-    void rewindCastlingRights(const Move &move);
+	//Castling Methods
+	inline bool isQueenSideCastlingAllowed(const Color color) const {return (myCastling >> (1+2*color)) & 0x1;}
+	inline bool isKingSideCastlingAllowed(const Color color) const {return (myCastling >> 2*color) & 0x1;}
+	void updateCastlingRights(Move &move);
+	void rewindCastlingRights(const Move &move);
 
 
-    //PieceType method
-    Piece::Piece findPieceType(const Square position) const;
-    Piece::PieceType findPieceType(const Square position, const Color color) const;
-    Piece::PieceType findWhitePieceType(const Square position) const;
-    Piece::PieceType findBlackPieceType(const Square position) const;
+	//PieceType method
+	Piece::Piece findPieceType(const Square position) const;
+	Piece::PieceType findPieceType(const Square position, const Color color) const;
+	Piece::PieceType findWhitePieceType(const Square position) const;
+	Piece::PieceType findBlackPieceType(const Square position) const;
 
-    //Check methods
-    bool isCheck(const Color color);
-    inline bool isCheck()
-    {
-    	return isCheck(myColorToPlay);
-    };
+	//Check methods
+	bool isCheck(const Color color) const;
+	void updateKingAttackers(const Color color);
+	inline void updateKingAttackers()
+	{
+		return updateKingAttackers(myColorToPlay);
+	};
 
-    //Attacked positions
-    U64 getAttacksFromSq(const Square position) const;
+	inline bool isCheck() const
+	{
+		return isCheck(myColorToPlay);
+	};
 
-    inline U64 getKnightAttacks(const Square pos, const Color color) const
-    {
-        return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
-    };
+	//Attacked positions
+	U64 getAttacksFromSq(const Square position) const;
 
-    inline U64 getPawnAttacks(const Square square, const Color color) const
-    {
-        return Tables::PAWN_ATTACK_TABLE[color][square] & ~getPieces(color);
-    };
+	inline U64 getKnightAttacks(const Square pos, const Color color) const
+	{
+		return Tables::ATTACK_TABLE[Piece::KNIGHT][pos] & ~getPieces(color);
+	};
 
-    inline U64 getBishopAttacks(const Square square, const Color color) const
-    {
-        return MagicMoves::Bmagic(square, getAllPieces()) & ~getPieces(color);
-    };
+	inline U64 getPawnAttacks(const Square square, const Color color) const
+	{
+		return Tables::PAWN_ATTACK_TABLE[color][square] & ~getPieces(color);
+	};
 
-    inline U64 getRookAttacks(const Square square, const Color color) const
-    {
-        return MagicMoves::Rmagic(square, getAllPieces()) & ~getPieces(color);
-    };
+	inline U64 getBishopAttacks(const Square square, const Color color) const
+	{
+		return MagicMoves::Bmagic(square, getAllPieces()) & ~getPieces(color);
+	};
 
-    inline U64 getQueenAttacks(const Square square, const Color color) const
-    {
-        return getBishopAttacks(square,color) | getRookAttacks(square,color);
-    };
+	inline U64 getRookAttacks(const Square square, const Color color) const
+	{
+		return MagicMoves::Rmagic(square, getAllPieces()) & ~getPieces(color);
+	};
 
-    inline U64 getKingAttacks(const Square square, const Color color) const
-    {
-        return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
-    };
+	inline U64 getQueenAttacks(const Square square, const Color color) const
+	{
+		return getBishopAttacks(square,color) | getRookAttacks(square,color);
+	};
 
-    /* I keep both functions to compare their performance */
-    bool isBitBoardAttacked(U64 bitboard, Color color) const;
-    bool isSquareAttacked(Square square, Color color) const; // is square attacked by the opposite color of "Color color"
+	inline U64 getKingAttacks(const Square square, const Color color) const
+	{
+		return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
+	};
+
+	/* I keep both functions to compare their performance */
+	bool isBitBoardAttacked(U64 bitboard, Color color) const;
+	bool isSquareAttacked(Square square, Color color) const; // is square attacked by the opposite color of "Color color"
 
 
 	/* ************* */
-    char getChar(const unsigned int file, const unsigned int rank) const;
+	char getChar(const unsigned int file, const unsigned int rank) const;
 
-    /* This method takes a position as a string (e.g. e4) and returns the index in Little-Endian
+	/* This method takes a position as a string (e.g. e4) and returns the index in Little-Endian
     It will replace Utils::getPosition(), this version should be much better.
     In our board model row starts at index 0. a will be 0 and h will be 7 */
-    inline unsigned int getIndexFromChar(const std::string position) const {return(position[0] - 'a'+8*(position[1] - '0'-1));};
+	inline unsigned int getIndexFromChar(const std::string position) const {return(position[0] - 'a'+8*(position[1] - '0'-1));};
 
 
 private:
-    std::array<U64, 20> myBitboards;
+	std::array<U64, 20> myBitboards;
 	U64 myAllPieces;
 	U64 myPinnedPieces;
 
 	Color myColorToPlay;
-    unsigned int myCastling; /* Same order as FEN
+	unsigned int myCastling; /* Same order as FEN
     RIGHT BIT : white king side, white queen side, black king side, black queen side : LEFT BIT
     e.g. the order is 1111 = qkQK */
 
-    U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
-    U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
+	U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
+	U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
 	U64 myKingAttackers;
 
-    unsigned int myMovesCounter;
-    unsigned int myHalfMovesCounter;
+	unsigned int myMovesCounter;
+	unsigned int myHalfMovesCounter;
 
-    std::vector<Move> myMoves;
+	std::vector<Move> myMoves;
 
-    //Move methods
-    inline void movePiece(const Square origin, const Square destination, const unsigned int pieceType, const Color color)
-    {
-    	movePiece(origin, destination, myBitboards[pieceType+color*6]);
-    }
+	//Move methods
+	inline void movePiece(const Square origin, const Square destination, const unsigned int pieceType, const Color color)
+	{
+		movePiece(origin, destination, myBitboards[pieceType+color*6]);
+	}
 
-    inline void removePiece(const Square index, const unsigned int pieceType, const Color color)
-    {
-    	removePiece(index, myBitboards[pieceType+color*6]);
-    }
+	inline void removePiece(const Square index, const unsigned int pieceType, const Color color)
+	{
+		removePiece(index, myBitboards[pieceType+color*6]);
+	}
 
-    inline void addPiece(const Square index, const unsigned int pieceType, const Color color)
-    {
-    	addPiece(index, myBitboards[pieceType+color*6]);
-    }
-    inline void removePiece(const Square index, U64 &bitBoard)
-    {
-    	bitBoard &= ~(1LL << index);
-    }
+	inline void addPiece(const Square index, const unsigned int pieceType, const Color color)
+	{
+		addPiece(index, myBitboards[pieceType+color*6]);
+	}
+	inline void removePiece(const Square index, U64 &bitBoard)
+	{
+		bitBoard &= ~(1LL << index);
+	}
 
-    inline void addPiece(const Square index, U64 &bitBoard)
-    {
-    	bitBoard |=  1LL << index;
-    }
+	inline void addPiece(const Square index, U64 &bitBoard)
+	{
+		bitBoard |=  1LL << index;
+	}
 
-    inline void movePiece(const Square origin, const Square destination, U64 &bitBoard)
-    {
-    	//Remove piece from origin position
-    	removePiece(origin, bitBoard);
-    	//Add piece to destination positions
-    	addPiece(destination, bitBoard);
-   }
+	inline void movePiece(const Square origin, const Square destination, U64 &bitBoard)
+	{
+		//Remove piece from origin position
+		removePiece(origin, bitBoard);
+		//Add piece to destination positions
+		addPiece(destination, bitBoard);
+	}
 };
 
 

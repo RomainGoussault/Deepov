@@ -211,7 +211,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	if (isKingMove || isCheckb || isEnPassant || isPinned)
 	{
 		executeMove(move);
-
+		updateKingAttackers(color);
 		if(isCheck(color))
 		{
 			isLegalMove = false;
@@ -223,14 +223,19 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	return isLegalMove;
 }
 
-bool Board::isCheck(const Color color)
+bool Board::isCheck(const Color color) const
+{
+	//myKingAttackers needs to be updated first;
+	return myKingAttackers;
+}
+
+void Board::updateKingAttackers(const Color color)
 {
 	U64 kingPosition = getKing(color);
 	Square kingSquare = msb(kingPosition);
 
 	//update myKingAttackers field;
 	myKingAttackers = getKingAtkTo(kingSquare, color);
-	return myKingAttackers;
 }
 
 bool Board::isBitBoardAttacked(U64 bitboard, Color color) const

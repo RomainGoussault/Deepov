@@ -388,6 +388,7 @@ std::vector<Move> MoveGen::generateLegalMoves()
 std::vector<Move> MoveGen::generateLegalMoves(const Color color)
 {
 	myBoard->updatePinnedPieces();
+	myBoard->updateKingAttackers(myBoard->getColorToPlay());
 	bool isCheck = myBoard->isCheck();
 
 	std::vector<Move> moves;
