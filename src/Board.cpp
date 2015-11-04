@@ -208,7 +208,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	bool isPinned = oribb & getPinnedPieces();
 	bool isKingMove = move.getPieceType() == Piece::KING;
 
-	if (isKingMove || isCheckb || isEnPassant)
+	if (isCheckb || isEnPassant)
 	{
 		executeMove(move);
 		updateKingAttackers(color);
@@ -225,8 +225,11 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 		Square destination = move.getDestination();
 		Square ksq = getKingSquare(myColorToPlay);
 
-		isLegalMove =  BitBoardUtils::areAligned(origin, destination, ksq);
-
+		return  BitBoardUtils::areAligned(origin, destination, ksq);
+	}
+	else if(isKingMove)
+	{
+		return !isSquareAttacked(move.getDestination(), myColorToPlay);
 	}
 
 	return isLegalMove;
