@@ -7,7 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr(), myKingAttackers()
+		myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr(), myKingAttackers()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -91,7 +91,7 @@ Piece::PieceType Board::findBlackPieceType(const Square position) const
 	{
 		return Piece::QUEEN;
 	}
-    else if (myBitboards[11]&(1LL << position))
+	else if (myBitboards[11]&(1LL << position))
 	{
 		return Piece::KING;
 	}
@@ -190,11 +190,11 @@ Piece::PieceType Board::findPieceType(const Square position, const Color color) 
 
 Piece::Piece Board::findPieceType(const Square position) const
 {
-    Piece::PieceType whiteType = findWhitePieceType(position);
-    Piece::PieceType blackType = findBlackPieceType(position);
+	Piece::PieceType whiteType = findWhitePieceType(position);
+	Piece::PieceType blackType = findBlackPieceType(position);
 
-    return static_cast<Piece::Piece>(whiteType + blackType*(whiteType == 6));
-    //  = whiteType if piece is white, = 6+blackType if piece is black
+	return static_cast<Piece::Piece>(whiteType + blackType*(whiteType == 6));
+	//  = whiteType if piece is white, = 6+blackType if piece is black
 }
 
 bool Board::isMoveLegal(Move &move, bool isCheckb)
@@ -208,7 +208,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	bool isPinned = oribb & getPinnedPieces();
 	bool isKingMove = move.getPieceType() == Piece::KING;
 
-	if (isKingMove || isCheckb || isEnPassant || isPinned)
+	if (isKingMove || isCheckb || isEnPassant)
 	{
 		executeMove(move);
 		updateKingAttackers(color);
@@ -218,6 +218,15 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 		}
 
 		undoMove(move);
+	}
+	else if(isPinned)
+	{
+		//If piece is pinned it can only move on the line defined by him and the king
+		Square destination = move.getDestination();
+		Square ksq = getKingSquare(myColorToPlay);
+
+		isLegalMove =  BitBoardUtils::areAligned(origin, destination, ksq);
+
 	}
 
 	return isLegalMove;
@@ -240,70 +249,70 @@ void Board::updateKingAttackers(const Color color)
 
 bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
 {
-   	bool isAttacked = false;
-   	Color enemyColor = Utils::getOppositeColor(color);
+	bool isAttacked = false;
+	Color enemyColor = Utils::getOppositeColor(color);
 
-   	U64 attackers = getPieces(enemyColor);
+	U64 attackers = getPieces(enemyColor);
 
-    while(attackers)
-   	{
-       	Square attackerSquare = pop_lsb(&attackers);
+	while(attackers)
+	{
+		Square attackerSquare = pop_lsb(&attackers);
 
-       	U64 attackFr = getAtkFr(attackerSquare);
+		U64 attackFr = getAtkFr(attackerSquare);
 
-       	isAttacked |= bitboard & attackFr;
-   	}
+		isAttacked |= bitboard & attackFr;
+	}
 
-       return isAttacked;
+	return isAttacked;
 };
 
 bool Board::isSquareAttacked(Square square, Color color) const
 {
-    Color enemyColor = Utils::getOppositeColor(color);
-    if (Tables::PAWN_ATTACK_TABLE[color][square] & getPawns(enemyColor))
-    {
-        return true;
-    }
-    else if (Tables::ATTACK_TABLE[Piece::KNIGHT][square] & getKnights(enemyColor))
-    {
-        return true;
-    }
-    else if (Tables::ATTACK_TABLE[Piece::KING][square] & getKing(enemyColor))
-    {
-        return true;
-    }
+	Color enemyColor = Utils::getOppositeColor(color);
+	if (Tables::PAWN_ATTACK_TABLE[color][square] & getPawns(enemyColor))
+	{
+		return true;
+	}
+	else if (Tables::ATTACK_TABLE[Piece::KNIGHT][square] & getKnights(enemyColor))
+	{
+		return true;
+	}
+	else if (Tables::ATTACK_TABLE[Piece::KING][square] & getKing(enemyColor))
+	{
+		return true;
+	}
 
-    U64 potentialAttackers = MagicMoves::Bmagic(square, getAllPieces());
-    if (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)))
-    {
-        return true;
-    }
+	U64 potentialAttackers = MagicMoves::Bmagic(square, getAllPieces());
+	if (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)))
+	{
+		return true;
+	}
 
-    potentialAttackers = MagicMoves::Rmagic(square, getAllPieces());
-    if (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)))
-    {
-        return true;
-    }
+	potentialAttackers = MagicMoves::Rmagic(square, getAllPieces());
+	if (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)))
+	{
+		return true;
+	}
 
-    return false;
+	return false;
 }
 
 U64 Board::getKingAtkTo(Square ksq, Color color) const
 {
 	U64 atkTo = 0;
 
-    Color enemyColor = Utils::getOppositeColor(color);
-    atkTo |= (Tables::PAWN_ATTACK_TABLE[color][ksq] & getPawns(enemyColor));
-    atkTo |= (Tables::ATTACK_TABLE[Piece::KNIGHT][ksq] & getKnights(enemyColor));
-    atkTo |= (Tables::ATTACK_TABLE[Piece::KING][ksq] & getKing(enemyColor));
+	Color enemyColor = Utils::getOppositeColor(color);
+	atkTo |= (Tables::PAWN_ATTACK_TABLE[color][ksq] & getPawns(enemyColor));
+	atkTo |= (Tables::ATTACK_TABLE[Piece::KNIGHT][ksq] & getKnights(enemyColor));
+	atkTo |= (Tables::ATTACK_TABLE[Piece::KING][ksq] & getKing(enemyColor));
 
-    U64 potentialAttackers = MagicMoves::Bmagic(ksq, getAllPieces()) & ~getPieces(color);
-    atkTo |= (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
+	U64 potentialAttackers = MagicMoves::Bmagic(ksq, getAllPieces()) & ~getPieces(color);
+	atkTo |= (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
 
-    potentialAttackers = MagicMoves::Rmagic(ksq, getAllPieces()) & ~getPieces(color);
-    atkTo |= (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)));
+	potentialAttackers = MagicMoves::Rmagic(ksq, getAllPieces()) & ~getPieces(color);
+	atkTo |= (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)));
 
-    return atkTo;
+	return atkTo;
 }
 
 void Board::executeMove(Move &move)
@@ -497,49 +506,49 @@ void Board::updateAtkFr()
 	std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
 	U64 currentBB(0LL);
 
-    for (int i = WHITE; i<COLOR_NB; i++)
-    {
-        currentBB = getBitBoard(Piece::PAWN,static_cast<Color>(i));
-        while(currentBB)
-        {
-            const Square square = pop_lsb(&currentBB);
-            myAtkFr[square] = getPawnAttacks(square, static_cast<Color>(i));
-        }
+	for (int i = WHITE; i<COLOR_NB; i++)
+	{
+		currentBB = getBitBoard(Piece::PAWN,static_cast<Color>(i));
+		while(currentBB)
+		{
+			const Square square = pop_lsb(&currentBB);
+			myAtkFr[square] = getPawnAttacks(square, static_cast<Color>(i));
+		}
 
-        currentBB = getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
-        while(currentBB)
-        {
-            const Square square = pop_lsb(&currentBB);
-            myAtkFr[square] = getKnightAttacks(square,static_cast<Color>(i));
-        }
+		currentBB = getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
+		while(currentBB)
+		{
+			const Square square = pop_lsb(&currentBB);
+			myAtkFr[square] = getKnightAttacks(square,static_cast<Color>(i));
+		}
 
-        currentBB = getBitBoard(Piece::BISHOP,static_cast<Color>(i));
-        while(currentBB)
-        {
-            const Square square = pop_lsb(&currentBB);
-            myAtkFr[square] = getBishopAttacks(square,static_cast<Color>(i));
-        }
+		currentBB = getBitBoard(Piece::BISHOP,static_cast<Color>(i));
+		while(currentBB)
+		{
+			const Square square = pop_lsb(&currentBB);
+			myAtkFr[square] = getBishopAttacks(square,static_cast<Color>(i));
+		}
 
-        currentBB = getBitBoard(Piece::ROOK,static_cast<Color>(i));
-        while(currentBB)
-        {
-            const Square square = pop_lsb(&currentBB);
-            myAtkFr[square] = getRookAttacks(square,static_cast<Color>(i));
-        }
+		currentBB = getBitBoard(Piece::ROOK,static_cast<Color>(i));
+		while(currentBB)
+		{
+			const Square square = pop_lsb(&currentBB);
+			myAtkFr[square] = getRookAttacks(square,static_cast<Color>(i));
+		}
 
-        currentBB = getBitBoard(Piece::QUEEN,static_cast<Color>(i));
-        while(currentBB)
-        {
-            const Square square = pop_lsb(&currentBB);
-            myAtkFr[square] = getQueenAttacks(square,static_cast<Color>(i));
-        }
+		currentBB = getBitBoard(Piece::QUEEN,static_cast<Color>(i));
+		while(currentBB)
+		{
+			const Square square = pop_lsb(&currentBB);
+			myAtkFr[square] = getQueenAttacks(square,static_cast<Color>(i));
+		}
 
-        currentBB = getBitBoard(Piece::KING,static_cast<Color>(i));
-        while(currentBB)
-        {
-            const Square square = pop_lsb(&currentBB);
-            myAtkFr[square] = getKingAttacks(square,static_cast<Color>(i));
-        }
+		currentBB = getBitBoard(Piece::KING,static_cast<Color>(i));
+		while(currentBB)
+		{
+			const Square square = pop_lsb(&currentBB);
+			myAtkFr[square] = getKingAttacks(square,static_cast<Color>(i));
+		}
 	}
 }
 
@@ -742,37 +751,37 @@ const Move* Board::getEnemyLastMove() const
 
 void Board::updateCastlingRights(Move &move)
 {
-    move.setPreviousCastlingRights(myCastling); // store for undoMove
+	move.setPreviousCastlingRights(myCastling); // store for undoMove
 
-    /* Update Castling rights for king move */
-    unsigned int isKingMove(move.getPieceType() == Piece::KING);
-    myCastling &= ~((isKingMove*3) << (myColorToPlay*2));
-    /* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
+	/* Update Castling rights for king move */
+	unsigned int isKingMove(move.getPieceType() == Piece::KING);
+	myCastling &= ~((isKingMove*3) << (myColorToPlay*2));
+	/* 0011 = 3 and i shift it by 0 or by 2 , then take the ~ to get the mask*/
 
-    /* Update Castling Rights for rook moves */
-    Square origin = move.getOrigin();
-    if (((1LL << origin)&Tables::ROOK_INITIAL_POS)!=0)
-    {
-        // King side produces bit 0, queen side produces bit 1
-        unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
-        unsigned int mask = ~(0b0001 << shift);
-        myCastling &= mask;
-        /* 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
-    }
+	/* Update Castling Rights for rook moves */
+	Square origin = move.getOrigin();
+	if (((1LL << origin)&Tables::ROOK_INITIAL_POS)!=0)
+	{
+		// King side produces bit 0, queen side produces bit 1
+		unsigned int shift(((~origin)&0b0001) + 2*((origin&0b1000)>>3));
+		unsigned int mask = ~(0b0001 << shift);
+		myCastling &= mask;
+		/* 0001 if this is a rook Move and i shift it by the right amount to mask the bit*/
+	}
 
-    Square destination = move.getDestination();
-    if (((1LL << destination)&Tables::ROOK_INITIAL_POS)!=0)
-    {
-        /* Update Castling Rights for rook capture */
-        unsigned int shift(((~destination)&0b0001) + 2*((destination&0b1000)>>3));
-        unsigned int mask = ~(0b0001 << shift);
-        myCastling &= mask;
-    }
+	Square destination = move.getDestination();
+	if (((1LL << destination)&Tables::ROOK_INITIAL_POS)!=0)
+	{
+		/* Update Castling Rights for rook capture */
+		unsigned int shift(((~destination)&0b0001) + 2*((destination&0b1000)>>3));
+		unsigned int mask = ~(0b0001 << shift);
+		myCastling &= mask;
+	}
 }
 
 void Board::rewindCastlingRights(const Move &move)
 {
-    myCastling = move.getPreviousCastlingRights();
+	myCastling = move.getPreviousCastlingRights();
 }
 
 void Board::updatePinnedPieces()
@@ -781,8 +790,7 @@ void Board::updatePinnedPieces()
 	Color color = getColorToPlay();
 	Color oppositeColor = Utils::getOppositeColor(color);
 	U64 occ = getAllPieces();
-	U64 kingBitboard = getKing(color);
-	U64 kiSq = msb(kingBitboard);
+	U64 kiSq = getKingSquare(color);
 
 	U64 rookWise = MagicMoves::Rmagic(kiSq, occ);
 	U64 potPinned = rookWise & getPieces(color);
@@ -793,7 +801,7 @@ void Board::updatePinnedPieces()
 	while ( pinners )
 	{
 		unsigned int pinnerSq = pop_lsb(&pinners);
-	    myPinnedPieces  |= potPinned & Tables::IN_BETWEEN[pinnerSq][kiSq];
+		myPinnedPieces  |= potPinned & Tables::IN_BETWEEN[pinnerSq][kiSq];
 	}
 
 	U64 bishopWise = MagicMoves::Bmagic(kiSq, occ);
@@ -805,6 +813,6 @@ void Board::updatePinnedPieces()
 	while ( pinners )
 	{
 		unsigned int pinnerSq = pop_lsb(&pinners);
-	    myPinnedPieces  |= potPinned & Tables::IN_BETWEEN[pinnerSq][kiSq];
+		myPinnedPieces  |= potPinned & Tables::IN_BETWEEN[pinnerSq][kiSq];
 	}
 }
