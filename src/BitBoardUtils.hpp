@@ -85,6 +85,11 @@ inline bool isBitSet(const U64 bitBoard, const unsigned int x, const unsigned in
 
 	return (0 | 1LL << shift) & bitBoard;
 }
+
+inline bool areAligned(const Square s1, const Square s2, const Square s3) {
+  return Tables::LINE_BB[s1][s2] & Tables::SQUARE_BB[s3];
+}
+
 };
 
 //Operator overload for Bitboard and Square
