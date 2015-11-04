@@ -208,18 +208,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	bool isPinned = oribb & getPinnedPieces();
 	bool isKingMove = move.getPieceType() == Piece::KING;
 
-	if (isCheckb || isEnPassant)
-	{
-		executeMove(move);
-		updateKingAttackers(color);
-		if(isCheck(color))
-		{
-			isLegalMove = false;
-		}
-
-		undoMove(move);
-	}
-	else if(isPinned)
+	if(isPinned)
 	{
 		//If piece is pinned it can only move on the line defined by him and the king
 		Square destination = move.getDestination();
@@ -230,6 +219,17 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	else if(isKingMove)
 	{
 		return !isSquareAttacked(move.getDestination(), myColorToPlay);
+	}
+	if (isCheckb || isEnPassant)
+	{
+		executeMove(move);
+		updateKingAttackers(color);
+		if(isCheck(color))
+		{
+			isLegalMove = false;
+		}
+
+		undoMove(move);
 	}
 
 	return isLegalMove;

@@ -352,9 +352,6 @@ std::vector<Move> MoveGen::generateEvasionMoves(const Color color)
 	U64 kingAttacks = myBoard->getKingAttacks(ksq, color);
 	U64 kingEvasions = kingAttacks & ~sliderAttacks;
 
-//	std::cout << "sliderAttacks" << std::endl;
-//	BitBoardUtils::printBitBoard(sliderAttacks);
-
 	U64 kingCaptureDestinations = kingEvasions & myBoard->getPieces(ennemyColor);
 	U64 kingQuietDestinations = kingEvasions ^ kingCaptureDestinations;
 
