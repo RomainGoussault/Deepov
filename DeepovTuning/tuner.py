@@ -55,6 +55,12 @@ def createParser():
 
 	return parser.parse_args()
 
+def setOption(name,value):
+	value=str(value)
+	option = "setoption " + name + " value " + value	
+	return option
+	
+
 
 #def parseArguments(argv):
 #	try:                                
