@@ -11,7 +11,7 @@ def main(argv):
     print("Start Deepov tuning v0.1")
         
     # Default cutechess-cli options
-    otherOptions = '-recover -repeat -event "Deepov Tuning" -site '
+    otherOptions = '-recover -repeat -site '
 
     if argv is None:
         argv = sys.argv[1:]
