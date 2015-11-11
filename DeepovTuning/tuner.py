@@ -34,12 +34,15 @@ def main(argv):
         print(cutechessCommand)
         print('\n')
 	
-    runCutechess(cutechessCommand)
+    results = runCutechess(cutechessCommand)
+    
+    if args.verbosity:
+        print(results)
 
     return 0
 
 def createParser():
-    
+    """ Creates the command line interface """
     # Get system bit version   
     bitVersion = platform.architecture()
     if (bitVersion[0] == '32bit'):
@@ -64,17 +67,17 @@ def setOption(name,value):
 	value=str(value)
 	option = "setoption " + name + " value " + value	
 	return option
-	
 
 
 def runCutechess(command):
-	process = subprocess.Popen(command.split())
-	output = process.communicate()[0]
-	if process.returncode != 0:
-		print('Could not execute command: %s' % command)
-		return 2
-
-	return output
+    """ A function to simply run the cutechess command """
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    if process.returncode != 0:
+        print('Could not execute command: %s' % command)
+        return 2
+    
+    return output
 
 
 # execution of the tuning

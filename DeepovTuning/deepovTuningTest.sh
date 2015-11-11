@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./tuner.py ./Deepov ./Deepov -d ../ -r 10
+./tuner.py ./Deepov ./Deepov -d ../ -r 5 -v
