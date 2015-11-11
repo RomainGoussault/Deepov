@@ -7,7 +7,7 @@ Created on Sun Nov  8 21:32:42 2015
 
 from tuner import runCutechess
 
-def evalutate(command):
+def evaluate(command):
     """ Evaluate the score after changing the option value and returns the score of the engine. """
     s = runCutechess(command) # Get the cutechess output
     index = s.find('ELO')

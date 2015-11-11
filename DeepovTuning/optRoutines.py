@@ -9,5 +9,6 @@ import scipy.optimize
 from tuner import *
 from deepovFunction import *
 
-opt_def BasinHopping(init_guess,niter):
+def opt_BasinHopping(init_guess,niter):
 #    scipy.optimize.basinhopping(evaluate,init_guess,niter,T=100.,)
+    return value
