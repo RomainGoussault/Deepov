@@ -242,7 +242,8 @@ void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>&
 
 void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves, U64 target) const
 {
-	appendWhiteEnPassantMoves(moves, target);
+	appendWhiteEnPassantMoves(moves, Tables::ALL); //Note: The 2nd argument can be refined.
+	//But this can't be set to "target" in case of evasion moves. There is a test for this.
 	U64 pawnPositions = myBoard->getWhitePawns();
 
 	while(pawnPositions)
@@ -275,7 +276,8 @@ void MoveGen::appendWhitePawnPseudoLegalMoves(std::vector<Move>& moves, U64 targ
 
 void MoveGen::appendBlackPawnPseudoLegalMoves(std::vector<Move>& moves, U64 target) const
 {
-	appendBlackEnPassantMoves(moves, target);
+	appendBlackEnPassantMoves(moves, Tables::ALL);//Note: The 2nd argument can be refined.
+	//But this can't be set to "target" in case of evasion moves. There is a test for this.
 	U64 pawnPositions = myBoard->getBlackPawns();
 
 	while(pawnPositions)

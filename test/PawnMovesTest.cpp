@@ -5,7 +5,7 @@
 
 TEST_CASE( "Pawn moves", "[pawn]" )
 {
-    Tables::init();
+	Tables::init();
 
 	SECTION("starting position")
 	{
@@ -39,14 +39,59 @@ TEST_CASE( "Pawn moves", "[pawn]" )
 	}
 }
 
+TEST_CASE( "Pawn en passant with check", "[pawn]" )
+{
+	Tables::init();
+	MagicMoves::initmagicmoves();
+
+
+	SECTION("Pawn en passant with check")
+	{
+		Board board("8/p1pR1p1p/8/2k3P1/2p1KN2/1r6/6P1/8 b - -");
+
+		//Move 1
+		MoveGen movegen(board);
+		std::vector<Move> moves(movegen.generateMoves());
+		Move movePawn;
+
+		//Find double push black move
+		for(auto move : moves)
+		{
+			if(move.getDestination() == SQ_F5)
+			{
+				movePawn = move;
+			}
+		}
+
+		board.executeMove(movePawn);
+
+
+		//Move 2
+		movegen = MoveGen(board);
+		moves = movegen.generateMoves();
+		bool isEpMoveExist = false;
+
+		//Find EP white move
+		for(auto move : moves)
+		{
+			if(move.getOrigin() == SQ_G5)
+			{
+				isEpMoveExist = true;
+			}
+		}
+
+		REQUIRE(isEpMoveExist == true);
+	}
+}
+
 TEST_CASE( "Pawn promotions", "[pawn]" )
 {
-    Tables::init();
+	Tables::init();
 
-    SECTION("Promotion")
+	SECTION("Promotion")
 	{
 		Board board("8/2P1k3/8/3K4/8/8/8/8 w - - 0 1");
-        MoveGen moveGen(board);
+		MoveGen moveGen(board);
 		unsigned int size = moveGen.getWhitePawnPseudoLegalMoves().size();
 		REQUIRE(size == 4);
 	}
@@ -58,9 +103,9 @@ TEST_CASE( "Pawn promotions", "[pawn]" )
 		unsigned int size = moveGen.getWhitePawnPseudoLegalMoves().size();
 		REQUIRE(size == 8);
 
-        U64 pawnBitboard = board.getWhitePawns();
+		U64 pawnBitboard = board.getWhitePawns();
 
-        Move promotionCapture(static_cast<Square>(50),static_cast<Square>(57),Move::PROMOTION_FLAG + Move::CAPTURE_FLAG, Piece::PAWN);
+		Move promotionCapture(static_cast<Square>(50),static_cast<Square>(57),Move::PROMOTION_FLAG + Move::CAPTURE_FLAG, Piece::PAWN);
 		promotionCapture.setCapturedPieceType(Piece::ROOK);
 
 		board.executeMove(promotionCapture);
