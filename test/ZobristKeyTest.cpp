@@ -22,6 +22,9 @@ TEST_CASE( "Zobrist key", "[zobrist]" )
 		Move move = moves[0];
 
 		board.executeMove(move);
+
+		REQUIRE(initialKey != board.key);
+
 		board.undoMove(move);
 
 		REQUIRE(initialKey == board.key);
