@@ -95,6 +95,7 @@ public:
 
 	inline Color getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
+	inline std::vector<Zkey> getKeysHistory() const {return myKeys;};
 
 	/*  **********  */
 
@@ -205,7 +206,7 @@ private:
 	unsigned int myHalfMovesCounter;
 
 	std::vector<Move> myMoves;
-
+	std::vector<Zkey> myKeys;
 
 
 	//TODO : add Zobrist namespace maybe

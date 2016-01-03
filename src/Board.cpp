@@ -416,6 +416,8 @@ void Board::executeMove(Move &move)
 	}
 
 	myMoves.push_back(move);
+	myKeys.push_back(key);
+
 	updateCastlingRights(move);
 
 	myMovesCounter += myColorToPlay;
@@ -501,6 +503,7 @@ void Board::undoMove(Move &move)
 
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
+	myKeys.pop_back();
 
 	myMovesCounter += myColorToPlay - 1; //-1 only when it's white to play
 
