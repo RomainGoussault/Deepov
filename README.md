@@ -21,6 +21,7 @@ C++ Chess Engine
 * FEN editor: http://en.lichess.org/editor
 * Bit Twiddling Hacks: https://graphics.stanford.edu/~seander/bithacks.html
 * BitBoard Calculator: http://cinnamonchess.altervista.org/bitboard_calculator/Calc.html
+* Write Chess Programming in 99 steps: http://aghaznawi.comuf.com/computer%20chess/winglet/
 
 
 ======
