@@ -21,6 +21,17 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		return evaluate();
 	}
 
+	//check for 1-move repetition
+	auto keys = myBoard->getKeysHistory();
+	auto currentKey = myBoard->key;
+	keys.pop_back();
+
+	if (std::find(keys.begin(), keys.end(), currentKey) != keys.end())
+	{
+		//Draw
+		return Eval::DRAW_SCORE;
+	}
+
 	std::vector<Move> moveList = moveGen.generateMoves();
 
 	Eval::sortMoveList(moveList);
@@ -141,5 +152,16 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 
 int Search::evaluate()
 {
+	//check for 3-move repettiion
+	//Actually check for 1-move repetition
+
+	auto keys = myBoard->getKeysHistory();
+	auto currentKey = myBoard->key;
+
+	//std::find(keys.begin(), keys.end(), item) != vector.end()
+
+
+
+
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
