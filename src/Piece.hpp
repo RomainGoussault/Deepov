@@ -1,6 +1,8 @@
 #ifndef PIECES_H
 #define PIECES_H
 
+//TODO move this to types.h
+
 namespace Piece
 {
     enum PieceType : unsigned int

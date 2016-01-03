@@ -2,6 +2,10 @@
 #ifndef TYPES_HPP_
 #define TYPES_HPP_
 
+#include <cstdint>
+
+typedef std::uint64_t Zkey;
+
 enum Color {
 	WHITE = 0,
 	BLACK = 1,

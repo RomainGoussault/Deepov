@@ -200,6 +200,15 @@ private:
 
 	std::vector<Move> myMoves;
 
+	//Zobrist key
+	Zkey key;
+
+	//TODO : add Zobrist namespace maybe
+	Zkey psq[COLOR_NB][Piece::PIECE_TYPE_NB][SQUARE_NB];
+	Zkey enPassant[FILE_NB];
+	Zkey castling[4];
+	Zkey side;
+
 	//Move methods
 	inline void movePiece(const Square origin, const Square destination, const unsigned int pieceType, const Color color)
 	{
