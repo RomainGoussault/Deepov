@@ -183,6 +183,9 @@ public:
     In our board model row starts at index 0. a will be 0 and h will be 7 */
 	inline unsigned int getIndexFromChar(const std::string position) const {return(position[0] - 'a'+8*(position[1] - '0'-1));};
 
+	//This should be private
+	//Zobrist key
+	Zkey key;
 
 private:
 	std::array<U64, 20> myBitboards;
@@ -203,8 +206,7 @@ private:
 
 	std::vector<Move> myMoves;
 
-	//Zobrist key
-	Zkey key;
+
 
 	//TODO : add Zobrist namespace maybe
 	Zkey psq[COLOR_NB][Piece::PIECE_TYPE_NB][SQUARE_NB];
@@ -250,7 +252,7 @@ private:
 	}
 
 	//Zobrist methods
-	void initZobristKey();
+	void initZobristKeys();
 };
 
 

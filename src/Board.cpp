@@ -67,11 +67,11 @@ Board::Board(const std::string fen) :
 	}
 
 	//updateAtkFr();
-	initZobristKey();
+	initZobristKeys();
 }
 
 
-void Board::initZobristKey()
+void Board::initZobristKeys()
 {
 	rdGen.seed(1);
 
@@ -358,6 +358,8 @@ void Board::executeMove(Move &move)
 	if(move.isQuiet())
 	{
 		movePiece(origin, destination, pieceType, myColorToPlay);
+		key ^= psq[myColorToPlay][pieceType][origin];
+		key ^= psq[myColorToPlay][pieceType][destination];
 	}
 	else //Castling or Promotion or Capture
 	{
@@ -440,6 +442,9 @@ void Board::undoMove(Move &move)
 	if(move.isQuiet())
 	{
 		movePiece(destination, origin, pieceType, oppositeColor);
+		key ^= psq[oppositeColor][pieceType][destination];
+		key ^= psq[oppositeColor][pieceType][origin];
+
 	}
 	else //Castling or Promotion or Capture
 	{
