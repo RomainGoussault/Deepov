@@ -229,12 +229,15 @@ private:
 	inline void removePiece(const Square index, const unsigned int pieceType, const Color color)
 	{
 		removePiece(index, myBitboards[pieceType+color*6]);
+		key ^= psq[color][pieceType][index];
 	}
 
 	inline void addPiece(const Square index, const unsigned int pieceType, const Color color)
 	{
 		addPiece(index, myBitboards[pieceType+color*6]);
+		key ^= psq[color][pieceType][index];
 	}
+
 	inline void removePiece(const Square index, U64 &bitBoard)
 	{
 		bitBoard &= ~(1LL << index);
