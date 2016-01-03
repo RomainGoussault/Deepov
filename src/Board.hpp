@@ -222,6 +222,8 @@ private:
 	inline void movePiece(const Square origin, const Square destination, const unsigned int pieceType, const Color color)
 	{
 		movePiece(origin, destination, myBitboards[pieceType+color*6]);
+		key ^= psq[color][pieceType][origin];
+		key ^= psq[color][pieceType][destination];
 	}
 
 	inline void removePiece(const Square index, const unsigned int pieceType, const Color color)

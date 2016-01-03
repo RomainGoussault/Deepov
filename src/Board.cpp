@@ -358,8 +358,6 @@ void Board::executeMove(Move &move)
 	if(move.isQuiet())
 	{
 		movePiece(origin, destination, pieceType, myColorToPlay);
-		key ^= psq[myColorToPlay][pieceType][origin];
-		key ^= psq[myColorToPlay][pieceType][destination];
 	}
 	else //Castling or Promotion or Capture
 	{
@@ -442,8 +440,6 @@ void Board::undoMove(Move &move)
 	if(move.isQuiet())
 	{
 		movePiece(destination, origin, pieceType, oppositeColor);
-		key ^= psq[oppositeColor][pieceType][destination];
-		key ^= psq[oppositeColor][pieceType][origin];
 
 	}
 	else //Castling or Promotion or Capture
