@@ -7,7 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-		myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr(), myKingAttackers()
+								myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr(), myKingAttackers()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -67,6 +67,36 @@ Board::Board(const std::string fen) :
 	}
 
 	//updateAtkFr();
+	initZobristKey();
+}
+
+
+void Board::initZobristKey()
+{
+	rdGen.seed(1);
+
+	for (Color c = WHITE; c <= BLACK; ++c)
+	{
+		for (Piece::PieceType pt = Piece::PAWN; pt <= Piece::KING; ++pt)
+		{
+			for (Square s = SQ_A1; s <= SQ_H8; ++s)
+			{
+				psq[c][pt][s] = rdGen();
+			}
+		}
+	}
+
+	for (int i = 0; i<3; i++)
+	{
+		castling[i] = rdGen();
+	}
+
+	for (File f = FILE_A; f <= FILE_H; ++f)
+	{
+		enPassant[f] = rdGen();
+	}
+
+	side = rdGen();
 }
 
 Piece::PieceType Board::findBlackPieceType(const Square position) const

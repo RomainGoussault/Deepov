@@ -46,6 +46,9 @@ namespace Piece
         BISHOP_VALUE = 325,
         PAWN_VALUE = 100
     };
+
+    inline PieceType& operator++(PieceType& i) { return i = PieceType(int(i) + 1); }
+
 };
 
 #endif // PIECES_H

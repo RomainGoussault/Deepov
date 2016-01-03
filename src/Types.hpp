@@ -42,6 +42,7 @@ enum Rank {
 inline Square& operator++(Square& d) { return d = Square(int(d) + 1); }
 inline File& operator++(File& i) { return i = File(int(i) + 1); }
 inline Rank& operator++(Rank& i) { return i = Rank(int(i) + 1); }
+inline Color& operator++(Color& i) { return i = Color(int(i) + 1); }
 
 inline Square& operator--(Square& d) { return d = Square(int(d) - 1); }
 inline File& operator--(File& i) { return i = File(int(i) - 1); }

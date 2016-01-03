@@ -15,6 +15,7 @@
 #include <boost/algorithm/string.hpp>
 #include <memory>
 #include <array>
+#include <random>
 
 
 #ifndef _U64
@@ -38,6 +39,8 @@ The compass is:
     -1   0  +1
     -9  -8  -7
  */
+
+
 
 class Board : public std::enable_shared_from_this<Board>
 {
@@ -209,6 +212,10 @@ private:
 	Zkey castling[4];
 	Zkey side;
 
+	//move PRNG elsewhere
+	std::mt19937_64 rdGen;
+
+
 	//Move methods
 	inline void movePiece(const Square origin, const Square destination, const unsigned int pieceType, const Color color)
 	{
@@ -241,6 +248,9 @@ private:
 		//Add piece to destination positions
 		addPiece(destination, bitBoard);
 	}
+
+	//Zobrist methods
+	void initZobristKey();
 };
 
 
