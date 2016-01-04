@@ -19,6 +19,7 @@ C++ Chess Engine
 * Magic bitboards explained: http://www.rivalchess.com/magic-bitboards/
 * UCI protocol documentation: http://wbec-ridderkerk.nl/html/UCIProtocol.html
 * FEN editor: http://en.lichess.org/editor
+* Game analysis from PGN: http://en.lichess.org/paste
 * Bit Twiddling Hacks: https://graphics.stanford.edu/~seander/bithacks.html
 * BitBoard Calculator: http://cinnamonchess.altervista.org/bitboard_calculator/Calc.html
 * Write Chess Programming in 99 steps: http://aghaznawi.comuf.com/computer%20chess/winglet/
