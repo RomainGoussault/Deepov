@@ -12,10 +12,6 @@ Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr)
 
 int Search::negaMax(const int depth, int alpha, const int beta)
 {
-	int score = 0;
-
-	MoveGen moveGen(myBoard);
-
 	if (depth == 0)
 	{
 		return evaluate();
@@ -32,9 +28,26 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		return Eval::DRAW_SCORE;
 	}
 
+	MoveGen moveGen(myBoard);
 	std::vector<Move> moveList = moveGen.generateMoves();
 
+	//Check for stalemate or checkmate
+	if(moveList.empty())
+	{
+		if(myBoard->isCheck())
+		{
+			//checkmate
+			return -(9999999-20*depth);
+		}
+		else
+		{
+			//stalemate
+			return Eval::DRAW_SCORE;
+		}
+	}
+
 	Eval::sortMoveList(moveList);
+	int score = 0;
 
 	for (auto currentMove : moveList)
 	{
@@ -152,16 +165,5 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 
 int Search::evaluate()
 {
-	//check for 3-move repettiion
-	//Actually check for 1-move repetition
-
-	auto keys = myBoard->getKeysHistory();
-	auto currentKey = myBoard->key;
-
-	//std::find(keys.begin(), keys.end(), item) != vector.end()
-
-
-
-
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
