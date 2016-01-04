@@ -14,6 +14,7 @@ public:
     const static int TOTAL_MATERIAL = 2*Piece::QUEEN_VALUE + 4*Piece::ROOK_VALUE +
     4*Piece::BISHOP_VALUE + 4*Piece::KNIGHT_VALUE + 16*Piece::PAWN_VALUE;
     const static int DRAW_SCORE = 0;
+    const static int CHECKMATE_SCORE = 100000;
 
     Eval(std::shared_ptr<Board> boardPtr);
     int evaluate();
