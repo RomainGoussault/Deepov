@@ -3,10 +3,24 @@
 #include "MagicMoves.hpp"
 #include "Search.hpp"
 
+
+TEST_CASE( "Don't stalemate if you can win", "[search]" )
+{
+	MagicMoves::initmagicmoves();
+	Tables::init();
+
+	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("7k/8/7K/8/8/8/8/5R2 w - - 51 142"));
+	Search search(sp);
+	search.negaMaxRoot(5);
+	Move move = search.myBestMove;
+
+	REQUIRE(move.toShortString() == "f1f8");
+}
+
 TEST_CASE( "Search", "[search]" )
 {
 	MagicMoves::initmagicmoves();
-    Tables::init();
+	Tables::init();
 
 	SECTION("Test search depth 1 white")
 	{
