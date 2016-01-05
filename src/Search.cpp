@@ -95,6 +95,7 @@ int Search::negaMaxRoot(const int depth)
 			alpha = score;
 			myBestMove = currentMove;
 		}
+
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);
 	}
