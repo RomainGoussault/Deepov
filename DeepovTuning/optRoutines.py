@@ -12,3 +12,7 @@ from deepovFunction import *
 def opt_BasinHopping(init_guess,niter):
 #    scipy.optimize.basinhopping(evaluate,init_guess,niter,T=100.,)
     return value
+
+def opt_grid_search(init_guess,x0,x1,niter):
+    
+    return value
