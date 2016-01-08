@@ -21,6 +21,8 @@ def opt_gridSearch(optionMap,dx=[1]):
     values = dict() # Stores the results
     dim = len(optionMap) # dimension of the problem = number of parameters
     ind = list() # list of indices of size dim
+    
+    # Useless ?
     for i in range(0,dim):
         ind.append(0)
     
@@ -29,8 +31,6 @@ def opt_gridSearch(optionMap,dx=[1]):
     for key in optionMap.keys:
         optionMap[key][1] = optionMap[key][2]
         values[key] = optionMap[key][2]
-        
-    
         
 
     # Goes over the paramter space and launch cutechess at each point : TODO

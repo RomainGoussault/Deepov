@@ -26,11 +26,13 @@ def cutechessConfig(args):
     
 def initParameters(args):
     """ Convert the parameters given by command line to a dictionnary.
-    The dictionnary value is a tuple, its first value is the parameter value.
+    The dictionnary value is a tuple, its first value is the initial parameter value.
     Second and third value are the bounds """
+    
     
     if (len(args.name) != len(args.guess) or len(args.name) != len(args.bounds) or len(args.guess) != len(args.bounds)):
         print('Parameters should have an initial value and a range of possible values.')
+        # TODO : initial guess should be optional
         return 2
     
     optionMap = dict()
@@ -55,12 +57,15 @@ def engineConfig(optionMap):
     
     
 def generateCommand(parameters):
+    """ Add the main command, the parameters and the config together to make a cutechess command"""
+    # main_command and main_config are global variables and do not change during the process
+    # parameters is the output of engineConfig, and changes at each evaluation of the engine score
     cutechessCommand = main_command + parameters + main_config
     return cutechessCommand
 
 
 def createParser():
-    """ Creates the command line interface """
+    """ Creates the command line interface using argsparse package"""
     # Get system bit version   
     bitVersion = platform.architecture()
     if (bitVersion[0] == '32bit'):
@@ -80,6 +85,8 @@ def createParser():
     parser.add_argument("-o", "--output", help="Output file ", default="a.out")
     
     # Add parameters arguments
+    # bounds are given as a list of two parameters
+    # TODO : initial guess should be optional
     parser.add_argument("-n", "--name", help="Name of the parameter", action="append", type=str)
     parser.add_argument("-x0", "--guess", help="Initial guess for the parameter value", action="append", default=0, type=int)
     parser.add_argument("--bounds", help="Lower and upper bound of the parameter range", action="append", default=[0,0], type=int)

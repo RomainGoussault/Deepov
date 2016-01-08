@@ -7,7 +7,7 @@ Created on Sun Nov  8 21:32:42 2015
 
 from tuner import runCutechess
 
-# TODO : split the command to use several processors
+# TODO : split the command to use several processors ?
 
 def evaluate(command):
     """ Evaluate the score after changing the option value and returns the score of the engine. """
