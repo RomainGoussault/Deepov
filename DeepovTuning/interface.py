@@ -4,6 +4,8 @@ Created on Fri Jan  8 06:14:08 2016
 
 @author: navid
 """
+
+import sys
 import platform
 import socket
 import argparse
@@ -25,24 +27,36 @@ def cutechessConfig(args):
     
     
 def initParameters(args):
-    """ Convert the parameters given by command line to a dictionnary.
-    The dictionnary value is a tuple, its first value is the initial parameter value.
-    Second and third value are the bounds """
+    """ Convert the parameters given by command line to a list of tuples.
+    The first tuple value is the name, its second value is the initial parameter value.
+    Third and fourth value are the bounds. Fifth value is the minimal interval """
     
     
-    if (len(args.name) != len(args.guess) or len(args.name) != len(args.bounds) or len(args.guess) != len(args.bounds)):
-        print('Parameters should have an initial value and a range of possible values.')
-        # TODO : initial guess should be optional
-        return 2
+    if (len(args.name) != len(args.bounds)):
+        sys.exit('Parameters should have a range of possible values.')
+        
+    if (len(args.bounds) < 2 ):
+        print('Parameters should have a range of possible values.')
     
-    optionMap = dict()
+    parametersList=list()
     i=0
     # Go through the args.name list and build it into a dictionnary
     while i < len(args.name):
-        optionMap[args.name[i]] = (args.guess[i],args.bounds[i][1],args.bound[i][2])
+        # Handle incorrect inputs
+        if (len(args.bounds[i]) < 2 ):
+            sys.exit('Parameters should have a range of possible values.')
+        if (len(args.bounds[i]) < 3 ):
+            args.bounds[i].append(1)
+            print('Default interval set to 1.')
+            args.bounds[i].append(args.bounds[i][1])
+            print('Default initial value set to {}'.format(args.bounds[i][1]))
+        
+        # Add the list
+        current_list = [args.name[i]] + args.bounds[i]
+        parametersList.append(current_list)
         i+=1
         
-    return optionMap
+    return parametersList
     
         
 def engineConfig(optionMap):
@@ -88,7 +102,6 @@ def createParser():
     # bounds are given as a list of two parameters
     # TODO : initial guess should be optional
     parser.add_argument("-n", "--name", help="Name of the parameter", action="append", type=str)
-    parser.add_argument("-x0", "--guess", help="Initial guess for the parameter value", action="append", default=0, type=int)
-    parser.add_argument("--bounds", help="Lower and upper bound of the parameter range", action="append", default=[0,0], type=int)
+    parser.add_argument("--bounds", help="Lower (1) and upper (2) bound of the parameter range, minimum interval (3) and initial value (4)", action="append", default=[-1,1,1,0], type=int)
 
     return parser.parse_args()

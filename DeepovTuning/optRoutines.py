@@ -14,39 +14,52 @@ def opt_BasinHopping(init_guess,niter):
 #    scipy.optimize.basinhopping(evaluate,init_guess,niter,T=100.,)
     return value
 
-def opt_gridSearch(optionMap,dx=[1]):
+def opt_gridSearch(parametersList):
     # TODO : use numpy arrays instead of lists to optimize speed
     """ Does a simple grid search over the parameter space and returns the elo win and the best values in a dictionnary"""
     elo = -10000 # Stores the final score for best case
-    values = dict() # Stores the results
-    dim = len(optionMap) # dimension of the problem = number of parameters
-    ind = list() # list of indices of size dim
+    values = list() # Stores the results
+    n = len(parametersList) # dimension of the problem = number of parameters
     
-    # Useless ?
-    for i in range(0,dim):
-        ind.append(0)
-    
-    # Iterates over the name of the parameters to initialize values list
+    # Iterates over the the parameters to initialize values list
     # The parameter temporary value does not need an initial guess in grid search and is set as the lower bound
-    for key in optionMap.keys:
-        optionMap[key][1] = optionMap[key][2]
-        values[key] = optionMap[key][2]
+    for i in range(0,n):
+        parametersList[i][4] = parametersList[i][1]
+        values.append(parametersList[i][1])
         
 
-    # Goes over the paramter space and launch cutechess at each point : TODO
-    for key in optionMap.keys:
-        while ( optionMap[key][1] < optionMap[key][3]-dx ):
-            optionMap[key][1] += dx
-            parameters = engineConfig(pmap)
-            command = generateCommand(parameters)
-            score = evaluate(command)
-            if score > elo:
-                value = pmap[name]            
-                elo = score
+    # Goes over the paramter space and launch cutechess at each point
+    recursive_iterate(parametersList,0,n,values,elo)
     
     return value,elo
     
- #   def visit(pmap,current_key):
-  #          for i in range(x0,x1):
+def recursive_iterate(parametersList,i,max_dim,values,elo):
+    """ Recursive iteration  along the dimension current_dim """
+    # At the leave of the tree
+    if (i == max_dim):
+        while ( parametersList[count][4] <= parametersList[count][2] ):
+            # step 1 : evaluate the score at current leave
+            parameters = engineConfig(parametersList)
+            command = generateCommand(parameters)
+            score = evaluate(command)
+            if score > elo:
+                values = [parametersList[j][4] for j in range(0,max_dim)]          
+                elo = score
+                
+            # step 2 : at end of evaluation, increment current leave
+            parametersList[i][4] += parametersList[i][3]
+
+        # step 3 : at end of loop, reinitialize the leave at lower bound
+        parametersList[i][4] = parametersList[i][1]
         
-        
+    else:
+        while ( parametersList[i][4] <= parametersList[i][2] ):
+            # step 1b : if not at leave, recursive call at dim i+1
+            recursive_iterate(parametersList,i+1,max_dim,values,elo)
+            # step 2b : at end of evaluation, increment current dim
+            parametersList[i][4] += parametersList[i][3]
+
+         
+        # step 3b : at end of loop, reinitialize the dim at lower bound and i++
+        parametersList[i][4] = parametersList[i][1]
+            
