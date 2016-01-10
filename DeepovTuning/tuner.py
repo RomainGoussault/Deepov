@@ -9,8 +9,8 @@ def main(argv):
     print("Start Deepov tuning v0.1")
     #TODO make a useful main function
     # Define global variables that will contain the cutechess configuration    
-    main_command = ''
-    main_config = ''
+    #main_command = ''
+    #main_config = ''
 
 
     if argv is None:

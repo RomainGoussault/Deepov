@@ -9,7 +9,7 @@ import sys
 import platform
 import socket
 import argparse
-from tuner import main_command, main_config
+#from tuner import main_command, main_config
 
 def cutechessConfig(args):
     """ This function defines the cutechess parameters for the elo evaluation : 
@@ -58,21 +58,21 @@ def initParameters(args):
     return parametersList
     
         
-def engineConfig(paramList):
-    """ Transform the dictionnary of parameters to a command line option in cutechess. 
+def setParam(paramList):
+    """ Transform the list of parameters to a command line option in cutechess. 
     The dictionnary value is a tuple, its first value is the parameter value.
     Second and third value are the bounds and are not used as arguments to cutechess"""    
     
     parameters=''
     for i in range(0,len(paramList)):
-        parameters +='option.{0}={1}'.format(paramList[i][0],paramList[i][4])
+        parameters +='option.{0}={1} '.format(paramList[i][0],paramList[i][4])
     return parameters
     
     
 def generateCommand(parameters):
     """ Add the main command, the parameters and the config together to make a cutechess command"""
     # main_command and main_config are global variables and do not change during the process
-    # parameters is the output of engineConfig, and changes at each evaluation of the engine score
+    # parameters is the output of setParam, and changes at each evaluation of the engine score
     cutechessCommand = main_command + parameters + main_config
     return cutechessCommand
 

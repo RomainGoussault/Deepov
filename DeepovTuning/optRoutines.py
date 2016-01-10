@@ -39,7 +39,7 @@ def recursive_iterate(parametersList,i,max_dim,values,elo):
     if (i == max_dim):
         while ( parametersList[count][4] <= parametersList[count][2] ):
             # step 1 : evaluate the score at current leave
-            parameters = engineConfig(parametersList)
+            parameters = setParam(parametersList)
             command = generateCommand(parameters)
             score = evaluate(command)
             if score > elo:
