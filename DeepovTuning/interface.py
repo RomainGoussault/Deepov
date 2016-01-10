@@ -31,7 +31,6 @@ def initParameters(args):
     The first tuple value is the name, its second value is the initial parameter value.
     Third and fourth value are the bounds. Fifth value is the minimal interval """
     
-    
     if (len(args.name) != len(args.bounds)):
         sys.exit('Parameters should have a range of possible values.')
         
@@ -59,14 +58,14 @@ def initParameters(args):
     return parametersList
     
         
-def engineConfig(optionMap):
+def engineConfig(paramList):
     """ Transform the dictionnary of parameters to a command line option in cutechess. 
     The dictionnary value is a tuple, its first value is the parameter value.
     Second and third value are the bounds and are not used as arguments to cutechess"""    
     
     parameters=''
-    for key in optionMap.keys():
-        parameters +='option.{0}={1}'.format(key,optionMap[key][1])
+    for i in range(0,len(paramList)):
+        parameters +='option.{0}={1}'.format(paramList[i][0],paramList[i][4])
     return parameters
     
     
