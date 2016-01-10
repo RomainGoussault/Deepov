@@ -9,7 +9,11 @@ import sys
 import platform
 import socket
 import argparse
-#from tuner import main_command, main_config
+
+
+# Global variables
+main_command = ''
+main_config = ''
 
 def cutechessConfig(args):
     """ This function defines the cutechess parameters for the elo evaluation : 
