@@ -20,6 +20,10 @@
 *.out
 *.app
 
+# Python cache files
+DeepovTuning/__pycache__
+DeepovTuning/.cache
+
 
 .settings/org.eclipse.cdt.managedbuilder.core.prefs
 .project
