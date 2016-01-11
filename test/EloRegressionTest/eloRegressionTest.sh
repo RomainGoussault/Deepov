@@ -9,7 +9,7 @@ if [ ! -f Deepov ]; then
 
     echo "Deepov not found. Cloning from github and building"
 
-	git clone --branch=master git://github.com/RomainGoussault/Deepov.git LatestRelease/
+	git clone --depth 1 --branch=master git://github.com/RomainGoussault/Deepov.git LatestRelease/
 	cd LatestRelease/
 	mkdir obj
 
@@ -31,7 +31,7 @@ if [ ! -f Deepov ]; then
 	cd ..
 fi
 
-./cutechess-cli.sh -engine cmd=DeepovCurrent -engine cmd=Deepov -each proto=uci tc=100/1 -rounds 500 -pgnout matchOuput.txt -recover -repeat -openings file=openings.pgn | while read line; do
+./cutechess-cli.sh -engine cmd=DeepovCurrent -engine cmd=Deepov -each proto=uci tc=100/1 -rounds 1000 -pgnout matchOuput.txt -recover -repeat -openings file=openings.pgn | while read line; do
 		
 	echo "$line"
 		
