@@ -10,11 +10,63 @@ Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr)
 	myBoard = boardPtr;
 }
 
+//Quiescence Search
+int Search::qSearch(int alpha, const int beta)
+{
+	int stand_pat = evaluate();
+
+	if( stand_pat >= beta )
+	{
+		return beta;
+	}
+	else if( alpha < stand_pat )
+	{
+		alpha = stand_pat;
+	}
+
+	MoveGen moveGen(myBoard);
+	std::vector<Move> moveList = moveGen.generateMoves();
+	Eval::sortMoveList(moveList);
+
+	for (auto currentMove : moveList)
+	{
+		if(currentMove.isCapture())
+		{
+			int score = 0;
+			myBoard->executeMove(currentMove);
+			myEval.updateEvalAttributes(currentMove);
+
+			score = -qSearch( -beta, -alpha );
+
+			myBoard->undoMove(currentMove);
+			myEval.rewindEvalAttributes(currentMove);
+
+			if( score >= beta )
+			{
+				return beta;
+			}
+			else if( score > alpha )
+			{
+				alpha = score;
+			}
+		}
+	}
+
+	return alpha;
+}
+
 int Search::negaMax(const int depth, int alpha, const int beta)
 {
 	if (depth == 0)
 	{
-		return evaluate();
+		if(myBoard->getEnemyLastMove()->isCapture())
+		{
+			return qSearch( alpha, beta );
+		}
+		else
+		{
+			return evaluate();
+		}
 	}
 
 	//check for 1-move repetition
@@ -126,15 +178,15 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 
 		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
 		auto dur = time - startTime;
-	    int durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+		int durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
 
 		//		std::cout << " Romain duration" << duration.count() << " allocated duration " << allocatedDuration.count() << std::endl;
 
 		//check for time
-	    if(depth !=1)
-	    {
-	    	if(durationMS > 0.3*allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
-	    }
+		if(depth !=1)
+		{
+			if(durationMS > 0.3*allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
+		}
 
 		std::vector<Move> moveList = moveGen.generateMoves();
 
