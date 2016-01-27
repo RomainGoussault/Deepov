@@ -89,7 +89,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		if(myBoard->isCheck())
 		{
 			//checkmate
-			return -(Eval::CHECKMATE_SCORE-depth);
+			return -(Eval::CHECKMATE_SCORE+depth);
 		}
 		else
 		{
