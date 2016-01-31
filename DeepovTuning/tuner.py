@@ -14,8 +14,6 @@ def main(argv):
     #TODO make a useful main function
     # Define global variables that will contain the cutechess configuration    
 
-
-
     if argv is None:
         argv = sys.argv[1:]
 
@@ -24,21 +22,45 @@ def main(argv):
 #	print(args)
 	
 
+     
+    # Store the run configuration
+    main_command,main_config=cutechessConfig(args)
+    
     if args.verbosity:
         print('Sending command to cutechess :')
-        print(cutechessCommand)
+        print(main_command+main_config)
         print('\n')
-	
-
-	
-    results = runCutechess(cutechessCommand)
     
+    # No input parameters ( for test purpose )
+    if args.name is None:
+        if args.verbosity:
+            print("#WARNING : No input parameters.")    
+
+        command = main_command+main_config
+        runCutechess(command)        
+        return 0        
+        
+    parametersList=initParameters(args)
+    if args.verbosity:
+        print("List of parameters : ")
+        print(parametersList)
+
+    # Choose method
+
+
+    # Execute method
+    best,elo=opt_gridSearch(parametersList)
+#    results = runCutechess(cutechessCommand)
+    
+    # Display resultes
+    print("Best set of values is {}".format(best))
+    print("Elo improvement is {}".format(elo)) 
+        
     if args.verbosity:
         print(results)
 
     return 0
     
-
 
 def setOption(name,value):
 	value=str(value)

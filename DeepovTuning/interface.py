@@ -21,9 +21,10 @@ def cutechessConfig(args):
     # cutechess command    
     command = '{0} -engine cmd={1} dir={2}'.format(args.cutechess,args.engine,args.dir)
     # Opponent
-    config = ' -engine cmd={1} dir={2}'.format(args.opponent,args.dir)
+    config = ' -engine cmd={0} dir={1}'.format(args.opponent,args.dir)
+
     # Optional arguments
-    config += ' -each proto=uci tc={0} -rounds {1} -pgnout {2}  -openings file={3}'.format(args.time,args.rounds,args.output,args.book)
+    config += ' -each proto=uci tc={0} -rounds {1} -pgnout {2} -openings file={3}'.format(args.time,args.rounds,args.output,args.book)
     # Default cutechess-cli options
     config += ' -recover -repeat -site {}'.format(socket.gethostname())
     
@@ -90,7 +91,10 @@ def createParser():
     else:
         defaultCutechess = './cutechess-cli.sh'
 
-    parser = argparse.ArgumentDefaultsHelpFormatter(description='Program to tune Deepov chess engine parameters.')
+    parser = argparse.ArgumentParser(prog='tuner.py',
+                                     description='Program to tune Deepov chess engine parameters.',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+                                     
     parser.add_argument("engine", help="Executable of the engine to tune.")
     parser.add_argument("opponent", help="Executable of opponent engine.")
     parser.add_argument("-d","--dir", help="Path to the engines folder",default='./')

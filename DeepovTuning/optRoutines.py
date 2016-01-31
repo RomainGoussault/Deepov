@@ -31,7 +31,7 @@ def opt_gridSearch(parametersList):
     # Goes over the paramter space and launch cutechess at each point
     recursive_iterate(parametersList,0,n,values,elo)
     
-    return value,elo
+    return values,elo
     
 def recursive_iterate(parametersList,i,max_dim,values,elo):
     """ Recursive iteration  along the dimension current_dim """
