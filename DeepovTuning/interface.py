@@ -35,12 +35,10 @@ def initParameters(args):
     """ Convert the parameters given by command line to a list of tuples.
     The first tuple value is the name, its second value is the initial parameter value.
     Third and fourth value are the bounds. Fifth value is the minimal interval """
-    
+    print(args.name)
+    print(args.bounds)   
     if (len(args.name) != len(args.bounds)):
-        sys.exit('Parameters should have a range of possible values.')
-        
-    if (len(args.bounds) < 2 ):
-        print('Parameters should have a range of possible values.')
+        sys.exit('Parameters should have a range of possible values (1).')
     
     parametersList=list()
     i=0
@@ -80,6 +78,14 @@ def generateCommand(parameters):
     # parameters is the output of setParam, and changes at each evaluation of the engine score
     cutechessCommand = main_command + parameters + main_config
     return cutechessCommand
+    
+def multiple(arg):
+    """ Defines a list of integers from integers separeted with ,"""
+    # http://stackoverflow.com/questions/33499173/how-to-create-argument-of-type-list-of-pairs-with-argparse
+    # If you want to do more
+    # validation, raise argparse.ArgumentError if you
+    # encounter a problem.
+    return [int(x) for x in arg.split(',')]
 
 
 def createParser():
@@ -107,8 +113,8 @@ def createParser():
     
     # Add parameters arguments
     # bounds are given as a list of two parameters
-    # TODO : initial guess should be optional
+    # TODO : initial guess should be optional, and there should be a default value
     parser.add_argument("-n", "--name", help="Name of the parameter", action="append", type=str)
-    parser.add_argument("--bounds", help="Lower (1) and upper (2) bound of the parameter range, minimum interval (3) and initial value (4)", action="append", default=[-1,1,1,0], type=int)
-
+    #parser.add_argument("--bounds", help="Lower (1) and upper (2) bound of the parameter range, minimum interval (3) and initial value (4)", action="append", default="-1,1,1,0", type=multiple)
+    parser.add_argument("--bounds", help="Lower (1) and upper (2) bound of the parameter range, minimum interval (3) and initial value (4)", action="append",nargs=4,type=int)
     return parser.parse_args()

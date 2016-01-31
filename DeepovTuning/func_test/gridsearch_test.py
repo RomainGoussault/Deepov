@@ -13,7 +13,7 @@ def recursivity_test2(parametersList,count,max_dim):
  # dimension of the problem = number of parameters
     # Initial dimension
     print('Hi, count is = ' + str(count))
-    if (count == max_dim):
+    if (count == max_dim-1):
         while ( parametersList[count][4] <= parametersList[count][2] ):
             # step 1 : evaluate the score at current leave
             print('Current leave =' + str([parametersList[j][4] for j in range(0,len(parametersList))]))            
@@ -39,5 +39,7 @@ parametersList.append(['name',0,1,1,0])
 parametersList.append(['name2',1,3,1,1])
 parametersList.append(['name3',1,4,2,1])
 max_dim = len(parametersList)
+print("number of dimensions is " + str(max_dim))
 print(parametersList)
-recursivity_test2(parametersList,0,2)
+recursivity_test2(parametersList,0,max_dim)
+

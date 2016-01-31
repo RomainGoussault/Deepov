@@ -36,8 +36,8 @@ def opt_gridSearch(parametersList):
 def recursive_iterate(parametersList,i,max_dim,values,elo):
     """ Recursive iteration  along the dimension current_dim """
     # At the leave of the tree
-    if (i == max_dim):
-        while ( parametersList[count][4] <= parametersList[count][2] ):
+    if (i == max_dim-1):
+        while ( parametersList[i][4] <= parametersList[i][2] ):
             # step 1 : evaluate the score at current leave
             parameters = setParam(parametersList)
             command = generateCommand(parameters)

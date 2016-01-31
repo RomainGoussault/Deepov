@@ -2,13 +2,14 @@
 
 #********************************************************************
 # Run 5 matches between Deepov and Deepov (test)
-./tuner.py ./Deepov ./Deepov -d ../ -r 5 -v
+#./tuner.py ./Deepov ./Deepov -d ../ -r 2 -v
 
 
 #********************************************************************
-# Tune time divider
-#./tuner.py ./Deepov ./Deepov -d ../ -r 10 \
-#			-n timeDivider --bounds 1 100 5 1
+# Tune time divider test
+./tuner.py ./Deepov ./Deepov -d ../ -r 10 -v \
+		-n timeDivider --bounds 1 100 5 1
+		#-n timeDivider --bounds 1,100,5,1
 #********************************************************************
 #********************************************************************
 #********************************************************************
