@@ -197,7 +197,6 @@ void Uci::search()
 	Search search(myBoardPtr); //Note this could be done earlier before the search
 
 	TimeManager::divider = std::stoi(getOption("timeDivider"));
-	std::cout << "Romain time divider " << TimeManager::divider << std::endl;
 
 	unsigned int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());
 	//std::cout << "Romain time allocated " << timeMS << std::endl;
