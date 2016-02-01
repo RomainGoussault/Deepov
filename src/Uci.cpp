@@ -96,7 +96,7 @@ void Uci::printOptions() const{
 
 	for(auto elem : myOptionsMap)
 	{
-	   std::cout << "[" << elem.first << "]" << " " << elem.second  << std::endl;
+	   std::cout << "option name " << elem.first << " type spin default "  << elem.second  << " min 1 max 100" <<std::endl;
 	}
  }
 
@@ -139,6 +139,7 @@ void Uci::loop()
 		{
 			std::cout << "id name Deepov 0.4" << std::endl;
 			std::cout << "id author Romain Goussault - Navid Hedjazian" << std::endl;
+			printOptions();
 			std::cout << "uciok" << std::endl;
 		}
 		else if (token == "isready")

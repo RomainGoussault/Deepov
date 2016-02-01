@@ -55,7 +55,7 @@ private:
 
 inline std::ostream& operator<<(std::ostream &strm, const UciOption &UciOption) {
 
-	strm << UciOption.myCurrentValue << std::endl;
+	strm << UciOption.myCurrentValue;
 
 	return strm;
 }
