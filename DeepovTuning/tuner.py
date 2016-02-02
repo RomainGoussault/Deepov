@@ -5,12 +5,12 @@ import sys
 import subprocess
 from interface import *
 from optRoutines import *
+import settings
 
-# Global variables
-main_command = ''
-main_config = ''
+
 
 def main(argv):
+    settings.init()          # Call only once
     print("Start Deepov tuning v0.1")
     #TODO make a useful main function
     # Define global variables that will contain the cutechess configuration    
@@ -25,11 +25,11 @@ def main(argv):
 
      
     # Store the run configuration
-    main_command,main_config=cutechessConfig(args)
+    settings.main_command,settings.main_config=cutechessConfig(args)
     
     if args.verbosity:
         print('Sending command to cutechess :')
-        print(main_command+main_config)
+        print(settings.main_command+settings.main_config)
         print('\n')
     
     # No input parameters ( for test purpose )
@@ -37,7 +37,7 @@ def main(argv):
         if args.verbosity:
             print("#WARNING : No input parameters.")    
 
-        command = main_command+main_config
+        command = settings.main_command+settings.main_config
         runCutechess(command)        
         return 0        
         
@@ -50,7 +50,10 @@ def main(argv):
 
 
     # Execute method
+    print(settings.main_command+settings.main_config)
+    
     best,elo=opt_gridSearch(parametersList)
+    
 #    results = runCutechess(cutechessCommand)
     
     # Display resultes
@@ -69,6 +72,10 @@ def setOption(name,value):
 	return option
 
 def runCutechess(command):
+    
+    print("runCutechess with command :")
+    print(command)
+
     """ A function to simply run the cutechess command """
     process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
     output = process.communicate()[0]

@@ -9,11 +9,13 @@ import sys
 import platform
 import socket
 import argparse
+import settings
+
 
 
 # Global variables
-main_command = ''
-main_config = ''
+#main_command = ''
+#main_config = ''
 
 def cutechessConfig(args):
     """ This function defines the cutechess parameters for the elo evaluation : 
@@ -76,7 +78,7 @@ def generateCommand(parameters):
     """ Add the main command, the parameters and the config together to make a cutechess command"""
     # main_command and main_config are global variables and do not change during the process
     # parameters is the output of setParam, and changes at each evaluation of the engine score
-    cutechessCommand = main_command + parameters + main_config
+    cutechessCommand = settings.main_command + parameters + settings.main_config
     return cutechessCommand
     
 def multiple(arg):
