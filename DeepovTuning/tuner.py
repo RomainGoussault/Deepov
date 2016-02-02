@@ -60,8 +60,8 @@ def main(argv):
     print("Best set of values is {}".format(best))
     print("Elo improvement is {}".format(elo)) 
         
-    if args.verbosity:
-        print(results)
+#    if args.verbosity:
+#        print(results) ???
 
     return 0
     

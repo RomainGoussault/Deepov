@@ -29,6 +29,7 @@ def cutechessConfig(args):
     config += ' -each proto=uci tc={0} -rounds {1} -pgnout {2} -openings file={3}'.format(args.time,args.rounds,args.output,args.book)
     # Default cutechess-cli options
     config += ' -recover -repeat -site {}'.format(socket.gethostname())
+    config += ' -concurrency 7' 
     
     return command,config
     
@@ -108,10 +109,11 @@ def createParser():
     parser.add_argument("-d","--dir", help="Path to the engines folder",default='./')
     parser.add_argument("-c","--cutechess", help="Path to cutechess.",default=defaultCutechess)
     parser.add_argument("-v", "--verbosity", help="Increase output verbosity.", action="store_true")
-    parser.add_argument("-t", "--time", help="Define the allocated time for engines in cutechess. The format is moves/time+increment, where moves is the number of moves per tc, time is time per tc (either seconds or minutes:seconds), and increment is time increment per move in seconds. Infinite time control can be set with tc=inf (source : cutechess doc).", default="100/1")
+    parser.add_argument("-t", "--time", help="Define the allocated time for engines in cutechess. The format is moves/time+increment, where moves is the number of moves per tc, time is time per tc (either seconds or minutes:seconds), and increment is time increment per move in seconds. Infinite time control can be set with tc=inf (source : cutechess doc).", default="100/0.5+0.01")
     parser.add_argument("-r", "--rounds", help="Number of rounds to play between the engines",default='500')
     parser.add_argument("-b", "--book", help="Openings book file path", default="openings.pgn")
     parser.add_argument("-o", "--output", help="Output file ", default="a.out")
+    parser.add_argument("-cc", "--concurrency", help="concurrency", default="7")
     
     # Add parameters arguments
     # bounds are given as a list of two parameters
