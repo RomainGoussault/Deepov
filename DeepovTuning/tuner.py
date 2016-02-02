@@ -11,7 +11,7 @@ import settings
 
 def main(argv):
     settings.init()          # Call only once
-    print("Start Deepov tuning v0.1")
+    print("Start Deepov tuning v0.2")
     #TODO make a useful main function
     # Define global variables that will contain the cutechess configuration    
 
@@ -27,10 +27,10 @@ def main(argv):
     # Store the run configuration
     settings.main_command,settings.main_config=cutechessConfig(args)
     
-    if args.verbosity:
-        print('Sending command to cutechess :')
-        print(settings.main_command+settings.main_config)
-        print('\n')
+#    if args.verbosity:
+#        print('Sending command to cutechess :')
+#        print(settings.main_command+settings.main_config)
+#        print('\n')
     
     # No input parameters ( for test purpose )
     if args.name is None:
