@@ -15,6 +15,7 @@ def evaluate(command):
     s = runCutechess(command) # Get the cutechess output
     index = s.decode('UTF-8').find('ELO')
     s = s[index:-1] # Suppress everything before 'ELO' 
-    score = int(re.search(r'\d+', s.decode('UTF-8')).group())
+    
+    score = int(re.search(r'[-+]?\d+', s.decode('UTF-8')).group())
 
     return score
