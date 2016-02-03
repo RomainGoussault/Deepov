@@ -71,7 +71,7 @@ def setParam(paramList):
     
     parameters=''
     for i in range(0,len(paramList)):
-        parameters +='option.{0}={1} '.format(paramList[i][0],paramList[i][4])
+        parameters +=' option.{0}={1} '.format(paramList[i][0],paramList[i][4])
     return parameters
     
     
