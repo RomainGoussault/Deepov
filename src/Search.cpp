@@ -61,7 +61,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	{
 		if(myBoard->getEnemyLastMove()->isCapture())
 		{
-			return qSearch( alpha, beta );
+			return qSearch(alpha, beta);
 		}
 		else
 		{
@@ -99,8 +99,18 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	}
 
 	Eval::sortMoveList(moveList);
-	int score = 0;
 
+	for (auto it = moveList.begin(); it != moveList.end(); ++it) {
+		Move move = *it;
+		if (Move::isSameMove(move, pvTable[currentMaxDepthID-1][currentMaxDepthID-depth])) {
+			auto x = *it; // or std::move(*it)
+			moveList.erase(it);
+			moveList.insert(moveList.begin(), x /* or std::move(x) */);
+			break;
+		}
+	}
+
+	int score = 0;
 	for (auto currentMove : moveList)
 	{
 		//	Move currentMove = moveList[i];
@@ -118,6 +128,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		}
 		if( score > alpha )
 		{
+			pvTable[currentMaxDepthID][currentMaxDepthID-depth] = currentMove;
 			alpha = score; // alpha acts like max in MiniMax
 		}
 	}
@@ -164,10 +175,8 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
 			std::chrono::high_resolution_clock::now();
-	//std::cout << " Romain allocatedTimeMS" << allocatedTimeMS << std::endl;
 
-	int depth = 1;
-
+	currentMaxDepthID = 1;
 	while(true)
 	{
 		alpha = -999999;
@@ -180,37 +189,44 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		auto dur = time - startTime;
 		int durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
 
-		//		std::cout << " Romain duration" << duration.count() << " allocated duration " << allocatedDuration.count() << std::endl;
-
 		//check for time
-		if(depth !=1)
+		if(currentMaxDepthID !=1)
 		{
 			if(durationMS > 0.3*allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
 		}
 
 		std::vector<Move> moveList = moveGen.generateMoves();
 
+		for (auto it = moveList.begin(); it != moveList.end(); ++it) {
+			Move move = *it;
+			if (Move::isSameMove(move, pvTable[currentMaxDepthID-1][currentMaxDepthID-currentMaxDepthID])) {
+				auto x = *it; // or std::move(*it)
+				moveList.erase(it);
+				moveList.insert(moveList.begin(), x /* or std::move(x) */);
+				break;
+			}
+		}
+
+
 		for (auto currentMove : moveList)
 		{
 			myBoard->executeMove(currentMove);
 			myEval.updateEvalAttributes(currentMove);
 
-			score = -negaMax(depth - 1, -beta, -alpha);
+			score = -negaMax(currentMaxDepthID - 1, -beta, -alpha);
 
 			if( score > alpha )
 			{
 				alpha = score;
 				myBestMove = currentMove;
-				//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
+				pvTable[currentMaxDepthID][0] = myBestMove;
 
 			}
 			myBoard->undoMove(currentMove);
 			myEval.rewindEvalAttributes(currentMove);
 		}
 
-		depth++;
-		//std::cout << " Romain depth" << depth << std::endl;
-
+		currentMaxDepthID++;
 	}
 
 	return alpha;
@@ -219,4 +235,26 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 int Search::evaluate()
 {
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
+}
+
+void Search::printPvTable()
+{
+	int n = 20;
+	while(pvTable[n][0].isNullMove())
+	{
+		n--;
+	}
+
+	for(int i = 1; i<=n; i++)
+	{
+		std::cout << "currentMaxDepthID: " << i << std::endl;
+
+		for(int j = 0; j<=n; j++)
+		{
+			std::cout << " " <<i<<j<<pvTable[i][j].toShortString() << "   ";;
+		}
+
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
 }
