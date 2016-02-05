@@ -9,20 +9,22 @@ import scipy.optimize
 from tuner import *
 from deepovFunction import *
 from interface import *
+import settings
 
 elo = -10000
-values = [];
+values = []
+
 
 def opt_BasinHopping(init_guess,niter):
 #    scipy.optimize.basinhopping(evaluate,init_guess,niter,T=100.,)
     return value
 
 def opt_gridSearch(parametersList):
+    """ Does a simple grid search over the parameter space and returns the elo win and the best values in a dictionnary"""
+        
     global elo
     global values
 
-    # TODO : use numpy arrays instead of lists to optimize speed
-    """ Does a simple grid search over the parameter space and returns the elo win and the best values in a dictionnary"""
     values = list() # Stores the results
     n = len(parametersList) # dimension of the problem = number of parameters
     
@@ -32,6 +34,11 @@ def opt_gridSearch(parametersList):
         parametersList[i][4] = parametersList[i][1]
         values.append(parametersList[i][1])
         
+        # Initialize the lists in the dataset (a list of n lists)
+        settings.dataset.append([])
+                
+    # Add one dimension to store the corresponding elo
+    settings.dataset.append([])
 
     # Goes over the paramter space and launch cutechess at each point
     recursive_iterate(parametersList,0,n)
@@ -52,6 +59,13 @@ def recursive_iterate(parametersList,i,max_dim):
             score = evaluate(command)
             print("score {}".format(score))
             print("For values: {}".format([parametersList[j][4] for j in range(0,max_dim)]  ))
+            
+            # Store results in the dataset
+            for i in range(0,max_dim):            
+                settings.dataset[i].append(parametersList[i][4])
+                
+            # Appends the score in the nth list
+            settings.dataset[max_dim].append(score)
 
             if score > elo:
                 values = [parametersList[j][4] for j in range(0,max_dim)]          

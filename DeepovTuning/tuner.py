@@ -6,6 +6,7 @@ import subprocess
 from interface import *
 from optRoutines import *
 import settings
+import plots
 
 
 
@@ -47,7 +48,8 @@ def main(argv):
         print(parametersList)
 
     # Choose method
-
+    print("Initial empy dataset")
+    print(settings.dataset)
 
     # Execute method
     print(settings.main_command+settings.main_config)
@@ -59,6 +61,11 @@ def main(argv):
     # Display resultes
     print("Best set of values is {}".format(best))
     print("Elo improvement is {}".format(elo)) 
+    
+    # Display the stored dataset
+    print(settings.dataset)
+    plots.scatter_plot(0)
+    
         
 #    if args.verbosity:
 #        print(results) ???
