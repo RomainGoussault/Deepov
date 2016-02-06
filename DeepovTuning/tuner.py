@@ -54,8 +54,11 @@ def main(argv):
     # Execute method
     print(settings.main_command+settings.main_config)
     
-    best,elo=opt_gridSearch(parametersList)
+    #best,elo=opt_gridSearch(parametersList)
     
+    scipy_res=opt_differential_evolution(parametersList)
+    
+    print(scipy_res)
 #    results = runCutechess(cutechessCommand)
     
     # Display resultes

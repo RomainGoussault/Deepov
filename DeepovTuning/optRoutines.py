@@ -5,7 +5,7 @@ Created on Sun Nov  8 21:16:15 2015
 @author: navid
 """
 
-import scipy.optimize
+from scipy.optimize import differential_evolution
 from tuner import *
 from deepovFunction import *
 from interface import *
@@ -15,9 +15,16 @@ elo = -10000
 values = []
 
 
-def opt_BasinHopping(init_guess,niter):
-#    scipy.optimize.basinhopping(evaluate,init_guess,niter,T=100.,)
-    return value
+def opt_differential_evolution(parametersList):
+    # Maximul of iterations of the algorithm
+    max_iter=100
+    # Set the bounds of each parameter
+    bounds=list()
+    for i in range(0,len(parametersList)):
+        bounds.append((parametersList[i][1],parametersList[i][2]))
+        
+    scipy_res=differential_evolution(deepov_func,bounds,maxiter=max_iter,disp=true,polish=False)
+    return scipy_res
 
 def opt_gridSearch(parametersList):
     """ Does a simple grid search over the parameter space and returns the elo win and the best values in a dictionnary"""

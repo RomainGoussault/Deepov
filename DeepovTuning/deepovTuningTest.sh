@@ -7,7 +7,7 @@
 
 #********************************************************************
 # Tune time divider test
-./tuner.py ./Deepov ./Deepov -d ../ -r 14 -v \
+./tuner.py ./Deepov ./Deepov -d ../ -r 7 -v \
 		-n timeDivider --bounds 1 100 35 1
 		#-n timeDivider --bounds 1,100,5,1
 #********************************************************************

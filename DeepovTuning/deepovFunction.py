@@ -6,7 +6,9 @@ Created on Sun Nov  8 21:32:42 2015
 """
 
 from tuner import runCutechess
+from interface import generateCommand
 import re
+
 
 # TODO : split the command to use several processors ?
 
@@ -19,3 +21,16 @@ def evaluate(command):
     score = int(re.search(r'[-+]?\d+', s.decode('UTF-8')).group())
 
     return score
+    
+    
+def deepov_func(x,*args):
+    """Evaluation function compliant with a scipy.optimize input function."""
+    # x is the list of parameters, *args are optional fixed parameters
+    global paramList
+    
+    parameters=''
+    for i in range(0,len(x)):
+        parameters +=' option.{0}={1} '.format(paramList[i][0],x[i])
+    command=generateCommand(parameters)
+    score=evaluate(command)
+    return -score
