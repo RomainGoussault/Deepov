@@ -29,6 +29,14 @@ Eval::Eval(std::shared_ptr<Board> boardPtr)
     init();
 }
 
+int Eval::calculateKingSafety() {
+
+	int whiteCastling = myBoard->hasWhiteCastled();
+	int blackCastling = myBoard->hasBlackCastled();
+	int kingSafetyScore = (whiteCastling - blackCastling);
+	return kingSafetyScore;
+}
+
 //evaluate always return the white point of view
 int Eval::evaluate()
 {
@@ -45,10 +53,12 @@ int Eval::evaluate()
 	int mobilityScore = calcMobilityScore(alpha);
 	int materialScore = myMaterialScore;
 
+	int kingSafetyGain = 40; //To be tuned
+	int kingSafetyScore = kingSafetyGain*calculateKingSafety();
 	//int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
 	// + calcMaterialAdjustments(alpha);
 
-	return materialScore + POSITIONNAL_GAIN_PERCENT/100*positionScore + MOBILITY_GAIN_PERCENT/100*mobilityScore;
+	return materialScore + POSITIONNAL_GAIN_PERCENT/100*positionScore + MOBILITY_GAIN_PERCENT/100*mobilityScore + kingSafetyScore;
 }
 
 void Eval::init()
