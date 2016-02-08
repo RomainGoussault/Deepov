@@ -171,6 +171,16 @@ public:
 		return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
 	};
 
+	inline bool hasBlackCastled() const
+	{
+		return myHasBlackCastled;
+	}
+
+	inline bool hasWhiteCastled() const
+	{
+		return myHasWhiteCastled;
+	}
+
 	/* I keep both functions to compare their performance */
 	bool isBitBoardAttacked(U64 bitboard, Color color) const;
 	bool isSquareAttacked(Square square, Color color) const; // is square attacked by the opposite color of "Color color"
@@ -182,7 +192,9 @@ public:
 	/* This method takes a position as a string (e.g. e4) and returns the index in Little-Endian
     It will replace Utils::getPosition(), this version should be much better.
     In our board model row starts at index 0. a will be 0 and h will be 7 */
-	inline unsigned int getIndexFromChar(const std::string position) const {return(position[0] - 'a'+8*(position[1] - '0'-1));};
+	inline unsigned int getIndexFromChar(const std::string position) const {
+		return (position[0] - 'a' + 8 * (position[1] - '0' - 1));
+	}
 
 	//This should be private
 	//Zobrist key
@@ -197,6 +209,9 @@ private:
 	unsigned int myCastling; /* Same order as FEN
     RIGHT BIT : white king side, white queen side, black king side, black queen side : LEFT BIT
     e.g. the order is 1111 = qkQK */
+
+	bool myHasWhiteCastled;
+	bool myHasBlackCastled;
 
 	U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
 	U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square

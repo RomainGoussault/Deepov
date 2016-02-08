@@ -35,6 +35,8 @@ TEST_CASE( "KingCastling1", "[king]" )
 		unsigned int blackSize = moveGen.getKingPseudoLegalMoves(BLACK).size();
 		REQUIRE(whiteSize == 3);
 		REQUIRE(blackSize == 3);
+		REQUIRE(board.hasBlackCastled() == false);
+		REQUIRE(board.hasWhiteCastled() == false);
 	}
 
 	SECTION("Test Castling 2")
@@ -139,6 +141,62 @@ TEST_CASE( "CastlingRights", "[king]" )
 	}
 }
 
+TEST_CASE( "King castling execude/undo move", "[king]" )
+{
+	MagicMoves::initmagicmoves();
+	Tables::init();
+
+	SECTION("White castling")
+	{
+		Board board("r3kbnr/p2ppppp/nppqb3/4B3/8/5P2/PPPPPNPP/RNBQK2R w KQkq -");
+		MoveGen moveGen(board);
+		REQUIRE(board.hasWhiteCastled() == false);
+		REQUIRE(board.isKingSideCastlingAllowed(WHITE));
+
+		auto moves = moveGen.getKingPseudoLegalMoves(WHITE);
+		Move castlingMove;
+
+		for(auto move : moves)
+		{
+			if(move.isCastling())
+			{
+				castlingMove = move;
+			}
+		}
+
+		board.executeMove(castlingMove);
+		REQUIRE(board.hasWhiteCastled() == true);
+
+		board.undoMove(castlingMove);
+		REQUIRE(board.hasWhiteCastled() == false);
+	}
+
+	SECTION("Black castling")
+	{
+		Board board("r3kbnr/p2ppppp/nppqb3/4B3/8/5P2/PPPPPNPP/RNBQK2R b KQkq -");
+		MoveGen moveGen(board);
+		REQUIRE(board.hasBlackCastled() == false);
+		REQUIRE(board.isQueenSideCastlingAllowed(BLACK));
+
+		auto moves = moveGen.getKingPseudoLegalMoves(BLACK);
+		Move castlingMove;
+
+		for(auto move : moves)
+		{
+			if(move.isCastling())
+			{
+				castlingMove = move;
+			}
+		}
+
+		board.executeMove(castlingMove);
+		REQUIRE(board.hasBlackCastled() == true);
+
+		board.undoMove(castlingMove);
+		REQUIRE(board.hasBlackCastled() == false);
+	}
+
+}
 TEST_CASE( "Evasion", "[king]" )
 {
 	MagicMoves::initmagicmoves();

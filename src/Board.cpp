@@ -7,7 +7,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-								myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myAtkTo(), myAtkFr(), myKingAttackers()
+																myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myAtkFr(), myKingAttackers()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -371,13 +371,33 @@ void Board::executeMove(Move &move)
 
 			if(move.isKingSideCastling())
 			{
-				rookOrigin = myColorToPlay == WHITE ? SQ_H1 : SQ_H8;
-				rookDestination = myColorToPlay == WHITE ? SQ_F1 : SQ_F8;
+				if(myColorToPlay == WHITE)
+				{
+					myHasWhiteCastled = true;
+					rookOrigin = SQ_H1;
+					rookDestination = SQ_F1;
+				}
+				else
+				{
+					myHasBlackCastled = true;
+					rookOrigin = SQ_H8;
+					rookDestination = SQ_F8;
+				}
 			}
 			else // QueenSideCastling
 			{
-				rookOrigin = myColorToPlay == WHITE ? SQ_A1 : SQ_A8;
-				rookDestination = myColorToPlay == WHITE ? SQ_D1 : SQ_D8;
+				if(myColorToPlay == WHITE)
+				{
+					myHasWhiteCastled = true;
+					rookOrigin = SQ_A1;
+					rookDestination = SQ_D1;
+				}
+				else
+				{
+					myHasBlackCastled = true;
+					rookOrigin = SQ_A8;
+					rookDestination = SQ_D8;
+				}
 			}
 
 			//move rook
@@ -456,13 +476,33 @@ void Board::undoMove(Move &move)
 
 			if(move.isKingSideCastling())
 			{
-				rookOrigin = oppositeColor == WHITE ? SQ_H1 : SQ_H8;
-				rookDestination = oppositeColor == WHITE ? SQ_F1 : SQ_F8;
+				if(oppositeColor == WHITE)
+				{
+					myHasWhiteCastled = false;
+					rookOrigin = SQ_H1;
+					rookDestination = SQ_F1;
+				}
+				else
+				{
+					myHasBlackCastled = false;
+					rookOrigin = SQ_H8;
+					rookDestination = SQ_F8;
+				}
 			}
 			else // QueenSideCastling
 			{
-				rookOrigin = oppositeColor == WHITE ? SQ_A1 : SQ_A8;
-				rookDestination = oppositeColor == WHITE ? SQ_D1 : SQ_D8;
+				if(oppositeColor == WHITE)
+				{
+					myHasWhiteCastled = false;
+					rookOrigin = SQ_A1;
+					rookDestination = SQ_D1;
+				}
+				else
+				{
+					myHasBlackCastled = false;
+					rookOrigin = SQ_A8;
+					rookDestination = SQ_D8;
+				}
 			}
 
 			//move rook
