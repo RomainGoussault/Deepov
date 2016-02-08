@@ -34,7 +34,7 @@ public :
 		myBoardPtr = std::shared_ptr<Board>(new Board());
 
 		//Init Options map
-		myOptionsMap["timeDivider"] = UciOption("50", "spin");
+		myOptionsMap["timeDivider"] = UciOption("50", "spin",1,1000);
 	}
 
 	void loop();

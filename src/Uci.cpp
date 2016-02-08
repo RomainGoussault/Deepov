@@ -55,7 +55,7 @@ std::string Uci::getOption(const std::string str) const
 	//Ugly and not safe
 	//TODO: Refactor
 	UciOption uciOption = (*(myOptionsMap.find(str))).second;
-	return uciOption.myCurrentValue;
+	return uciOption.getCurrentValue();
 }
 
 // setoption() is called when engine receives the "setoption" UCI command. The
@@ -63,42 +63,46 @@ std::string Uci::getOption(const std::string str) const
 // Taken and adaptated from Stockfish
 void Uci::setoption(std::istringstream& is) {
 
-   std::string token, name, value;
+	std::string token, name, value;
 
-   is >> token; // Consume "name" token
+	is >> token; // Consume "name" token
 
-   // Read option name (can contain spaces)
-   while (is >> token && token != "value")
-       name += std::string(" ", name.empty() ? 0 : 1) + token;
+	// Read option name (can contain spaces)
+	while (is >> token && token != "value")
+		name += std::string(" ", name.empty() ? 0 : 1) + token;
 
-   // Read option value (can contain spaces)
-   while (is >> token)
-       value += std::string(" ", value.empty() ? 0 : 1) + token;
+	// Read option value (can contain spaces)
+	while (is >> token)
+		value += std::string(" ", value.empty() ? 0 : 1) + token;
 
-   if (myOptionsMap.count(name))
-   {
-	   //count returns the number of elements with key name
-	   // which is either 1 or 0 since this container does not allow duplicates
+	if (myOptionsMap.count(name))
+	{
+		//count returns the number of elements with key name
+		// which is either 1 or 0 since this container does not allow duplicates
 
-	   //This calls the overloaded operator: UciOption& operator=
-	   myOptionsMap[name] = value;
+		//This calls the overloaded operator: UciOption& operator=
+		myOptionsMap[name] = value;
 
-	   std::cout << "Option: " << name << " updated to "<< value << std::endl;
+		std::cout << "Option: " << name << " updated to "<< value << std::endl;
 
-   }
-   else
-	   std::cout << "No such option: " << name << std::endl;
- }
+	}
+	else
+		std::cout << "No such option: " << name << std::endl;
+}
 
 void Uci::printOptions() const{
 
 	std::cout << "Current options" << std::endl;
 
+
 	for(auto elem : myOptionsMap)
 	{
-	   std::cout << "option name " << elem.first << " type spin default "  << elem.second  << " min 1 max 100" <<std::endl;
+		UciOption uciOption = elem.second;
+
+		std::cout << "option name " << elem.first << " type spin default "  <<  uciOption.getDefaultValue()
+				<< " min " << uciOption.getMin() << " max " << uciOption.getMax() << std::endl;
 	}
- }
+}
 
 Move Uci::strToMove(std::string str)
 {
