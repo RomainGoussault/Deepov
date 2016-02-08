@@ -102,8 +102,8 @@ public:
 	}
 
 private:
-	int myMin, myMax;
 	std::string myDefaultValue, myCurrentValue, myType;
+	int myMin, myMax;
 
 
 	//size_t idx;

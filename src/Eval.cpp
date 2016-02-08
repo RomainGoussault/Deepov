@@ -19,6 +19,10 @@
 
 #include "Eval.hpp"
 
+int Eval::POSITIONNAL_GAIN_PERCENT = 100;
+int Eval::MOBILITY_GAIN_PERCENT = 100;
+
+
 Eval::Eval(std::shared_ptr<Board> boardPtr)
 {
     myBoard = boardPtr;
@@ -44,7 +48,7 @@ int Eval::evaluate()
 	//int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
 	// + calcMaterialAdjustments(alpha);
 
-	return materialScore + positionScore + mobilityScore;
+	return materialScore + POSITIONNAL_GAIN_PERCENT/100*positionScore + MOBILITY_GAIN_PERCENT/100*mobilityScore;
 }
 
 void Eval::init()

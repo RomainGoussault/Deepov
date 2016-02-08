@@ -198,11 +198,13 @@ void Uci::loop()
 
 void Uci::search()
 {
-	Search search(myBoardPtr); //Note this could be done earlier before the search
+	Search search = Search(myBoardPtr); //Note this could be done earlier before the search
 
 	TimeManager::divider = std::stoi(getOption("timeDivider"));
+	Eval::POSITIONNAL_GAIN_PERCENT = std::stoi(getOption("positionnalGain"));
+	Eval::MOBILITY_GAIN_PERCENT = std::stoi(getOption("mobilityGain"));
 
-	unsigned int timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());
+	auto timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());
 	//std::cout << "Romain time allocated " << timeMS << std::endl;
 
 	search.negaMaxRootIterativeDeepening(timeMS);
