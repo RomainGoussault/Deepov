@@ -8,9 +8,8 @@ Created on Sun Nov  8 21:32:42 2015
 from tuner import runCutechess
 from interface import generateCommand
 import re
+import settings
 
-
-# TODO : split the command to use several processors ?
 
 def evaluate(command):
     """ Evaluate the score after changing the option value and returns the score of the engine. """
@@ -26,11 +25,13 @@ def evaluate(command):
 def deepov_func(x,*args):
     """Evaluation function compliant with a scipy.optimize input function."""
     # x is the list of parameters, *args are optional fixed parameters
+    
+    # TODO : pass the paramList to the function (in *args) instead of making it global
     global paramList
     
     parameters=''
     for i in range(0,len(x)):
-        parameters +=' option.{0}={1} '.format(paramList[i][0],x[i])
+        parameters +=' option.{0}={1} '.format(settings.paramList[i][0],x[i])
     command=generateCommand(parameters)
     score=evaluate(command)
     return -score

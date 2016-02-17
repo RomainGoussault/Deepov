@@ -17,13 +17,13 @@ values = []
 
 def opt_differential_evolution(parametersList):
     # Maximul of iterations of the algorithm
-    max_iter=100
+    max_iter=10
     # Set the bounds of each parameter
     bounds=list()
     for i in range(0,len(parametersList)):
         bounds.append((parametersList[i][1],parametersList[i][2]))
-        
-    scipy_res=differential_evolution(deepov_func,bounds,maxiter=max_iter,disp=true,polish=False)
+    # TODO : change the criterium of convergence 
+    scipy_res=differential_evolution(deepov_func,bounds,maxiter=max_iter,disp=True,polish=False)
     return scipy_res
 
 def opt_gridSearch(parametersList):

@@ -42,33 +42,34 @@ def main(argv):
         runCutechess(command)        
         return 0        
         
-    parametersList=initParameters(args)
+    settings.paramList=initParameters(args)
     if args.verbosity:
         print("List of parameters : ")
-        print(parametersList)
+        print(settings.paramList)
 
     # Choose method
-    print("Initial empy dataset")
+    print("Initial empty dataset")
     print(settings.dataset)
 
     # Execute method
     print(settings.main_command+settings.main_config)
     
-    #best,elo=opt_gridSearch(parametersList)
+    # Ensure method is an interger
+    args.method = int(args.method)
     
-    scipy_res=opt_differential_evolution(parametersList)
-    
-    print(scipy_res)
-#    results = runCutechess(cutechessCommand)
-    
-    # Display resultes
-    print("Best set of values is {}".format(best))
-    print("Elo improvement is {}".format(elo)) 
-    
-    # Display the stored dataset
-    print(settings.dataset)
-    plots.scatter_plot(0)
-    
+    if (args.method==0):    # brute force (opt_gridSearch)
+        best,elo=opt_gridSearch(settings.paramList)
+        # Display resultes
+        print("Best set of values is {}".format(best))
+        print("Elo improvement is {}".format(elo))
+        # Display the stored dataset
+        print(settings.dataset)
+        plots.scatter_plot(0)
+    elif (args.method==1):
+        scipy_res=opt_differential_evolution(settings.paramList)
+        print(scipy_res)
+    else:
+        print("#WARNING> Not a valid optimization method.")
         
 #    if args.verbosity:
 #        print(results) ???
