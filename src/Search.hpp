@@ -19,18 +19,20 @@ public:
     int negaMaxRootIterativeDeepening(const int timeSec);
     inline int getCurrentScore() {return myEval.evaluate();};
     Move myBestMove;
+    void printPvTable();
 
 private:
 
     std::shared_ptr<Board> myBoard;
     Eval myEval;
+    int currentMaxDepthID = 0;
 
     int negaMax(const int depth, int alpha, const int beta);
     int evaluate();
     int qSearch(int alpha, const int beta);
     std::unordered_map <int, TTEntry> tt;
 
-    Move pvTable[MAX_DEPTH][MAX_DEPTH]; //pvtable[ply][depth] Quadratic PV-Table
+    std::array<std::array<Move, MAX_DEPTH>, MAX_DEPTH> pvTable;
 };
 
 #endif // SEARCH_H_INCLUDED

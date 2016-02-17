@@ -13,12 +13,14 @@ class Move
 {
 
 public:
-    const static unsigned int EP_CAPTURE_FLAG = 0b0101;
-    const static unsigned int DOUBLE_PAWN_PUSH_FLAG =0b0001;
-	const static unsigned int CAPTURE_FLAG = 0b0100;
-	const static unsigned int PROMOTION_FLAG = 0b1000;
-	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
-	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
+	constexpr static unsigned int EP_CAPTURE_FLAG = 0b0101;
+	constexpr static unsigned int DOUBLE_PAWN_PUSH_FLAG =0b0001;
+	constexpr static unsigned int CAPTURE_FLAG = 0b0100;
+	constexpr static unsigned int PROMOTION_FLAG = 0b1000;
+	constexpr static unsigned int KING_SIDE_CASTLING = 	0b0010;
+	constexpr static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
+	constexpr static unsigned int NULL_MOVE = 0;
+
 
 	inline Move() : myMove() //Default constructor
 	{
@@ -28,6 +30,11 @@ public:
 	{
         int capturedPieceType = Piece::NO_PIECE_TYPE;
 		myMove = ((capturedPieceType & 0x7) << 19) | ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
+	}
+
+	inline static bool isSameMove(const Move move1, const Move move2)
+	{
+		return move1.myMove == move2.myMove;
 	}
 
 	inline Square getDestination() const
@@ -104,9 +111,15 @@ public:
 	inline bool isQueenSideCastling() const {return getFlags() == QUEEN_SIDE_CASTLING;}
 	inline bool isKingSideCastling() const {return getFlags() == KING_SIDE_CASTLING;}
 	inline bool isCastling() const {return isKingSideCastling() || isQueenSideCastling();} // TODO something faster/smarter surely possible
+	inline bool isNullMove() const {return myMove == NULL_MOVE;} // TODO something faster/smarter surely possible
 
 	std::string toShortString() const
 	{
+		if(isNullMove())
+		{
+			return "";
+		}
+
 //		The move format is in long algebraic notation.
 		std::array<std::string,8> letters = {{"a", "b", "c", "d", "e", "f", "g", "h"}};
 
