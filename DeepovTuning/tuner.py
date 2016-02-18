@@ -68,6 +68,9 @@ def main(argv):
     elif (args.method==1):
         scipy_res=opt_differential_evolution(paramList)
         print(scipy_res)
+    elif (args.method==2):
+        scipy_res=opt_basinhopping(paramList)
+        print(scipy_res)
     else:
         print("#WARNING> Not a valid optimization method.")
         

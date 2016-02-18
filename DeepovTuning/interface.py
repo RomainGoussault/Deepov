@@ -114,7 +114,7 @@ def createParser():
     parser.add_argument("-b", "--book", help="Openings book file path", default="openings.pgn")
     parser.add_argument("-o", "--output", help="Output file ", default="a.out")
     parser.add_argument("-cc", "--concurrency", help="concurrency", default="7")
-    parser.add_argument("-m", "--method", help="Choose method from following : (0) Grid search, (1) Differential evolution.", default=0)
+    parser.add_argument("-m", "--method", help="Choose method from following : (0) Grid search, (1) Differential evolution, (2) Basinhopping.", default=0)
     
     # Add parameters arguments
     # bounds are given as a list of two parameters

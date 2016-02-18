@@ -6,6 +6,7 @@ Created on Sun Nov  8 21:16:15 2015
 """
 
 from scipy.optimize import differential_evolution
+from scipy.optimize import basinhopping
 from tuner import *
 from deepovFunction import *
 from interface import *
@@ -14,6 +15,7 @@ import settings
 elo = -10000
 values = []
 
+# TODO : create a function to save result of each step in the algorithms (callable func in scipy.optimize)
 
 def opt_differential_evolution(parametersList):
     # Maximul of iterations of the algorithm
@@ -24,6 +26,24 @@ def opt_differential_evolution(parametersList):
         bounds.append((parametersList[i][1],parametersList[i][2]))
     # TODO : change the criterium of convergence 
     scipy_res=differential_evolution(deepov_func,bounds,args=parametersList,maxiter=max_iter,disp=True,polish=False)
+    return scipy_res
+    
+def opt_basinhopping(parametersList):
+    # Number of iterations of the algorithm
+    n_iter=10
+    # Set the bounds of each parameter
+    bounds=list()
+    for i in range(0,len(parametersList)):
+        bounds.append((parametersList[i][1],parametersList[i][2]))
+        
+    # Set the dictionary of additional options
+    args={'bounds':bounds,'args':parametersList}
+    
+    # Find the initial guess
+    x0=[parametersList[i][4] for i in range(0,len(parametersList))]
+    print('Initial guess')
+    print(x0)
+    scipy_res=basinhopping(deepov_func,x0,niter=n_iter,T=50,stepsize=10, minimizer_kwargs=args,niter_success=3,disp=True)
     return scipy_res
 
 def opt_gridSearch(parametersList):
