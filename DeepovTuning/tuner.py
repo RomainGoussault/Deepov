@@ -42,10 +42,10 @@ def main(argv):
         runCutechess(command)        
         return 0        
         
-    settings.paramList=initParameters(args)
+    paramList=initParameters(args)
     if args.verbosity:
         print("List of parameters : ")
-        print(settings.paramList)
+        print(paramList)
 
     # Choose method
     print("Initial empty dataset")
@@ -58,7 +58,7 @@ def main(argv):
     args.method = int(args.method)
     
     if (args.method==0):    # brute force (opt_gridSearch)
-        best,elo=opt_gridSearch(settings.paramList)
+        best,elo=opt_gridSearch(paramList)
         # Display resultes
         print("Best set of values is {}".format(best))
         print("Elo improvement is {}".format(elo))
@@ -66,7 +66,7 @@ def main(argv):
         print(settings.dataset)
         plots.scatter_plot(0)
     elif (args.method==1):
-        scipy_res=opt_differential_evolution(settings.paramList)
+        scipy_res=opt_differential_evolution(paramList)
         print(scipy_res)
     else:
         print("#WARNING> Not a valid optimization method.")

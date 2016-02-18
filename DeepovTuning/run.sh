@@ -1,19 +1,22 @@
 #!/bin/bash
 
 #********************************************************************
-# Set evaluation variables
-
-ROUND=100
+# Working directory is ../. Engines names :
 ENGINE="Deepov"
 OPPONENT="Deepov"
 
+#********************************************************************
+# Set evaluation variables
+METHOD=0
+ROUNDS=500
+
 # Set options
+TIMEDIVIDER="-n timeDivider --bounds 1 100 10 1"
 
 #********************************************************************
-# Tune time divider test
-./tuner.py ./Deepov ./Deepov -d ../ -r 14 -v \
-		-n timeDivider --bounds 1 100 10 1
-		#-n timeDivider --bounds 1,100,5,1
+# Final command
+./tuner.py ./$ENGINE ./$OPPONENT -d ../ -r $ROUNDS -m $METHOD \
+		$TIMEDIVIDER
 #********************************************************************
 #********************************************************************
 #********************************************************************

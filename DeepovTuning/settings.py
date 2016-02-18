@@ -11,10 +11,8 @@ def init():
     # Global variables for cutechess command
     global main_command
     global main_config
-    global paramList    
     main_command = ''
     main_config = ''
-    paramList = list()
     
     
     # Global variable for output (plots)

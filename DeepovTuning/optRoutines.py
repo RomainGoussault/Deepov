@@ -23,7 +23,7 @@ def opt_differential_evolution(parametersList):
     for i in range(0,len(parametersList)):
         bounds.append((parametersList[i][1],parametersList[i][2]))
     # TODO : change the criterium of convergence 
-    scipy_res=differential_evolution(deepov_func,bounds,maxiter=max_iter,disp=True,polish=False)
+    scipy_res=differential_evolution(deepov_func,bounds,args=parametersList,maxiter=max_iter,disp=True,polish=False)
     return scipy_res
 
 def opt_gridSearch(parametersList):

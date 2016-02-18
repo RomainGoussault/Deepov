@@ -21,17 +21,15 @@ def evaluate(command):
 
     return score
     
-    
-def deepov_func(x,*args):
+def deepov_func(x,paramList):
     """Evaluation function compliant with a scipy.optimize input function."""
     # x is the list of parameters, *args are optional fixed parameters
     
-    # TODO : pass the paramList to the function (in *args) instead of making it global
-    global paramList
-    
     parameters=''
     for i in range(0,len(x)):
-        parameters +=' option.{0}={1} '.format(settings.paramList[i][0],x[i])
+        parameters +=' option.{0}={1} '.format(paramList[i][0],int(x[i])) # Ensure that x[i] is an int
     command=generateCommand(parameters)
     score=evaluate(command)
     return -score
+    
+#def deepov_func_wrapper
