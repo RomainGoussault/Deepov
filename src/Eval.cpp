@@ -74,7 +74,7 @@ void Eval::init()
     // Calculate game stage
     /* Currently it is a simple linear interpolation with material score but this will be upgraded */
    // int TOTAL_MATERIAL = 16*PAWN_VALUE + 4*KNIGHT_VALUE + 4*BISHOP_VALUE + 4*ROOK_VALUE + 2*QUEEN_VALUE;
-    myGameStage = (getWhitePiecesValue() + getBlackPiecesValue() - 2*Piece::KING_VALUE);
+    myGameStage = (getWhitePiecesValue() + getBlackPiecesValue());
 
     // Calculate initial PSQ value
     /* Maybe there is a simpler way to calculate all this ? */
@@ -289,8 +289,7 @@ int Eval::getWhitePiecesValue() const
                         + popcount(myBoard->getWhiteKnights())*Piece::KNIGHT_VALUE
                         + popcount(myBoard->getWhiteBishops())*Piece::BISHOP_VALUE
                         + popcount(myBoard->getWhiteRooks())*Piece::ROOK_VALUE
-                        + popcount(myBoard->getWhiteQueens())*Piece::QUEEN_VALUE
-                        + popcount(myBoard->getWhiteKing())*Piece::KING_VALUE;
+                        + popcount(myBoard->getWhiteQueens())*Piece::QUEEN_VALUE;
     return whitePiecesValue;
 }
 int Eval::getBlackPiecesValue() const
@@ -300,8 +299,7 @@ int Eval::getBlackPiecesValue() const
                         + popcount(myBoard->getBlackKnights())*Piece::KNIGHT_VALUE
                         + popcount(myBoard->getBlackBishops())*Piece::BISHOP_VALUE
                         + popcount(myBoard->getBlackRooks())*Piece::ROOK_VALUE
-                        + popcount(myBoard->getBlackQueens())*Piece::QUEEN_VALUE
-                        + popcount(myBoard->getBlackKing())*Piece::KING_VALUE;
+                        + popcount(myBoard->getBlackQueens())*Piece::QUEEN_VALUE;
 
     return blackPiecesValue;
 }
