@@ -30,7 +30,8 @@ int Search::qSearch(int alpha, const int beta)
 
 	for (auto currentMove : moveList)
 	{
-		if(currentMove.isCapture())
+		//Continue only for capture moves with SEE > 0
+		if(currentMove.isCapture() && myBoard->seeCapture(currentMove, Utils::getOppositeColor(myBoard->getColorToPlay())) > 0)
 		{
 			int score = 0;
 			myBoard->executeMove(currentMove);

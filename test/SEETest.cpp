@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "Board.hpp"
+#include "MoveGen.hpp"
 
 
 
@@ -62,5 +63,18 @@ TEST_CASE( "getSmallestAttacker", "[SEE]" )
 		// knight ans bishop for a rook, bad trade
 		board = Board("k7/2b5/3n3Q/8/8/3Q4/8/K7 w - -");
 		REQUIRE(board.see(SQ_D6, BLACK) == 0);
+	}
+
+	SECTION("SEE Move")
+	{
+
+		Board board("k7/8/2qn3Q/2P5/8/3R4/8/K7 w - -");
+		MoveGen mg(board);
+
+		auto moves = mg.getWhitePawnPseudoLegalMoves();
+		auto move = moves[0];
+
+		int seeScore = board.seeCapture(move, BLACK);
+		REQUIRE(seeScore == Piece::PieceValue::KNIGHT_VALUE);
 	}
 }

@@ -197,6 +197,7 @@ public:
 	}
 
 	int see(const Square square, Color side);
+	int seeCapture(Move captureMove, Color color);
 	Piece::PieceType getSmallestAttacker(const Square square, Color side, U64 &attackers);
 
 	//This should be private

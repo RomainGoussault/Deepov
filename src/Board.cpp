@@ -926,6 +926,18 @@ int Board::see(const Square square, Color color)
 	return score;
 }
 
+//To statically evaluate a capture, that particular capture should be forced, because it might not be the lowest attacker that makes the capture,
+//and must not allow the option of standing pat
+int Board::seeCapture(Move captureMove, Color color)
+{
+	executeMove(captureMove);
+
+	int score = Eval::pieceTypeToValue(captureMove.getCapturedPieceType()) - see(captureMove.getDestination(), Utils::getOppositeColor(color));
+	undoMove(captureMove);
+
+   return score;
+}
+
 Piece::PieceType Board::getSmallestAttacker(const Square square, Color color, U64 &attackers)
 {
 	attackers = 0;
@@ -935,15 +947,11 @@ Piece::PieceType Board::getSmallestAttacker(const Square square, Color color, U6
 	{
 		return Piece::PieceType::PAWN;
 	}
-	else if (Tables::ATTACK_TABLE[Piece::KNIGHT][square] & getKnights(enemyColor))
+
+	attackers = Tables::ATTACK_TABLE[Piece::KNIGHT][square] & getKnights(enemyColor);
+	if (attackers)
 	{
-		attackers = Tables::ATTACK_TABLE[Piece::KNIGHT][square] & getKnights(enemyColor);
 		return Piece::PieceType::KNIGHT;
-	}
-	else if (Tables::ATTACK_TABLE[Piece::KING][square] & getKing(enemyColor))
-	{
-		attackers = Tables::ATTACK_TABLE[Piece::KING][square] & getKing(enemyColor);
-		return Piece::PieceType::KING;
 	}
 
 	U64 potentialBishopAttackers = MagicMoves::Bmagic(square, getAllPieces());
@@ -970,6 +978,12 @@ Piece::PieceType Board::getSmallestAttacker(const Square square, Color color, U6
 	if (attackers)
 	{
 		return Piece::PieceType::QUEEN;
+	}
+
+	attackers = Tables::ATTACK_TABLE[Piece::KING][square] & getKing(enemyColor);
+	if (attackers)
+	{
+		return Piece::PieceType::KING;
 	}
 
 	return Piece::PieceType::NO_PIECE_TYPE;
