@@ -60,6 +60,7 @@ public:
 
     /* Move ordering */
 	static void sortMoveList(std::vector<Move>& moveList);
+    static int pieceTypeToValue(int type);
 
 private:
 
@@ -68,7 +69,6 @@ private:
     int myOpeningPSQValue; // Updated after each move in evaluate
     int myEndgamePSQValue;
     int myMaterialScore;
-    static int pieceTypeToValue(int type);
 
     void init(); // Here i permute the tables to get the indexes in the right order and i fill black values
 	int calculateKingSafety();

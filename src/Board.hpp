@@ -196,6 +196,9 @@ public:
 		return (position[0] - 'a' + 8 * (position[1] - '0' - 1));
 	}
 
+	int see(Square square, Color side);
+	Piece::PieceType getSmallestAttacker(Square square, Color side, U64 &attackers);
+
 	//This should be private
 	//Zobrist key
 	Zkey key;

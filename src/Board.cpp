@@ -3,11 +3,15 @@
 #include "BitBoardUtils.hpp"
 #include "MagicMoves.hpp"
 #include "MoveGen.hpp"
+#include "Eval.hpp"
+
+#include <algorithm>
+
 
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-																myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myAtkFr(), myKingAttackers()
+																		myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myAtkFr(), myKingAttackers()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -892,4 +896,80 @@ void Board::updatePinnedPieces()
 		unsigned int pinnerSq = pop_lsb(&pinners);
 		myPinnedPieces  |= potPinned & Tables::IN_BETWEEN[pinnerSq][kiSq];
 	}
+}
+
+int Board::see(Square square, Color color)
+{
+	int score = 0;
+	U64 attackers;
+	Piece::PieceType pieceType = getSmallestAttacker(square, color, attackers);
+
+	/* skip if the square isn't attacked anymore by this side */
+	if (pieceType != Piece::PieceType::NO_PIECE_TYPE)
+	{
+		Square origin = msb(attackers);
+		Move captureMove = Move(origin, square, Move::CAPTURE_FLAG, pieceType);
+		Piece::PieceType capturedType = findPieceType(square, Utils::getOppositeColor(color));
+		captureMove.setCapturedPieceType(capturedType);
+
+		executeMove(captureMove);
+
+		// Do not consider captures if they lose material, therefor max zero
+		//=> We are not forced to do a capture, there should be other moves available
+		score = Eval::pieceTypeToValue(captureMove.getCapturedPieceType()) - see(square, Utils::getOppositeColor(color));
+		score = std::max(0, score);
+
+		undoMove(captureMove);
+	}
+
+	return score;
+}
+
+Piece::PieceType Board::getSmallestAttacker(Square square, Color color, U64 &attackers)
+{
+	attackers = 0;
+	Color enemyColor = Utils::getOppositeColor(color);
+	attackers = Tables::PAWN_ATTACK_TABLE[color][square] & getPawns(enemyColor);
+	if (attackers)
+	{
+		return Piece::PieceType::PAWN;
+	}
+	else if (Tables::ATTACK_TABLE[Piece::KNIGHT][square] & getKnights(enemyColor))
+	{
+		attackers = Tables::ATTACK_TABLE[Piece::KNIGHT][square] & getKnights(enemyColor);
+		return Piece::PieceType::KNIGHT;
+	}
+	else if (Tables::ATTACK_TABLE[Piece::KING][square] & getKing(enemyColor))
+	{
+		attackers = Tables::ATTACK_TABLE[Piece::KING][square] & getKing(enemyColor);
+		return Piece::PieceType::KING;
+	}
+
+	U64 potentialBishopAttackers = MagicMoves::Bmagic(square, getAllPieces());
+	attackers = potentialBishopAttackers & getBishops(enemyColor);
+	if (attackers)
+	{
+		return Piece::PieceType::BISHOP;
+	}
+
+	U64 potentialRookAttackers = MagicMoves::Rmagic(square, getAllPieces());
+	attackers = potentialRookAttackers & getRooks(enemyColor);
+	if (attackers)
+	{
+		return Piece::PieceType::ROOK;
+	}
+
+	attackers = potentialRookAttackers & getQueens(enemyColor);
+	if (attackers)
+	{
+		return Piece::PieceType::QUEEN;
+	}
+
+	attackers = potentialBishopAttackers & getQueens(enemyColor);
+	if (attackers)
+	{
+		return Piece::PieceType::QUEEN;
+	}
+
+	return Piece::PieceType::NO_PIECE_TYPE;
 }
