@@ -11,7 +11,7 @@
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) :
-																		myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myAtkFr(), myKingAttackers()
+																				myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myAtkFr(), myKingAttackers()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -898,7 +898,7 @@ void Board::updatePinnedPieces()
 	}
 }
 
-int Board::see(Square square, Color color)
+int Board::see(const Square square, Color color)
 {
 	int score = 0;
 	U64 attackers;
@@ -909,7 +909,8 @@ int Board::see(Square square, Color color)
 	{
 		Square origin = msb(attackers);
 		Move captureMove = Move(origin, square, Move::CAPTURE_FLAG, pieceType);
-		Piece::PieceType capturedType = findPieceType(square, Utils::getOppositeColor(color));
+		Piece::PieceType capturedType = findPieceType(square, color);
+
 		captureMove.setCapturedPieceType(capturedType);
 
 		executeMove(captureMove);
@@ -925,7 +926,7 @@ int Board::see(Square square, Color color)
 	return score;
 }
 
-Piece::PieceType Board::getSmallestAttacker(Square square, Color color, U64 &attackers)
+Piece::PieceType Board::getSmallestAttacker(const Square square, Color color, U64 &attackers)
 {
 	attackers = 0;
 	Color enemyColor = Utils::getOppositeColor(color);

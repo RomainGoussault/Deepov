@@ -5,7 +5,7 @@
 
 TEST_CASE( "getSmallestAttacker", "[SEE]" )
 {
-    Tables::init();
+	Tables::init();
 	MagicMoves::initmagicmoves();
 
 	SECTION("getSmallestAttacker")
@@ -39,5 +39,28 @@ TEST_CASE( "getSmallestAttacker", "[SEE]" )
 		attackers = 0LL;
 		pieceType = board.getSmallestAttacker(SQ_D6, BLACK, attackers);
 		REQUIRE(pieceType == Piece::PieceType::QUEEN);
+	}
+
+	SECTION("SEE")
+	{
+		//Take the pawn, the rook is defended
+		Board board("k7/3q4/3p3Q/8/8/3R4/8/K7 w - -");
+		REQUIRE(board.see(SQ_D6, BLACK) == Piece::PieceValue::PAWN_VALUE);
+
+		//Don't take the pawn!
+		board = Board("k7/3q4/3p4/8/8/3R4/8/K7 w - -");
+		REQUIRE(board.see(SQ_D6, BLACK) == 0);
+
+		// Free knight
+		board = Board("k7/3q4/3n3Q/8/8/3R2B1/8/K7 w - -");
+		REQUIRE(board.see(SQ_D6, BLACK) == Piece::PieceValue::KNIGHT_VALUE);
+
+		// knight ans bishop for a rook good, trade
+		board = Board("k7/2b5/3n3Q/8/8/3R4/8/K7 w - -");
+		REQUIRE(board.see(SQ_D6, BLACK) == Piece::PieceValue::KNIGHT_VALUE + Piece::PieceValue::BISHOP_VALUE - Piece::PieceValue::ROOK_VALUE);
+
+		// knight ans bishop for a rook, bad trade
+		board = Board("k7/2b5/3n3Q/8/8/3Q4/8/K7 w - -");
+		REQUIRE(board.see(SQ_D6, BLACK) == 0);
 	}
 }
