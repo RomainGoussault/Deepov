@@ -5,7 +5,6 @@
 #include <bitset>
 #include <string>
 #include <array>
-
 #include "Piece.hpp"
 #include "Types.hpp"
 
@@ -20,11 +19,11 @@ public:
 	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
 	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
 
-	inline Move() : myMove() //Default constructor
+	inline Move() : myMove(), myMoveRating(0) //Default constructor
 	{
 	}
 
-	inline Move(Square origin, Square destination, unsigned int flags, Piece::PieceType pieceType)
+	inline Move(Square origin, Square destination, unsigned int flags, Piece::PieceType pieceType) : myMoveRating(0)
 	{
         int capturedPieceType = Piece::NO_PIECE_TYPE;
 		myMove = ((capturedPieceType & 0x7) << 19) | ((pieceType &0x7)<<16) | ((flags & 0xf)<<12) | ((origin & 0x3f)<<6) | (destination & 0x3f);
@@ -65,6 +64,11 @@ public:
 	    return (myMove >> 22) & 0xf;
 	}
 
+    inline unsigned int getMoveRating() const
+    {
+        return myMoveRating;
+    }
+
     inline void setDestination(const Square destination)
     {
         myMove &= ~0x3f; // clear the first 6 bits
@@ -89,6 +93,11 @@ public:
     inline void setPreviousCastlingRights(const unsigned int state) // State contains the 4 bits
     {
         myMove &= ~0x3c00000; myMove |= ((state & 0xf) << 22);
+    }
+
+    inline void setMoveRating(unsigned int rating)
+    {
+        myMoveRating = rating;
     }
 
     //isQuiet returns true for quiet AND double pawn push move
@@ -180,6 +189,8 @@ private:
 		Castling Rights BEFORE the move 4 bits
 		// Same order as FEN : LEFT bit bool[3]: black queen side > black king side > white queen side > RIGHT BIT bool[0] : white king side
 	*/
+
+    unsigned int myMoveRating;
 };
 
 

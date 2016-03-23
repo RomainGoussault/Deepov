@@ -10,8 +10,8 @@
 
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
-Board::Board(const std::string fen) :
-																				myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myAtkFr(), myKingAttackers()
+Board::Board(const std::string fen) : 
+myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myAtkFr(), myKingAttackers()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -915,7 +915,7 @@ int Board::see(const Square square, Color color)
 
 		executeMove(captureMove);
 
-		// Do not consider captures if they lose material, therefor max zero
+		// Do not consider captures if they lose material, therefore max zero
 		//=> We are not forced to do a capture, there should be other moves available
 		score = Eval::pieceTypeToValue(captureMove.getCapturedPieceType()) - see(square, Utils::getOppositeColor(color));
 		score = std::max(0, score);

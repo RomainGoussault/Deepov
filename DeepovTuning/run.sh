@@ -8,17 +8,26 @@ OPPONENT="Deepov"
 #********************************************************************
 # Set evaluation variables
 METHOD=0
-ROUNDS=500
+ROUNDS=3000
+CLOCK=100/2
 
 # Set options
-TIMEDIVIDER="-n timeDivider --bounds 1 100 10 1"
+TIMEDIVIDER="-n timeDivider --bounds 1 100 3 1"
 
 #********************************************************************
 # Final command
 ./tuner.py ./$ENGINE ./$OPPONENT -d ../ -r $ROUNDS -m $METHOD \
-		$TIMEDIVIDER
+        -t $CLOCK $TIMEDIVIDER
+
 #********************************************************************
+# Subsequent runs
+
+METHOD=1
+
 #********************************************************************
+# Final command
+#./tuner.py ./$ENGINE ./$OPPONENT -d ../ -r $ROUNDS -m $METHOD \
+#		$TIMEDIVIDER
 #********************************************************************
 #********************************************************************
 #********************************************************************
