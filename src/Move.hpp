@@ -114,50 +114,12 @@ public:
 	inline bool isKingSideCastling() const {return getFlags() == KING_SIDE_CASTLING;}
 	inline bool isCastling() const {return isKingSideCastling() || isQueenSideCastling();} // TODO something faster/smarter surely possible
 
-	std::string toShortString() const
-	{
-//		The move format is in long algebraic notation.
-		std::array<std::string,8> letters = {{"a", "b", "c", "d", "e", "f", "g", "h"}};
+    std::string toShortString() const;
 
-		unsigned int xOrigin = getOrigin() % 8;
-		unsigned int yOrigin = (getOrigin() / 8)+1;
+    bool operator==(const Move &otherMove);
+    bool operator<(const Move &otherMove);
+    bool operator>(const Move &otherMove);
 
-		unsigned int xDestination = getDestination() % 8;
-		unsigned int yDestination = (getDestination() / 8)+1;
-
-		std::string promotionLetter = "";
-		if(isPromotion())
-		{
-			unsigned int promotedType = getFlags() - Move::PROMOTION_FLAG +1;
-
-			if(isCapture())
-			{
-				promotedType -= Move::CAPTURE_FLAG;
-			}
-
-			if(promotedType == Piece::KNIGHT)
-			{
-				promotionLetter = "n";
-			}
-			else if(promotedType == Piece::BISHOP)
-			{
-				promotionLetter = "b";
-			}
-			else if(promotedType == Piece::ROOK)
-			{
-				promotionLetter = "r";
-			}
-			else if(promotedType == Piece::QUEEN)
-			{
-				promotionLetter = "q";
-			}
-		}
-
-		std::stringstream ss;
-		ss << letters[xOrigin] << yOrigin << letters[xDestination] << yDestination << promotionLetter;
-
-		return ss.str();
-	}
 
 private:
 
@@ -209,5 +171,11 @@ inline std::ostream& operator<<(std::ostream &strm, const Move &Move) {
 
 	return strm;
 }
+
+
+
+
+
+
 
 #endif // Move_H

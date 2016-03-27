@@ -28,10 +28,10 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 
 
 // Get only the max and remove or sort ?
-/*Move MoveOrdering::getBestCandidate(std::vector<Move>& moveList)
+Move MoveOrdering::getBestCandidate(std::vector<Move>& moveList)
 {
-    auto it = std::max_element(std::begin(myMovesRatings), std::end(myMovesRatings)); // Returns an iterator to the max element
-    *it = -1;// Set this move to a negative value
+    auto it = std::max_element(std::begin(moveList), std::end(moveList)); // Returns an iterator to the max element
+    it->setMoveRating(-1);// Set this move to a negative value
     return moveList[it-moveList.begin()];
-} */
+} 
 
