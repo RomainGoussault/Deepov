@@ -116,9 +116,10 @@ public:
 
     std::string toShortString() const;
 
-    bool operator==(const Move &otherMove);
-    bool operator<(const Move &otherMove);
-    bool operator>(const Move &otherMove);
+    /* Defines an order for moves ratings */
+    inline bool operator==(const Move &otherMove) const {return getMoveRating() == otherMove.getMoveRating();};
+    inline bool operator<(const Move &otherMove) const {return getMoveRating() < otherMove.getMoveRating();};
+    inline bool operator>(const Move &otherMove) const {return getMoveRating() > otherMove.getMoveRating();};
 
 
 private:

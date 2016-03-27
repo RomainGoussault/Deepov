@@ -8,15 +8,16 @@
 #include "Move.hpp"
 
 
-class MoveOrdering
+namespace MoveOrdering
 {
-public:
-    MoveOrdering();
+//public:
+//    MoveOrdering();
 
     void rateMoves(std::vector<Move>& moveList);
+    void sortMoves(std::vector<Move>& moveList);
     Move getBestCandidate(std::vector<Move>& moveList);
 
-private:
+//private:
 
 // 
 

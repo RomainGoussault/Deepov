@@ -48,19 +48,4 @@
 	}
 
 
-/* Defines an order for moves ratings */
 
-bool Move::operator==(const Move &otherMove)
-{
-    return getMoveRating() == otherMove.getMoveRating();
-}
-
-bool Move::operator<(const Move &otherMove)
-{
-    return getMoveRating() < otherMove.getMoveRating();
-}
-
-bool Move::operator>(const Move &otherMove)
-{
-    return getMoveRating() > otherMove.getMoveRating();
-}

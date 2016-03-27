@@ -1,11 +1,10 @@
 #include "MoveOrdering.hpp"
 
-MoveOrdering::MoveOrdering() {}
+//MoveOrdering::MoveOrdering() {}
 
 
 void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 {
-
 	int i = 0;
 	for(Move move : moveList)
 	{
@@ -24,6 +23,12 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 		move.setMoveRating(score);
 		i++;
 	}
+}
+
+// TODO : find a way to sort only a few first moves
+void MoveOrdering::sortMoves(std::vector<Move>& moveList)
+{
+    std::sort(moveList.rbegin(), moveList.rend());
 }
 
 

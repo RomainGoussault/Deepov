@@ -136,7 +136,9 @@ int Search::negaMaxRoot(const int depth)
 
 	std::vector<Move> moveList = moveGen.generateMoves();
 
-	for (auto currentMove : moveList)
+	Eval::sortMoveList(moveList);
+	
+    for (auto currentMove : moveList)
 	{
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
@@ -190,8 +192,9 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		}
 
 		std::vector<Move> moveList = moveGen.generateMoves();
-
-		for (auto currentMove : moveList)
+	    Eval::sortMoveList(moveList);
+		
+        for (auto currentMove : moveList)
 		{
 			myBoard->executeMove(currentMove);
 			myEval.updateEvalAttributes(currentMove);

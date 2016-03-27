@@ -4,6 +4,7 @@
 
 #include "Board.hpp"
 #include "MoveGen.hpp"
+#include "MoveOrdering.hpp"
 #include "Eval.hpp"
 #include "TTEntry.hpp"
 
