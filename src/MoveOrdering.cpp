@@ -5,9 +5,9 @@
 
 void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 {
-	for(Move move : moveList)
+	for(Move& move : moveList)
 	{
-		unsigned int score;
+		unsigned int score=0;
 
 		if(move.isPromotion())
 		{
@@ -18,9 +18,9 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 		{
 			score += Eval::pieceTypeToValue(move.getCapturedPieceType());
 		}
-
 		move.setMoveRating(score);
 	}
+
 }
 
 // TODO : find a way to sort only a few first moves
