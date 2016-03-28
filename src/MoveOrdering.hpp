@@ -15,7 +15,7 @@ namespace MoveOrdering
 
     void rateMoves(std::vector<Move>& moveList);
     void sortMoves(std::vector<Move>& moveList);
-    Move getBestCandidate(std::vector<Move>& moveList);
+    std::vector<Move>::iterator getBestCandidate(std::vector<Move>& moveList);
 
 //private:
 

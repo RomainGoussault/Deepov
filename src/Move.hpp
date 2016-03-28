@@ -120,6 +120,8 @@ public:
     inline bool operator==(const Move &otherMove) const {return getMoveRating() == otherMove.getMoveRating();};
     inline bool operator<(const Move &otherMove) const {return getMoveRating() < otherMove.getMoveRating();};
     inline bool operator>(const Move &otherMove) const {return getMoveRating() > otherMove.getMoveRating();};
+    inline bool operator<=(const Move &otherMove) const {return getMoveRating() <= otherMove.getMoveRating();};
+    inline bool operator>=(const Move &otherMove) const {return getMoveRating() >= otherMove.getMoveRating();};
 
 
 private:

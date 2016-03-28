@@ -5,7 +5,6 @@
 
 void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 {
-	int i = 0;
 	for(Move move : moveList)
 	{
 		unsigned int score;
@@ -21,7 +20,6 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 		}
 
 		move.setMoveRating(score);
-		i++;
 	}
 }
 
@@ -33,10 +31,10 @@ void MoveOrdering::sortMoves(std::vector<Move>& moveList)
 
 
 // Get only the max and remove or sort ?
-Move MoveOrdering::getBestCandidate(std::vector<Move>& moveList)
+std::vector<Move>::iterator MoveOrdering::getBestCandidate(std::vector<Move>& moveList)
 {
     auto it = std::max_element(std::begin(moveList), std::end(moveList)); // Returns an iterator to the max element
     it->setMoveRating(-1);// Set this move to a negative value
-    return moveList[it-moveList.begin()];
+    return it;
 } 
 
