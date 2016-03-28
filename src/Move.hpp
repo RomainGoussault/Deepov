@@ -95,7 +95,7 @@ public:
         myMove &= ~0x3c00000; myMove |= ((state & 0xf) << 22);
     }
 
-    inline void setMoveRating(unsigned int rating)
+    inline void setMoveRating(const unsigned int rating)
     {
         myMoveRating = rating;
     }
