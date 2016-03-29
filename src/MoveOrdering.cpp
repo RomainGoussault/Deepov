@@ -20,6 +20,26 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 	}
 }
 
+void MoveOrdering::rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board)
+{
+	for(Move& move : moveList)
+	{
+		unsigned int score=0;
+
+		if(move.isPromotion())
+		{
+			score += Eval::pieceTypeToValue(move.getPromotedPieceType())-Piece::PAWN_VALUE;
+		}
+
+		if(move.isCapture())
+		{
+			score += board->seeCapture(move, Utils::getOppositeColor(board->getColorToPlay()));
+		}
+
+		move.setMoveRating(score);
+	}
+}
+
 // TODO : find a way to sort only a few first moves
 void MoveOrdering::sortMoves(std::vector<Move>& moveList)
 {

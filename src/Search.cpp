@@ -196,7 +196,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		}
 
 		std::vector<Move> moveList = moveGen.generateMoves();
-        MoveOrdering::rateMoves(moveList);
+        MoveOrdering::rateMoves(moveList, myBoard);
         MoveOrdering::sortMoves(moveList);
 		
         for (auto currentMove : moveList)

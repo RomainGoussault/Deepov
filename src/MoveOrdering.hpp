@@ -11,6 +11,8 @@
 namespace MoveOrdering
 {
     void rateMoves(std::vector<Move>& moveList);
+    void rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board);
+
     void sortMoves(std::vector<Move>& moveList);
     std::vector<Move>::iterator getBestCandidate(std::vector<Move>& moveList);
 };
