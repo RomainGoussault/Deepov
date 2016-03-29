@@ -1,5 +1,32 @@
 #include "MoveOrdering.hpp"
 
+
+
+void MoveOrdering::setNewKiller(const Move& move,const unsigned int ply)
+{
+    /* For now we save the two killer moves in the historic order as in Crafty.
+    TODO : affect a score to each killer */
+
+    if (!move.isPromotion() && move.isCapture()) 
+    {
+
+        /* Fill ply with no killer with null moves (vector) */ 
+        while (myKiller1.size() < ply)
+        {
+            myKiller1.push_back(Move());
+        }
+        while (myKiller2.size() < ply)
+        {
+            myKiller2.push_back(Move());
+        }
+
+        myKiller2[ply] = myKiller1[ply];
+        myKiller1[ply] = move;
+
+    } 
+    
+}
+
 void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 {
 	for(Move& move : moveList)
