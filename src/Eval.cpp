@@ -398,7 +398,7 @@ void Eval::sortMoveList(std::vector<Move>& moveList)
 
 				if(rhs.isPromotion())
 				{
-					otherScore += Eval::pieceTypeToValue(rhs.getPromotedPieceType()-Piece::PAWN_VALUE);
+					otherScore += Eval::pieceTypeToValue(rhs.getPromotedPieceType())-Piece::PAWN_VALUE;
 				}
 
 				if(lhs.isCapture())
@@ -414,5 +414,3 @@ void Eval::sortMoveList(std::vector<Move>& moveList)
 				return score < otherScore;
 			});
 }
-
-

@@ -1,8 +1,5 @@
 #include "MoveOrdering.hpp"
 
-//MoveOrdering::MoveOrdering() {}
-
-
 void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 {
 	for(Move& move : moveList)
@@ -11,16 +8,16 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 
 		if(move.isPromotion())
 		{
-			score += Eval::pieceTypeToValue(move.getPromotedPieceType()-Piece::PAWN_VALUE);
+			score += Eval::pieceTypeToValue(move.getPromotedPieceType())-Piece::PAWN_VALUE;
 		}
 
 		if(move.isCapture())
 		{
 			score += Eval::pieceTypeToValue(move.getCapturedPieceType());
 		}
+
 		move.setMoveRating(score);
 	}
-
 }
 
 // TODO : find a way to sort only a few first moves
@@ -28,7 +25,6 @@ void MoveOrdering::sortMoves(std::vector<Move>& moveList)
 {
     std::sort(moveList.rbegin(), moveList.rend());
 }
-
 
 // Get only the max and remove or sort ?
 std::vector<Move>::iterator MoveOrdering::getBestCandidate(std::vector<Move>& moveList)
