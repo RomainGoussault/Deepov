@@ -15,7 +15,9 @@ TEST_CASE( "Test move rating", "[moveordering]" )
 	MoveGen moveGen(*sp);
 
     std::vector<Move> moveList = moveGen.generateMoves();
-    MoveOrdering::rateMoves(moveList);
+    
+    MoveOrdering moveOrder;
+    moveOrder.rateMoves(moveList);
 
     for (auto it=moveList.begin(); it<moveList.end(); it++)
     {
@@ -33,9 +35,10 @@ TEST_CASE( "Compare sort methods", "[moveordering]" )
 	MoveGen moveGen(*sp);
 
 	std::vector<Move> moveList = moveGen.generateMoves();
-
-    MoveOrdering::rateMoves(moveList);
-    MoveOrdering::sortMoves(moveList);
+    
+    MoveOrdering moveOrder;
+    moveOrder.rateMoves(moveList);
+    moveOrder.sortMoves(moveList);
 
     Move bestMove=*std::begin(moveList);
 

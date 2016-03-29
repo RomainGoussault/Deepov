@@ -12,8 +12,8 @@ class MoveOrdering
 {
 public :
 
-    MoveOrdering() : myKiller1(), myKiller2() {};
-    MoveOrdering(Move killer1, Move killer2) : myKiller1(killer1), myKiller2(killer2) {};
+    inline MoveOrdering() : myKiller1(), myKiller2() {}
+    inline MoveOrdering(Move killer1, Move killer2) : myKiller1(killer1), myKiller2(killer2) {}
 
     void rateMoves(std::vector<Move>& moveList);
     void rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board);

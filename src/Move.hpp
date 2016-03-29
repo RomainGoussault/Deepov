@@ -19,7 +19,7 @@ public:
 	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
 	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
 
-	inline Move() : myMove(), myMoveRating(0) //Default constructor
+	inline Move() : myMove(0), myMoveRating(0) //Default constructor = null move
 	{
 	}
 
@@ -129,7 +129,7 @@ private:
 	unsigned int myMove; //26 Bits : Castling Right BEFORE the move 4 bits || Captured Piece 3 bits || Piecetype 3 bits || Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
 	/*
 	 * PieceType:
-	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King
+	 * 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 5 King, 6 no piece type (for null move)
 	 * For captured piece 0 Pawn, 1 Knight, 2 Bishop, 3 Rook, 4 Queen, 6: no piece type
 	 *
 	 * Flags:
