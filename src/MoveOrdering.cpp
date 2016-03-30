@@ -7,7 +7,7 @@ void MoveOrdering::setNewKiller(const Move& move,const unsigned int ply)
     /* For now we save the two killer moves in the historic order as in Crafty.
     TODO : affect a score to each killer */
 
-    if (!move.isPromotion() && move.isCapture()) 
+    if (!move.isPromotion() && !move.isCapture()) 
     {
 
         /* Fill ply with no killer with null moves (vector) */ 
