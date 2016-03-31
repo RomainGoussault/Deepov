@@ -26,6 +26,7 @@ private:
     std::shared_ptr<Board> myBoard;
     Eval myEval;
     MoveOrdering myMoveOrder;
+    unsigned int myPly;
 
     int negaMax(const int depth, int alpha, const int beta);
     int evaluate();

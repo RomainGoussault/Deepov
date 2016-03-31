@@ -5,7 +5,7 @@
 #include <ctime>
 #include <ratio>
 
-Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder()
+Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder(),myPly(0)
 {
 	myBoard = boardPtr;
 }
@@ -37,11 +37,13 @@ int Search::qSearch(int alpha, const int beta)
 			int score = 0;
 			myBoard->executeMove(currentMove);
 			myEval.updateEvalAttributes(currentMove);
+            myPly++;
 
 			score = -qSearch( -beta, -alpha );
 
 			myBoard->undoMove(currentMove);
 			myEval.rewindEvalAttributes(currentMove);
+            myPly--;
 
 			if( score >= beta )
 			{
@@ -110,14 +112,17 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		//	Move currentMove = moveList[i];
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
+        myPly++;
 
 		score = -negaMax(depth - 1, -beta, -alpha);
 
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);
+        myPly--;
 
 		if( score >= beta )
 		{
+//            myMoveOrder.setNewKiller(currentMove,ply)
 			return beta;   //  fail hard beta-cutoff
 		}
 		if( score > alpha )
@@ -134,6 +139,7 @@ int Search::negaMaxRoot(const int depth)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
+    myPly=1;
 
 	MoveGen moveGen(myBoard);
 
@@ -146,6 +152,7 @@ int Search::negaMaxRoot(const int depth)
 	{
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
+        myPly++;
 
 		score = -negaMax(depth - 1, -beta, -alpha);
 
@@ -157,6 +164,7 @@ int Search::negaMaxRoot(const int depth)
 
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);
+        myPly--;
 	}
 
 	return alpha;
@@ -167,6 +175,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
+    myPly=1;
 
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
@@ -203,6 +212,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		{
 			myBoard->executeMove(currentMove);
 			myEval.updateEvalAttributes(currentMove);
+            myPly++;
 
 			score = -negaMax(depth - 1, -beta, -alpha);
 
@@ -215,6 +225,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 			}
 			myBoard->undoMove(currentMove);
 			myEval.rewindEvalAttributes(currentMove);
+            myPly--;
 		}
 
 		depth++;
