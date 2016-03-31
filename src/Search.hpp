@@ -13,7 +13,6 @@ class Search
 {
 public:
 	constexpr static int MAX_DEPTH = 64;
-
 	Search(std::shared_ptr<Board> boardPtr);
 
     int negaMaxRoot(const int depth);

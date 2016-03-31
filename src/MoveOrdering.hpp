@@ -12,16 +12,18 @@ class MoveOrdering
 {
 public :
 
+    const int KILLER1_BONUS = 20;
+    const int KILLER2_BONUS = 10;
+
     inline MoveOrdering() : myKiller1(), myKiller2() {}
 
-    inline Move getKiller1(const int ply) const {return myKiller1[ply];}
-    inline Move getKiller2(const int ply) const {return myKiller2[ply];}
-
+    inline Move getKiller1(const unsigned int ply) const {return myKiller1[ply];}
+    inline Move getKiller2(const unsigned int ply) const {return myKiller2[ply];}
 
     void setNewKiller(const Move& move,const unsigned int ply);
 
-    void rateMoves(std::vector<Move>& moveList);
-    void rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board);
+    void rateMoves(std::vector<Move>& moveList, const unsigned int ply);
+    void rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply);
 
     void sortMoves(std::vector<Move>& moveList);
     std::vector<Move>::iterator getBestCandidate(std::vector<Move>& moveList);
@@ -29,8 +31,9 @@ public :
 
 
 private :
-    std::vector<Move> myKiller1;
-    std::vector<Move> myKiller2;
+    // TODO : use MAX_DEPTH instead of 64
+    Move myKiller1[64];
+    Move myKiller2[64];
 };
 
 #endif // MOVEORDERING_H_INCLUDED

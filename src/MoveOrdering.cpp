@@ -2,23 +2,13 @@
 
 
 
-void MoveOrdering::setNewKiller(const Move& move,const unsigned int ply)
+void MoveOrdering::setNewKiller(const Move& move, const unsigned int ply)
 {
     /* For now we save the two killer moves in the historic order as in Crafty.
     TODO : affect a score to each killer */
 
     if (!move.isPromotion() && !move.isCapture()) 
     {
-
-        /* Fill ply with no killer with null moves (vector) */ 
-        while (myKiller1.size() < ply)
-        {
-            myKiller1.push_back(Move());
-        }
-        while (myKiller2.size() < ply)
-        {
-            myKiller2.push_back(Move());
-        }
 
         myKiller2[ply] = myKiller1[ply];
         myKiller1[ply] = move;
@@ -27,7 +17,7 @@ void MoveOrdering::setNewKiller(const Move& move,const unsigned int ply)
     
 }
 
-void MoveOrdering::rateMoves(std::vector<Move>& moveList)
+void MoveOrdering::rateMoves(std::vector<Move>& moveList, const unsigned int ply)
 {
 	for(Move& move : moveList)
 	{
@@ -43,11 +33,21 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList)
 			score += Eval::pieceTypeToValue(move.getCapturedPieceType());
 		}
 
+        if (move == myKiller1[ply])
+        {
+            score += KILLER1_BONUS;
+        }
+
+        if (move == myKiller2[ply])
+        {
+            score += KILLER2_BONUS;
+        }
+
 		move.setMoveRating(score);
 	}
 }
 
-void MoveOrdering::rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board)
+void MoveOrdering::rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply)
 {
 	for(Move& move : moveList)
 	{
@@ -62,6 +62,16 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board>
 		{
 			score += board->seeCapture(move, Utils::getOppositeColor(board->getColorToPlay()));
 		}
+
+        if (move == myKiller1[ply])
+        {
+            score += KILLER1_BONUS;
+        }
+
+        if (move == myKiller2[ply])
+        {
+            score += KILLER2_BONUS;
+        }
 
 		move.setMoveRating(score);
 	}

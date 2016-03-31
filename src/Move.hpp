@@ -116,8 +116,13 @@ public:
 
     std::string toShortString() const;
 
+    /* Equality to check if two moves are identical for killer moves */
+    inline bool operator==(const Move &otherMove) const 
+    {
+        return (getOrigin() == otherMove.getOrigin()) && (getDestination() == otherMove.getDestination()) && (getFlags() == otherMove.getFlags());
+    };
+
     /* Defines an order for moves ratings */
-    inline bool operator==(const Move &otherMove) const {return getMoveRating() == otherMove.getMoveRating();};
     inline bool operator<(const Move &otherMove) const {return getMoveRating() < otherMove.getMoveRating();};
     inline bool operator>(const Move &otherMove) const {return getMoveRating() > otherMove.getMoveRating();};
     inline bool operator<=(const Move &otherMove) const {return getMoveRating() <= otherMove.getMoveRating();};
