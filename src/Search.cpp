@@ -27,8 +27,8 @@ int Search::qSearch(int alpha, const int beta)
 	MoveGen moveGen(myBoard);
 	std::vector<Move> moveList = moveGen.generateMoves();
 
-    myMoveOrder.rateMoves(moveList, myPly);
-    myMoveOrder.sortMoves(moveList);
+	myMoveOrder.rateMoves(moveList, myPly);
+	myMoveOrder.sortMoves(moveList);
 
 	for (auto currentMove : moveList)
 	{
@@ -38,13 +38,13 @@ int Search::qSearch(int alpha, const int beta)
 			int score = 0;
 			myBoard->executeMove(currentMove);
 			myEval.updateEvalAttributes(currentMove);
-            myPly++;
+			myPly++;
 
 			score = -qSearch( -beta, -alpha );
 
 			myBoard->undoMove(currentMove);
 			myEval.rewindEvalAttributes(currentMove);
-            myPly--;
+			myPly--;
 
 			if( score >= beta )
 			{
@@ -103,8 +103,8 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		}
 	}
 
-    myMoveOrder.rateMoves(moveList, myPly);
-    myMoveOrder.sortMoves(moveList);
+	myMoveOrder.rateMoves(moveList, myPly);
+	myMoveOrder.sortMoves(moveList);
 
 	int score = 0;
 
@@ -113,17 +113,17 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		//	Move currentMove = moveList[i];
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
-        myPly++;
+		myPly++;
 
 		score = -negaMax(depth - 1, -beta, -alpha);
 
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);
-        myPly--;
+		myPly--;
 
 		if( score >= beta )
 		{
-            myMoveOrder.setNewKiller(currentMove,myPly);    
+			myMoveOrder.setNewKiller(currentMove,myPly);
 			return beta;   //  fail hard beta-cutoff
 		}
 		if( score > alpha )
@@ -140,21 +140,21 @@ int Search::negaMaxRoot(const int depth)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
-    myPly=1;
+	myPly=1;
 
 	MoveGen moveGen(myBoard);
 
 	std::vector<Move> moveList = moveGen.generateMoves();
 
 
-    myMoveOrder.rateMoves(moveList, myBoard,myPly);
-    myMoveOrder.sortMoves(moveList);
-	
-    for (auto currentMove : moveList)
+	myMoveOrder.rateMoves(moveList, myBoard, myPly);
+	myMoveOrder.sortMoves(moveList);
+
+	for (auto currentMove : moveList)
 	{
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
-        myPly++;
+		myPly++;
 
 		score = -negaMax(depth - 1, -beta, -alpha);
 
@@ -166,7 +166,7 @@ int Search::negaMaxRoot(const int depth)
 
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);
-        myPly--;
+		myPly--;
 	}
 
 	return alpha;
@@ -177,7 +177,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
-    myPly=1;
+	myPly=1;
 
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
@@ -207,14 +207,14 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		}
 
 		std::vector<Move> moveList = moveGen.generateMoves();
-        myMoveOrder.rateMoves(moveList, myBoard,myPly);
-        myMoveOrder.sortMoves(moveList);
-		
-        for (auto currentMove : moveList)
+		myMoveOrder.rateMoves(moveList, myBoard, myPly);
+		myMoveOrder.sortMoves(moveList);
+
+		for (auto currentMove : moveList)
 		{
 			myBoard->executeMove(currentMove);
 			myEval.updateEvalAttributes(currentMove);
-            myPly++;
+			myPly++;
 
 			score = -negaMax(depth - 1, -beta, -alpha);
 
@@ -227,7 +227,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 			}
 			myBoard->undoMove(currentMove);
 			myEval.rewindEvalAttributes(currentMove);
-            myPly--;
+			myPly--;
 		}
 
 		depth++;

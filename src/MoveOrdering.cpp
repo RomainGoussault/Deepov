@@ -9,12 +9,9 @@ void MoveOrdering::setNewKiller(const Move& move, const unsigned int ply)
 
     if (!move.isPromotion() && !move.isCapture()) 
     {
-
         myKiller2[ply] = myKiller1[ply];
         myKiller1[ply] = move;
-
     } 
-    
 }
 
 void MoveOrdering::rateMoves(std::vector<Move>& moveList, const unsigned int ply)
