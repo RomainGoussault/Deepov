@@ -17,7 +17,13 @@ public:
 
     void setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove);
     TTEntry* probeTT(Zkey zkey, int depth);
-
+    void clearTT()
+    {
+    	for(int i=0; i<TT_SIZE; i++)
+    	{
+    		myTTable[i] = TTEntry();
+    	}
+    }
 private:
     TTEntry myTTable[TT_SIZE];
 

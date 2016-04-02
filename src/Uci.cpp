@@ -159,8 +159,8 @@ void Uci::loop()
 
 		else if (token == "ucinewgame")
 
-			; // nothing to do
-
+// need to clear TT here
+;
 		else if (token == "position")
 			updatePosition(is);
 
