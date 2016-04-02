@@ -4,7 +4,7 @@
 #include "Move.hpp"
 #include "Types.hpp"
 
-enum class NodeType {EXACT, LOWER, UPPER};
+enum class NodeType {NONE, EXACT, LOWER, UPPER};
 
 class TTEntry {
 
@@ -41,6 +41,7 @@ public:
 
 private:
 
+    // TODO : store as bits to save mem space
 	Zkey myZkey;
 	int myDepth;
 	int myScore;
