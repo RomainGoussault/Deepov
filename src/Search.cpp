@@ -66,6 +66,7 @@ int Search::qSearch(int alpha, const int beta)
 
 int Search::negaMax(const int depth, int alpha, const int beta)
 {
+	int alpha_old = alpha;
 	if (depth == 0)
 	{
 		if(myBoard->getEnemyLastMove()->isCapture())
@@ -89,11 +90,11 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		return Eval::DRAW_SCORE;
 	}
 
-//	if(tt.probeTT(currentKey, depth))
-//	{
-//		int a =3;
-//	}
-
+	auto ttEntry = tt.probeTT(currentKey, depth);
+	if(ttEntry)
+	{
+		return ttEntry->getScore();
+	}
 
 	MoveGen moveGen(myBoard);
 	std::vector<Move> moveList = moveGen.generateMoves();
@@ -133,14 +134,27 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 
 		if( score >= beta )
 		{
+			//update killer and TT
 			myMoveOrder.setNewKiller(currentMove,myPly);
+			tt.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove);
+
 			return beta;   //  fail hard beta-cutoff
 		}
+
 		if( score > alpha )
 		{
+			tt.setTTEntry(currentKey, depth, score, NodeType::EXACT, currentMove);
 			alpha = score; // alpha acts like max in MiniMax
 		}
 	}
+
+
+	  // store hash info
+	  if (alpha > alpha_old)
+			tt.setTTEntry(currentKey, depth, alpha, NodeType::EXACT, Move());
+	  else
+			tt.setTTEntry(currentKey, depth, alpha, NodeType::LOWER, Move());
+
 
 	return alpha;
 }
