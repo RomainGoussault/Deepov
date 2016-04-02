@@ -4,6 +4,8 @@
 #include "Move.hpp"
 #include "Types.hpp"
 
+enum class NodeType {EXACT, LOWER, UPPER}
+
 class TTEntry {
 
 public:
@@ -13,32 +15,33 @@ public:
 }
 
 	Move getBestmove() const {
-		return bestmove;
+		return myBestBove;
 	}
 
 	int getDepth() const {
 		return depth;
 	}
 
-	int getNodeType() const {
-		return nodeType;
+	NodeType getNodeType() const {
+		return myNodeType;
 	}
 
 	int getScore() const {
-		return score;
+		return myScore;
 	}
 
 	Zkey getZkey() const {
-		return zkey;
+		return myZkey;
 	}
 
 private:
 
-	Zkey zkey;
-	int depth;
-	int score;
-	int nodeType; //TODO: add enum maybe
-	Move bestmove;
+	Zkey myZkey;
+	int myDepth;
+	int myScore;
+	NodeType myNodeType;
+	Move myBestBove;
+
 
 };
 
