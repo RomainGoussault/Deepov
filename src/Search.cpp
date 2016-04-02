@@ -4,6 +4,7 @@
 #include <chrono>
 #include <ctime>
 #include <ratio>
+#include <algorithm>
 
 Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder(),myPly(0)
 {

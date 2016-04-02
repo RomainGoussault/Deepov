@@ -1,5 +1,5 @@
 #include "MoveOrdering.hpp"
-
+#include <algorithm>
 
 
 void MoveOrdering::setNewKiller(const Move& move, const unsigned int ply)
