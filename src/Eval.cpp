@@ -19,6 +19,8 @@
 
 #include "Eval.hpp"
 
+#include <algorithm>
+
 int Eval::POSITIONNAL_GAIN_PERCENT = 100;
 int Eval::MOBILITY_GAIN_PERCENT = 100;
 

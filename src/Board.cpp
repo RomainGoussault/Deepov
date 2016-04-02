@@ -16,8 +16,17 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
 
-	boost::split(spaceSplit, fen, boost::is_any_of(" "));
-	boost::split(piecesByRank, spaceSplit[0], boost::is_any_of("/"));
+	//Split string
+	std::stringstream ss(fen);
+	std::string item;
+	while (std::getline(ss, item, ' ')) {
+		spaceSplit.push_back(item);
+	}
+
+	ss = std::stringstream(spaceSplit[0]);
+	while (std::getline(ss, item, '/')) {
+		piecesByRank.push_back(item);
+	}
 
 	unsigned int rank = 7;
 	for (unsigned int i=0; i<8; i++)

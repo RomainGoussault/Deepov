@@ -14,7 +14,7 @@
 #include <chrono>
 #include <ctime>
 #include <ratio>
-#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string.hpp>
 
 
 void Utils::getCastling(std::string const& castleString, unsigned int &castlingRights)

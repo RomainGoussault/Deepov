@@ -2,6 +2,8 @@
 #include "BitBoardUtils.hpp"
 #include "MagicMoves.hpp"
 #include "Tables.hpp"
+
+#include <algorithm>
 #include <memory>
 
 
