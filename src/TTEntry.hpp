@@ -4,33 +4,38 @@
 #include "Move.hpp"
 #include "Types.hpp"
 
-enum class NodeType {EXACT, LOWER, UPPER}
+enum class NodeType {EXACT, LOWER, UPPER};
 
 class TTEntry {
 
 public:
 
 	TTEntry()
-{
-}
+    {
+    }
 
-	Move getBestmove() const {
-		return myBestBove;
+	inline TTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove) :
+    myZkey(zkey), myDepth(depth), myScore(score), myNodeType(node), myBestMove(bestMove)
+    {
+    };
+
+	inline Move getBestmove() const {
+		return myBestMove;
 	}
 
-	int getDepth() const {
-		return depth;
+	inline int getDepth() const {
+		return myDepth;
 	}
 
-	NodeType getNodeType() const {
+	inline NodeType getNodeType() const {
 		return myNodeType;
 	}
 
-	int getScore() const {
+	inline int getScore() const {
 		return myScore;
 	}
 
-	Zkey getZkey() const {
+	inline Zkey getZkey() const {
 		return myZkey;
 	}
 
@@ -40,8 +45,7 @@ private:
 	int myDepth;
 	int myScore;
 	NodeType myNodeType;
-	Move myBestBove;
-
+	Move myBestMove;
 
 };
 
