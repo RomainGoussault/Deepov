@@ -1,10 +1,13 @@
 #include "Search.hpp"
 #include "Eval.hpp"
+#include "TT.hpp"
 
 #include <chrono>
 #include <ctime>
 #include <ratio>
 #include <algorithm>
+
+TT tt = TT();
 
 Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder(),myPly(0)
 {
@@ -85,6 +88,12 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		//Draw
 		return Eval::DRAW_SCORE;
 	}
+
+//	if(tt.probeTT(currentKey, depth))
+//	{
+//		int a =3;
+//	}
+
 
 	MoveGen moveGen(myBoard);
 	std::vector<Move> moveList = moveGen.generateMoves();
