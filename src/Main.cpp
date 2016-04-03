@@ -33,12 +33,16 @@
 #include "MagicMoves.hpp"
 #include "Utils.hpp"
 #include "Uci.hpp"
+#include "TT.hpp"
 
 //#define PERFORMANCE_TEST
 
 
 
 int main() {
+
+	//global transposition table
+	extern TT tt;
 
 	MagicMoves::initmagicmoves();
 	Tables::init();

@@ -1,10 +1,13 @@
 #include "Search.hpp"
 #include "Eval.hpp"
+#include "TT.hpp"
 
 #include <chrono>
 #include <ctime>
 #include <ratio>
 #include <algorithm>
+
+TT tt = TT();
 
 Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder(),myPly(0)
 {
@@ -63,6 +66,7 @@ int Search::qSearch(int alpha, const int beta)
 
 int Search::negaMax(const int depth, int alpha, const int beta)
 {
+	int alpha_old = alpha;
 	if (depth == 0)
 	{
 		if(myBoard->getEnemyLastMove()->isCapture())
@@ -84,6 +88,12 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	{
 		//Draw
 		return Eval::DRAW_SCORE;
+	}
+
+	auto ttEntry = tt.probeTT(currentKey, depth);
+	if(ttEntry)
+	{
+		return ttEntry->getScore();
 	}
 
 	MoveGen moveGen(myBoard);
@@ -124,14 +134,27 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 
 		if( score >= beta )
 		{
+			//update killer and TT
 			myMoveOrder.setNewKiller(currentMove,myPly);
+			tt.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove);
+
 			return beta;   //  fail hard beta-cutoff
 		}
+
 		if( score > alpha )
 		{
+			tt.setTTEntry(currentKey, depth, score, NodeType::EXACT, currentMove);
 			alpha = score; // alpha acts like max in MiniMax
 		}
 	}
+
+
+	  // store hash info
+	  if (alpha > alpha_old)
+			tt.setTTEntry(currentKey, depth, alpha, NodeType::EXACT, Move());
+	  else
+			tt.setTTEntry(currentKey, depth, alpha, NodeType::LOWER, Move());
+
 
 	return alpha;
 }

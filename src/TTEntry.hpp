@@ -10,7 +10,7 @@ class TTEntry {
 
 public:
 
-	TTEntry()
+	TTEntry() : myZkey(0), myDepth(0), myScore(0), myNodeType(NodeType::NONE), myBestMove()
     {
     }
 

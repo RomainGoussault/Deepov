@@ -30,7 +30,6 @@ private:
     int negaMax(const int depth, int alpha, const int beta);
     int evaluate();
     int qSearch(int alpha, const int beta);
-    std::unordered_map <int, TTEntry> tt;
 
     Move pvTable[MAX_DEPTH][MAX_DEPTH]; //pvtable[ply][depth] Quadratic PV-Table
 };

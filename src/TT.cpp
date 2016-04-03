@@ -21,6 +21,7 @@ TTEntry* TT::probeTT(Zkey zkey, int depth)
     {
         return nullptr;
     }
+
     // We have a match 
     else if (myTTable[index].getDepth() >= depth)   // Check we have already explored at a better depth 
     {
@@ -30,6 +31,4 @@ TTEntry* TT::probeTT(Zkey zkey, int depth)
     {
         return &myTTable[index];
     }
-
-    
 }
