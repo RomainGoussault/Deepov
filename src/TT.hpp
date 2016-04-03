@@ -24,4 +24,25 @@ private:
 
 };
 
+inline std::ostream& operator<<(std::ostream &strm, const TT &tt) {
+
+	for(int entry = 0; rank < TT_SIZE ; entry++)
+	{
+        if (tt[entry] != NodeType::NONE)
+        {
+		    strm << entry << " > ";
+            strm << tt[entry].getNodeType() << " ";
+		    strm << "Depth " tt[entry].getDepth() << " ";
+		    strm << "Score " tt[entry].getScore() << " ";
+		    strm << "Best move " tt[entry].getBestmove() << " ";
+        }
+
+		strm << std::endl;
+	}
+
+
+	return strm;
+}
+
+
 #endif /* TT_HPP_ */

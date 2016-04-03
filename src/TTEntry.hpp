@@ -50,4 +50,27 @@ private:
 
 };
 
+
+inline std::ostream& operator<<(std::ostream &strm, const NodeType &node) {
+
+        if (node == NodeType::NONE)
+        {
+            strm << "NONE" << " ";
+        }
+        else if (node == NodeType::EXACT)
+        {
+            strm << "EXACT" << " ";
+        }
+        else if (node == NodeType::LOWER)
+        {
+            strm << "LOWER" << " ";
+        }
+        else if (node == NodeType::UPPER)
+        {
+            strm << "UPPER" << " ";
+        }
+
+	return strm;
+}
+
 #endif /* TTENTRY_HPP_ */
