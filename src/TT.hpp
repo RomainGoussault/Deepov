@@ -9,7 +9,7 @@ class TT {
 
 public:
 
-    const static int TT_SIZE = 1048576;
+    const static int TT_SIZE = 262144;
 
 	TT()
     {
@@ -25,7 +25,7 @@ public:
     TTEntry* probeTT(Zkey zkey, int depth);
     void clearTT()
     {
-    	for(int i=0; i<TT_SIZE; i++)
+    	for(unsigned long int i=0; i<TT_SIZE; i++)
     	{
     		myTTable[i] = TTEntry();
     	}
@@ -40,7 +40,7 @@ private:
 
 inline std::ostream& operator<<(std::ostream &strm, const TT &tt) {
 
-	for(int entry = 0; entry < TT::TT_SIZE ; entry++)
+	for(unsigned long int entry = 0; entry < TT::TT_SIZE ; entry++)
 	{
         if (tt[entry].getNodeType() != NodeType::NONE)
         {
@@ -49,12 +49,10 @@ inline std::ostream& operator<<(std::ostream &strm, const TT &tt) {
 		    strm << "Depth " << tt[entry].getDepth() << " ";
 		    strm << "Score " << tt[entry].getScore() << " ";
 		    strm << "Best move " << tt[entry].getBestmove() << " ";
+		    strm << std::endl;
         }
-
-		strm << std::endl;
 	}
-
-
+    strm << std::endl;
 	return strm;
 }
 
