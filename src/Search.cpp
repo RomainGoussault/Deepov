@@ -94,6 +94,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	auto ttEntry = tt.probeTT(currentKey, depth);
 	if(ttEntry)
 	{
+//        std::cout << "Score from TT" << std::endl;
 		return ttEntry->getScore();
 	}
 
@@ -180,8 +181,8 @@ int Search::negaMaxRoot(const int depth)
 
 	myMoveOrder.rateMoves(moveList, myBoard, myPly);
 	myMoveOrder.sortMoves(moveList);
-    std::cout << "Root moves" << std::endl;
-    std::cout << moveList << std::endl;
+//    std::cout << "Root moves" << std::endl;
+//    std::cout << moveList << std::endl;
 
 	for (auto currentMove : moveList)
 	{
@@ -193,6 +194,8 @@ int Search::negaMaxRoot(const int depth)
 
 		if( score > alpha )
 		{
+            std::cout << "Alpha : " << alpha << std::endl;
+            std::cout << currentMove ;
 			alpha = score;
 			myBestMove = currentMove;
 		}
