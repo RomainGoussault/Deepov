@@ -119,6 +119,8 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	myMoveOrder.sortMoves(moveList);
 
 	int score = 0;
+    Move bestMove = Move();
+    int bestScore = -999999;
 
 	for (auto currentMove : moveList)
 	{
@@ -130,11 +132,12 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		score = -negaMax(depth - 1, -beta, -alpha);
 
 		myBoard->undoMove(currentMove);
-		myEval.rewindEvalAttributes(currentMove);
+		myEval.rewindEvalAttributes(currentMove);   
 		myPly--;
 
 		if( score >= beta )
 		{
+//            std::cout << currentMove << std::endl;
 			//update killer and TT
 			myMoveOrder.setNewKiller(currentMove,myPly);
 			tt.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove);
@@ -142,19 +145,23 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 			return beta;   //  fail hard beta-cutoff
 		}
 
-		if( score > alpha )
-		{
-			tt.setTTEntry(currentKey, depth, score, NodeType::EXACT, currentMove);
-			alpha = score; // alpha acts like max in MiniMax
-		}
+        if (score > bestScore) 
+        {
+            bestScore = score ;
+            bestMove = currentMove ;
+		    if( score > alpha )
+		    {
+			    alpha = score; // alpha acts like max in MiniMax
+		    }
+        }
 	}
 
 
 	  // store hash info
 	  if (alpha > alpha_old)
-			tt.setTTEntry(currentKey, depth, alpha, NodeType::EXACT, Move());
+			tt.setTTEntry(currentKey, depth, bestScore, NodeType::EXACT, bestMove);
 	  else
-			tt.setTTEntry(currentKey, depth, alpha, NodeType::LOWER, Move());
+			tt.setTTEntry(currentKey, depth, alpha, NodeType::LOWER, bestMove);
 
 
 	return alpha;
@@ -171,9 +178,10 @@ int Search::negaMaxRoot(const int depth)
 
 	std::vector<Move> moveList = moveGen.generateMoves();
 
-
 	myMoveOrder.rateMoves(moveList, myBoard, myPly);
 	myMoveOrder.sortMoves(moveList);
+    std::cout << "Root moves" << std::endl;
+    std::cout << moveList << std::endl;
 
 	for (auto currentMove : moveList)
 	{
