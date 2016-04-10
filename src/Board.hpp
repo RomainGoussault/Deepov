@@ -301,4 +301,15 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &Board) {
 	return strm;
 }
 
+
+inline std::ostream& operator<<(std::ostream &strm, const std::vector<Move> &moves) {
+
+	for(unsigned int n = 0; n < moves.size() ; n++)
+	{
+		strm << moves[n];
+	}
+
+	return strm;
+}
+
 #endif /* Board_HPP_ */
