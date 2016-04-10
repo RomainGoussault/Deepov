@@ -16,6 +16,7 @@
 //Uci documentation:
 //http://wbec-ridderkerk.nl/html/UCIProtocol.html
 
+
 void Uci::updatePosition(std::istringstream& is)
 {
 	Move m;
@@ -150,17 +151,16 @@ void Uci::loop()
 
 			std::cout << "readyok" << std::endl;
 
-		else if (token == "setoption")  setoption(is);
-
+		else if (token == "setoption") 
+            setoption(is);
 
 		else if (token == "color")
 
 			std::cout << "colorToPlay: " << myBoardPtr->getColorToPlay() << std::endl;
 
 		else if (token == "ucinewgame")
+            globalTT.clearTT();
 
-// need to clear TT here
-;
 		else if (token == "position")
 			updatePosition(is);
 
@@ -203,6 +203,7 @@ void Uci::search()
 	TimeManager::divider = std::stoi(getOption("timeDivider"));
 	Eval::POSITIONNAL_GAIN_PERCENT = std::stoi(getOption("positionnalGain"));
 	Eval::MOBILITY_GAIN_PERCENT = std::stoi(getOption("mobilityGain"));
+    // Defines TT size here 
 
 	auto timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());
 	//std::cout << "Romain time allocated " << timeMS << std::endl;

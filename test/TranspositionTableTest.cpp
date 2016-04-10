@@ -9,10 +9,9 @@
 
 TEST_CASE( "Fill transposition table from initial position ", "[TT]")
 {
-	//global transposition table
-	extern TT tt;
 	MagicMoves::initmagicmoves();
 	Tables::init();
+    globalTT.clearTT();
 
 //	SECTION("Depth 0")
 //	{

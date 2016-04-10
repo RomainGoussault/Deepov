@@ -36,7 +36,7 @@ private:
 
 };
 
-
+extern TT globalTT;
 
 inline std::ostream& operator<<(std::ostream &strm, const TT &tt) {
 

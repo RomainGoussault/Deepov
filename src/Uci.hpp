@@ -18,6 +18,7 @@ namespace thrd = std;
 #include "Board.hpp"
 #include "Move.hpp"
 #include "UciOption.hpp"
+#include "TT.hpp"
 
 //Uci documentation:
 //http://wbec-ridderkerk.nl/html/UCIProtocol.html

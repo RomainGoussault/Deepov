@@ -38,11 +38,10 @@
 //#define PERFORMANCE_TEST
 
 
-
 int main() {
 
-	//global transposition table
-	extern TT tt;
+//	//global transposition table
+//	extern TT tt;
 	MagicMoves::initmagicmoves();
 	Tables::init();
 

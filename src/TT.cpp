@@ -1,5 +1,6 @@
 #include "TT.hpp"
 
+TT globalTT = TT();
 
 void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove)
 {

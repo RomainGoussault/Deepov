@@ -7,7 +7,6 @@
 #include <ratio>
 #include <algorithm>
 
-TT tt = TT();
 
 Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder(),myPly(0)
 {
@@ -91,7 +90,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		return Eval::DRAW_SCORE;
 	}
 
-	auto ttEntry = tt.probeTT(currentKey, depth);
+	auto ttEntry = globalTT.probeTT(currentKey, depth);
 	if(ttEntry)
 	{
 //        std::cout << "Score from TT" << std::endl;
@@ -141,7 +140,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 //            std::cout << currentMove << std::endl;
 			//update killer and TT
 			myMoveOrder.setNewKiller(currentMove,myPly);
-			tt.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove);
+			globalTT.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove);
 
 			return beta;   //  fail hard beta-cutoff
 		}
@@ -160,9 +159,9 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 
 	  // store hash info
 	  if (alpha > alpha_old)
-			tt.setTTEntry(currentKey, depth, bestScore, NodeType::EXACT, bestMove);
+			globalTT.setTTEntry(currentKey, depth, bestScore, NodeType::EXACT, bestMove);
 	  else
-			tt.setTTEntry(currentKey, depth, alpha, NodeType::LOWER, bestMove);
+			globalTT.setTTEntry(currentKey, depth, alpha, NodeType::LOWER, bestMove);
 
 
 	return alpha;
@@ -194,8 +193,8 @@ int Search::negaMaxRoot(const int depth)
 
 		if( score > alpha )
 		{
-            std::cout << "Alpha : " << alpha << std::endl;
-            std::cout << currentMove ;
+//            std::cout << "Alpha : " << alpha << std::endl;
+//            std::cout << currentMove ;
 			alpha = score;
 			myBestMove = currentMove;
 		}

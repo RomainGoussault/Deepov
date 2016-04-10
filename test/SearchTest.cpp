@@ -7,10 +7,9 @@
 
 TEST_CASE( "Don't stalemate if you can win", "[search]" )
 {
-    extern TT tt;
 	MagicMoves::initmagicmoves();
 	Tables::init();
-    tt.clearTT();
+    globalTT.clearTT();
 
 	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("7k/8/7K/8/8/8/8/5R2 w - - 51 142"));
 	Search search(sp);
@@ -22,10 +21,9 @@ TEST_CASE( "Don't stalemate if you can win", "[search]" )
 
 TEST_CASE( "Search", "[search]" )
 {
-    extern TT tt;
 	MagicMoves::initmagicmoves();
 	Tables::init();
-    tt.clearTT();
+    globalTT.clearTT();
 
 	SECTION("Test search depth 1 white")
 	{
