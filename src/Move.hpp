@@ -173,7 +173,8 @@ inline std::ostream& operator<<(std::ostream &strm, const Move &Move) {
 	unsigned int xDestination = Move.getDestination() % 8;
 	unsigned int yDestination = Move.getDestination() / 8;
 
-	strm << "Origin: [" << xOrigin << ", " << yOrigin << "] Dest: ["
+	strm << Move.toShortString() << " " 
+            << "Origin: [" << xOrigin << ", " << yOrigin << "] Dest: ["
 			<< xDestination << ", " << yDestination << "] Flags: " << flags
 			<< std::endl;
 
