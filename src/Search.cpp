@@ -161,7 +161,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	  if (alpha > alpha_old)
 			globalTT.setTTEntry(currentKey, depth, bestScore, NodeType::EXACT, bestMove);
 	  else
-			globalTT.setTTEntry(currentKey, depth, alpha, NodeType::LOWER, bestMove);
+			globalTT.setTTEntry(currentKey, depth, alpha, NodeType::UPPER, bestMove);
 
 
 	return alpha;
