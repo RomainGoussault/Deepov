@@ -9,7 +9,7 @@ class TT {
 
 public:
 
-    const static int TT_SIZE = 1048576;
+    const static unsigned long int TT_SIZE = 10048576;
 
 	TT()
     {
