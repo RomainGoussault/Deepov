@@ -217,6 +217,8 @@ int Search::negaMaxRoot(const int depth)
 		myPly--;
 	}
 
+	globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove);
+
 	return alpha;
 }
 
@@ -277,6 +279,8 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 			myEval.rewindEvalAttributes(currentMove);
 			myPly--;
 		}
+
+		globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove);
 
 		depth++;
 		//std::cout << " Romain depth" << depth << std::endl;
