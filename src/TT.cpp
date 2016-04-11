@@ -18,19 +18,14 @@ void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMov
 TTEntry* TT::probeTT(Zkey zkey, int depth)
 {
     unsigned long int index = zkey % TT_SIZE;
-    // If key is not matched, return empty pointer
-    if (myTTable[index].getNodeType() == NodeType::NONE)
-    {
-        return nullptr;
-    }
-
     // We have a match 
-    else if (myTTable[index].getDepth() >= depth)   // Check we have already explored at a better depth 
+    if (myTTable[index].getNodeType() != NodeType::NONE && myTTable[index].getDepth() > depth)
     {
         return &myTTable[index];
     }
+    // If key is not matched, or depth lower, return empty pointer as we want to continue the search
     else
     {
-        return &myTTable[index];
+        return nullptr;
     }
 }

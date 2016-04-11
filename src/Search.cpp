@@ -90,11 +90,24 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		return Eval::DRAW_SCORE;
 	}
 
-	auto ttEntry = globalTT.probeTT(currentKey, depth);
-	if(ttEntry)
+	auto ttEntry = globalTT.probeTT(currentKey, depth); // returns non nullpr if key exists and depth is greater
+	if(ttEntry) // we have a match in the transposition table with a greater depth
 	{
 //        std::cout << "Score from TT" << std::endl;
-		return ttEntry->getScore();
+
+        // If info in the entry is valuable, use it
+        if (ttEntry->getNodeType() == NodeType::EXACT)
+        {
+            return ttEntry->getScore();
+        }
+        else if (ttEntry->getNodeType() == NodeType::UPPER && ttEntry->getScore() <= alpha)
+        {
+            return alpha;
+        }
+        else if (ttEntry->getNodeType() == NodeType::LOWER && ttEntry->getScore() >= beta)
+        {
+            return beta;
+        }
 	}
 
 	MoveGen moveGen(myBoard);
