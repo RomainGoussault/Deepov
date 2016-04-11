@@ -7,10 +7,11 @@ void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMov
     unsigned long int index = zkey % TT_SIZE;
     TTEntry newEntry(zkey, depth, score, node, bestMove);
 
-    // Always replace strategy
-    myTTable[index] = newEntry ;
-    
-    // TODO: check for depth
+    // Replace if node closer to root (ie. greater evaluation depth)
+    if (depth > myTTable[index].getDepth())
+    {
+        myTTable[index] = newEntry ;
+    }
 }
 
 
