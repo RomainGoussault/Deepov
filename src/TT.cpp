@@ -19,7 +19,7 @@ TTEntry* TT::probeTT(Zkey zkey, int depth)
 {
     unsigned long int index = zkey % TT_SIZE;
     // We have a match 
-    if (myTTable[index].getNodeType() != NodeType::NONE && myTTable[index].getDepth() > depth)
+    if (myTTable[index].getZkey() == zkey && myTTable[index].getNodeType() != NodeType::NONE && myTTable[index].getDepth() > depth)
     {
         return &myTTable[index];
     }
