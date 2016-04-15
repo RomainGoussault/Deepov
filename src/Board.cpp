@@ -456,7 +456,10 @@ void Board::executeMove(Move &move)
 	myMovesCounter += myColorToPlay;
 
 	myHalfMovesCounter++;
+
+    // Change the color to play
 	myColorToPlay = oppositeColor;
+    key ^= side;
 
 	updateConvenienceBitboards();
 	//updateAtkFr();
@@ -561,7 +564,10 @@ void Board::undoMove(Move &move)
 	myMovesCounter += myColorToPlay - 1; //-1 only when it's white to play
 
 	myHalfMovesCounter--;
+
+    // Change the color to play
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
+    key ^= side;
 
 	updateConvenienceBitboards();
 	//updateAtkFr();
