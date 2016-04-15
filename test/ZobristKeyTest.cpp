@@ -111,8 +111,6 @@ TEST_CASE( "Zobrist key", "[zobrist]" )
 
 		REQUIRE(initialKey == board.key);
 
-
-
 	}
 
 	SECTION( "Test Zobrist key on capture move" )

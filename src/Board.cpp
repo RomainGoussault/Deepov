@@ -448,8 +448,6 @@ void Board::executeMove(Move &move)
 		}
 	}
 
-	myMoves.push_back(move);
-	myKeys.push_back(key);
 
 	updateCastlingRights(move);
 
@@ -460,6 +458,9 @@ void Board::executeMove(Move &move)
     // Change the color to play
 	myColorToPlay = oppositeColor;
     key ^= side;
+
+	myMoves.push_back(move);
+	myKeys.push_back(key);
 
 	updateConvenienceBitboards();
 	//updateAtkFr();
@@ -557,9 +558,7 @@ void Board::undoMove(Move &move)
 		}
 	}
 
-	//Remove the last move from the myMoves list.
-	myMoves.pop_back();
-	myKeys.pop_back();
+
 
 	myMovesCounter += myColorToPlay - 1; //-1 only when it's white to play
 
@@ -568,6 +567,10 @@ void Board::undoMove(Move &move)
     // Change the color to play
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
     key ^= side;
+
+	//Remove the last move from the myMoves list.
+	myMoves.pop_back();
+	myKeys.pop_back();
 
 	updateConvenienceBitboards();
 	//updateAtkFr();
@@ -873,10 +876,29 @@ void Board::updateCastlingRights(Move &move)
 		unsigned int mask = ~(0b0001 << shift);
 		myCastling &= mask;
 	}
+
+    // TODO : create a separate function, optimize and test
+    /* Did the castling rights change ? If yes, update the zkey */
+    unsigned int hasChanged = (myCastling^move.getPreviousCastlingRights()) & 0b1111; 
+    // hasChanged bits are 1 if corresponding castling right has changed
+    if (hasChanged & 0b0001) key^=(castling[0]);
+    if (hasChanged & 0b0010) key^=(castling[1]);
+    if (hasChanged & 0b0100) key^=(castling[2]);
+    if (hasChanged & 0b1000) key^=(castling[3]);
+
 }
 
 void Board::rewindCastlingRights(const Move &move)
 {
+
+    /* Did the castling rights change ? If yes, update the zkey */
+    unsigned int hasChanged = (myCastling^move.getPreviousCastlingRights()) & 0b1111; 
+    // hasChanged bits are 1 if corresponding castling right has changed
+    if (hasChanged & 0b0001) key^=(castling[0]);
+    if (hasChanged & 0b0010) key^=(castling[1]);
+    if (hasChanged & 0b0100) key^=(castling[2]);
+    if (hasChanged & 0b1000) key^=(castling[3]);
+
 	myCastling = move.getPreviousCastlingRights();
 }
 
