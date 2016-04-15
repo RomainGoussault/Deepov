@@ -4,6 +4,8 @@
 #include "MagicMoves.hpp"
 #include "Tables.hpp"
 #include "MoveGen.hpp"
+#include "Types.hpp"
+#include "Piece.hpp"
 
 
 TEST_CASE( "Zobrist key", "[zobrist]" )
@@ -46,6 +48,71 @@ TEST_CASE( "Zobrist key", "[zobrist]" )
 
 		board.undoMove(castlingMove);
 		REQUIRE(initialKey == board.key);
+	}
+
+
+	SECTION( "Test Zobrist key for castling rights" )
+	{
+		Board board("r3k2r/8/8/8/8/8/8/R3K2R w KQkq -");
+		Zkey initialKey = board.key;
+
+        Move move1 = Move(Square::SQ_E1, Square::SQ_E2, 0, Piece::PieceType::KING);
+        Move move2 = Move(Square::SQ_E8, Square::SQ_E7, 0, Piece::PieceType::KING);
+        Move move3 = Move(Square::SQ_E2, Square::SQ_E1, 0, Piece::PieceType::KING);
+        Move move4 = Move(Square::SQ_E7, Square::SQ_E8, 0, Piece::PieceType::KING);
+
+
+		board.executeMove(move1);
+		REQUIRE(initialKey != board.key);
+
+		board.executeMove(move2);
+		board.executeMove(move3);
+		board.executeMove(move4);
+
+		REQUIRE(initialKey != board.key);
+
+		board.undoMove(move4);
+		board.undoMove(move3);
+		board.undoMove(move2);
+		board.undoMove(move1);
+
+		REQUIRE(initialKey == board.key);
+
+	}
+
+
+	SECTION( "Test Zobrist key for color to play" )
+	{
+		Board board("r3k2r/8/8/8/8/8/8/R3K2R w KQkq -");
+		Zkey initialKey = board.key;
+
+        Move move1 = Move(Square::SQ_E1, Square::SQ_E2, 0, Piece::PieceType::KING);
+        Move move2 = Move(Square::SQ_E8, Square::SQ_E7, 0, Piece::PieceType::KING);
+        Move move4 = Move(Square::SQ_E7, Square::SQ_E8, 0, Piece::PieceType::KING);
+        Move move5 = Move(Square::SQ_E2, Square::SQ_F2, 0, Piece::PieceType::KING);
+        Move move6 = Move(Square::SQ_F2, Square::SQ_E1, 0, Piece::PieceType::KING);
+
+
+		board.executeMove(move1);
+		REQUIRE(initialKey != board.key);
+
+		board.executeMove(move2);
+		board.executeMove(move5);
+		board.executeMove(move4);
+		board.executeMove(move6);
+
+		REQUIRE(initialKey != board.key);
+
+		board.undoMove(move6);
+		board.undoMove(move4);
+		board.undoMove(move5);
+		board.undoMove(move2);
+		board.undoMove(move1);
+
+		REQUIRE(initialKey == board.key);
+
+
+
 	}
 
 	SECTION( "Test Zobrist key on capture move" )
