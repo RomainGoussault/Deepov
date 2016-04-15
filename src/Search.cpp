@@ -71,7 +71,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	{
 		if(myBoard->getEnemyLastMove()->isCapture())
 		{
-			return qSearch( alpha, beta );
+			return qSearch(alpha, beta);
 		}
 		else
 		{
@@ -148,7 +148,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		myEval.rewindEvalAttributes(currentMove);   
 		myPly--;
 
-		if( score >= beta )
+		if(score >= beta)
 		{
 //            std::cout << currentMove << std::endl;
 			//update killer and TT
