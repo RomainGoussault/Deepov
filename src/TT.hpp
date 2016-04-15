@@ -30,6 +30,19 @@ public:
     		myTTable[i] = TTEntry();
     	}
     }
+
+    std::uint64_t calculateEntryCount()
+    {
+    	std::uint64_t count = 0;
+    	for(unsigned long int i=0; i<TT_SIZE; i++)
+    	{
+    		count += myTTable[i].getNodeType() != NodeType::NONE;
+    	}
+
+    	return count;
+    }
+
+
 private:
     TTEntry myTTable[TT_SIZE];
 

@@ -13,16 +13,20 @@ TEST_CASE( "Fill transposition table from initial position ", "[TT]")
 	Tables::init();
     globalTT.clearTT();
 
-//	SECTION("Depth 0")
-//	{
-//        tt.clearTT();
-//		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
-//		Search s(sp);
-//        s.negaMaxRoot(2);
-//        std::cout << "Did the search" << std::endl;
-//        std::cout << tt << std::endl;
+	SECTION("Depth 0")
+	{
+        REQUIRE(globalTT.calculateEntryCount() == 0);
 
-//	}
+		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
+		Search s(sp);
+        s.negaMaxRoot(1);
+
+//        std::cout << "Did the search" << std::endl;
+//        std::cout << globalTT << std::endl;
+        REQUIRE(globalTT.calculateEntryCount() == 1);
+		globalTT.clearTT();
+        REQUIRE(globalTT.calculateEntryCount() == 0);
+	}
 
 //	SECTION("Test search depth 2")
 //	{
