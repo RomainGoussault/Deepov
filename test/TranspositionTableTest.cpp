@@ -61,8 +61,8 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 			REQUIRE(bestMoveNoTT == s.myBestMove);
 
 			//Now previous search is at i-1
+			globalTT.clearTT();
 			s.negaMaxRoot(i-1);
-			bestMoveNoTT = s.myBestMove;
 			// search again: we should have the same results (and less nodes searched)
 			s.negaMaxRoot(i);
 			REQUIRE(bestMoveNoTT == s.myBestMove);
@@ -84,8 +84,8 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 			REQUIRE(bestMoveNoTT == s.myBestMove);
 
 			//Now previous search is at i-1
+			globalTT.clearTT();
 			s.negaMaxRoot(i-1);
-			bestMoveNoTT = s.myBestMove;
 			// search again: we should have the same results (and less nodes searched)
 			s.negaMaxRoot(i);
 			REQUIRE(bestMoveNoTT == s.myBestMove);
