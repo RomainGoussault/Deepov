@@ -113,6 +113,38 @@ TEST_CASE( "Zobrist key", "[zobrist]" )
 
 	}
 
+	SECTION( "Test Zobrist key for ep square" )
+	{
+		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("rnbqkb1r/pp1ppppp/5n2/2pP4/8/8/PPP1PPPP/RNBQKBNR w KQkq c6 0 3"));
+		Zkey initialKey = sp->key;
+        REQUIRE(sp->getLastEpSquare() == SQ_C6);
+
+        Move move1 = Move(Square::SQ_G1, Square::SQ_F3, Move::QUIET_FLAG, Piece::PieceType::KNIGHT);
+        Move move2 = Move(Square::SQ_B8, Square::SQ_C6, Move::QUIET_FLAG, Piece::PieceType::KNIGHT);
+        Move move3 = Move(Square::SQ_F3, Square::SQ_G1, Move::QUIET_FLAG, Piece::PieceType::KNIGHT);
+        Move move4 = Move(Square::SQ_C6, Square::SQ_B8, Move::QUIET_FLAG, Piece::PieceType::KNIGHT);
+
+		sp->executeMove(move1);
+		REQUIRE(initialKey != sp->key);
+        REQUIRE(sp->getLastEpSquare() == SQ_NONE);
+
+		sp->executeMove(move2);
+		sp->executeMove(move3);
+		sp->executeMove(move4);
+
+		REQUIRE(initialKey != sp->key);
+        REQUIRE(sp->getLastEpSquare() == SQ_NONE);
+
+		sp->undoMove(move4);
+		sp->undoMove(move3);
+		sp->undoMove(move2);
+		sp->undoMove(move1);
+
+		REQUIRE(initialKey == sp->key);
+        REQUIRE(sp->getLastEpSquare() == SQ_C6);
+
+	}
+
 	SECTION( "Test Zobrist key on capture move" )
 	{
 		Board board("1nbqkbRr/1pppp2p/p4p2/6p1/1PB5/3N4/P1PPPPPP/R1BQK3 b KQkq -");
