@@ -55,9 +55,17 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 		Square destination = static_cast<Square>(epIndex - 8 + 16*myColorToPlay);
 		Move lastMove(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		myMoves.push_back(lastMove);
-
-        myEpSquares.push_back(static_cast<Square>(epIndex));
 	}
+
+	if (spaceSplit[3][0] != '-')
+    {
+        unsigned int epIndex = getIndexFromChar(spaceSplit[3]);
+        myEpSquares.push_back(static_cast<Square>(epIndex));
+    }
+    else
+    {
+        myEpSquares.push_back(SQ_NONE);
+    }
 
 	// I put a condition in case the FEN format doesn't include the move counters
 	if (spaceSplit.size() >= 5)

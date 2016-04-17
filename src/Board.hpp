@@ -118,6 +118,9 @@ public:
 	void updateCastlingRights(Move &move);
 	void rewindCastlingRights(const Move &move);
 
+    // EP methods
+    inline Square getLastEpSquare() const {return myEpSquares.back();}
+
 
 	//PieceType method
 	Piece::Piece findPieceType(const Square position) const;

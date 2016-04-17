@@ -51,3 +51,10 @@ TEST_CASE( "AtkFr" )
 	REQUIRE(popcount(sp->getAtkFr(SQ_D7)) == 15); //Queen
 	REQUIRE(popcount(sp->getAtkFr(SQ_E8)) == 4); //King
 }
+
+
+TEST_CASE( "EP squares" )
+{
+	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("rnbqkb1r/pp1ppppp/5n2/2pP4/8/8/PPP1PPPP/RNBQKBNR w KQkq c6 0 3"));
+    REQUIRE(sp->getLastEpSquare() == SQ_C6);
+}
