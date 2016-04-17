@@ -12,6 +12,7 @@ class Move
 {
 
 public:
+    const static unsigned int QUIET_FLAG = 0b0000;
     const static unsigned int EP_CAPTURE_FLAG = 0b0101;
     const static unsigned int DOUBLE_PAWN_PUSH_FLAG =0b0001;
 	const static unsigned int CAPTURE_FLAG = 0b0100;

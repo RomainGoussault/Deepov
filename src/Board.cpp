@@ -461,7 +461,7 @@ void Board::executeMove(Move &move)
     // Update EP square
     if (move.isDoublePawnPush())
     {
-        myEpSquares.push_back(static_cast<Square>(destination+8-16*myColorToPlay));
+        myEpSquares.push_back(static_cast<Square>(destination-8+16*myColorToPlay));
     }
     else
     {
