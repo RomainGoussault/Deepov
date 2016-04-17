@@ -226,6 +226,7 @@ private:
 
 	std::vector<Move> myMoves;
 	std::vector<Zkey> myKeys;
+    std::vector<Square> myEpSquares;
 
 
 	//TODO : add Zobrist namespace maybe

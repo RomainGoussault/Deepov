@@ -59,7 +59,6 @@ unsigned int Utils::convertStringToInt(std::string const& fenMoveCounter)
 	return counter;
 }
 
-
 void Utils::getPerformanceIndicator()
 {
 	for(unsigned int i = 0; i < 5; i++)

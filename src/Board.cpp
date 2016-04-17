@@ -55,6 +55,8 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 		Square destination = static_cast<Square>(epIndex - 8 + 16*myColorToPlay);
 		Move lastMove(origin, destination, Move::DOUBLE_PAWN_PUSH_FLAG, Piece::PAWN);
 		myMoves.push_back(lastMove);
+
+        myEpSquares.push_back(static_cast<Square>(epIndex));
 	}
 
 	// I put a condition in case the FEN format doesn't include the move counters
@@ -448,6 +450,15 @@ void Board::executeMove(Move &move)
 		}
 	}
 
+    // Update EP square
+    if (move.isDoublePawnPush())
+    {
+        myEpSquares.push_back(static_cast<Square>(destination+8-16*myColorToPlay));
+    }
+    else
+    {
+        myEpSquares.push_back(SQ_NONE) ;
+    }
 
 	updateCastlingRights(move);
 
@@ -559,7 +570,6 @@ void Board::undoMove(Move &move)
 	}
 
 
-
 	myMovesCounter += myColorToPlay - 1; //-1 only when it's white to play
 
 	myHalfMovesCounter--;
@@ -571,6 +581,9 @@ void Board::undoMove(Move &move)
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
 	myKeys.pop_back();
+    // Update EP square
+    myEpSquares.pop_back();
+
 
 	updateConvenienceBitboards();
 	//updateAtkFr();

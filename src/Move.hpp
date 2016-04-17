@@ -113,6 +113,7 @@ public:
 	inline bool isQueenSideCastling() const {return getFlags() == QUEEN_SIDE_CASTLING;}
 	inline bool isKingSideCastling() const {return getFlags() == KING_SIDE_CASTLING;}
 	inline bool isCastling() const {return isKingSideCastling() || isQueenSideCastling();} // TODO something faster/smarter surely possible
+    inline bool isDoublePawnPush() const {return getFlags() == DOUBLE_PAWN_PUSH_FLAG;}
 
     std::string toShortString() const;
 
