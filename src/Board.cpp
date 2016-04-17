@@ -462,6 +462,7 @@ void Board::executeMove(Move &move)
     if (move.isDoublePawnPush())
     {
         myEpSquares.push_back(static_cast<Square>(destination-8+16*myColorToPlay));
+        key ^= enPassant[Utils::getFile(destination)];
     }
     else
     {
@@ -577,6 +578,12 @@ void Board::undoMove(Move &move)
 		}
 	}
 
+    // Update EP square
+    if (move.isDoublePawnPush())
+    {
+        key ^= enPassant[Utils::getFile(destination)];
+    }
+    myEpSquares.pop_back();
 
 	myMovesCounter += myColorToPlay - 1; //-1 only when it's white to play
 
@@ -589,8 +596,7 @@ void Board::undoMove(Move &move)
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
 	myKeys.pop_back();
-    // Update EP square
-    myEpSquares.pop_back();
+
 
 
 	updateConvenienceBitboards();
