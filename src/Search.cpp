@@ -185,6 +185,7 @@ int Search::negaMaxRoot(const int depth)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
+	nMoves = 0;
 	myPly=1;
 
 	MoveGen moveGen(myBoard);
@@ -227,6 +228,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
+	nMoves = 0;
 	myPly=1;
 
 	//Starting time
@@ -292,5 +294,6 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 
 int Search::evaluate()
 {
+	nMoves++;
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
