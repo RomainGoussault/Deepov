@@ -16,6 +16,9 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
 
+    // Init zkey
+	initZobristKeys();
+
 	//Split string
 	std::stringstream ss(fen);
 	std::string item;
@@ -57,6 +60,17 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 		myMoves.push_back(lastMove);
 	}
 
+	if (spaceSplit[3][0] != '-')
+    {
+        unsigned int epIndex = getIndexFromChar(spaceSplit[3]);
+        Square epsquare = static_cast<Square>(epIndex);
+        myEpSquares.push_back(epsquare);
+    }
+    else
+    {
+        myEpSquares.push_back(SQ_NONE);
+    }
+
 	// I put a condition in case the FEN format doesn't include the move counters
 	if (spaceSplit.size() >= 5)
 	{
@@ -80,7 +94,6 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 	}
 
 	//updateAtkFr();
-	initZobristKeys();
 }
 
 
@@ -448,6 +461,23 @@ void Board::executeMove(Move &move)
 		}
 	}
 
+    /*    Update EP square  */
+    Square lastEpSquare = getLastEpSquare();
+    // Cancel the ep square in the hash if there was one
+    if (lastEpSquare != SQ_NONE)
+    {
+        key ^= enPassant[Utils::getFile(lastEpSquare)];
+    }
+
+    if (move.isDoublePawnPush())
+    {
+        myEpSquares.push_back(static_cast<Square>(destination-8+16*myColorToPlay));
+        key ^= enPassant[Utils::getFile(destination)];
+    }
+    else
+    {
+        myEpSquares.push_back(SQ_NONE) ;
+    }
 
 	updateCastlingRights(move);
 
@@ -558,7 +588,19 @@ void Board::undoMove(Move &move)
 		}
 	}
 
+    // Update EP square
+    if (move.isDoublePawnPush())
+    {
+        key ^= enPassant[Utils::getFile(destination)];
+    }
+    myEpSquares.pop_back();
 
+    Square lastEpSquare = getLastEpSquare();
+    // Put the ep square in the hash again if there was one
+    if (lastEpSquare != SQ_NONE)
+    {
+        key ^= enPassant[Utils::getFile(lastEpSquare)];
+    }
 
 	myMovesCounter += myColorToPlay - 1; //-1 only when it's white to play
 
@@ -571,6 +613,8 @@ void Board::undoMove(Move &move)
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
 	myKeys.pop_back();
+
+
 
 	updateConvenienceBitboards();
 	//updateAtkFr();

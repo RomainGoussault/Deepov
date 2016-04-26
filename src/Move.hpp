@@ -12,6 +12,7 @@ class Move
 {
 
 public:
+    const static unsigned int QUIET_FLAG = 0b0000;
     const static unsigned int EP_CAPTURE_FLAG = 0b0101;
     const static unsigned int DOUBLE_PAWN_PUSH_FLAG =0b0001;
 	const static unsigned int CAPTURE_FLAG = 0b0100;
@@ -113,6 +114,7 @@ public:
 	inline bool isQueenSideCastling() const {return getFlags() == QUEEN_SIDE_CASTLING;}
 	inline bool isKingSideCastling() const {return getFlags() == KING_SIDE_CASTLING;}
 	inline bool isCastling() const {return isKingSideCastling() || isQueenSideCastling();} // TODO something faster/smarter surely possible
+    inline bool isDoublePawnPush() const {return getFlags() == DOUBLE_PAWN_PUSH_FLAG;}
 
     std::string toShortString() const;
 

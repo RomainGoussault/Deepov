@@ -118,6 +118,9 @@ public:
 	void updateCastlingRights(Move &move);
 	void rewindCastlingRights(const Move &move);
 
+    // EP methods
+    inline Square getLastEpSquare() const {return myEpSquares.back();}
+
 
 	//PieceType method
 	Piece::Piece findPieceType(const Square position) const;
@@ -226,6 +229,7 @@ private:
 
 	std::vector<Move> myMoves;
 	std::vector<Zkey> myKeys;
+    std::vector<Square> myEpSquares;
 
 
 	//TODO : add Zobrist namespace maybe
