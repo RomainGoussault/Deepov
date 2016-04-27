@@ -26,7 +26,7 @@ private:
     Eval myEval;
     MoveOrdering myMoveOrder;
     unsigned int myPly;
-    U64 nMoves;
+    U64 myMovesSearched;
 
     int negaMax(const int depth, int alpha, const int beta);
     int evaluate();

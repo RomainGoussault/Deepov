@@ -8,7 +8,7 @@
 #include <algorithm>
 
 
-Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder(),myPly(0)
+Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder(),myPly(0),myMovesSearched(0)
 {
 	myBoard = boardPtr;
 }
@@ -185,7 +185,7 @@ int Search::negaMaxRoot(const int depth)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
-	nMoves = 0;
+	myMovesSearched = 0;
 	myPly=1;
 
 	MoveGen moveGen(myBoard);
@@ -228,7 +228,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
-	nMoves = 0;
+	myMovesSearched = 0;
 	myPly=1;
 
 	//Starting time
@@ -294,6 +294,6 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 
 int Search::evaluate()
 {
-	nMoves++;
+	myMovesSearched++;
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
