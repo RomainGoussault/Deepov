@@ -6,6 +6,7 @@
 #include "MoveOrdering.hpp"
 #include "TT.hpp"
 #include "Search.hpp"
+#include <iostream>
 
 TEST_CASE( "Fill transposition table from initial position ", "[TT]")
 {
@@ -55,6 +56,7 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 			std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
 			Search s(sp);
 			s.negaMaxRoot(i);
+			std::cout << "moves searched " << s.myMovesSearched << std::endl;
 			Move bestMoveNoTT = s.myBestMove;
 			// search again: we should have the same results (and less nodes searched)
 			s.negaMaxRoot(i);
@@ -65,6 +67,8 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 			s.negaMaxRoot(i-1);
 			// search again: we should have the same results (and less nodes searched)
 			s.negaMaxRoot(i);
+			std::cout << "moves searched TT " << s.myMovesSearched << std::endl;
+			std::cout <<  std::endl;
 			REQUIRE(bestMoveNoTT == s.myBestMove);
 		}
 	}
@@ -72,6 +76,7 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 	SECTION("Other positions")
 	{
 		std::vector<std::string> fens;
+		//fens.push_back(""); // Kiwipete
 		fens.push_back("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"); // Kiwipete
 		fens.push_back("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -"); //pos 3
 		fens.push_back("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1	"); //pos 4
@@ -93,13 +98,19 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 				Move bestMoveNoTT = s.myBestMove;
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);
+				std::cout << "moves searched " << s.myMovesSearched << std::endl;
+
 				REQUIRE(bestMoveNoTT == s.myBestMove);
 
 				//Now previous search is at i-1
 				globalTT.clearTT();
+				//s.negaMaxRoot(i); 2 cases to test
 				s.negaMaxRoot(i-1);
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);
+				std::cout << "moves searched TT " << s.myMovesSearched << std::endl;
+				std::cout <<  std::endl;
+
 				REQUIRE(bestMoveNoTT == s.myBestMove);
 			}
 		}
