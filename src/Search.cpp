@@ -247,9 +247,6 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		beta = -alpha;
 		score = 0;
 
-
-
-
 		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
 		auto dur = time - startTime;
 		int durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
