@@ -56,19 +56,20 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 			std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
 			Search s(sp);
 			s.negaMaxRoot(i);
-			std::cout << "moves searched " << s.myMovesSearched << std::endl;
+			int nodesSearchWithoutTT = s.myMovesSearched;
+
+			REQUIRE(globalTT.calculateEntryCount() > 0);
 			Move bestMoveNoTT = s.myBestMove;
-			// search again: we should have the same results (and less nodes searched)
 			s.negaMaxRoot(i);
 			REQUIRE(bestMoveNoTT == s.myBestMove);
+			REQUIRE(s.myMovesSearched == 0);
 
 			//Now previous search is at i-1
 			globalTT.clearTT();
 			s.negaMaxRoot(i-1);
 			// search again: we should have the same results (and less nodes searched)
 			s.negaMaxRoot(i);
-			std::cout << "moves searched TT " << s.myMovesSearched << std::endl;
-			std::cout <<  std::endl;
+			REQUIRE(s.myMovesSearched <= nodesSearchWithoutTT);
 			REQUIRE(bestMoveNoTT == s.myBestMove);
 		}
 	}
@@ -94,21 +95,28 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 				std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board(fen));
 				Search s(sp);
 				s.negaMaxRoot(i);
+				int nodesSearchWithoutTT = s.myMovesSearched;
+
+				std::cout << "moves searched " << s.myMovesSearched << std::endl;
+
 				REQUIRE(globalTT.calculateEntryCount() > 0);
 				Move bestMoveNoTT = s.myBestMove;
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);
-				std::cout << "moves searched " << s.myMovesSearched << std::endl;
+				REQUIRE(s.myMovesSearched == 0);
+
+				std::cout << "moves searched TT depth i :" << s.myMovesSearched << std::endl;
 
 				REQUIRE(bestMoveNoTT == s.myBestMove);
 
 				//Now previous search is at i-1
 				globalTT.clearTT();
-				//s.negaMaxRoot(i); 2 cases to test
 				s.negaMaxRoot(i-1);
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);
-				std::cout << "moves searched TT " << s.myMovesSearched << std::endl;
+				//REQUIRE(s.myMovesSearched <= nodesSearchWithoutTT); //THIS FAILS FOR SOME POSITION/DEPTH
+
+				std::cout << "moves searched TT depth i-1 :" << s.myMovesSearched << std::endl;
 				std::cout <<  std::endl;
 
 				REQUIRE(bestMoveNoTT == s.myBestMove);
