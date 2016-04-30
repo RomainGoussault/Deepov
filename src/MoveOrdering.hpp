@@ -21,6 +21,7 @@ public :
     inline Move getKiller2(const unsigned int ply) const {return myKiller2[ply];}
 
     void setNewKiller(const Move& move,const unsigned int ply);
+    void clearKillers();
 
     void rateMoves(std::vector<Move>& moveList, const unsigned int ply);
     void rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply);

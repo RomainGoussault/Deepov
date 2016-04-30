@@ -1,6 +1,14 @@
 #include "MoveOrdering.hpp"
 #include <algorithm>
 
+void MoveOrdering::clearKillers()
+{
+    for (unsigned int i=0 ; i<64 ; i++)
+    {
+        myKiller1[i] = Move();
+        myKiller2[i] = Move();
+    } 
+}
 
 void MoveOrdering::setNewKiller(const Move& move, const unsigned int ply)
 {

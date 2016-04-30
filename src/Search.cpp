@@ -13,6 +13,14 @@ Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr)
 	myBoard = boardPtr;
 }
 
+void Search::clearSearchData()
+{
+    // Clear the killer when starting a new search
+    myMoveOrder.clearKillers();
+    // Clear other things (TODO)
+
+}
+
 //Quiescence Search
 int Search::qSearch(int alpha, const int beta)
 {
@@ -183,6 +191,8 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 
 int Search::negaMaxRoot(const int depth)
 {
+    clearSearchData();
+
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
@@ -242,6 +252,8 @@ int Search::negaMaxRoot(const int depth)
 
 int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 {
+    clearSearchData();
+
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
