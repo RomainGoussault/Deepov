@@ -71,7 +71,8 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	{
 		if(myBoard->getEnemyLastMove()->isCapture())
 		{
-			return qSearch(alpha, beta);
+			return evaluate();
+			//return qSearch(alpha, beta);
 		}
 		else
 		{
@@ -203,6 +204,7 @@ int Search::negaMaxRoot(const int depth)
 	myMoveOrder.rateMoves(moveList, myBoard, myPly);
 	myMoveOrder.sortMoves(moveList);
 
+	int totalMoves = 0;
 	for (auto currentMove : moveList)
 	{
 		myBoard->executeMove(currentMove);
@@ -220,8 +222,14 @@ int Search::negaMaxRoot(const int depth)
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);
 		myPly--;
+
+		
+		std::cout << currentMove.toShortString() << ": " << myMovesSearched << std::endl;
+		totalMoves += myMovesSearched;
+		myMovesSearched = 0	;
 	}
 
+	myMovesSearched = totalMoves;
 	globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove);
 
 	return alpha;
