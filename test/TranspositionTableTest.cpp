@@ -97,15 +97,11 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 				s.negaMaxRoot(i);
 				int nodesSearchWithoutTT = s.myMovesSearched;
 
-				std::cout << "moves searched " << s.myMovesSearched << std::endl;
-
 				REQUIRE(globalTT.calculateEntryCount() > 0);
 				Move bestMoveNoTT = s.myBestMove;
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);
 				REQUIRE(s.myMovesSearched == 0);
-
-				std::cout << "moves searched TT depth i :" << s.myMovesSearched << std::endl;
 
 				REQUIRE(bestMoveNoTT == s.myBestMove);
 
@@ -115,9 +111,6 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);
 				//REQUIRE(s.myMovesSearched <= nodesSearchWithoutTT); //THIS FAILS FOR SOME POSITION/DEPTH
-
-				std::cout << "moves searched TT depth i-1 :" << s.myMovesSearched << std::endl;
-				std::cout <<  std::endl;
 
 				REQUIRE(bestMoveNoTT == s.myBestMove);
 			}
