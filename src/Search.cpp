@@ -8,7 +8,7 @@
 #include <algorithm>
 
 
-Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(), myEval(boardPtr),myMoveOrder(),myPly(0),myMovesSearched(0)
+Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0)
 {
 	myBoard = boardPtr;
 }
