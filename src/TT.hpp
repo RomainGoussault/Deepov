@@ -9,14 +9,14 @@ class TT {
 
 public:
 
-    const static unsigned long int TT_SIZE = 10048576;
+    const static U64 TT_SIZE = 10048576;
 
 	TT()
     {
     }
     
     /* Overload access operator */
-    inline TTEntry operator[](const unsigned long int x) const {
+    inline TTEntry operator[](const U64 x) const {
         if( x > TT_SIZE ){std::cout << "TT out of bounds" <<std::endl;return myTTable[0];}
         return myTTable[x];
     };
@@ -31,10 +31,10 @@ public:
     	}
     }
 
-    std::uint64_t calculateEntryCount()
+    U64 calculateEntryCount()
     {
-    	std::uint64_t count = 0;
-    	for(unsigned long int i=0; i<TT_SIZE; i++)
+    	U64 count = 0;
+    	for(U64 i=0; i<TT_SIZE; i++)
     	{
     		count += myTTable[i].getNodeType() != NodeType::NONE;
     	}

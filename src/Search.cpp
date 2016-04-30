@@ -13,6 +13,14 @@ Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0
 	myBoard = boardPtr;
 }
 
+void Search::clearSearchData()
+{
+    // Clear the killer when starting a new search
+    myMoveOrder.clearKillers();
+    // Clear other things (TODO)
+
+}
+
 //Quiescence Search
 int Search::qSearch(int alpha, const int beta)
 {
@@ -135,11 +143,14 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 
 	for (auto currentMove : moveList)
 	{
+        std::cout << "Execute move " << currentMove << std::endl;
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
 
 		score = -negaMax(depth - 1, -beta, -alpha);
+
+        std::cout<< "Get score " << score << std::endl;
 
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);   
@@ -150,7 +161,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 			//update killer and TT
 			myMoveOrder.setNewKiller(currentMove,myPly);
 			globalTT.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove);
-
+            std::cout<< "Beta cut-off" << std::endl;
 			return beta;   //  fail hard beta-cutoff
 		}
 
@@ -160,6 +171,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
             bestMove = currentMove ;
 		    if( score > alpha )
 		    {
+                std::cout<< "Improves alpha" << std::endl;
 			    alpha = score; // alpha acts like max in MiniMax
 		    }
         }
@@ -178,6 +190,8 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 
 int Search::negaMaxRoot(const int depth)
 {
+    clearSearchData();
+
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
@@ -191,8 +205,7 @@ int Search::negaMaxRoot(const int depth)
         // If info in the entry is valuable, use it
         if (ttEntry->getNodeType() == NodeType::EXACT)
         {
-        		        	myBestMove = ttEntry->getBestmove();
-
+        	myBestMove = ttEntry->getBestmove();
             return ttEntry->getScore();
         }
 	}
@@ -205,6 +218,7 @@ int Search::negaMaxRoot(const int depth)
 
 	for (auto currentMove : moveList)
 	{
+        std::cout << "Execute move " << currentMove << std::endl;
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
@@ -213,6 +227,7 @@ int Search::negaMaxRoot(const int depth)
 
 		if( score > alpha )
 		{
+            std::cout<< "Improves alpha" << std::endl;
 			alpha = score;
 			myBestMove = currentMove;
 		}
@@ -229,6 +244,8 @@ int Search::negaMaxRoot(const int depth)
 
 int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 {
+    clearSearchData();
+
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;

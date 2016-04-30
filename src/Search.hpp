@@ -15,6 +15,8 @@ public:
 	constexpr static int MAX_DEPTH = 64;
 	Search(std::shared_ptr<Board> boardPtr);
 
+    void clearSearchData();
+
     int negaMaxRoot(const int depth);
     int negaMaxRootIterativeDeepening(const int timeSec);
     inline int getCurrentScore() {return myEval.evaluate();};
