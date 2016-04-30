@@ -166,18 +166,21 @@ private:
 };
 
 
-inline std::ostream& operator<<(std::ostream &strm, const Move &Move) {
+inline std::ostream& operator<<(std::ostream &strm, const Move &move) {
 
-	std::bitset<4> flags(Move.getFlags());
-	unsigned int xOrigin = Move.getOrigin() % 8;
-	unsigned int yOrigin = Move.getOrigin() / 8;
+	std::bitset<4> flags(move.getFlags());
+	unsigned int xOrigin = move.getOrigin() % 8;
+	unsigned int yOrigin = move.getOrigin() / 8;
 
-	unsigned int xDestination = Move.getDestination() % 8;
-	unsigned int yDestination = Move.getDestination() / 8;
+	unsigned int xDestination = move.getDestination() % 8;
+	unsigned int yDestination = move.getDestination() / 8;
 
-	strm << Move.toShortString() << " " 
+    unsigned int moveOrderingScore = move.getMoveRating();
+
+	strm << move.toShortString() << " "     
             << "Origin: [" << xOrigin << ", " << yOrigin << "] Dest: ["
 			<< xDestination << ", " << yDestination << "] Flags: " << flags
+            << " MO score : " << moveOrderingScore 
 			<< std::endl;
 
 	return strm;

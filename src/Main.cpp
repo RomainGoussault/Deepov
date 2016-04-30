@@ -102,7 +102,12 @@ int i = 3;
 				std::cout << "entry count TT depth i-1:" << globalTT.calculateEntryCount() << std::endl;
 				std::cout << globalTT << std::endl;
 				std::cout << " " << std::endl;
-			
+
+//				s.negaMaxRoot(i-1);
+//				std::cout << "nodes searched TT depth i-1 :" << s.myMovesSearched << std::endl;
+
+//                s.negaMaxRoot(i);
+//				std::cout << "nodes searched TT depth i again:" << s.myMovesSearched << std::endl;
 
 
 
