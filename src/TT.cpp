@@ -4,7 +4,7 @@ TT globalTT = TT();
 
 void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove)
 {
-    unsigned long int index = zkey % TT_SIZE;
+    U64 index = zkey % TT_SIZE;
     TTEntry newEntry(zkey, depth, score, node, bestMove);
 
     // Replace if node closer to root (ie. greater evaluation depth)
@@ -17,7 +17,7 @@ void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMov
 
 TTEntry* TT::probeTT(Zkey zkey, int depth)
 {
-    unsigned long int index = zkey % TT_SIZE;
+    U64 index = zkey % TT_SIZE;
     // We have a match 
     if (myTTable[index].getZkey() == zkey && myTTable[index].getNodeType() != NodeType::NONE && myTTable[index].getDepth() >= depth)
     {

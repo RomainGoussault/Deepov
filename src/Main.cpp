@@ -98,6 +98,10 @@ int i = 3;
 				std::cout << bestMoveNoTT << std::endl;
 
 				//REQUIRE(bestMoveNoTT == s.myBestMove);
+
+				std::cout << "entry count TT depth i-1:" << globalTT.calculateEntryCount() << std::endl;
+				std::cout << globalTT << std::endl;
+				std::cout << " " << std::endl;
 			
 
 
