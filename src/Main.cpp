@@ -45,63 +45,6 @@ int main() {
 	MagicMoves::initmagicmoves();
 	Tables::init();
 
-
-
-		//	std::string fen = "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -"; //pos 3 init
-			std::string fen = "8/2p5/3p4/KP5r/5R1k/8/4P1P1/8 b - -"; //pos 3 + 1 move
-		//	std::string fen = "8/2p5/3p4/KP4kr/5R2/8/4P1P1/8 w - -"; //pos 3 + 2 move
-
-
-
-	
-int i = 3;
-				std::cout << "depth " << i << std::endl;
-
-				globalTT.clearTT();
-				std::cout << " " << std::endl;
-
-				//REQUIRE(globalTT.calculateEntryCount() == 0);
-				std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board(fen));
-				Search s(sp);
-				s.negaMaxRoot(i);
-				int nodesSearchWithoutTT = s.myMovesSearched;
-
-				std::cout << "nodes searched no TT depth i: " << s.myMovesSearched << std::endl;
-
-				//REQUIRE(globalTT.calculateEntryCount() > 0);
-				Move bestMoveNoTT = s.myBestMove;
-				// search again: we should have the same results (and less nodes searched)
-				s.negaMaxRoot(i);
-				//REQUIRE(s.myMovesSearched == 0);
-				std::cout << " " << std::endl;
-
-				std::cout << "nodes searched TT depth i:" << s.myMovesSearched << std::endl;
-				std::cout << " " << std::endl;
-
-				//REQUIRE(bestMoveNoTT == s.myBestMove);
-
-				//Now previous search is at i-1
-				globalTT.clearTT();
-				s.negaMaxRoot(i-1);
-				std::cout << "nodes searched TT depth i-1:" << s.myMovesSearched << std::endl;
-
-				// search again: we should have the same results (and less nodes searched)
-				std::cout << "entry count TT depth i-1:" << globalTT.calculateEntryCount() << std::endl;
-				std::cout << globalTT << std::endl;
-				std::cout << " " << std::endl;
-
-				s.negaMaxRoot(i);
-				//REQUIRE(s.myMovesSearched <= nodesSearchWithoutTT); //THIS FAILS FOR SOME POSITION/DEPTH
-
-				std::cout << "nodes searched TT depth i:" << s.myMovesSearched << std::endl;
-				std::cout <<  std::endl;
-				std::cout << bestMoveNoTT << std::endl;
-
-				//REQUIRE(bestMoveNoTT == s.myBestMove);
-			
-
-
-
 	#ifdef PERFORMANCE_TEST
 
 		Utils::getPerformanceIndicator();

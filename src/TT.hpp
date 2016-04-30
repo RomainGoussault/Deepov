@@ -62,6 +62,7 @@ inline std::ostream& operator<<(std::ostream &strm, const TT &tt) {
 		    strm << "Depth " << tt[entry].getDepth() << " ";
 		    strm << "Score " << tt[entry].getScore() << " ";
 		    strm << "Best move " << tt[entry].getBestmove() << " ";
+		    strm << std::endl;
         }
 	}
     strm << std::endl;
