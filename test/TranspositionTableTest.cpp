@@ -110,7 +110,7 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 				s.negaMaxRoot(i-1);
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);
-				//REQUIRE(s.myMovesSearched <= nodesSearchWithoutTT); //THIS FAILS FOR SOME POSITION/DEPTH
+				REQUIRE(s.myMovesSearched <= nodesSearchWithoutTT); //THIS FAILS FOR SOME POSITION/DEPTH
 
 				REQUIRE(bestMoveNoTT == s.myBestMove);
 			}
