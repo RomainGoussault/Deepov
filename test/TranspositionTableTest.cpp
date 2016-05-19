@@ -88,8 +88,11 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 
 		for(std::string fen : fens)
 		{
+							std::cout << "fen: " << fen << std::endl;
+
 			for(int i = 2; i <= 6; i++)
 			{
+				std::cout << "i: " << i << std::endl;
 				globalTT.clearTT();
 				REQUIRE(globalTT.calculateEntryCount() == 0);
 				std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board(fen));

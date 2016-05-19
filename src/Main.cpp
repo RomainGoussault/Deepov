@@ -45,14 +45,46 @@ int main() {
 	MagicMoves::initmagicmoves();
 	Tables::init();
 
+
+
+
+			for(int i = 6; i <= 6; i++)
+			{
+				std::cout << "i: " << i << std::endl;
+				globalTT.clearTT();
+				std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -"));
+				Search s(sp);
+				s.negaMaxRoot(i);
+				int nodesSearchWithoutTT = s.myMovesSearched;
+				std::cout << "nodesSearchWithoutTT: " << nodesSearchWithoutTT << std::endl;
+				std::cout << "" << std::endl;
+
+				Move bestMoveNoTT = s.myBestMove;
+				// search again: we should have the same results (and less nodes searched)
+				//s.negaMaxRoot(i);
+
+
+				//Now previous search is at i-1
+				globalTT.clearTT();
+				s.negaMaxRoot(i-1);
+				std::cout << "s.negaMaxRoot(i-1): " << nodesSearchWithoutTT << std::endl;
+				//std::cout << globalTT << std::endl;
+
+				std::cout << "" << std::endl;
+				// search again: we should have the same results (and less nodes searched)
+				s.negaMaxRoot(i);
+				std::cout << "myMovesSearched: " << s.myMovesSearched << std::endl << "nodesSearchWithoutTT: " << nodesSearchWithoutTT << std::endl;
+			}
+
+
 	#ifdef PERFORMANCE_TEST
 
 		Utils::getPerformanceIndicator();
 
 	#else
 
-		Uci uci;
-		uci.loop();
+		// Uci uci;
+		// uci.loop();
 
 	#endif
 

@@ -200,6 +200,7 @@ public:
 	//This should be private
 	//Zobrist key
 	Zkey key;
+	std::vector<Move> myMoves;
 
 private:
 	std::array<U64, 20> myBitboards;
@@ -221,7 +222,6 @@ private:
 	unsigned int myMovesCounter;
 	unsigned int myHalfMovesCounter;
 
-	std::vector<Move> myMoves;
 	std::vector<Zkey> myKeys;
     std::vector<Square> myEpSquares;
 

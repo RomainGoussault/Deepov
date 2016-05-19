@@ -79,7 +79,9 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 	{
 		if(myBoard->getEnemyLastMove()->isCapture())
 		{
-			return qSearch(alpha, beta);
+//			return qSearch(alpha, beta);
+						return evaluate();
+
 		}
 		else
 		{
@@ -141,8 +143,17 @@ int Search::negaMax(const int depth, int alpha, const int beta)
     Move bestMove = Move();
     int bestScore = -999999;
 
+	int totalMoves = 0;
+
 	for (auto currentMove : moveList)
 	{
+		if(myBoard->getEnemyLastMove()->toShortString() == "d2e3" && depth==5	)
+		{
+        
+		totalMoves = myMovesSearched;
+
+		}
+
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
@@ -152,6 +163,49 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);   
 		myPly--;
+
+		if(myBoard->myMoves[myBoard->myMoves.size()-1].toShortString() == "d2e3"  && depth==5)
+		{
+        	int countForCurrentMove = myMovesSearched - totalMoves;
+        	std::cout << "5 d2e3:: " << currentMove.toShortString() << ": " << countForCurrentMove << std::endl;
+		}
+
+		if(myBoard->myMoves[myBoard->myMoves.size()-2].toShortString() == "d2e3"
+		 && myBoard->myMoves[myBoard->myMoves.size()-1].toShortString() == "a6e2"
+		 && depth==4)
+		{
+        	int countForCurrentMove = myMovesSearched - totalMoves;
+        	std::cout << "54 a6e2:: " << currentMove.toShortString() << ": " << countForCurrentMove << std::endl;
+		}
+
+
+		if(myBoard->myMoves[myBoard->myMoves.size()-3].toShortString() == "d2e3"
+		 && myBoard->myMoves[myBoard->myMoves.size()-2].toShortString() == "a6e2"
+		 && myBoard->myMoves[myBoard->myMoves.size()-1].toShortString() == "g2g3" && depth==3)
+		{
+        	int countForCurrentMove = myMovesSearched - totalMoves;
+        	std::cout << "543 g2g3:: " << currentMove.toShortString() << ": " << countForCurrentMove << std::endl;
+		}
+
+		if(myBoard->myMoves[myBoard->myMoves.size()-4].toShortString() == "d2e3"
+		 && myBoard->myMoves[myBoard->myMoves.size()-3].toShortString() == "a6e2"
+		  && myBoard->myMoves[myBoard->myMoves.size()-2].toShortString() == "g2g3"
+		 && myBoard->myMoves[myBoard->myMoves.size()-1].toShortString() == "e2f3" && depth==2)
+		{
+        	int countForCurrentMove = myMovesSearched - totalMoves;
+        	std::cout << "5432 e2f3:: " << currentMove.toShortString() << ": " << countForCurrentMove << std::endl;
+		}
+
+		if(myBoard->myMoves[myBoard->myMoves.size()-5].toShortString() == "d2e3"
+		 && myBoard->myMoves[myBoard->myMoves.size()-4].toShortString() == "a6e2"
+		  && myBoard->myMoves[myBoard->myMoves.size()-3].toShortString() == "g2g3"
+		    && myBoard->myMoves[myBoard->myMoves.size()-2].toShortString() == "e2f3"
+		 && myBoard->myMoves[myBoard->myMoves.size()-1].toShortString() == "c3d1" && depth==1)
+		{
+        	int countForCurrentMove = myMovesSearched - totalMoves;
+        	std::cout << "54321 c3d1:: " << currentMove.toShortString() << ": " << countForCurrentMove << std::endl;
+		}
+
 
 		if(score >= beta)
 		{
@@ -170,7 +224,12 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 			    alpha = score; // alpha acts like max in MiniMax
 		    }
         }
+
+
+
 	}
+
+	totalMoves += myMovesSearched;
 
 
 	  // store hash info
@@ -211,6 +270,7 @@ int Search::negaMaxRoot(const int depth)
 	myMoveOrder.rateMoves(moveList, myBoard, myPly);
 	myMoveOrder.sortMoves(moveList);
 
+	int totalMoves = 0;
 	for (auto currentMove : moveList)
 	{
 		myBoard->executeMove(currentMove);
@@ -228,8 +288,13 @@ int Search::negaMaxRoot(const int depth)
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);
 		myPly--;
+
+		std::cout << currentMove.toShortString() << ": " << myMovesSearched << std::endl;
+		totalMoves += myMovesSearched;
+		myMovesSearched = 0	;
 	}
 
+	myMovesSearched = totalMoves;
 	globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove);
 
 	return alpha;
