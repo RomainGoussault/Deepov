@@ -38,7 +38,7 @@ int Search::qSearch(int alpha, const int beta)
 	MoveGen moveGen(myBoard);
 	std::vector<Move> moveList = moveGen.generateMoves();
 
-	myMoveOrder.rateMoves(moveList, myPly);
+	myMoveOrder.rateMoves(moveList, myBoard, myPly, false);
 	myMoveOrder.sortMoves(moveList);
 
 	for (auto currentMove : moveList)
@@ -134,7 +134,8 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		}
 	}
 
-	myMoveOrder.rateMoves(moveList, myPly);
+	bool isSEE = false;
+	myMoveOrder.rateMoves(moveList, myBoard, myPly, isSEE);
 	myMoveOrder.sortMoves(moveList);
 
 	int score = 0;
@@ -208,7 +209,7 @@ int Search::negaMaxRoot(const int depth)
 	MoveGen moveGen(myBoard);
 	std::vector<Move> moveList = moveGen.generateMoves();
 
-	myMoveOrder.rateMoves(moveList, myBoard, myPly);
+	myMoveOrder.rateMoves(moveList, myBoard, myPly, true);
 	myMoveOrder.sortMoves(moveList);
 
 	for (auto currentMove : moveList)
@@ -284,7 +285,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 			MoveGen moveGen(myBoard);
 
 			std::vector<Move> moveList = moveGen.generateMoves();
-			myMoveOrder.rateMoves(moveList, myBoard, myPly);
+			myMoveOrder.rateMoves(moveList, myBoard, myPly, true);
 			myMoveOrder.sortMoves(moveList);
 
 			for (auto currentMove : moveList)

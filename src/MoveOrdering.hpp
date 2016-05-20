@@ -24,7 +24,8 @@ public :
     void clearKillers();
 
     void rateMoves(std::vector<Move>& moveList, const unsigned int ply);
-    void rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply);
+    void rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply, const bool isSee);
+    void rateMovesH(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply);
 
     void sortMoves(std::vector<Move>& moveList);
     std::vector<Move>::iterator getBestCandidate(std::vector<Move>& moveList);

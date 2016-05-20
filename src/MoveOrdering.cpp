@@ -1,5 +1,6 @@
 #include "MoveOrdering.hpp"
 #include <algorithm>
+#include "TT.hpp"
 
 void MoveOrdering::clearKillers()
 {
@@ -22,11 +23,26 @@ void MoveOrdering::setNewKiller(const Move& move, const unsigned int ply)
     } 
 }
 
-void MoveOrdering::rateMoves(std::vector<Move>& moveList, const unsigned int ply)
+void MoveOrdering::rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply, const bool isSEE)
 {
+    auto ttEntry = globalTT.probeTT(board->key, 0); // returns non nullpr if key exists and depth is greater
+    Move hashMove = Move();
+
+    if(ttEntry)
+    {
+        hashMove = ttEntry->getBestmove();
+
+    }
+
 	for(Move& move : moveList)
 	{
 		unsigned int score=0;
+
+        if(move==hashMove)
+        {
+           score += 100000;
+        } 
+
 
 		if(move.isPromotion())
 		{
@@ -35,37 +51,14 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList, const unsigned int ply
 
 		if(move.isCapture())
 		{
-			score += Eval::pieceTypeToValue(move.getCapturedPieceType());
-		}
-
-        if (move == myKiller1[ply])
-        {
-            score += KILLER1_BONUS;
-        }
-
-        if (move == myKiller2[ply])
-        {
-            score += KILLER2_BONUS;
-        }
-
-		move.setMoveRating(score);
-	}
-}
-
-void MoveOrdering::rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply)
-{
-	for(Move& move : moveList)
-	{
-		unsigned int score=0;
-
-		if(move.isPromotion())
-		{
-			score += Eval::pieceTypeToValue(move.getPromotedPieceType())-Piece::PAWN_VALUE;
-		}
-
-		if(move.isCapture())
-		{
-			score += board->seeCapture(move, Utils::getOppositeColor(board->getColorToPlay()));
+            if(isSEE)
+            {
+                score += board->seeCapture(move, Utils::getOppositeColor(board->getColorToPlay()));
+            }
+            else
+            {
+                score += Eval::pieceTypeToValue(move.getCapturedPieceType());
+            }
 		}
 
         if (move == myKiller1[ply])
