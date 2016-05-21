@@ -4,19 +4,21 @@
 #include "Move.hpp"
 #include "Types.hpp"
 
-enum class NodeType {NONE, EXACT, LOWER, UPPER};
+enum NodeType {NONE=0, EXACT=1, LOWER=2, UPPER=3};
 
 class TTEntry {
 
 public:
 
-	TTEntry() : myZkey(0), myDepth(0), myScore(0), myNodeType(NodeType::NONE), myBestMove()
+	TTEntry() : myZkey(0), myBestMove(), myTTInfo(0)
     {
     }
 
 	inline TTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove) :
-    myZkey(zkey), myDepth(depth), myScore(score), myNodeType(node), myBestMove(bestMove)
+    myZkey(zkey), myBestMove(bestMove)
     {
+        int sign = (score < 0);
+        myTTInfo =((sign & 0x1) << 27 | (std::abs(score) & 0xfffff)<<7) | ((depth & 0x1f)<<2) | (node & 0x3);
     };
 
 	inline Move getBestmove() const {
@@ -24,15 +26,16 @@ public:
 	}
 
 	inline int getDepth() const {
-		return myDepth;
-	}
+		return (myTTInfo >> 2) & 0x1f;
+    }
 
 	inline NodeType getNodeType() const {
-		return myNodeType;
+		return static_cast<NodeType>(myTTInfo & 0x3);
 	}
 
 	inline int getScore() const {
-		return myScore;
+        int sign = (myTTInfo >> 27) & 0x1 ;
+		return (1-2*sign)*((myTTInfo >> 7) & 0xfffff); // (1-2*sign)*abs(score)
 	}
 
 	inline Zkey getZkey() const {
@@ -43,13 +46,19 @@ private:
 
     // TODO : store as bits to save mem space
 	Zkey myZkey;
-	int myDepth;
-	int myScore;
-	NodeType myNodeType;
 	Move myBestMove;
+    int myTTInfo; // 32 Bits : free : 5 bits || Score sign 1 bit || Score value 20 bits || Depth 5 bits || node type 2 bit
+
 
 };
 
+/* myTTInfo details  
+
+NodeType :  0 = NONE, 1 = EXACT, 2 = LOWER, 3 = UPPER
+Depth : 5 bits -> depth up to 32
+Score : 21 bits -> score -1 048 576 up to 1 048 576 (max score is 1 000 000)
+
+*/
 
 inline std::ostream& operator<<(std::ostream &strm, const NodeType &node) {
 

@@ -8,6 +8,26 @@
 #include "Search.hpp"
 #include <iostream>
 
+
+TEST_CASE( "Test TTEntry ", "[TT]")
+{
+	SECTION("Test methods")
+	{
+        TTEntry entry1;
+        REQUIRE(entry1.getDepth() == 0);
+        REQUIRE(entry1.getScore() == 0);
+        REQUIRE(entry1.getNodeType() == NodeType::NONE);
+
+        Move nullMove;
+        TTEntry entry2(0,24,-550000,NodeType::EXACT,nullMove);
+        REQUIRE(entry2.getDepth() == 24);
+        REQUIRE(entry2.getScore() == -550000);
+        REQUIRE(entry2.getNodeType() == 1);
+	}
+
+}
+
+
 TEST_CASE( "Fill transposition table from initial position ", "[TT]")
 {
 	MagicMoves::initmagicmoves();
