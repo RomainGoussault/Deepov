@@ -57,7 +57,8 @@ void MoveOrdering::rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board>
             }
             else
             {
-                score += Eval::pieceTypeToValue(move.getCapturedPieceType());
+                // MVV/LVA
+                score += Eval::pieceTypeToValue(move.getCapturedPieceType())-move.getPieceType();
             }
 		}
 
