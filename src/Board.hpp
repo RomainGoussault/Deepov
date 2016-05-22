@@ -85,7 +85,7 @@ public:
 	inline U64 getAtkTo(Square sq) const {return myAtkTo[sq];};
 	inline U64 getKingAttackers() const {return myKingAttackers;};
 
-	U64 getKingAtkTo(Square ksq, Color color) const;
+	U64 getAttackersTo(Square sq, Color color) const;
 
 	inline Color getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
