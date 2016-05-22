@@ -303,7 +303,7 @@ void Board::updateKingAttackers(const Color color)
 	Square kingSquare = msb(kingPosition);
 
 	//update myKingAttackers field;
-	myKingAttackers = getKingAtkTo(kingSquare, color);
+	myKingAttackers = getAttackersTo(kingSquare, color);
 }
 
 bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
@@ -369,6 +369,24 @@ U64 Board::getAttackersTo(Square sq, Color color) const
 	atkTo |= (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
 
 	potentialAttackers = MagicMoves::Rmagic(sq, getAllPieces()) & ~getPieces(color);
+	atkTo |= (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)));
+
+	return atkTo;
+}
+
+U64 Board::getAttackersTo(Square sq, Color color, U64 occ) const
+{
+	U64 atkTo = 0;
+
+	Color enemyColor = Utils::getOppositeColor(color);
+	atkTo |= (Tables::PAWN_ATTACK_TABLE[color][sq] & getPawns(enemyColor));
+	atkTo |= (Tables::ATTACK_TABLE[Piece::KNIGHT][sq] & getKnights(enemyColor));
+	atkTo |= (Tables::ATTACK_TABLE[Piece::KING][sq] & getKing(enemyColor));
+
+	U64 potentialAttackers = MagicMoves::Bmagic(sq, occ) & ~getPieces(color);
+	atkTo |= (potentialAttackers & (getBishops(enemyColor) | getQueens(enemyColor)));
+
+	potentialAttackers = MagicMoves::Rmagic(sq, occ) & ~getPieces(color);
 	atkTo |= (potentialAttackers & (getRooks(enemyColor) | getQueens(enemyColor)));
 
 	return atkTo;
@@ -1017,6 +1035,54 @@ int Board::seeCapture(Move captureMove, Color color)
 	undoMove(captureMove);
 
    return score;
+}
+
+
+//To statically evaluate a capture, that particular capture should be forced, because it might not be the lowest attacker that makes the capture,
+//and must not allow the option of standing pat
+int Board::seeCapture2(Move captureMove, Color color)
+{
+	Square toSq = captureMove.getDestination();
+	int gain[32], d = 0;
+	U64 mayXray =  getAllPawns() | getAllKnights() | getAllRooks() | getAllQueens();
+	U64 fromSet = 1ULL << captureMove.getOrigin();
+	U64 occ     = getAllPieces();
+	U64 attadef = getAttackersTo(toSq, color, occ) | getAttackersTo(toSq, Utils::getOppositeColor(color), occ); 
+	gain[d]     = Eval::pieceTypeToValue(captureMove.getCapturedPieceType());
+	
+	do {
+		d++; // next depth and side
+		gain[d]  = Eval::pieceTypeToValue(captureMove.getPieceType()) - gain[d-1]; // speculative store, if defended
+		if (std::max(-gain[d-1], gain[d]) < 0) break; // pruning does not influence the result
+		attadef ^= fromSet; // reset bit in set to traverse
+		occ     ^= fromSet; // reset bit in temporary occupancy (for x-Rays)
+		
+		if (fromSet & mayXray)
+		{
+			attadef = getAttackersTo(toSq, color, occ) | getAttackersTo(toSq, Utils::getOppositeColor(color), occ); 
+		}
+
+		U64 attackers = attadef;
+		color = Utils::getOppositeColor(color);
+
+		//TODO: getSmallestAttacker should :
+		// locate the least valuable attacker for the side to move
+		//remove the attacker we just found from the bitboards
+		// and scan for new X-ray attacks behind it.
+		getSmallestAttacker(toSq, Utils::getOppositeColor(color), attackers);
+
+
+		fromSet = attackers ? 1ULL << attackers : 0;
+		std::cout << d << std::endl;
+
+	} while (fromSet);
+
+	while (--d)
+	{
+	  gain[d-1]= -std::max (-gain[d-1], gain[d]);
+	}
+
+	return gain[0];
 }
 
 Piece::PieceType Board::getSmallestAttacker(const Square square, Color color, U64 &attackers)

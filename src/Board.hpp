@@ -86,6 +86,7 @@ public:
 	inline U64 getKingAttackers() const {return myKingAttackers;};
 
 	U64 getAttackersTo(Square sq, Color color) const;
+	U64 getAttackersTo(Square sq, Color color, U64 occ) const;
 
 	inline Color getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
@@ -195,6 +196,7 @@ public:
 
 	int see(const Square square, Color side);
 	int seeCapture(Move captureMove, Color color);
+	int seeCapture2(Move captureMove, Color color);
 	Piece::PieceType getSmallestAttacker(const Square square, Color side, U64 &attackers);
 
 	//This should be private
