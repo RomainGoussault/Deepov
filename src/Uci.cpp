@@ -148,9 +148,10 @@ void Uci::loop()
 			std::cout << "uciok" << std::endl;
 		}
 		else if (token == "isready")
-
+		{
+			globalTT.clearTT();
 			std::cout << "readyok" << std::endl;
-
+		}
 		else if (token == "setoption") 
             setoption(is);
 
