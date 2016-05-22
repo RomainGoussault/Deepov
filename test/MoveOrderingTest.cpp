@@ -31,17 +31,28 @@ TEST_CASE( "Compare sort methods", "[moveordering]" )
 	MagicMoves::initmagicmoves();
 	Tables::init();
 
-	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("r4rk1/ppp1nppp/2n2q2/4p1B1/1b1pP3/2NP1NPb/PPP1QPBP/2KR3R w - - 3 11"));
+	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("n1b1kbn1/3pppp1/1r6/1q3R2/8/8/4PPPP/4KBN1 w KQkq -"));
 	MoveGen moveGen(*sp);
 
 	std::vector<Move> moveList = moveGen.generateMoves();
    
    MoveOrdering moveOrder;
-   moveOrder.rateMoves(moveList,sp, 1, false); // TODO test with SEE
+   bool isSEE = false;
+   moveOrder.rateMoves(moveList,sp, 1, isSEE);
    moveOrder.sortMoves(moveList);
 
    Move bestMove=*std::begin(moveList);
 
-   REQUIRE(bestMove.toShortString() == "g5f6");
+   REQUIRE(bestMove.toShortString() == "f5b5");
+
+   //With SEE
+   moveOrder.clearKillers();
+   isSEE = true;
+   moveOrder.rateMoves(moveList,sp, 1, isSEE);
+   moveOrder.sortMoves(moveList);
+
+   bestMove=*std::begin(moveList);
+
+   REQUIRE(bestMove.toShortString() != "f5b5");
 
 }
