@@ -21,7 +21,7 @@ TEST_CASE( "Test move rating", "[moveordering]" )
 
    for (auto it=moveList.begin(); it<moveList.end(); it++)
    {
-       REQUIRE(it->getMoveRating() == Piece::KNIGHT_VALUE);
+       REQUIRE(it->getMoveRating() == Piece::KNIGHT_VALUE - Piece::QUEEN);
    }
 }
 
