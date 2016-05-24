@@ -1,0 +1,6 @@
+Run:
+valgrind --tool=callgrind ./Deepov
+
+and the something like:
+go wtime 500000 btime 500000
+
