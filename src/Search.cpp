@@ -158,7 +158,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		{
 			//update killer and TT
 			myMoveOrder.setNewKiller(currentMove,myPly);
-			globalTT.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove.getMove16(), myBoard->myHalfMovesCounter);
+			globalTT.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove.getMove16(), myBoard->getPly());
 			return beta;   //  fail hard beta-cutoff
 		}
 
@@ -175,9 +175,9 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 
 	  // store hash info
 	  if (alpha > alpha_old)
-			globalTT.setTTEntry(currentKey, depth, bestScore, NodeType::EXACT, bestMove.getMove16(), myBoard->myHalfMovesCounter);
+			globalTT.setTTEntry(currentKey, depth, bestScore, NodeType::EXACT, bestMove.getMove16(), myBoard->getPly());
 	  else
-			globalTT.setTTEntry(currentKey, depth, alpha, NodeType::UPPER, bestMove.getMove16(), myBoard->myHalfMovesCounter);
+			globalTT.setTTEntry(currentKey, depth, alpha, NodeType::UPPER, bestMove.getMove16(), myBoard->getPly());
 
 
 	return alpha;
@@ -230,7 +230,7 @@ int Search::negaMaxRoot(const int depth)
 		myPly--;
 	}
 
-	globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove, myBoard->myHalfMovesCounter);
+	globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove, myBoard->getPly());
 
 	return alpha;
 }
@@ -307,7 +307,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 				myPly--;
 			}
 
-			globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove, myBoard->myHalfMovesCounter);
+			globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove, myBoard->getPly());
 		}
 
 		depth++;

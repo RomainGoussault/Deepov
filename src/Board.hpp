@@ -116,7 +116,6 @@ public:
     // EP methods
     inline Square getLastEpSquare() const {return myEpSquares.back();}
 
-
 	//PieceType method
 	Piece::Piece findPieceType(const Square position) const;
 	Piece::PieceType findPieceType(const Square position, const Color color) const;
@@ -199,10 +198,13 @@ public:
 	int seeCapture2(Move captureMove, Color color);
 	Piece::PieceType getSmallestAttacker(const Square square, Color side, U64 &attackers);
 
+    /* Methods to get move counters */
+    inline unsigned int getPly() const {return myHalfMovesCounter;}
+
 	//This should be private
 	//Zobrist key
 	Zkey key;
-	unsigned int myHalfMovesCounter;
+	
 
 private:
 	std::array<U64, 20> myBitboards;
@@ -222,6 +224,7 @@ private:
 	U64 myKingAttackers;
 
 	unsigned int myMovesCounter;
+    unsigned int myHalfMovesCounter;
 
 	std::vector<Move> myMoves;
 	std::vector<Zkey> myKeys;
