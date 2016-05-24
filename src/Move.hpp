@@ -24,6 +24,10 @@ public:
 	{
 	}
 
+	inline Move(int move) : myMove(move), myMoveRating(0)
+	{
+	}
+
 	inline Move(Square origin, Square destination, unsigned int flags, Piece::PieceType pieceType) : myMoveRating(0)
 	{
         int capturedPieceType = Piece::NO_PIECE_TYPE;
@@ -68,6 +72,11 @@ public:
     inline unsigned int getMoveRating() const
     {
         return myMoveRating;
+    }
+
+    inline unsigned int getMove() const
+    {
+        return myMove;
     }
 
     inline void setDestination(const Square destination)

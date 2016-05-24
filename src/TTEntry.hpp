@@ -15,14 +15,14 @@ public:
     }
 
 	inline TTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove) :
-    myZkey(zkey), myBestMove(bestMove)
+    myZkey(zkey), myBestMove(bestMove.getMove())
     {
         int sign = (score < 0);
         myTTInfo =((sign & 0x1) << 27 | (std::abs(score) & 0xfffff)<<7) | ((depth & 0x1f)<<2) | (node & 0x3);
     };
 
 	inline Move getBestmove() const {
-		return myBestMove;
+		return Move(myBestMove);
 	}
 
 	inline int getDepth() const {
@@ -46,7 +46,7 @@ private:
 
     // TODO : store as bits to save mem space
 	Zkey myZkey;
-	Move myBestMove;
+	unsigned int myBestMove;
     int myTTInfo; // 32 Bits : free : 5 bits || Score sign 1 bit || Score value 20 bits || Depth 5 bits || node type 2 bit
 
 
