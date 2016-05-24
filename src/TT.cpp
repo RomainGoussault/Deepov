@@ -2,14 +2,14 @@
 
 TT globalTT = TT();
 
-void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove)
+void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove, int moveCounter)
 {
     U64 index = zkey % TT_SIZE;
-    TTEntry newEntry(zkey, depth, score, node, bestMove);
 
     // Replace if node closer to root (ie. greater evaluation depth)
-    if (depth >= myTTable[index].getDepth())
+    if (TTEntry::K * depth + moveCounter >= myTTable[index].getTTValue())
     {
+        TTEntry newEntry(zkey, depth, score, node, bestMove, moveCounter);
         myTTable[index] = newEntry ;
     }
 }

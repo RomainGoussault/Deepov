@@ -202,6 +202,7 @@ public:
 	//This should be private
 	//Zobrist key
 	Zkey key;
+	unsigned int myHalfMovesCounter;
 
 private:
 	std::array<U64, 20> myBitboards;
@@ -221,7 +222,6 @@ private:
 	U64 myKingAttackers;
 
 	unsigned int myMovesCounter;
-	unsigned int myHalfMovesCounter;
 
 	std::vector<Move> myMoves;
 	std::vector<Zkey> myKeys;

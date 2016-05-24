@@ -9,21 +9,27 @@ enum NodeType {NONE=0, EXACT=1, LOWER=2, UPPER=3};
 class TTEntry {
 
 public:
+    
+    const static int K = 2;
 
-	TTEntry() : myZkey(0), myBestMove(), myTTInfo(0)
+	TTEntry() : myZkey(0), myBestMove(), myTTInfo(0), myTTvalue(0)
     {
     }
 
-	inline TTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove) :
-    myZkey(zkey), myBestMove(bestMove.getMove())
+	inline TTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove, int moveCounter) :
+    myZkey(zkey), myBestMove(bestMove.getMove()), myTTvalue(K*depth+moveCounter)
     {
         int sign = (score < 0);
         myTTInfo =((sign & 0x1) << 27 | (std::abs(score) & 0xfffff)<<7) | ((depth & 0x1f)<<2) | (node & 0x3);
     };
 
-	inline Move getBestmove() const {
-		return Move(myBestMove);
-	}
+    inline Move getBestmove() const {
+        return Move(myBestMove);
+    }
+
+    inline int getTTValue() const {
+        return myTTvalue;
+    }
 
 	inline int getDepth() const {
 		return (myTTInfo >> 2) & 0x1f;
@@ -48,6 +54,7 @@ private:
 	Zkey myZkey;
 	unsigned int myBestMove;
     int myTTInfo; // 32 Bits : free : 5 bits || Score sign 1 bit || Score value 20 bits || Depth 5 bits || node type 2 bit
+    int myTTvalue; // higher == should keep the value in TT. ttValue = k * depth + moveCounter with k integer to be tuned..
 
 
 };
