@@ -9,7 +9,12 @@ typedef std::uint64_t U64;
 #define _U64
 #endif // _U64
 
-typedef std::uint64_t Zkey;
+#ifndef _Move16
+typedef std::uint16_t Move16;
+#define _Move16
+#endif
+
+typedef std::uint64_t Zkey; 
 
 enum Color {
 	WHITE = 0,

@@ -20,7 +20,7 @@ public:
     int negaMaxRoot(const int depth);
     int negaMaxRootIterativeDeepening(const int timeSec);
     inline int getCurrentScore() {return myEval.evaluate();};
-    Move myBestMove;
+    Move16 myBestMove;
     U64 myMovesSearched;
 
 private:

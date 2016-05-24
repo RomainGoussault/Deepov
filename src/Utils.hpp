@@ -23,6 +23,7 @@ namespace Utils
 	void getPerformanceIndicator();
 	inline constexpr Color getOppositeColor(const Color color){return Color(color ^ 1);};
 	inline unsigned int getFile(const Square positionIndex){return positionIndex%8;};
+    std::string Move16ToShortString(const Move16 shortMove);
 };
 
 

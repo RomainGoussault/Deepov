@@ -4,7 +4,6 @@
  *  Created on: 24 sept. 2014
  */
 #include "Utils.hpp"
-#include "Types.hpp"
 #include "MoveGen.hpp"
 #include "Search.hpp"
 #include "MagicMoves.hpp"
@@ -89,5 +88,53 @@ void Utils::getPerformanceIndicator()
 
 		std::cout << std::endl;
 	}
-
 }
+
+std::string Utils::Move16ToShortString(const Move16 shortMove)
+{
+//		The move format is in long algebraic notation.
+		std::array<std::string,8> letters = {{"a", "b", "c", "d", "e", "f", "g", "h"}};
+
+        Square origin = static_cast<Square>((shortMove >> 6) & 0x3f);
+		unsigned int xOrigin = origin % 8;
+		unsigned int yOrigin = (origin / 8)+1;
+
+        Square destination = static_cast<Square>(shortMove & 0x3f);
+		unsigned int xDestination = destination % 8;
+		unsigned int yDestination = (destination / 8)+1;
+
+		std::string promotionLetter = "";
+		unsigned int flag = (shortMove >> 12) & 0x0f;
+		if(flag & Move::PROMOTION_FLAG)
+		{
+			unsigned int promotedType = flag - Move::PROMOTION_FLAG +1;
+
+			if(flag & Move::CAPTURE_FLAG)
+			{
+				promotedType -= Move::CAPTURE_FLAG;
+			}
+
+			if(promotedType == Piece::KNIGHT)
+			{
+				promotionLetter = "n";
+			}
+			else if(promotedType == Piece::BISHOP)
+			{
+				promotionLetter = "b";
+			}
+			else if(promotedType == Piece::ROOK)
+			{
+				promotionLetter = "r";
+			}
+			else if(promotedType == Piece::QUEEN)
+			{
+				promotionLetter = "q";
+			}
+		}
+
+		std::stringstream ss;
+		ss << letters[xOrigin] << yOrigin << letters[xDestination] << yDestination << promotionLetter;
+
+		return ss.str();
+}
+

@@ -79,6 +79,11 @@ public:
         return myMove;
     }
 
+    inline Move16 getMove16() const
+    {
+        return static_cast<Move16>(myMove & 0xffff);
+    } 
+
     inline void setDestination(const Square destination)
     {
         myMove &= ~0x3f; // clear the first 6 bits

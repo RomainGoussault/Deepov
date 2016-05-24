@@ -19,6 +19,7 @@ namespace thrd = std;
 #include "Move.hpp"
 #include "UciOption.hpp"
 #include "TT.hpp"
+#include "Types.hpp"
 
 //Uci documentation:
 //http://wbec-ridderkerk.nl/html/UCIProtocol.html

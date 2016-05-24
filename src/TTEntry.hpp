@@ -14,17 +14,17 @@ public:
 
 	TTEntry() : myZkey(0), myBestMove(), myTTInfo(0), myTTvalue(0)
     {
-    }
+    };
 
-	inline TTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove, int moveCounter) :
-    myZkey(zkey), myBestMove(bestMove.getMove()), myTTvalue(K*depth+moveCounter)
+	inline TTEntry(Zkey zkey, int depth, int score, NodeType node, Move16 bestMove, int moveCounter) :
+    myZkey(zkey), myBestMove(bestMove), myTTvalue(K*depth+moveCounter)
     {
         int sign = (score < 0);
         myTTInfo =((sign & 0x1) << 27 | (std::abs(score) & 0xfffff)<<7) | ((depth & 0x1f)<<2) | (node & 0x3);
     };
 
-    inline Move getBestmove() const {
-        return Move(myBestMove);
+    inline Move16 getBestmove() const {
+        return myBestMove;
     }
 
     inline int getTTValue() const {
@@ -51,12 +51,10 @@ public:
 private:
 
     // TODO : store as bits to save mem space
-	Zkey myZkey;
-	unsigned int myBestMove;
+	Zkey myZkey; // 
+	Move16 myBestMove; // 16 bits : Flags 4 bits ||  Origin 6 bits ||  Destination 6 bits
     int myTTInfo; // 32 Bits : free : 5 bits || Score sign 1 bit || Score value 20 bits || Depth 5 bits || node type 2 bit
     int myTTvalue; // higher == should keep the value in TT. ttValue = k * depth + moveCounter with k integer to be tuned..
-
-
 };
 
 /* myTTInfo details  

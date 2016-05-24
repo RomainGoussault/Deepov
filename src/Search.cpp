@@ -158,7 +158,7 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 		{
 			//update killer and TT
 			myMoveOrder.setNewKiller(currentMove,myPly);
-			globalTT.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove, myBoard->myHalfMovesCounter);
+			globalTT.setTTEntry(currentKey, depth, score, NodeType::LOWER, currentMove.getMove16(), myBoard->myHalfMovesCounter);
 			return beta;   //  fail hard beta-cutoff
 		}
 
@@ -173,12 +173,11 @@ int Search::negaMax(const int depth, int alpha, const int beta)
         }
 	}
 
-
 	  // store hash info
 	  if (alpha > alpha_old)
-			globalTT.setTTEntry(currentKey, depth, bestScore, NodeType::EXACT, bestMove, myBoard->myHalfMovesCounter);
+			globalTT.setTTEntry(currentKey, depth, bestScore, NodeType::EXACT, bestMove.getMove16(), myBoard->myHalfMovesCounter);
 	  else
-			globalTT.setTTEntry(currentKey, depth, alpha, NodeType::UPPER, bestMove, myBoard->myHalfMovesCounter);
+			globalTT.setTTEntry(currentKey, depth, alpha, NodeType::UPPER, bestMove.getMove16(), myBoard->myHalfMovesCounter);
 
 
 	return alpha;
@@ -223,7 +222,7 @@ int Search::negaMaxRoot(const int depth)
 		if( score > alpha )
 		{
 			alpha = score;
-			myBestMove = currentMove;
+			myBestMove = currentMove.getMove16();
 		}
 
 		myBoard->undoMove(currentMove);
@@ -299,7 +298,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 				if( score > alpha )
 				{
 					alpha = score;
-					myBestMove = currentMove;
+					myBestMove = currentMove.getMove16();
 					//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
 
 				}

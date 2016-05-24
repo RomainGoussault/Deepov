@@ -210,6 +210,6 @@ void Uci::search()
 
 	search.negaMaxRootIterativeDeepening(timeMS);
 
-	Move bestMove = search.myBestMove;
-	std::cout << "bestmove " << bestMove.toShortString() << std::endl;
+	Move16 bestMove = search.myBestMove;
+	std::cout << "bestmove " << Utils::Move16ToShortString(bestMove) << std::endl;
 }

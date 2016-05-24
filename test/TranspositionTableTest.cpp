@@ -19,7 +19,7 @@ TEST_CASE( "Test TTEntry ", "[TT]")
         REQUIRE(entry1.getNodeType() == NodeType::NONE);
 
         Move nullMove;
-        TTEntry entry2(0,24,-550000,NodeType::EXACT,nullMove,3);
+        TTEntry entry2(0,24,-550000,NodeType::EXACT,nullMove.getMove16(),3);
         REQUIRE(entry2.getDepth() == 24);
         REQUIRE(entry2.getScore() == -550000);
         REQUIRE(entry2.getNodeType() == 1);
@@ -119,7 +119,7 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 				int nodesSearchWithoutTT = s.myMovesSearched;
 				std::cout << i;
 				REQUIRE(globalTT.calculateEntryCount() > 0);
-				Move bestMoveNoTT = s.myBestMove;
+				Move16 bestMoveNoTT = s.myBestMove;
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);
 				REQUIRE(s.myMovesSearched == 0);

@@ -2,7 +2,7 @@
 
 TT globalTT = TT();
 
-void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move bestMove, int moveCounter)
+void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move16 bestMove, int moveCounter)
 {
     U64 index = zkey % TT_SIZE;
 
