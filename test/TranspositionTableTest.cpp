@@ -115,6 +115,7 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 				REQUIRE(globalTT.calculateEntryCount() == 0);
 				std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board(fen));
 				Search s(sp);
+				s.negaMaxRoot(i);
 
 				int nodesSearchWithoutTT = s.myMovesSearched;
 				std::cout << i;
