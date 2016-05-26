@@ -204,6 +204,7 @@ public:
 	//This should be private
 	//Zobrist key
 	Zkey key;
+	Zkey pawnsKey;
 	
 
 private:
