@@ -57,7 +57,7 @@ int Eval::evaluate()
 
 	int kingSafetyGain = 40; //To be tuned
 	int kingSafetyScore = kingSafetyGain*calculateKingSafety();
-	//int pawnScore = Pawn::pawnScore(*myBoard,myGameStage,alpha);
+	//int pawnScore = Pawn::calculateScore(*myBoard,myGameStage,alpha);
 	// + calcMaterialAdjustments(alpha);
 
 	return materialScore + POSITIONNAL_GAIN_PERCENT/100*positionScore + MOBILITY_GAIN_PERCENT/100*mobilityScore + kingSafetyScore;

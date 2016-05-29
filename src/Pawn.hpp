@@ -18,8 +18,15 @@ namespace Pawn
         ISOLATED = 2
     };
 
+    struct Entry {
+
+        Zkey key;
+        int score;
+    };
+
+
 	/** Score calculation **/
-	int pawnScore(const Board &board, const int gameStage, const int alpha);
+	int calculateScore(const Board &board, const int gameStage, const int alpha);
 
 	/** Count Pawns of each status **/
 	int doubledPawns(const Board &board);
@@ -42,6 +49,9 @@ namespace Pawn
     {
         return (board.getPawns(color) & Tables::NEIGHBOR_FILES[file]);
     };
+
+    extern Entry pawnsTable[16384];
+
 
 };
 

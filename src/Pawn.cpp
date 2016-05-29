@@ -3,7 +3,7 @@
 
 #include "Pawn.hpp"
 
-int Pawn::pawnScore(const Board &board, const int gameStage, const int alpha)
+int Pawn::calculateScore(const Board &board, const int gameStage, const int alpha)
 {
     int doubled = doubledPawns(board);
     int passed = passedPawns(board);

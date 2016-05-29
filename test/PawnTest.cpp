@@ -12,7 +12,7 @@ TEST_CASE("Pawn structure")
         Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         REQUIRE(Pawn::doubledPawns(board) == 0);
         REQUIRE(Pawn::countPawns(board,WHITE) == 8);
-        REQUIRE(Pawn::pawnScore(board,Eval::TOTAL_MATERIAL,0) == 0);
+        REQUIRE(Pawn::calculateScore(board,Eval::TOTAL_MATERIAL,0) == 0);
     }
 
 	SECTION("Doubled Pawns")
@@ -25,7 +25,7 @@ TEST_CASE("Pawn structure")
 
         int gameStage = Eval::TOTAL_MATERIAL;
         int alpha = 0;
-        int pawnScore = Pawn::pawnScore(board,gameStage,alpha);
+        int pawnScore = Pawn::calculateScore(board,gameStage,alpha);
         int oneBlackDoubledPawn = -(EvalTables::PawnTable[OPENING][Pawn::DOUBLED]*gameStage +
         EvalTables::PawnTable[ENDGAME][Pawn::DOUBLED]*alpha)/Eval::TOTAL_MATERIAL;
 
