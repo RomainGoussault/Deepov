@@ -506,6 +506,7 @@ void Board::executeMove(Move &move)
     // Change the color to play
 	myColorToPlay = oppositeColor;
     key ^= side;
+    pawnsKey ^= side;
 
 	myMoves.push_back(move);
 	myKeys.push_back(key);
@@ -627,6 +628,7 @@ void Board::undoMove(Move &move)
     // Change the color to play
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
     key ^= side;
+    pawnsKey ^= side;
 
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();

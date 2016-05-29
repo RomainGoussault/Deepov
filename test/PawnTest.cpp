@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "Pawn.hpp"
 #include "Board.hpp"
+#include "MoveGen.hpp"
 
 
 TEST_CASE("Pawn structure")
@@ -43,5 +44,28 @@ TEST_CASE("Pawn structure")
         REQUIRE(Pawn::doubledPawns(board) == -1);
         REQUIRE(Pawn::passedPawns(board) == 1);
         REQUIRE(Pawn::isolatedPawns(board) == -2);
+    }
+}
+
+TEST_CASE("Pawn zobrist keys")
+{
+
+    SECTION("Test Zobrist pawn key on quiet move")
+    {
+        Board board;
+        MoveGen moveGen(board);
+        Zkey initialKey = board.pawnsKey;
+
+        auto moves = moveGen.generateMoves();
+
+        for(Move move : moves)
+        {
+            board.executeMove(move);
+    
+            REQUIRE(initialKey != board.pawnsKey);           
+        
+            board.undoMove(move);
+            REQUIRE(initialKey == board.pawnsKey);
+        }
     }
 }
