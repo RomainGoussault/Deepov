@@ -11,6 +11,8 @@
 namespace Pawn
 {
 
+    const static int HASH_SIZE = 16384;
+
     enum Status
     {
         PASSED = 0,
@@ -22,10 +24,14 @@ namespace Pawn
 
         Zkey key;
         int score;
+
     };
 
 
 	/** Score calculation **/
+    int getScore(const Board &board, const int gameStage, const int alpha);
+    int calculateEntryCount();
+
 	int calculateScore(const Board &board, const int gameStage, const int alpha);
 
 	/** Count Pawns of each status **/
@@ -50,7 +56,7 @@ namespace Pawn
         return (board.getPawns(color) & Tables::NEIGHBOR_FILES[file]);
     };
 
-    extern Entry pawnsTable[16384];
+    //extern Entry pawnsTable[HASH_SIZE];
 
 
 };

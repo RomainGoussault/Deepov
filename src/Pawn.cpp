@@ -3,6 +3,44 @@
 
 #include "Pawn.hpp"
 
+Pawn::Entry pawnsTable[Pawn::HASH_SIZE];
+
+int Pawn::getScore(const Board &board, const int gameStage, const int alpha)
+{
+    //Probe pawn hash first
+    Zkey key = board.pawnsKey;
+    int index = key % Pawn::HASH_SIZE;
+    if(pawnsTable[index].key == key)
+    {
+        //it's a match
+        return pawnsTable[index].score;
+    }
+    else
+    {
+        //calculate score and set a new entry in TT
+        int score = calculateScore(board, gameStage, alpha);
+        pawnsTable[index].key = key;
+        pawnsTable[index].score = score;
+
+        return score;
+    }
+}
+
+int Pawn::calculateEntryCount()
+{
+	int count = 0;
+	for(int i=0; i<HASH_SIZE; i++)
+	{
+		Pawn::Entry entry = pawnsTable[i];
+		if(entry.key !=0)
+		{
+			count++;
+		}
+	}
+
+	return count;
+}
+
 int Pawn::calculateScore(const Board &board, const int gameStage, const int alpha)
 {
     int doubled = doubledPawns(board);
