@@ -248,18 +248,37 @@ private:
 		movePiece(origin, destination, myBitboards[pieceType+color*6]);
 		key ^= psq[color][pieceType][origin];
 		key ^= psq[color][pieceType][destination];
+
+		//Update pawn hash key is it's a pawn move
+		if(pieceType == Piece::PieceType::PAWN)
+		{
+			pawnsKey ^= psq[color][Piece::PieceType::PAWN][origin];
+			pawnsKey ^= psq[color][Piece::PieceType::PAWN][destination];
+		}
 	}
 
 	inline void removePiece(const Square index, const unsigned int pieceType, const Color color)
 	{
 		removePiece(index, myBitboards[pieceType+color*6]);
 		key ^= psq[color][pieceType][index];
+
+		//Update pawn hash key is a pawn is involved
+		if(pieceType == Piece::PieceType::PAWN)
+		{
+			pawnsKey ^= psq[color][Piece::PieceType::PAWN][index];
+		}
 	}
 
 	inline void addPiece(const Square index, const unsigned int pieceType, const Color color)
 	{
 		addPiece(index, myBitboards[pieceType+color*6]);
 		key ^= psq[color][pieceType][index];
+
+		//Update pawn hash key is a pawn is involved
+		if(pieceType == Piece::PieceType::PAWN)
+		{
+			pawnsKey ^= psq[color][Piece::PieceType::PAWN][index];
+		}
 	}
 
 	inline void removePiece(const Square index, U64 &bitBoard)
