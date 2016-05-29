@@ -21,8 +21,8 @@ public:
         return myTTable[x];
     };
 
-    void setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move16 bestMove, int moveCounter);
-    TTEntry* probeTT(Zkey zkey, int depth);
+    void setTTEntry(const Zkey zkey, const int depth, const int score, const NodeType node, const Move16 bestMove, const int moveCounter);
+    TTEntry* probeTT(const Zkey zkey, const int depth);
     void clearTT()
     {
     	for(unsigned long int i=0; i<TT_SIZE; i++)

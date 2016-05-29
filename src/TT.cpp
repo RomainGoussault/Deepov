@@ -2,7 +2,7 @@
 
 TT globalTT = TT();
 
-void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move16 bestMove, int moveCounter)
+void TT::setTTEntry(const Zkey zkey, const int depth, const int score, const NodeType node, const Move16 bestMove, const int moveCounter)
 {
     U64 index = zkey % TT_SIZE;
 
@@ -15,7 +15,7 @@ void TT::setTTEntry(Zkey zkey, int depth, int score, NodeType node, Move16 bestM
 }
 
 
-TTEntry* TT::probeTT(Zkey zkey, int depth)
+TTEntry* TT::probeTT(const Zkey zkey, const int depth)
 {
     U64 index = zkey % TT_SIZE;
     // We have a match 
