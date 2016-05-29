@@ -118,7 +118,6 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 				s.negaMaxRoot(i);
 
 				int nodesSearchWithoutTT = s.myMovesSearched;
-				std::cout << i;
 				REQUIRE(globalTT.calculateEntryCount() > 0);
 				Move16 bestMoveNoTT = s.myBestMove;
 				// search again: we should have the same results (and less nodes searched)
