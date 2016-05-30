@@ -27,7 +27,7 @@ TEST_CASE("Pawn structure")
         int alpha = 0;
         int pawnScore = Pawn::calculateScore(board,gameStage,alpha);
         int oneBlackDoubledPawn = -(EvalTables::PawnTable[OPENING][Pawn::DOUBLED]*gameStage +
-        EvalTables::PawnTable[ENDGAME][Pawn::DOUBLED]*alpha)/Eval::TOTAL_MATERIAL;
+        EvalTables::PawnTable[ENDGAME][Pawn::DOUBLED]*alpha )/Eval::TOTAL_MATERIAL - 30; //+30 for connected pawn
 
         REQUIRE(pawnScore == oneBlackDoubledPawn);
     }
@@ -44,6 +44,16 @@ TEST_CASE("Pawn structure")
         REQUIRE(Pawn::doubledPawns(board) == -1);
         REQUIRE(Pawn::passedPawns(board) == 1);
         REQUIRE(Pawn::isolatedPawns(board) == -2);
+    }
+
+        SECTION("Supported Pawn")
+    {
+        Board board("rnbqkbnr/pppppppp/8/8/8/3P4/PPP1PPPP/RNBQKBNR w KQkq -");
+        REQUIRE(Pawn::supportedPawns(board) == 1);
+        board = Board("7k/2p1p3/3p1p2/8/8/3P4/2P1P3/7K w - -");
+        REQUIRE(Pawn::supportedPawns(board) == -1);
+        board = Board("rnbqkbnr/pp2pppp/2pp4/8/4P3/3P4/PPP2PPP/RNBQKBNR w KQkq -");
+        REQUIRE(Pawn::supportedPawns(board) == 0);
     }
 }
 

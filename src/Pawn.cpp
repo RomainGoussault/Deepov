@@ -43,16 +43,70 @@ int Pawn::calculateEntryCount()
 
 int Pawn::calculateScore(const Board &board, const int gameStage, const int alpha)
 {
+    //TODO: Refactor
+    // U64 whitePawns = board.getWhitePawns();
+    // U64 blackPawns = board.getBlackPawns();
+
+    // while (whitePawns)
+    // {
+    //     Square sq = pop_lsb(&whitePawns);
+    //     File file = getFile(sq);
+    //     Rank rank = getRank(sq);
+
+    //     bool hasNeighbours = board.getWhitePawns() & Tables::NEIGHBOR_FILES[file];
+    //     //Supported if neighbours are behind int
+    //     bool isSupported  = hasNeighbours & Tables::MASK_RANK[rank-1] & board.getWhitePawns();
+    //     bool isDoubled = countPawnsInFile(board, file, WHITE)>1;
+    //     bool isPassed = (Tables::PASSED_PAWN_MASK[WHITE][sq] & blackPawns) == 0;
+
+    //     //Need to have score object to save midgame and endgame scores
+    // }
+
+
+
+
     int doubled = doubledPawns(board);
     int passed = passedPawns(board);
     int isolated = isolatedPawns(board);
+    int supported = supportedPawns(board);
 
     int passedScore = passed*(EvalTables::PawnTable[OPENING][PASSED]*gameStage + EvalTables::PawnTable[ENDGAME][PASSED]*alpha);
     int doubledScore  = doubled*(EvalTables::PawnTable[OPENING][DOUBLED]*gameStage + EvalTables::PawnTable[ENDGAME][DOUBLED]*alpha);
     int isolatedScore = isolated*(EvalTables::PawnTable[OPENING][ISOLATED]*gameStage + EvalTables::PawnTable[ENDGAME][ISOLATED]*alpha);
-    int score =  (passedScore + doubledScore + isolatedScore) / Eval::TOTAL_MATERIAL;
+    int supportedScore = supported*30; //TODO Deepov Tuning
+    int score =  supportedScore + (passedScore + doubledScore + isolatedScore) / Eval::TOTAL_MATERIAL;
 
     return score;
+}
+
+int Pawn::supportedPawns(const Board &board)
+{
+    unsigned int whiteCount(0);
+    unsigned int blackCount(0);
+    U64 whitePawns = board.getWhitePawns();
+    U64 blackPawns = board.getBlackPawns();
+
+    while (whitePawns)
+    {
+        Square sq = pop_lsb(&whitePawns);
+        Rank rank = getRank(sq);
+        File file = getFile(sq);
+
+        bool hasNeighbours = board.getWhitePawns() & Tables::NEIGHBOR_FILES[file];
+        whiteCount += hasNeighbours && (Tables::MASK_RANK[rank-1] & board.getWhitePawns());
+    }
+
+    while (blackPawns)
+    {
+        Square sq = pop_lsb(&blackPawns);
+        Rank rank = getRank(sq);
+        File file = getFile(sq);
+
+        bool hasNeighbours = board.getBlackPawns() & Tables::NEIGHBOR_FILES[file];
+        blackCount += hasNeighbours && (Tables::MASK_RANK[rank+1] & board.getBlackPawns());
+    }
+
+    return static_cast<int>(whiteCount-blackCount);
 }
 
 int Pawn::doubledPawns(const Board &board)

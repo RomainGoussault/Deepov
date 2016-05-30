@@ -38,7 +38,8 @@ namespace Pawn
 	int doubledPawns(const Board &board);
 	int passedPawns(const Board &board); // TODO : take are of doubled passed pawns
 	// TODO : calculate set-wise instead of pawn by pawn
-	int isolatedPawns(const Board &board);
+    int isolatedPawns(const Board &board);
+    int supportedPawns(const Board &board);
 
 	/** Utils **/
     inline unsigned int countPawnsInFile(const Board &board, const unsigned int file, const Color color)
@@ -55,10 +56,6 @@ namespace Pawn
     {
         return (board.getPawns(color) & Tables::NEIGHBOR_FILES[file]);
     };
-
-    //extern Entry pawnsTable[HASH_SIZE];
-
-
 };
 
 #endif // Pawn_H
