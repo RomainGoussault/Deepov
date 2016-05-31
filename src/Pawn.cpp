@@ -68,13 +68,13 @@ int Pawn::calculateScore(const Board &board, const int gameStage, const int alph
     int doubled = doubledPawns(board);
     int passed = passedPawns(board);
     int isolated = isolatedPawns(board);
-    int supported = supportedPawns(board);
+    //int supported = supportedPawns(board);
 
     int passedScore = passed*(EvalTables::PawnTable[OPENING][PASSED]*gameStage + EvalTables::PawnTable[ENDGAME][PASSED]*alpha);
     int doubledScore  = doubled*(EvalTables::PawnTable[OPENING][DOUBLED]*gameStage + EvalTables::PawnTable[ENDGAME][DOUBLED]*alpha);
     int isolatedScore = isolated*(EvalTables::PawnTable[OPENING][ISOLATED]*gameStage + EvalTables::PawnTable[ENDGAME][ISOLATED]*alpha);
-    int supportedScore = supported*30; //TODO Deepov Tuning
-    int score =  supportedScore + (passedScore + doubledScore + isolatedScore) / Eval::TOTAL_MATERIAL;
+    //int supportedScore = supported*30; //TODO Deepov Tuning
+    int score =  (passedScore + doubledScore + isolatedScore) / Eval::TOTAL_MATERIAL;
 
     return score;
 }
