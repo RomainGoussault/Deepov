@@ -50,6 +50,8 @@ public:
 	inline U64 getWhiteRooks() const{return myBitboards[3];}
 	inline U64 getWhiteQueens() const{return myBitboards[4];}
 	inline U64 getWhiteKing() const{return myBitboards[5];}
+	inline Square getWhiteKingSquare() const{return msb(getWhiteKing());}
+
 
 	inline U64 getBlackPawns() const{return myBitboards[6];}
 	inline U64 getBlackKnights() const{return myBitboards[7];}
@@ -57,6 +59,8 @@ public:
 	inline U64 getBlackRooks() const{return myBitboards[9];}
 	inline U64 getBlackQueens() const{return myBitboards[10];}
 	inline U64 getBlackKing() const{return myBitboards[11];}
+	inline Square getBlackKingSquare() const{return msb(getBlackKing());}
+
 
 	inline U64 getPawns(Color color) const{return getBitBoard(Piece::PAWN, color);}
 	inline U64 getKnights(Color color) const{return getBitBoard(Piece::KNIGHT, color);}

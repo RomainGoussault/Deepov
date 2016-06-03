@@ -18,6 +18,7 @@
 */
 
 #include "Eval.hpp"
+#include "Board.hpp"
 
 #include <algorithm>
 
@@ -33,9 +34,66 @@ Eval::Eval(std::shared_ptr<Board> boardPtr)
 
 int Eval::calculateKingSafety() {
 
-	int whiteCastling = myBoard->hasWhiteCastled();
-	int blackCastling = myBoard->hasBlackCastled();
-	int kingSafetyScore = (whiteCastling - blackCastling);
+	int hasWhiteCastled = myBoard->hasWhiteCastled();
+	int hasBlackCastled = myBoard->hasBlackCastled();
+	int kingSafetyScore = 30*(hasWhiteCastled - hasBlackCastled);
+
+    //White king safety
+    if(hasWhiteCastled && getRank(myBoard->getWhiteKingSquare()) <= RANK_4)
+    {   
+        Square kSq = myBoard->getWhiteKingSquare();
+        File kingFile = getFile(kSq);
+        Rank kingRank = getRank(kSq);
+        
+        if(kingFile >= FILE_G)
+        {   
+            //king side castling
+            U64 safeArea = 14737632ULL;
+
+            U64 pawnShelter = Tables::MASK_RANK[kingRank+1] & myBoard->getWhitePawns() & safeArea;
+            U64 farAwayPawnShelter = Tables::MASK_RANK[kingRank+2] & myBoard->getWhitePawns() & safeArea;
+            kingSafetyScore += 5*popcount(pawnShelter);
+            kingSafetyScore += 3*popcount(farAwayPawnShelter);
+        }
+        else if(kingFile <= FILE_C)
+        {
+            //queen side castling
+            U64 safeArea = 1799ULL;
+
+            U64 pawnShelter = Tables::MASK_RANK[kingRank+1] & myBoard->getWhitePawns() & 1799;
+            kingSafetyScore += 5*popcount(pawnShelter);
+        }
+    }
+
+    //Black king safety
+    if(hasBlackCastled && getRank(myBoard->getBlackKingSquare()) >= RANK_5)
+    {
+        Square kSq = myBoard->getBlackKingSquare();
+        File kingFile = getFile(kSq);
+        Rank kingRank = getRank(kSq);
+
+        if(kingFile >= FILE_G)
+        {
+            //king side castling
+            U64 safeArea = 16204197749883666432ULL;
+
+            U64 pawnShelter = Tables::MASK_RANK[kingRank-1] & myBoard->getBlackPawns() & safeArea;
+            U64 farAwayPawnShelter = Tables::MASK_RANK[kingRank-2] & myBoard->getBlackPawns() & safeArea;
+            kingSafetyScore -= 5*popcount(pawnShelter);
+            kingSafetyScore -= 3*popcount(farAwayPawnShelter);
+        }
+        else if(kingFile <= FILE_C)
+        {
+            //queen side castling
+            U64 safeArea = 506373483102470144ULL;
+
+            U64 pawnShelter = Tables::MASK_RANK[kingRank-1] & myBoard->getBlackPawns() & safeArea;;
+            kingSafetyScore -= 5*popcount(pawnShelter);
+        }
+    }
+
+        //    std::cout<<"kingSafetyScore:"<< kingSafetyScore << std::endl;
+
 	return kingSafetyScore;
 }
 
@@ -55,8 +113,8 @@ int Eval::evaluate()
 	int mobilityScore = calcMobilityScore(alpha);
 	int materialScore = myMaterialScore;
 
-	int kingSafetyGain = 40; //To be tuned
-	int kingSafetyScore = kingSafetyGain*calculateKingSafety();
+	int kingSafetyGain = 1; //To be tuned
+	int kingSafetyScore = myGameStage*calculateKingSafety()/TOTAL_MATERIAL;
 	int pawnScore = Pawn::getScore(*myBoard, myGameStage, alpha);
 	// + calcMaterialAdjustments(alpha);
 
