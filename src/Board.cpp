@@ -280,7 +280,7 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	{
 		executeMove(move);
 		updateKingAttackers(color);
-		if(isCheck(color))
+		if(isCheck())
 		{
 			isLegalMove = false;
 		}
@@ -289,12 +289,6 @@ bool Board::isMoveLegal(Move &move, bool isCheckb)
 	}
 
 	return isLegalMove;
-}
-
-bool Board::isCheck(const Color color) const
-{
-	//myKingAttackers needs to be updated first;
-	return myKingAttackers;
 }
 
 void Board::updateKingAttackers(const Color color)

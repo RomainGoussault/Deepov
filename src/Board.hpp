@@ -127,7 +127,6 @@ public:
 	Piece::PieceType findBlackPieceType(const Square position) const;
 
 	//Check methods
-	bool isCheck(const Color color) const;
 	void updateKingAttackers(const Color color);
 	inline void updateKingAttackers()
 	{
@@ -136,7 +135,8 @@ public:
 
 	inline bool isCheck() const
 	{
-		return isCheck(myColorToPlay);
+		//myKingAttackers needs to be updated first;
+		return myKingAttackers;
 	};
 
 	//Attacked positions

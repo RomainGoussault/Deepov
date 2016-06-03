@@ -60,7 +60,7 @@ int Eval::calculateKingSafety() {
             //queen side castling
             U64 safeArea = 1799ULL;
 
-            U64 pawnShelter = Tables::MASK_RANK[kingRank+1] & myBoard->getWhitePawns() & 1799;
+            U64 pawnShelter = Tables::MASK_RANK[kingRank+1] & myBoard->getWhitePawns() & safeArea;
             kingSafetyScore += 5*popcount(pawnShelter);
         }
     }
@@ -113,7 +113,6 @@ int Eval::evaluate()
 	int mobilityScore = calcMobilityScore(alpha);
 	int materialScore = myMaterialScore;
 
-	int kingSafetyGain = 1; //To be tuned
 	int kingSafetyScore = myGameStage*calculateKingSafety()/TOTAL_MATERIAL;
 	int pawnScore = Pawn::getScore(*myBoard, myGameStage, alpha);
 	// + calcMaterialAdjustments(alpha);
