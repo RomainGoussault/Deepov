@@ -31,6 +31,7 @@ private:
     unsigned int myPly;
 
     int negaMax(const int depth, int alpha, const int beta);
+    int negaMax(const int depth, int alpha, const int beta, const bool isNullMoveAuth);
     int evaluate();
     int qSearch(int alpha, const int beta);
 

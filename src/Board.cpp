@@ -509,6 +509,30 @@ void Board::executeMove(Move &move)
 	//updateAtkFr();
 }
 
+void Board::executeNullMove()
+{
+	Color oppositeColor = Utils::getOppositeColor(myColorToPlay);
+	myMovesCounter += myColorToPlay;
+	myHalfMovesCounter++;
+	myColorToPlay = oppositeColor;
+	key ^= side;
+	pawnsKey ^= side;
+	myMoves.push_back(Move());//TODO create constructor for null move?	
+	myKeys.push_back(key);
+}
+
+void Board::undoNullMove()
+{
+	Color oppositeColor = Utils::getOppositeColor(myColorToPlay);
+	myMovesCounter += myColorToPlay - 1;
+	myHalfMovesCounter--;
+	myColorToPlay = oppositeColor;
+	key ^= side;
+	pawnsKey ^= side;
+	myMoves.pop_back();
+	myKeys.pop_back();
+}
+
 void Board::undoMove(Move &move)
 {
 	Square origin = move.getOrigin();
@@ -627,8 +651,6 @@ void Board::undoMove(Move &move)
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
 	myKeys.pop_back();
-
-
 
 	updateConvenienceBitboards();
 	//updateAtkFr();

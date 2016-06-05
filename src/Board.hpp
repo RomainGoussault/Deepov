@@ -107,6 +107,8 @@ public:
 	bool isMoveLegal(Move &move, bool isCheck); // uses executeMove and undoMove so it can't be const
 	void executeMove(Move &move);
 	void undoMove(Move &move);
+	void executeNullMove();
+	void undoNullMove();
 	unsigned int perft(unsigned int depth);
 	unsigned int divide(unsigned int depth);
 	const Move* getEnemyLastMove() const;

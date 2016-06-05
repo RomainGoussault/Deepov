@@ -73,6 +73,12 @@ int Search::qSearch(int alpha, const int beta)
 
 int Search::negaMax(const int depth, int alpha, const int beta)
 {
+	//Default no null move
+	return negaMax(depth, alpha, beta, false);
+}
+
+int Search::negaMax(const int depth, int alpha, const int beta, const bool isNullMoveAuth)
+{
 	int alpha_old = alpha;
 
 	if (depth <= 0) // If we call negaMaxRoot at depth = 0 , depth =-1
@@ -115,6 +121,46 @@ int Search::negaMax(const int depth, int alpha, const int beta)
             return beta;
         }
 	}
+
+	/* Conditions for trying Null Move Pruning (from Faile)
+       - not in check
+       - we didn't just make a null move (bool isNullMoveAuth)
+       - we don't have a risk of zugzwang by being in the endgame: check for pieceCount > 5
+       - depth is >= R + 1
+       what we do after null move:
+       - TODO: if score is close to -mated, we're in danger, increase depth
+       - if score is >= beta, we can get an early cutoff and exit */
+    const int R = 3;
+    if(isNullMoveAuth && !myBoard->isCheck() && popcount(myBoard->getAllPieces()) > 5 && depth >= R+1)
+    {
+    	//Do null move
+		// //myMovesCounter += myBoard->getColorToPlay();
+		// //myHalfMovesCounter++;
+		// Color myColorToPlay = Utils::getOppositeColor(myBoard->getColorToPlay());
+	 //    myBoard->key ^= myBoard->side;
+	 //    myBoard->pawnsKey ^= myBoard->side;
+		// myBoard->myMoves.push_back(Move());//TODO create constructor for null move?	
+		// myBoard->myKeys.push_back(myBoard->key);
+		myBoard->executeNullMove();
+
+    	int nullScore = -negaMax(beta, -beta+1, depth-1-R, false);
+
+		// //Undo null move 	
+		// //myMovesCounter += myColorToPlay - 1;
+		// //myHalfMovesCounter--;
+		// myColorToPlay = Utils::getOppositeColor(myBoard->getColorToPlay());
+	 //    myBoard->key ^= myBoard->side;
+	 //    myBoard->pawnsKey ^= myBoard->side;
+		// myBoard->myMoves.pop_back();
+		// myBoard->myKeys.pop_back();
+		myBoard->undoNullMove();
+
+
+		if(nullScore >= beta)
+		{
+			return beta;	
+		}
+    }   
 
 	MoveGen moveGen(myBoard);
 	std::vector<Move> moveList = moveGen.generateMoves();
@@ -264,7 +310,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		//check for time
 		if(depth !=1)
 		{
-			if(durationMS > 0.3*allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
+			if(durationMS > allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
 		}
 
 		auto currentKey = myBoard->key;
