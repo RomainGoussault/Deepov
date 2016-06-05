@@ -134,27 +134,12 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
     if(isNullMoveAuth && !myBoard->isCheck() && popcount(myBoard->getAllPieces()) > 5 && depth >= R+1)
     {
     	//Do null move
-		// //myMovesCounter += myBoard->getColorToPlay();
-		// //myHalfMovesCounter++;
-		// Color myColorToPlay = Utils::getOppositeColor(myBoard->getColorToPlay());
-	 //    myBoard->key ^= myBoard->side;
-	 //    myBoard->pawnsKey ^= myBoard->side;
-		// myBoard->myMoves.push_back(Move());//TODO create constructor for null move?	
-		// myBoard->myKeys.push_back(myBoard->key);
 		myBoard->executeNullMove();
 
     	int nullScore = -negaMax(beta, -beta+1, depth-1-R, false);
 
 		// //Undo null move 	
-		// //myMovesCounter += myColorToPlay - 1;
-		// //myHalfMovesCounter--;
-		// myColorToPlay = Utils::getOppositeColor(myBoard->getColorToPlay());
-	 //    myBoard->key ^= myBoard->side;
-	 //    myBoard->pawnsKey ^= myBoard->side;
-		// myBoard->myMoves.pop_back();
-		// myBoard->myKeys.pop_back();
 		myBoard->undoNullMove();
-
 
 		if(nullScore >= beta)
 		{
