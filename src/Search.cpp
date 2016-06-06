@@ -131,7 +131,7 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
        - TODO: if score is close to -mated, we're in danger, increase depth
        - if score is >= beta, we can get an early cutoff and exit */
     const int R = 3;
-    if(isNullMoveAuth && !myBoard->isCheck() && popcount(myBoard->getAllPieces()) > 5 && depth >= R+1)
+    if(isNullMoveAuth && !myBoard->isCheck() && (myBoard->getAllQueens() | myBoard->getAllRooks() | myBoard->getAllBishops() | myBoard->getAllKnights()) && depth >= R+1)
     {
     	//Do null move
 		myBoard->executeNullMove();
