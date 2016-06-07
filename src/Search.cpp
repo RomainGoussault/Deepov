@@ -80,8 +80,13 @@ int Search::negaMax(const int depth, int alpha, const int beta)
 int Search::negaMax(const int depth, int alpha, const int beta, const bool isNullMoveAuth)
 {
 	int alpha_old = alpha;
+	int extensions = 0;
 
-	if (depth <= 0) // If we call negaMaxRoot at depth = 0 , depth =-1
+	//Check extension: If in check go one ply further
+	myBoard->updateKingAttackers(myBoard->getColorToPlay());	
+	if(myBoard->isCheck() && myPly <= MAX_DEPTH) extensions++;
+
+	if (depth + extensions <= 0) // If we call negaMaxRoot at depth = 0 , depth =-1
 	{
 		if(myBoard->getEnemyLastMove()->isCapture())
 		{
