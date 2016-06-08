@@ -32,6 +32,7 @@ if [ ! -f Deepov ]; then
 fi
 
 ./cutechess-cli.sh -engine cmd=DeepovCurrent -engine cmd=Deepov -each proto=uci tc=100/1+0.01 -rounds 800 -pgnout matchOuput.txt -recover -repeat -openings file=openings.pgn | while read line; do
+
 		
 	echo "$line"
 		
