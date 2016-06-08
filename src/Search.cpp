@@ -130,13 +130,15 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 	/* Conditions for trying Null Move Pruning (from Faile)
        - not in check
        - we didn't just make a null move (bool isNullMoveAuth)
-       - we don't have a risk of zugzwang by being in the endgame: check for pieceCount > 5
+       - we don't have a risk of zugzwang by being in the endgame
        - depth is >= R + 1
        what we do after null move:
        - TODO: if score is close to -mated, we're in danger, increase depth
        - if score is >= beta, we can get an early cutoff and exit */
     const int R = 3;
-    if(isNullMoveAuth && !myBoard->isCheck() && (myBoard->getAllQueens() | myBoard->getAllRooks() | myBoard->getAllBishops() | myBoard->getAllKnights()) && depth >= R+1)
+    
+    U64 heavyPieces = myBoard->getQueens(myBoard->getColorToPlay()) | myBoard->getRooks(myBoard->getColorToPlay()) | myBoard->getBishops(myBoard->getColorToPlay()) | myBoard->getKnights(myBoard->getColorToPlay());
+    if(isNullMoveAuth && !myBoard->isCheck() && heavyPieces && depth >= R+1)
     {
     	//Do null move
 		myBoard->executeNullMove();
