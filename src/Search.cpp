@@ -82,6 +82,8 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 	int alpha_old = alpha;
 	int extensions = 0;
 
+    bool isPvs = false ;
+
 	//Check extension: If in check go one ply further
 	myBoard->updateKingAttackers(myBoard->getColorToPlay());	
 	if(myBoard->isCheck() && myPly <= MAX_DEPTH) extensions++;
@@ -186,7 +188,19 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
 
-		score = -negaMax(depth - 1, -beta, -alpha);
+        if (isPvs) {
+            score = -negaMax(depth - 1, -alpha - 1, -alpha);
+
+            if ((score > alpha) && (score < beta)) // Check for failure.
+            {
+                score = -negaMax(depth - 1, -beta, -alpha);
+            }
+        } 
+
+        else
+        {
+		    score = -negaMax(depth - 1, -beta, -alpha);
+        }
 
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);   
@@ -206,7 +220,8 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
             bestMove = currentMove ;
 		    if( score > alpha )
 		    {
-			    alpha = score; // alpha acts like max in MiniMax
+			    alpha = score ; // alpha acts like max in MiniMax
+                isPvs = true ;
 		    }
         }
 	}
@@ -230,6 +245,7 @@ int Search::negaMaxRoot(const int depth)
 	int score = 0;
 	myMovesSearched = 0;
 	myPly=1;
+    bool isPvs = false ;
 
 	auto currentKey = myBoard->key;
 	auto ttEntry = globalTT.probeTT(currentKey, depth); // returns non nullpr if key exists and depth is greater
@@ -255,11 +271,23 @@ int Search::negaMaxRoot(const int depth)
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
 
-		score = -negaMax(depth - 1, -beta, -alpha);
+        if (isPvs) {
+            score = -negaMax(depth - 1, -alpha - 1, -alpha);
+
+            if ((score > alpha) && (score < beta)) // Check for failure.
+            {
+                score = -negaMax(depth - 1, -beta, -alpha);
+            }
+        } 
+        else
+        {
+		    score = -negaMax(depth - 1, -beta, -alpha);
+        }
 
 		if( score > alpha )
 		{
 			alpha = score;
+            isPvs = true ;
 			myBestMove = currentMove.getMove16();
 		}
 
@@ -294,6 +322,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		alpha = -999999;
 		beta = -alpha;
 		score = 0;
+        bool isPvs = false ;
 
 		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
 		auto dur = time - startTime;
@@ -331,11 +360,23 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 				myEval.updateEvalAttributes(currentMove);
 				myPly++;
 
-				score = -negaMax(depth - 1, -beta, -alpha);
+                if (isPvs) {
+                    score = -negaMax(depth - 1, -alpha - 1, -alpha);
+
+                    if ((score > alpha) && (score < beta)) // Check for failure.
+                    {
+                        score = -negaMax(depth - 1, -beta, -alpha);
+                    }
+                } 
+                else
+                {
+				    score = -negaMax(depth - 1, -beta, -alpha);
+                }
 
 				if( score > alpha )
 				{
 					alpha = score;
+                    isPvs = true ;
 					myBestMove = currentMove.getMove16();
 					//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
 
