@@ -18,7 +18,19 @@ void Search::clearSearchData()
     // Clear the killer when starting a new search
     myMoveOrder.clearKillers();
     // Clear other things (TODO)
+}
 
+bool Search::isInsufficentMatingMaterial() const
+{
+	// KvK, KvK+B, K+BvK+B, same with B=N 
+	bool isPawns = myBoard->getAllPawns();
+	bool isQueensOrRooks = myBoard->getAllQueens() && myBoard->getAllRooks();
+	auto numberOfWhiteMinorPieces = popcount(myBoard->getWhiteKnights() | myBoard->getWhiteBishops());
+	auto numberOfBlackMinorPieces = popcount(myBoard->getBlackKnights() | myBoard->getBlackBishops());
+
+
+	//No pawns, no queens nor rooks, only one bishop or knight per side.
+	return !isPawns && !isQueensOrRooks && numberOfWhiteMinorPieces <= 1 && numberOfBlackMinorPieces <=1;
 }
 
 //Quiescence Search
