@@ -192,13 +192,43 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
     Move bestMove = Move();
     int bestScore = -999999;
 
+    auto moveNumber = 0;
 	for (auto currentMove : moveList)
 	{
+		moveNumber++;
+
+		bool isEscapingCheck = myBoard->isCheck(); 
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
 
-		score = -negaMax(depth - 1, -beta, -alpha);
+		myBoard->updateKingAttackers();
+
+		// Late Move Reductions (LMR): Reduce moves that we suppose are bad.
+		// The necessary condictions to perform LMR are:
+		// Not for the first 4 moves (they are supposed to be good, thanks to our move ordering)
+		// ply > 4
+		// not a capture/promotion move
+		// not in check, doesn't give check
+		// not in a PV node (TODO)
+		if(myPly > 4 && moveNumber >= 4 && !currentMove.isCapture() && !currentMove.isPromotion() && !myBoard->isCheck() && !isEscapingCheck)
+		{
+			int lmrScore = -negaMax(depth - 2, -beta, -alpha);
+			if(lmrScore >= alpha) //do a research
+			{
+				//Do a research
+				score = -negaMax(depth - 1, -beta, -alpha);
+			}
+			else
+			{
+				score = lmrScore;
+			}
+		}
+		else
+		{
+			score = -negaMax(depth + extensions - 1, -beta, -alpha);
+		}
+
 
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);   
