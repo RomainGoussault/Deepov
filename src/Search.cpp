@@ -24,7 +24,7 @@ bool Search::isInsufficentMatingMaterial() const
 {
 	// KvK, KvK+B, K+BvK+B, same with B=N 
 	bool isPawns = myBoard->getAllPawns();
-	bool isQueensOrRooks = myBoard->getAllQueens() && myBoard->getAllRooks();
+	bool isQueensOrRooks = myBoard->getAllQueens() || myBoard->getAllRooks();
 	auto numberOfWhiteMinorPieces = popcount(myBoard->getWhiteKnights() | myBoard->getWhiteBishops());
 	auto numberOfBlackMinorPieces = popcount(myBoard->getBlackKnights() | myBoard->getBlackBishops());
 

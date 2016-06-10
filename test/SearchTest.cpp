@@ -103,8 +103,8 @@ TEST_CASE( "Draw", "[search]" )
 		REQUIRE(search.isInsufficentMatingMaterial() == true);
 
 		//K+RvK
-		sp = std::shared_ptr<Board>(new Board("8/3k1b2/8/4K3/8/6R1/8/8 b - - 36 117"));
+		sp = std::shared_ptr<Board>(new Board("7k/8/7K/8/8/8/8/5R2 w - - 51 142"));
 		search = Search(sp);
-		REQUIRE(search.isInsufficentMatingMaterial() == true);
+		REQUIRE(search.isInsufficentMatingMaterial() == false);
 	}
 }
