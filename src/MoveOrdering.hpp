@@ -12,8 +12,8 @@ class MoveOrdering
 {
 public :
 
-    const int KILLER1_BONUS = 20;
-    const int KILLER2_BONUS = 10;
+    const static int KILLER1_BONUS = 20;
+    const static int KILLER2_BONUS = 10;
 
     inline MoveOrdering() : myKiller1(), myKiller2() {}
 
