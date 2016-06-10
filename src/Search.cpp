@@ -369,5 +369,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 int Search::evaluate()
 {
 	myMovesSearched++;
+	if(isInsufficentMatingMaterial()) return 0; 
+
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
