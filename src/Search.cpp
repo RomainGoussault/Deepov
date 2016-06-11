@@ -18,7 +18,19 @@ void Search::clearSearchData()
     // Clear the killer when starting a new search
     myMoveOrder.clearKillers();
     // Clear other things (TODO)
+}
 
+bool Search::isInsufficentMatingMaterial() const
+{
+	// KvK, KvK+B, K+BvK+B, same with B=N 
+	bool isPawns = myBoard->getAllPawns();
+	bool isQueensOrRooks = myBoard->getAllQueens() || myBoard->getAllRooks();
+	auto numberOfWhiteMinorPieces = popcount(myBoard->getWhiteKnights() | myBoard->getWhiteBishops());
+	auto numberOfBlackMinorPieces = popcount(myBoard->getBlackKnights() | myBoard->getBlackBishops());
+
+
+	//No pawns, no queens nor rooks, only one bishop or knight per side.
+	return !isPawns && !isQueensOrRooks && numberOfWhiteMinorPieces <= 1 && numberOfBlackMinorPieces <=1;
 }
 
 //Quiescence Search
@@ -182,25 +194,42 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
     Move bestMove = Move();
     int bestScore = -999999;
 
+    auto moveNumber = 0;
 	for (auto currentMove : moveList)
 	{
+		moveNumber++;
+
+		bool isEscapingCheck = myBoard->isCheck(); 
 		myBoard->executeMove(currentMove);
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
 
-        if (isPvs) {
-            score = -negaMax(depth - 1, -alpha - 1, -alpha);
+		myBoard->updateKingAttackers();
 
-            if ((score > alpha) && (score < beta)) // Check for failure.
-            {
-                score = -negaMax(depth - 1, -beta, -alpha);
-            }
-        } 
-
-        else
-        {
-		    score = -negaMax(depth - 1, -beta, -alpha);
-        }
+		// Late Move Reductions (LMR): Reduce moves that we suppose are bad.
+		// The necessary condictions to perform LMR are:
+		// Not for the first 4 moves (they are supposed to be good, thanks to our move ordering)
+		// ply > 4
+		// not a capture/promotion move
+		// not in check, doesn't give check
+		// not in a PV node (TODO)
+		if(myPly > 4 && moveNumber >= 4 && !currentMove.isCapture() && !currentMove.isPromotion() && !myBoard->isCheck() && !isEscapingCheck)
+		{
+			int lmrScore = -negaMax(depth - 2, -beta, -alpha);
+			if(lmrScore >= alpha) //do a research
+			{
+				//Do a research
+				score = -negaMax(depth - 1, -beta, -alpha);
+			}
+			else
+			{
+				score = lmrScore;
+			}
+		}
+		else
+		{
+			score = -negaMax(depth + extensions - 1, -beta, -alpha);
+		}
 
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);   
@@ -271,18 +300,7 @@ int Search::negaMaxRoot(const int depth)
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
 
-        if (isPvs) {
-            score = -negaMax(depth - 1, -alpha - 1, -alpha);
-
-            if ((score > alpha) && (score < beta)) // Check for failure.
-            {
-                score = -negaMax(depth - 1, -beta, -alpha);
-            }
-        } 
-        else
-        {
-		    score = -negaMax(depth - 1, -beta, -alpha);
-        }
+	    score = -negaMax(depth - 1, -beta, -alpha);
 
 		if( score > alpha )
 		{

@@ -68,3 +68,43 @@ TEST_CASE( "Search", "[search]" )
 		}
 	}
 }
+
+TEST_CASE( "Draw", "[search]" )
+{
+	MagicMoves::initmagicmoves();
+	Tables::init();
+    globalTT.clearTT();
+
+	SECTION("Draw by insufficient mating material")
+	{
+		//K+pawns
+		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("8/3k1bp1/6p1/4K1P1/5P1P/2N5/8/8 b - - 36 117"));
+		Search search(sp);
+		REQUIRE(search.isInsufficentMatingMaterial() == false);
+
+		//K+BvsK+N
+		sp = std::shared_ptr<Board>(new Board("8/3k1b2/8/4K3/8/2N5/8/8 b - - 36 117"));
+		search = Search(sp);
+		REQUIRE(search.isInsufficentMatingMaterial() == true);
+
+		//K+BBvs...
+		sp = std::shared_ptr<Board>(new Board("8/3k3b/7b/4K3/8/2N5/8/8 b - - 36 117"));
+		search = Search(sp);
+		REQUIRE(search.isInsufficentMatingMaterial() == false);
+
+		//K+BvsK
+		sp = std::shared_ptr<Board>(new Board("8/3k1b2/8/4K3/8/8/8/8 w - - 36 117"));
+		search = Search(sp);
+		REQUIRE(search.isInsufficentMatingMaterial() == true);
+
+		//KvK
+		sp = std::shared_ptr<Board>(new Board("3k4/8/8/4K3/8/8/8/8 b - - 36 117"));
+		search = Search(sp);
+		REQUIRE(search.isInsufficentMatingMaterial() == true);
+
+		//K+RvK
+		sp = std::shared_ptr<Board>(new Board("7k/8/7K/8/8/8/8/5R2 w - - 51 142"));
+		search = Search(sp);
+		REQUIRE(search.isInsufficentMatingMaterial() == false);
+	}
+}
