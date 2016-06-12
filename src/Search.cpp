@@ -213,10 +213,13 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 		// not in a PV node (TODO)
 		if(myPly > 4 && moveNumber >= 4 && !currentMove.isCapture() && !currentMove.isPromotion() && !myBoard->isCheck() && !isEscapingCheck)
 		{
-			int lmrScore = -negaMax(depth - 2, -beta, -alpha);
-			if(lmrScore >= alpha) //do a research
+			//int depthReduction = -(std::sqrt(myPly-1) + std::sqrt(moveNumber-1));
+			int depthReduction = moveNumber < 6 ? 1 : myPly/3;
+			int lmrScore = -negaMax(depth - 1 - depthReduction, -beta, -alpha);
+			if(lmrScore >= alpha) 
 			{
-				//Do a research
+				// The score is better than what we expected:
+				// Do a research a full depth
 				score = -negaMax(depth - 1, -beta, -alpha);
 			}
 			else
