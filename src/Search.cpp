@@ -211,7 +211,7 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 		// not a capture/promotion move
 		// not in check, doesn't give check
 		// not in a PV node (TODO)
-		if(myPly > 4 && moveNumber >= 4 && !currentMove.isCapture() && !currentMove.isPromotion() && !myBoard->isCheck() && !isEscapingCheck)
+		if(myPly > 3 && moveNumber >= 4 && !currentMove.isCapture() && !currentMove.isPromotion() && !myBoard->isCheck() && !isEscapingCheck)
 		{
 			int lmrScore = -negaMax(depth - 2, -beta, -alpha);
 			if(lmrScore >= alpha) //do a research
