@@ -117,7 +117,7 @@ int Eval::evaluate()
 	int pawnScore = Pawn::getScore(*myBoard, myGameStage, alpha);
 	// + calcMaterialAdjustments(alpha);
 
-	return materialScore + POSITIONNAL_GAIN_PERCENT/100*positionScore + MOBILITY_GAIN_PERCENT/100*mobilityScore + kingSafetyScore + pawnScore/4;
+	return calcMaterialAdjustments(alpha) + materialScore + POSITIONNAL_GAIN_PERCENT/100*positionScore + MOBILITY_GAIN_PERCENT/100*mobilityScore + kingSafetyScore + pawnScore/4;
 }
 
 void Eval::init()
