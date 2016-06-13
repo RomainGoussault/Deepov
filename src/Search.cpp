@@ -7,8 +7,7 @@
 #include <ratio>
 #include <algorithm>
 
-
-Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0)
+Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0),myPvTable{0}
 {
 	myBoard = boardPtr;
 }
@@ -250,7 +249,12 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 		    if( score > alpha )
 		    {
 			    alpha = score ; // alpha acts like max in MiniMax
-                isPvs = true ;
+                // Save the pv at each ply
+                myPvTable[myPly][myPly] = currentMove ; 
+                for (unsigned int i=myPly+1; i<depth+myPly; i++)
+                {
+                    myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
+                }
 		    }
         }
 	}
@@ -305,8 +309,13 @@ int Search::negaMaxRoot(const int depth)
 		if( score > alpha )
 		{
 			alpha = score;
-            isPvs = true ;
 			myBestMove = currentMove.getMove16();
+            // Save the pv at each ply
+            myPvTable[myPly][myPly] = currentMove ; 
+            for (unsigned int i=myPly+1; i<depth+myPly; i++)
+            {
+                myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
+            }
 		}
 
 		myBoard->undoMove(currentMove);
@@ -397,7 +406,12 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
                     isPvs = true ;
 					myBestMove = currentMove.getMove16();
 					//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
-
+                    // Save the pv at each ply
+                    myPvTable[myPly][myPly] = currentMove ; 
+                    for (unsigned int i=myPly+1; i<depth+myPly; i++)
+                    { 
+                     myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
+                    }
 				}
 				myBoard->undoMove(currentMove);
 				myEval.rewindEvalAttributes(currentMove);
@@ -417,4 +431,20 @@ int Search::evaluate()
 {
 	myMovesSearched++;
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
+}
+
+
+void Search::printPvTable(const unsigned int numLines)
+{
+    unsigned int j;
+	for(unsigned int i = 0; i<=numLines; i++) // For each ply starting at 0 (root) to numLines
+	{
+        j=i;
+        while (!myPvTable[i][j].isNullMove()) // Print successives moves until first null move
+		{
+			std::cout << myPvTable[i][j].toShortString() << "   ";
+            j++;
+		}
+		std::cout << std::endl;
+	}
 }
