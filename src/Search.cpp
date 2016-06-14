@@ -277,7 +277,7 @@ int Search::negaMaxRoot(const int depth)
 	int beta = -alpha;
 	int score = 0;
 	myMovesSearched = 0;
-	myPly=1;
+	myPly=0;
     bool isPvs = false ;
 
 	auto currentKey = myBoard->key;
@@ -336,7 +336,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int beta = -alpha;
 	int score = 0;
 	myMovesSearched = 0;
-	myPly=1;
+	myPly=0;
 
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
