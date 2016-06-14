@@ -7,7 +7,7 @@
 #include <ratio>
 #include <algorithm>
 
-Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0),myPvTable{0}
+Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0),myPvTable{0},myPvLength{0}
 {
 	myBoard = boardPtr;
 }
@@ -92,7 +92,7 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 {
 	int alpha_old = alpha;
 	int extensions = 0;
-
+    myPvLength[myPly] = myPly; // Currentlength of the local PV 
     bool isPvs = false ;
 
 	//Check extension: If in check go one ply further
@@ -251,10 +251,13 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 			    alpha = score ; // alpha acts like max in MiniMax
                 // Save the pv at each ply
                 myPvTable[myPly][myPly] = currentMove ; 
-                for (unsigned int i=myPly+1; i<depth+myPly; i++)
+                for (unsigned int i=myPly+1; i<myPvLength[myPly+1]; i++)
                 {
                     myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
                 }
+                myPvLength[myPly] = myPvLength[myPly+1];
+//                std::cout << "table at ply = " << myPly << std::endl;
+//                printPvTable(myPly+1);
 		    }
         }
 	}
@@ -278,6 +281,7 @@ int Search::negaMaxRoot(const int depth)
 	int score = 0;
 	myMovesSearched = 0;
 	myPly=0;
+    myPvLength[myPly] = myPly; // Current length of the local PV 
     bool isPvs = false ;
 
 	auto currentKey = myBoard->key;
@@ -306,21 +310,24 @@ int Search::negaMaxRoot(const int depth)
 
 	    score = -negaMax(depth - 1, -beta, -alpha);
 
+		myBoard->undoMove(currentMove);
+		myEval.rewindEvalAttributes(currentMove);
+		myPly--;
+
 		if( score > alpha )
 		{
 			alpha = score;
 			myBestMove = currentMove.getMove16();
-            // Save the pv at each ply
+            // Save the pv
             myPvTable[myPly][myPly] = currentMove ; 
-            for (unsigned int i=myPly+1; i<depth+myPly; i++)
+            for (unsigned int i=myPly+1; i<myPvLength[myPly+1]; i++)
             {
-                myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
+                myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from the deeper ply
             }
+            myPvLength[myPly] = myPvLength[myPly+1]; // update the length of the PV to the one assigned
+//            std::cout << "table at ply = " << myPly << std::endl;
+//            printPvTable(myPly+1);
 		}
-
-		myBoard->undoMove(currentMove);
-		myEval.rewindEvalAttributes(currentMove);
-		myPly--;
 	}
 
 	globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove, myBoard->getPly());
@@ -337,6 +344,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int score = 0;
 	myMovesSearched = 0;
 	myPly=0;
+    myPvLength[myPly] = myPly; // Current length of the local PV
 
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
@@ -406,12 +414,12 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
                     isPvs = true ;
 					myBestMove = currentMove.getMove16();
 					//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
-                    // Save the pv at each ply
                     myPvTable[myPly][myPly] = currentMove ; 
-                    for (unsigned int i=myPly+1; i<depth+myPly; i++)
-                    { 
-                     myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
+                    for (unsigned int i=myPly+1; i<myPvLength[myPly+1]; i++)
+                    {
+                        myPvTable[myPly][i] = myPvTable[myPly+1][i] ;
                     }
+                    myPvLength[myPly] = myPvLength[myPly+1];
 				}
 				myBoard->undoMove(currentMove);
 				myEval.rewindEvalAttributes(currentMove);
@@ -439,6 +447,10 @@ void Search::printPvTable(const unsigned int numLines)
     unsigned int j;
 	for(unsigned int i = 0; i<=numLines; i++) // For each ply starting at 0 (root) to numLines
 	{
+        for (j=0; j<i; j++)
+        {
+            std::cout << "       ";
+        }
         j=i;
         while (!myPvTable[i][j].isNullMove()) // Print successives moves until first null move
 		{

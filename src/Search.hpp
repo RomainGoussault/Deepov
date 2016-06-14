@@ -25,6 +25,7 @@ public:
 
     // Display 
     U64 myMovesSearched; // TODO Count nodes not moves
+    inline Move getPVMove(const unsigned int ply, const unsigned int depth) const {return myPvTable[ply][depth];}
     void printPvTable(const unsigned numLines);
 
 private:
@@ -40,6 +41,7 @@ private:
     int qSearch(int alpha, const int beta);
 
     Move myPvTable[MAX_DEPTH][MAX_DEPTH]; // Quadratic PV-table
+    unsigned int myPvLength[MAX_DEPTH]; // Length of the PV line at this ply 
 
     /* pvtable[ply as distance from root][depth of the line] Quadratic PV-Table
     
