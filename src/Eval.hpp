@@ -35,7 +35,8 @@ public:
     const static int DRAW_SCORE = 0;
     const static int CHECKMATE_SCORE = 100000;
 
-	static int POSITIONNAL_GAIN_PERCENT;
+    static int POSITIONNAL_GAIN_PERCENT;
+    static int PAWN_GAIN_PERCENT;
 	static int MOBILITY_GAIN_PERCENT;
 
     Eval(std::shared_ptr<Board> boardPtr);

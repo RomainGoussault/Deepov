@@ -28,6 +28,8 @@ DeepovTuning/.cache
 .settings/org.eclipse.cdt.managedbuilder.core.prefs
 .project
 /Debug/
+/CLOP*
+clop*
 .cproject
 .settings/language.settings.xml
 *.cbp

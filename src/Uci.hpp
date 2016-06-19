@@ -39,6 +39,7 @@ public :
 		myOptionsMap["timeDivider"] = UciOption("50", "spin",1,1000);
 		myOptionsMap["positionnalGain"] = UciOption("100", "spin",1,1000);
 		myOptionsMap["mobilityGain"] = UciOption("100", "spin",1,1000);
+		myOptionsMap["pawnGain"] = UciOption("100", "spin",1,1000);
 	}
 
 	void loop();

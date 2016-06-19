@@ -203,6 +203,7 @@ void Uci::search()
 	TimeManager::divider = std::stoi(getOption("timeDivider"));
 	Eval::POSITIONNAL_GAIN_PERCENT = std::stoi(getOption("positionnalGain"));
 	Eval::MOBILITY_GAIN_PERCENT = std::stoi(getOption("mobilityGain"));
+	Eval::PAWN_GAIN_PERCENT = std::stoi(getOption("pawnGain"));
     // Defines TT size here 
 
 	auto timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());

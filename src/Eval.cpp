@@ -24,6 +24,9 @@
 
 int Eval::POSITIONNAL_GAIN_PERCENT = 100;
 int Eval::MOBILITY_GAIN_PERCENT = 100;
+int Eval::PAWN_GAIN_PERCENT = 100;
+
+
 
 
 Eval::Eval(std::shared_ptr<Board> boardPtr)
@@ -36,7 +39,7 @@ int Eval::calculateKingSafety() {
 
 	int hasWhiteCastled = myBoard->hasWhiteCastled();
 	int hasBlackCastled = myBoard->hasBlackCastled();
-	int kingSafetyScore = 30*(hasWhiteCastled - hasBlackCastled);
+	int kingSafetyScore = 45*(hasWhiteCastled - hasBlackCastled);
 
     //White king safety
     if(hasWhiteCastled && getRank(myBoard->getWhiteKingSquare()) <= RANK_4)
@@ -117,7 +120,8 @@ int Eval::evaluate()
 	int pawnScore = Pawn::getScore(*myBoard, myGameStage, alpha);
 	// + calcMaterialAdjustments(alpha);
 
-	return calcMaterialAdjustments(alpha) + materialScore + POSITIONNAL_GAIN_PERCENT/100*positionScore + MOBILITY_GAIN_PERCENT/100*mobilityScore + kingSafetyScore + pawnScore/4;
+    return calcMaterialAdjustments(alpha) + materialScore + 1.16*positionScore + 0.62*mobilityScore + kingSafetyScore + pawnScore/4;
+    // return calcMaterialAdjustments(alpha) + materialScore + positionScore + mobilityScore/2 + kingSafetyScore + pawnScore/4;
 }
 
 void Eval::init()
