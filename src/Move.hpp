@@ -19,6 +19,7 @@ public:
 	const static unsigned int PROMOTION_FLAG = 0b1000;
 	const static unsigned int KING_SIDE_CASTLING = 	0b0010;
 	const static unsigned int QUEEN_SIDE_CASTLING = 0b0011;
+    const static unsigned int NULL_MOVE = 0;
 
 	inline Move() : myMove(0), myMoveRating(0) //Default constructor = null move
 	{
@@ -129,6 +130,7 @@ public:
 	inline bool isKingSideCastling() const {return getFlags() == KING_SIDE_CASTLING;}
 	inline bool isCastling() const {return isKingSideCastling() || isQueenSideCastling();} // TODO something faster/smarter surely possible
     inline bool isDoublePawnPush() const {return getFlags() == DOUBLE_PAWN_PUSH_FLAG;}
+    inline bool isNullMove() const {return myMove == NULL_MOVE;}
 
     std::string toShortString() const;
 

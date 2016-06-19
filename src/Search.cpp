@@ -7,8 +7,7 @@
 #include <ratio>
 #include <algorithm>
 
-
-Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0)
+Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0),myPvTable{0},myPvLength{0}
 {
 	myBoard = boardPtr;
 }
@@ -93,6 +92,8 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 {
 	int alpha_old = alpha;
 	int extensions = 0;
+    myPvLength[myPly] = myPly; // Currentlength of the local PV 
+    bool isPvs = false ;
 
 	//Check extension: If in check go one ply further
 	myBoard->updateKingAttackers(myBoard->getColorToPlay());	
@@ -229,7 +230,6 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 			score = -negaMax(depth + extensions - 1, -beta, -alpha);
 		}
 
-
 		myBoard->undoMove(currentMove);
 		myEval.rewindEvalAttributes(currentMove);   
 		myPly--;
@@ -248,7 +248,16 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
             bestMove = currentMove ;
 		    if( score > alpha )
 		    {
-			    alpha = score; // alpha acts like max in MiniMax
+			    alpha = score ; // alpha acts like max in MiniMax
+                // Save the pv at each ply
+                myPvTable[myPly][myPly] = currentMove ; 
+                for (unsigned int i=myPly+1; i<myPvLength[myPly+1]; i++)
+                {
+                    myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
+                }
+                myPvLength[myPly] = myPvLength[myPly+1];
+//                std::cout << "table at ply = " << myPly << std::endl;
+//                printPvTable(myPly+1);
 		    }
         }
 	}
@@ -271,7 +280,9 @@ int Search::negaMaxRoot(const int depth)
 	int beta = -alpha;
 	int score = 0;
 	myMovesSearched = 0;
-	myPly=1;
+	myPly=0;
+    myPvLength[myPly] = myPly; // Current length of the local PV 
+    bool isPvs = false ;
 
 	auto currentKey = myBoard->key;
 	auto ttEntry = globalTT.probeTT(currentKey, depth); // returns non nullpr if key exists and depth is greater
@@ -297,17 +308,26 @@ int Search::negaMaxRoot(const int depth)
 		myEval.updateEvalAttributes(currentMove);
 		myPly++;
 
-		score = -negaMax(depth - 1, -beta, -alpha);
+	    score = -negaMax(depth - 1, -beta, -alpha);
+
+		myBoard->undoMove(currentMove);
+		myEval.rewindEvalAttributes(currentMove);
+		myPly--;
 
 		if( score > alpha )
 		{
 			alpha = score;
 			myBestMove = currentMove.getMove16();
+            // Save the pv
+            myPvTable[myPly][myPly] = currentMove ; 
+            for (unsigned int i=myPly+1; i<myPvLength[myPly+1]; i++)
+            {
+                myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from the deeper ply
+            }
+            myPvLength[myPly] = myPvLength[myPly+1]; // update the length of the PV to the one assigned
+//            std::cout << "table at ply = " << myPly << std::endl;
+//            printPvTable(myPly+1);
 		}
-
-		myBoard->undoMove(currentMove);
-		myEval.rewindEvalAttributes(currentMove);
-		myPly--;
 	}
 
 	globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove, myBoard->getPly());
@@ -323,7 +343,8 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int beta = -alpha;
 	int score = 0;
 	myMovesSearched = 0;
-	myPly=1;
+	myPly=0;
+    myPvLength[myPly] = myPly; // Current length of the local PV
 
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
@@ -336,6 +357,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		alpha = -999999;
 		beta = -alpha;
 		score = 0;
+        bool isPvs = false ;
 
 		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
 		auto dur = time - startTime;
@@ -373,14 +395,31 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 				myEval.updateEvalAttributes(currentMove);
 				myPly++;
 
-				score = -negaMax(depth - 1, -beta, -alpha);
+                if (isPvs) {
+                    score = -negaMax(depth - 1, -alpha - 1, -alpha);
+
+                    if ((score > alpha) && (score < beta)) // Check for failure.
+                    {
+                        score = -negaMax(depth - 1, -beta, -alpha);
+                    }
+                } 
+                else
+                {
+				    score = -negaMax(depth - 1, -beta, -alpha);
+                }
 
 				if( score > alpha )
 				{
 					alpha = score;
+                    isPvs = true ;
 					myBestMove = currentMove.getMove16();
 					//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
-
+                    myPvTable[myPly][myPly] = currentMove ; 
+                    for (unsigned int i=myPly+1; i<myPvLength[myPly+1]; i++)
+                    {
+                        myPvTable[myPly][i] = myPvTable[myPly+1][i] ;
+                    }
+                    myPvLength[myPly] = myPvLength[myPly+1];
 				}
 				myBoard->undoMove(currentMove);
 				myEval.rewindEvalAttributes(currentMove);
@@ -400,4 +439,24 @@ int Search::evaluate()
 {
 	myMovesSearched++;
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
+}
+
+
+void Search::printPvTable(const unsigned int numLines)
+{
+    unsigned int j;
+	for(unsigned int i = 0; i<=numLines; i++) // For each ply starting at 0 (root) to numLines
+	{
+        for (j=0; j<i; j++)
+        {
+            std::cout << "       ";
+        }
+        j=i;
+        while (!myPvTable[i][j].isNullMove()) // Print successives moves until first null move
+		{
+			std::cout << myPvTable[i][j].toShortString() << "   ";
+            j++;
+		}
+		std::cout << std::endl;
+	}
 }

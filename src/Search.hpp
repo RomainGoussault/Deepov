@@ -22,7 +22,11 @@ public:
     inline int getCurrentScore() {return myEval.evaluate();};
     bool isInsufficentMatingMaterial() const;
     Move16 myBestMove;
-    U64 myMovesSearched;
+
+    // Display 
+    U64 myMovesSearched; // TODO Count nodes not moves
+    inline Move getPVMove(const unsigned int ply, const unsigned int depth) const {return myPvTable[ply][depth];}
+    void printPvTable(const unsigned numLines);
 
 private:
 
@@ -36,7 +40,27 @@ private:
     int evaluate();
     int qSearch(int alpha, const int beta);
 
-    Move pvTable[MAX_DEPTH][MAX_DEPTH]; //pvtable[ply][depth] Quadratic PV-Table
+    Move myPvTable[MAX_DEPTH][MAX_DEPTH]; // Quadratic PV-table
+    unsigned int myPvLength[MAX_DEPTH]; // Length of the PV line at this ply 
+
+    /* pvtable[ply as distance from root][depth of the line] Quadratic PV-Table
+    
+    ply  maxLengthPV
+        +--------------------------------------------+
+    0   |N                                           | pvtable[0][0:N]
+        +--------------------------------------------+
+    1   +-|N-1                                       | pvtable[1][0:N-1]
+        +--------------------------------------------+
+    2   +-+-|N-2                                     | pvtable[2][0:N-2]
+        +--------------------------------------------+
+    etc
+
+    We stop the pv at null moveCounter
+
+    maxPVlength = N - ply
+
+    // TODO : fix conflict with hashtable to save the full PV line
+    */
 };
 
 #endif // SEARCH_H_INCLUDED
