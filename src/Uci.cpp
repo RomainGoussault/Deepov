@@ -122,6 +122,20 @@ Move Uci::strToMove(std::string str)
 	return m;
 }
 
+void Uci::initSearch()
+{
+	mySearch = Search(myBoardPtr); //Note this could be done earlier before the search
+
+	TimeManager::divider = std::stoi(getOption("timeDivider"));
+	Eval::POSITIONNAL_GAIN_PERCENT = std::stoi(getOption("positionnalGain"));
+	Eval::MOBILITY_GAIN_PERCENT = std::stoi(getOption("mobilityGain"));
+	Eval::PAWN_GAIN_PERCENT = std::stoi(getOption("pawnGain"));
+
+	//TODO apply TT size
+	// int ttSizeMB = std::stoi(getOption("hash"));
+	// U64 ttSizeBytes = ttSizeMB*1024*1024;
+}
+
 void Uci::loop()
 {
 	std::string line;
@@ -148,8 +162,11 @@ void Uci::loop()
 			std::cout << "uciok" << std::endl;
 		}
 		else if (token == "isready")
-
+		{
+			initSearch();
 			std::cout << "readyok" << std::endl;
+		}
+
 
 		else if (token == "setoption") 
             setoption(is);
@@ -198,19 +215,11 @@ void Uci::loop()
 
 void Uci::search()
 {
-	Search search = Search(myBoardPtr); //Note this could be done earlier before the search
-
-	TimeManager::divider = std::stoi(getOption("timeDivider"));
-	Eval::POSITIONNAL_GAIN_PERCENT = std::stoi(getOption("positionnalGain"));
-	Eval::MOBILITY_GAIN_PERCENT = std::stoi(getOption("mobilityGain"));
-	Eval::PAWN_GAIN_PERCENT = std::stoi(getOption("pawnGain"));
-    // Defines TT size here 
-
 	auto timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());
-	//std::cout << "Romain time allocated " << timeMS << std::endl;
 
-	search.negaMaxRootIterativeDeepening(timeMS);
+	mySearch.negaMaxRootIterativeDeepening(timeMS);
 
-	Move16 bestMove = search.myBestMove;
+	Move16 bestMove = mySearch.myBestMove;
+
 	std::cout << "bestmove " << Utils::Move16ToShortString(bestMove) << std::endl;
 }
