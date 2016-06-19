@@ -26,7 +26,9 @@ install:
   # g++
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
   
-before_script:
+before_script: 
+  # display cpu info
+  - cat /proc/cpuinfo
   - $CXX --version
   - echo "CXX="$CXX
   - mkdir obj
