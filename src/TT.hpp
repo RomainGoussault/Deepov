@@ -23,9 +23,6 @@ public:
         return myTTTable[x];
     }
 
-    void init_TT_size(int sizeMB);
-    void setTTEntry(const Zkey zkey, const int depth, const int score, const NodeType node, const Move16 bestMove, const int moveCounter);
-    TTEntry* probeTT(const Zkey zkey, const int depth);
     inline void clearTT()
     {
     	for(unsigned long int i=0; i<myTTSize; i++)
@@ -34,17 +31,12 @@ public:
     	}
     } 
 
-    inline U64 calculateEntryCount()
-    {
-    	U64 count = 0;
-    	for(U64 i=0; i<myTTSize; i++)
-    	{
-    		count += myTTTable[i].getNodeType() != NodeType::NONE;
-    	}
+    void init_TT_size(int sizeMB);
+    void setTTEntry(const Zkey zkey, const int depth, const int score, const NodeType node, const Move16 bestMove, const int moveCounter);
+    TTEntry* probeTT(const Zkey zkey, const int depth);
 
-    	return count;
-    }
 
+    U64 countEntries();
     inline U64 getTTSize() const {return myTTSize;}
 
 

@@ -27,6 +27,8 @@ void TT::init_TT_size(int sizeMB)
         std::cerr << "Failed to allocate transposition hash table" << std::endl;
         exit(EXIT_FAILURE);
     }
+
+    clearTT();
 }
 
 
@@ -57,3 +59,14 @@ TTEntry* TT::probeTT(const Zkey zkey, const int depth)
         return nullptr;
     }
 }
+
+U64 TT::countEntries()
+    {
+    	U64 count = 0;
+    	for(U64 i=0; i<myTTSize; i++)
+    	{
+    		count += myTTTable[i].getNodeType() != NodeType::NONE;
+    	}
+
+    	return count;
+    }
