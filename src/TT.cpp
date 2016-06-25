@@ -2,26 +2,54 @@
 
 TT globalTT = TT();
 
+void TT::init_TT_size(int sizeMB)
+{
+    std::size_t entrySize = sizeof(TTEntry);
+    U64 nEntries = sizeMB / entrySize;
+
+    delete [] myTTTable;
+    
+    if (sizeMB == -1) // Default value
+    {
+        myTTSize = TT_SIZE_DEFAULT;
+    } 
+    else
+    {
+        myTTSize = nEntries;
+    }
+
+    try
+    {
+        myTTTable = new TTEntry [myTTSize];
+    }
+    catch (std::bad_alloc&)
+    {
+        std::cerr << "Failed to allocate transposition hash table" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+
 void TT::setTTEntry(const Zkey zkey, const int depth, const int score, const NodeType node, const Move16 bestMove, const int moveCounter)
 {
-    U64 index = zkey % TT_SIZE;
+    U64 index = zkey % myTTSize;
 
     // Replace if node closer to root (ie. greater evaluation depth)
-    if (TTEntry::K * depth + moveCounter >= myTTable[index].getTTValue())
+    if (TTEntry::K * depth + moveCounter >= myTTTable[index].getTTValue())
     {
         TTEntry newEntry(zkey, depth, score, node, bestMove, moveCounter);
-        myTTable[index] = newEntry ;
+        myTTTable[index] = newEntry ;
     }
 }
 
 
 TTEntry* TT::probeTT(const Zkey zkey, const int depth)
 {
-    U64 index = zkey % TT_SIZE;
+    U64 index = zkey % myTTSize;
     // We have a match 
-    if (myTTable[index].getZkey() == zkey && myTTable[index].getNodeType() != NodeType::NONE && myTTable[index].getDepth() >= depth)
+    if (myTTTable[index].getZkey() == zkey && myTTTable[index].getNodeType() != NodeType::NONE && myTTTable[index].getDepth() >= depth)
     {
-        return &myTTable[index];
+        return &myTTTable[index];
     }
     // If key is not matched, or depth lower, return empty pointer as we want to continue the search
     else

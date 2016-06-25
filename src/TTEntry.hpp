@@ -16,6 +16,7 @@ public:
     {
     };
 
+
 	inline TTEntry(Zkey zkey, int depth, int score, NodeType node, Move16 bestMove, int moveCounter) :
     myZkey(zkey), myBestMove(bestMove), myTTvalue(K*depth+moveCounter)
     {

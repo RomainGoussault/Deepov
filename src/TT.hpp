@@ -9,42 +9,48 @@ class TT {
 
 public:
 
-    const static U64 TT_SIZE = 10048576;
+    const static U64 TT_SIZE_DEFAULT = 10048576;
 
 	TT()
     {
     }
+
+    ~TT(){delete [] myTTTable;}
     
     /* Overload access operator */
     inline TTEntry operator[](const U64 x) const {
-        if( x > TT_SIZE ){std::cout << "TT out of bounds" <<std::endl;return myTTable[0];}
-        return myTTable[x];
-    };
-
-    void setTTEntry(const Zkey zkey, const int depth, const int score, const NodeType node, const Move16 bestMove, const int moveCounter);
-    TTEntry* probeTT(const Zkey zkey, const int depth);
-    void clearTT()
-    {
-    	for(unsigned long int i=0; i<TT_SIZE; i++)
-    	{
-    		myTTable[i] = TTEntry();
-    	}
+        if( x > myTTSize ){std::cout << "TT out of bounds" <<std::endl;return myTTTable[0];}
+        return myTTTable[x];
     }
 
-    U64 calculateEntryCount()
+    void init_TT_size(int sizeMB);
+    void setTTEntry(const Zkey zkey, const int depth, const int score, const NodeType node, const Move16 bestMove, const int moveCounter);
+    TTEntry* probeTT(const Zkey zkey, const int depth);
+    inline void clearTT()
+    {
+    	for(unsigned long int i=0; i<myTTSize; i++)
+    	{
+    		myTTTable[i] = TTEntry();
+    	}
+    } 
+
+    inline U64 calculateEntryCount()
     {
     	U64 count = 0;
-    	for(U64 i=0; i<TT_SIZE; i++)
+    	for(U64 i=0; i<myTTSize; i++)
     	{
-    		count += myTTable[i].getNodeType() != NodeType::NONE;
+    		count += myTTTable[i].getNodeType() != NodeType::NONE;
     	}
 
     	return count;
     }
 
+    inline U64 getTTSize() const {return myTTSize;}
+
 
 private:
-    TTEntry myTTable[TT_SIZE];
+    U64 myTTSize;
+    TTEntry* myTTTable;
 
 
 };
@@ -53,7 +59,7 @@ extern TT globalTT;
 
 inline std::ostream& operator<<(std::ostream &strm, const TT &tt) {
 
-	for(unsigned long int entry = 0; entry < TT::TT_SIZE ; entry++)
+	for(unsigned long int entry = 0; entry < tt.getTTSize() ; entry++)
 	{
         if (tt[entry].getNodeType() != NodeType::NONE)
         {
