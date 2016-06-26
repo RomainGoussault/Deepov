@@ -42,7 +42,7 @@ int main() {
 
 	MagicMoves::initmagicmoves();
 	Tables::init();
-    globalTT.init_TT_size(-1);
+    globalTT.init_TT_size(TT::DEFAULT_MB_SIZE);
 
 //    std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("3k4/3r4/3r4/3q4/3R4/3R4/3Q4/3K4 w - - 0 1"));
 //    std::cout << *sp << std::endl; 

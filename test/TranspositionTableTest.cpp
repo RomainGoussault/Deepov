@@ -33,33 +33,33 @@ TEST_CASE( "Fill transposition table from initial position ", "[TT]")
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
-    globalTT.init_TT_size(-1);
+    globalTT.init_TT_size(TT::DEFAULT_MB_SIZE);
 	globalTT.clearTT();
 
 	SECTION("Depth 1")
 	{
-		REQUIRE(globalTT.calculateEntryCount() == 0);
+		REQUIRE(globalTT.countEntries() == 0);
 
 		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
 		Search s(sp);
 		s.negaMaxRoot(1);
 
-		REQUIRE(globalTT.calculateEntryCount() == 1);
+		REQUIRE(globalTT.countEntries() == 1);
 		globalTT.clearTT();
-		REQUIRE(globalTT.calculateEntryCount() == 0);
+		REQUIRE(globalTT.countEntries() == 0);
 	}
 
 	SECTION("Depth 2")
 	{
-		REQUIRE(globalTT.calculateEntryCount() == 0);
+		REQUIRE(globalTT.countEntries() == 0);
 
 		std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
 		Search s(sp);
 		s.negaMaxRoot(2);
 
-		REQUIRE(globalTT.calculateEntryCount() > 1);
+		REQUIRE(globalTT.countEntries() > 1);
 		globalTT.clearTT();
-		REQUIRE(globalTT.calculateEntryCount() == 0);
+		REQUIRE(globalTT.countEntries() == 0);
 	}
 }
 
@@ -67,7 +67,7 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
-    globalTT.init_TT_size(-1);
+    globalTT.init_TT_size(TT::DEFAULT_MB_SIZE);
 	globalTT.clearTT();
 
 	SECTION("Initial position")
@@ -75,13 +75,13 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 		for(int i = 1; i <= 6; i++)
 		{
 			globalTT.clearTT();
-			REQUIRE(globalTT.calculateEntryCount() == 0);
+			REQUIRE(globalTT.countEntries() == 0);
 			std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board());
 			Search s(sp);
 			s.negaMaxRoot(i);
 			int nodesSearchWithoutTT = s.myMovesSearched;
 
-			REQUIRE(globalTT.calculateEntryCount() > 0);
+			REQUIRE(globalTT.countEntries() > 0);
 			Move bestMoveNoTT = s.myBestMove;
 			s.negaMaxRoot(i);
 			REQUIRE(bestMoveNoTT == s.myBestMove);
@@ -114,13 +114,13 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 			for(int i = 2; i <= 5; i++) //sill one issue for pos5 at depth6, should try increase TTsize
 			{
 				globalTT.clearTT();
-				REQUIRE(globalTT.calculateEntryCount() == 0);
+				REQUIRE(globalTT.countEntries() == 0);
 				std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board(fen));
 				Search s(sp);
 				s.negaMaxRoot(i);
 
 				int nodesSearchWithoutTT = s.myMovesSearched;
-				REQUIRE(globalTT.calculateEntryCount() > 0);
+				REQUIRE(globalTT.countEntries() > 0);
 				Move16 bestMoveNoTT = s.myBestMove;
 				// search again: we should have the same results (and less nodes searched)
 				s.negaMaxRoot(i);

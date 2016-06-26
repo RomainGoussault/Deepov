@@ -10,6 +10,7 @@ class TT {
 public:
 
     const static U64 TT_SIZE_DEFAULT = 10048576;
+    const static int DEFAULT_MB_SIZE = -1;
 
 	TT()
     {
