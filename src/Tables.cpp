@@ -1,5 +1,6 @@
 #include "Tables.hpp"
 #include "Types.hpp"
+#include <algorithm> // For std::min for win64
 #include "BitBoardUtils.hpp"
 
 /* List of tables declarations*/
