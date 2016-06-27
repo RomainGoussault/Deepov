@@ -130,10 +130,12 @@ void Uci::initSearch()
 	Eval::POSITIONNAL_GAIN_PERCENT = std::stoi(getOption("positionnalGain"));
 	Eval::MOBILITY_GAIN_PERCENT = std::stoi(getOption("mobilityGain"));
 	Eval::PAWN_GAIN_PERCENT = std::stoi(getOption("pawnGain"));
+    
 
-	//TODO apply TT size
-	// int ttSizeMB = std::stoi(getOption("hash"));
-	// U64 ttSizeBytes = ttSizeMB*1024*1024;
+	//apply TT size
+	int ttSizeMB = std::stoi(getOption("hash"));
+	U64 ttSizeBytes = ttSizeMB*1024*1024;
+    globalTT.init_TT_size(ttSizeBytes);
 }
 
 void Uci::loop()

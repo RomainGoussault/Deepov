@@ -2,14 +2,14 @@
 
 TT globalTT = TT();
 
-void TT::init_TT_size(int sizeMB)
+void TT::init_TT_size(int sizeBytes)
 {
     std::size_t entrySize = sizeof(TTEntry);
-    U64 nEntries = sizeMB / entrySize;
+    U64 nEntries = sizeBytes / entrySize;
 
     delete [] myTTTable;
     
-    if (sizeMB == -1) // Default value
+    if (sizeBytes == TEST_MB_SIZE) // Default value
     {
         myTTSize = TT_SIZE_DEFAULT;
     } 
