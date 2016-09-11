@@ -38,6 +38,7 @@ public:
 
 
     U64 countEntries();
+    inline int getTTUsage() {return countEntries()/myTTSize*100;};
     inline U64 getTTSize() const {return myTTSize;}
 
 

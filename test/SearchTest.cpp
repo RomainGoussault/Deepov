@@ -9,7 +9,7 @@ TEST_CASE( "Don't stalemate if you can win", "[search]" )
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
-	globalTT.init_TT_size(TT::TEST_MB_SIZE); // For tests TT size is 16MB 
+	globalTT.init_TT_size(TT::TEST_MB_SIZE); // For tests TT size is TT_SIZE_DEFAULT
     globalTT.clearTT();
 
 	std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("7k/8/7K/8/8/8/8/5R2 w - - 51 142"));
