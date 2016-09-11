@@ -35,7 +35,7 @@ TEST_CASE( "Fill transposition table from initial position ", "[TT]")
 	Tables::init();
     globalTT.init_TT_size(TT::TEST_MB_SIZE);
 	globalTT.clearTT();
-
+    
 	SECTION("Depth 1")
 	{
 		REQUIRE(globalTT.countEntries() == 0);
