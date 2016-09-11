@@ -10,7 +10,7 @@ class TT {
 public:
 
     const static U64 TT_SIZE_DEFAULT = 10048576;
-    const static int TEST_MB_SIZE = -1;
+    const static int TEST_MB_SIZE = -1; 
 
 	TT()
     {
@@ -26,7 +26,7 @@ public:
 
     inline void clearTT()
     {
-    	for(unsigned long int i=0; i<myTTSize; i++)
+    	for(U64 i=0; i<myTTSize; i++)
     	{
     		myTTTable[i] = TTEntry();
     	}
