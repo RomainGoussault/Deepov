@@ -93,7 +93,7 @@ inline std::ostream& operator<<(std::ostream &strm, const TTEntry &entry) {
 
     strm << " > ";
     strm << entry.getNodeType() << " ";
-    strm << "Depth " < entry.getDepth() << " ";
+    strm << "Depth " << entry.getDepth() << " ";
     strm << "Score " << entry.getScore() << " ";
     strm << "Best move " << entry.getBestmove() << " ";
     strm << std::endl;
