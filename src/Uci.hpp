@@ -49,13 +49,14 @@ public :
 
 private:
 
-	std::shared_ptr<Board> myBoardPtr;
-	Search mySearch;
-	thrd::thread myThread;
 	unsigned int wtime;
 	unsigned int btime;
 	unsigned int winc;
 	unsigned int binc;
+	std::shared_ptr<Board> myBoardPtr;
+	Search mySearch;
+	thrd::thread myThread;
+
 
 	void updatePosition(std::istringstream& is);
 	Move strToMove(std::string str);

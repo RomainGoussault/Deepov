@@ -3,6 +3,7 @@
 
 #include "Move.hpp"
 #include "Types.hpp"
+#include "Utils.hpp"
 
 enum NodeType {NONE=0, EXACT=1, LOWER=2, UPPER=3};
 
@@ -88,17 +89,13 @@ inline std::ostream& operator<<(std::ostream &strm, const NodeType &node) {
 	return strm;
 }
 
-
 inline std::ostream& operator<<(std::ostream &strm, const TTEntry &entry) {
 
     strm << " > ";
     strm << entry.getNodeType() << " ";
     strm << "Depth " << entry.getDepth() << " ";
     strm << "Score " << entry.getScore() << " ";
-    strm << "Best move " << entry.getBestmove() << " ";
-    strm << std::endl;
-
-    strm << std::endl;
+    strm << "Best move " << Utils::Move16ToShortString(entry.getBestmove());
 	return strm;
 }
 
