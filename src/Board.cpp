@@ -8,6 +8,42 @@
 #include <algorithm>
 
 
+std::mt19937_64 ZK::rdGen;
+
+Zkey ZK::psq[COLOR_NB][Piece::PIECE_TYPE_NB][SQUARE_NB];
+Zkey ZK::enPassant[FILE_NB];
+Zkey ZK::castling[4];
+Zkey ZK::side;
+
+void ZK::initZobristKeys()
+{
+	rdGen.seed(1);
+
+	for (Color c = WHITE; c <= BLACK; ++c)
+	{
+		for (Piece::PieceType pt = Piece::PAWN; pt <= Piece::KING; ++pt)
+		{
+			for (Square s = SQ_A1; s <= SQ_H8; ++s)
+			{
+				psq[c][pt][s] = rdGen();
+			}
+		}
+	}
+
+	for (int i = 0; i<3; i++)
+	{
+		castling[i] = rdGen();
+	}
+
+	for (File f = FILE_A; f <= FILE_H; ++f)
+	{
+		enPassant[f] = rdGen();
+	}
+
+	side = rdGen();
+}
+
+
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) : 
@@ -17,7 +53,7 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 	std::vector<std::string> piecesByRank;
 
     // Init zkey
-	initZobristKeys();
+	ZK::initZobristKeys();
 
 	//Split string
 	std::stringstream ss(fen);
@@ -96,34 +132,6 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 	//updateAtkFr();
 }
 
-
-void Board::initZobristKeys()
-{
-	rdGen.seed(1);
-
-	for (Color c = WHITE; c <= BLACK; ++c)
-	{
-		for (Piece::PieceType pt = Piece::PAWN; pt <= Piece::KING; ++pt)
-		{
-			for (Square s = SQ_A1; s <= SQ_H8; ++s)
-			{
-				psq[c][pt][s] = rdGen();
-			}
-		}
-	}
-
-	for (int i = 0; i<3; i++)
-	{
-		castling[i] = rdGen();
-	}
-
-	for (File f = FILE_A; f <= FILE_H; ++f)
-	{
-		enPassant[f] = rdGen();
-	}
-
-	side = rdGen();
-}
 
 Piece::PieceType Board::findBlackPieceType(const Square position) const
 {
@@ -478,13 +486,13 @@ void Board::executeMove(Move &move)
     // Cancel the ep square in the hash if there was one
     if (lastEpSquare != SQ_NONE)
     {
-        key ^= enPassant[Utils::getFile(lastEpSquare)];
+        key ^= ZK::enPassant[Utils::getFile(lastEpSquare)];
     }
 
     if (move.isDoublePawnPush())
     {
         myEpSquares.push_back(static_cast<Square>(destination-8+16*myColorToPlay));
-        key ^= enPassant[Utils::getFile(destination)];
+        key ^= ZK::enPassant[Utils::getFile(destination)];
     }
     else
     {
@@ -499,8 +507,8 @@ void Board::executeMove(Move &move)
 
     // Change the color to play
 	myColorToPlay = oppositeColor;
-    key ^= side;
-    pawnsKey ^= side;
+    key ^= ZK::side;
+    pawnsKey ^= ZK::side;
 
 	myMoves.push_back(move);
 	myKeys.push_back(key);
@@ -515,8 +523,8 @@ void Board::executeNullMove()
 	myMovesCounter += myColorToPlay;
 	myHalfMovesCounter++;
 	myColorToPlay = oppositeColor;
-	key ^= side;
-	pawnsKey ^= side;
+	key ^= ZK::side;
+	pawnsKey ^= ZK::side;
 	myMoves.push_back(Move());//TODO create constructor for null move?	
 	myKeys.push_back(key);
 }
@@ -527,8 +535,8 @@ void Board::undoNullMove()
 	myMovesCounter += myColorToPlay - 1;
 	myHalfMovesCounter--;
 	myColorToPlay = oppositeColor;
-	key ^= side;
-	pawnsKey ^= side;
+	key ^= ZK::side;
+	pawnsKey ^= ZK::side;
 	myMoves.pop_back();
 	myKeys.pop_back();
 }
@@ -628,7 +636,7 @@ void Board::undoMove(Move &move)
     // Update EP square
     if (move.isDoublePawnPush())
     {
-        key ^= enPassant[Utils::getFile(destination)];
+        key ^= ZK::enPassant[Utils::getFile(destination)];
     }
     myEpSquares.pop_back();
 
@@ -636,7 +644,7 @@ void Board::undoMove(Move &move)
     // Put the ep square in the hash again if there was one
     if (lastEpSquare != SQ_NONE)
     {
-        key ^= enPassant[Utils::getFile(lastEpSquare)];
+        key ^= ZK::enPassant[Utils::getFile(lastEpSquare)];
     }
 
 	myMovesCounter += myColorToPlay - 1; //-1 only when it's white to play
@@ -645,8 +653,8 @@ void Board::undoMove(Move &move)
 
     // Change the color to play
 	myColorToPlay = Utils::getOppositeColor(myColorToPlay);
-    key ^= side;
-    pawnsKey ^= side;
+    key ^= ZK::side;
+    pawnsKey ^= ZK::side;
 
 	//Remove the last move from the myMoves list.
 	myMoves.pop_back();
@@ -961,10 +969,10 @@ void Board::updateCastlingRights(Move &move)
     /* Did the castling rights change ? If yes, update the zkey */
     unsigned int hasChanged = (myCastling^move.getPreviousCastlingRights()) & 0b1111; 
     // hasChanged bits are 1 if corresponding castling right has changed
-    if (hasChanged & 0b0001) key^=(castling[0]);
-    if (hasChanged & 0b0010) key^=(castling[1]);
-    if (hasChanged & 0b0100) key^=(castling[2]);
-    if (hasChanged & 0b1000) key^=(castling[3]);
+    if (hasChanged & 0b0001) key^=(ZK::castling[0]);
+    if (hasChanged & 0b0010) key^=(ZK::castling[1]);
+    if (hasChanged & 0b0100) key^=(ZK::castling[2]);
+    if (hasChanged & 0b1000) key^=(ZK::castling[3]);
 
 }
 
@@ -974,10 +982,10 @@ void Board::rewindCastlingRights(const Move &move)
     /* Did the castling rights change ? If yes, update the zkey */
     unsigned int hasChanged = (myCastling^move.getPreviousCastlingRights()) & 0b1111; 
     // hasChanged bits are 1 if corresponding castling right has changed
-    if (hasChanged & 0b0001) key^=(castling[0]);
-    if (hasChanged & 0b0010) key^=(castling[1]);
-    if (hasChanged & 0b0100) key^=(castling[2]);
-    if (hasChanged & 0b1000) key^=(castling[3]);
+    if (hasChanged & 0b0001) key^=(ZK::castling[0]);
+    if (hasChanged & 0b0010) key^=(ZK::castling[1]);
+    if (hasChanged & 0b0100) key^=(ZK::castling[2]);
+    if (hasChanged & 0b1000) key^=(ZK::castling[3]);
 
 	myCastling = move.getPreviousCastlingRights();
 }

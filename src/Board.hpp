@@ -34,6 +34,19 @@ The compass is:
     -9  -8  -7
  */
 
+namespace ZK
+{
+	// PRNG
+	extern std::mt19937_64 rdGen;
+
+	extern Zkey psq[COLOR_NB][Piece::PIECE_TYPE_NB][SQUARE_NB];
+	extern Zkey enPassant[FILE_NB];
+	extern Zkey castling[4];
+	extern Zkey side;
+   
+	//Zobrist methods
+	void initZobristKeys();
+}
 
 
 class Board : public std::enable_shared_from_this<Board>
@@ -237,53 +250,42 @@ private:
 	std::vector<Zkey> myKeys;
     std::vector<Square> myEpSquares;
 
-
-	//TODO : add Zobrist namespace maybe
-	Zkey psq[COLOR_NB][Piece::PIECE_TYPE_NB][SQUARE_NB];
-	Zkey enPassant[FILE_NB];
-	Zkey castling[4];
-	Zkey side;
-
-	//move PRNG elsewhere
-	std::mt19937_64 rdGen;
-
-
 	//Move methods
 	inline void movePiece(const Square origin, const Square destination, const unsigned int pieceType, const Color color)
 	{
 		movePiece(origin, destination, myBitboards[pieceType+color*6]);
-		key ^= psq[color][pieceType][origin];
-		key ^= psq[color][pieceType][destination];
+		key ^= ZK::psq[color][pieceType][origin];
+		key ^= ZK::psq[color][pieceType][destination];
 
 		//Update pawn hash key is it's a pawn move
 		if(pieceType == Piece::PieceType::PAWN)
 		{
-			pawnsKey ^= psq[color][Piece::PieceType::PAWN][origin];
-			pawnsKey ^= psq[color][Piece::PieceType::PAWN][destination];
+			pawnsKey ^= ZK::psq[color][Piece::PieceType::PAWN][origin];
+			pawnsKey ^= ZK::psq[color][Piece::PieceType::PAWN][destination];
 		}
 	}
 
 	inline void removePiece(const Square index, const unsigned int pieceType, const Color color)
 	{
 		removePiece(index, myBitboards[pieceType+color*6]);
-		key ^= psq[color][pieceType][index];
+		key ^= ZK::psq[color][pieceType][index];
 
 		//Update pawn hash key is a pawn is involved
 		if(pieceType == Piece::PieceType::PAWN)
 		{
-			pawnsKey ^= psq[color][Piece::PieceType::PAWN][index];
+			pawnsKey ^= ZK::psq[color][Piece::PieceType::PAWN][index];
 		}
 	}
 
 	inline void addPiece(const Square index, const unsigned int pieceType, const Color color)
 	{
 		addPiece(index, myBitboards[pieceType+color*6]);
-		key ^= psq[color][pieceType][index];
+		key ^= ZK::psq[color][pieceType][index];
 
 		//Update pawn hash key is a pawn is involved
 		if(pieceType == Piece::PieceType::PAWN)
 		{
-			pawnsKey ^= psq[color][Piece::PieceType::PAWN][index];
+			pawnsKey ^= ZK::psq[color][Piece::PieceType::PAWN][index];
 		}
 	}
 
@@ -305,8 +307,6 @@ private:
 		addPiece(destination, bitBoard);
 	}
 
-	//Zobrist methods
-	void initZobristKeys();
 };
 
 
