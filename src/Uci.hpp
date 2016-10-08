@@ -46,6 +46,14 @@ public :
 	}
 
 	void loop();
+	
+    void setoption(std::istringstream& is);
+    void printOptions() const;
+    void initSearch();
+    std::string getOption(const std::string str) const;
+
+    // get methods    
+    inline Search getUciSearch() const {return mySearch;}
 
 private:
 
@@ -61,10 +69,6 @@ private:
 	void updatePosition(std::istringstream& is);
 	Move strToMove(std::string str);
 	void search();
-	void setoption(std::istringstream& is);
-	void printOptions() const;
-	void initSearch();
-	std::string getOption(const std::string str) const;
 
 	OptionsMap myOptionsMap;
 
