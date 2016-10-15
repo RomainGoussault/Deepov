@@ -52,9 +52,6 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
 
-    // Init zkey
-	ZK::initZobristKeys();
-
 	//Split string
 	std::stringstream ss(fen);
 	std::string item;

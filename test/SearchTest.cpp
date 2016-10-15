@@ -9,6 +9,7 @@ TEST_CASE( "Don't stalemate if you can win", "[search]" )
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
+	ZK::initZobristKeys();
 	globalTT.init_TT_size(TT::TEST_MB_SIZE); // For tests TT size is TT_SIZE_DEFAULT
     globalTT.clearTT();
 
@@ -24,6 +25,7 @@ TEST_CASE( "Search", "[search]" )
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
+	ZK::initZobristKeys();
 	globalTT.init_TT_size(TT::TEST_MB_SIZE);
     globalTT.clearTT();
 
@@ -75,6 +77,7 @@ TEST_CASE( "Draw", "[search]" )
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
+	ZK::initZobristKeys();
 	globalTT.init_TT_size(TT::TEST_MB_SIZE);
     globalTT.clearTT();
 

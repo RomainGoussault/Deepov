@@ -6,7 +6,9 @@
 
 TEST_CASE("Pawn structure")
 {
-
+	Tables::init();	
+	ZK::initZobristKeys();
+	
 	SECTION("Initial Position")
 	{
         Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -59,7 +61,9 @@ TEST_CASE("Pawn structure")
 
 TEST_CASE("Pawn zobrist keys")
 {
-
+	Tables::init();	
+	ZK::initZobristKeys();
+	
     SECTION("Test Zobrist pawn key on quiet move")
     {
         Board board;

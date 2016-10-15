@@ -11,7 +11,8 @@
 TEST_CASE( "Zobrist key", "[zobrist]" )
 {
 	MagicMoves::initmagicmoves();
-	Tables::init();
+	Tables::init();	
+	ZK::initZobristKeys();
 
 	SECTION("Test Zobrist key on quiet move")
 	{

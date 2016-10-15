@@ -40,8 +40,10 @@
 
 int main() {
 
+    // Init engine parameters
 	MagicMoves::initmagicmoves();
 	Tables::init();
+	ZK::initZobristKeys();
 //    globalTT.init_TT_size(TT::TEST_MB_SIZE);
 
 //    std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("3k4/3r4/3r4/3q4/3R4/3R4/3Q4/3K4 w - - 0 1"));
