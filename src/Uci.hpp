@@ -46,10 +46,11 @@ public :
 	}
 
 	void loop();
-	
+	void init();
     void setoption(std::istringstream& is);
     void printOptions() const;
     void initSearch();
+    void newGame();
     std::string getOption(const std::string str) const;
 
     // get methods    

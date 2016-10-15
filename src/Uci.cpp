@@ -49,6 +49,9 @@ void Uci::updatePosition(std::istringstream& is)
 			myBoardPtr->executeMove(m);
 		}
 	}
+	
+	// Reassign search to new boardPtr
+	initSearch();
 }
 
 std::string Uci::getOption(const std::string str) const
@@ -125,17 +128,21 @@ Move Uci::strToMove(std::string str)
 void Uci::initSearch()
 {
 	mySearch = Search(myBoardPtr); //Note this could be done earlier before the search
+}
 
+void Uci::init()
+{
 	TimeManager::divider = std::stoi(getOption("timeDivider"));
 	Eval::POSITIONNAL_GAIN_PERCENT = std::stoi(getOption("positionnalGain"));
 	Eval::MOBILITY_GAIN_PERCENT = std::stoi(getOption("mobilityGain"));
 	Eval::PAWN_GAIN_PERCENT = std::stoi(getOption("pawnGain"));
-    
-
 	//apply TT size
-	int ttSizeMB = std::stoi(getOption("hash"));
-	U64 ttSizeBytes = ttSizeMB*1024*1024;
-    globalTT.init_TT_size(ttSizeBytes);
+    globalTT.init_TT_size(std::stoi(getOption("hash")));
+}
+
+void Uci::newGame()
+{
+    globalTT.clearTT();
 }
 
 void Uci::loop()
@@ -165,10 +172,8 @@ void Uci::loop()
 		}
 		else if (token == "isready")
 		{
-			initSearch();
 			std::cout << "readyok" << std::endl;
 		}
-
 
 		else if (token == "setoption") 
             setoption(is);
@@ -178,8 +183,10 @@ void Uci::loop()
 			std::cout << "colorToPlay: " << myBoardPtr->getColorToPlay() << std::endl;
 
 		else if (token == "ucinewgame")
-            globalTT.clearTT();
-
+		{
+		    newGame();
+        }
+        
 		else if (token == "position")
 			updatePosition(is);
 

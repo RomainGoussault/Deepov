@@ -44,8 +44,11 @@ int main() {
 	MagicMoves::initmagicmoves();
 	Tables::init();
 	ZK::initZobristKeys();
-//    globalTT.init_TT_size(TT::TEST_MB_SIZE);
-
+    
+    Uci uci;
+    // Init uci options
+    uci.init();
+    
 //    std::shared_ptr<Board> sp = std::shared_ptr<Board>(new Board("3k4/3r4/3r4/3q4/3R4/3R4/3Q4/3K4 w - - 0 1"));
 //    std::cout << *sp << std::endl; 
 //    Search search(sp);
@@ -60,7 +63,6 @@ int main() {
 
 	#else
 
-		Uci uci;
 		uci.loop();
 
 	#endif

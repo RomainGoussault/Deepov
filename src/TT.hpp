@@ -9,8 +9,7 @@ class TT {
 
 public:
 
-    const static U64 TT_SIZE_DEFAULT = 10048576;
-    const static int TEST_MB_SIZE = -1; 
+    const static int TEST_MB_SIZE = 16; 
 
 	TT()
     {
@@ -32,7 +31,7 @@ public:
     	}
     } 
 
-    void init_TT_size(int sizeBytes);
+    void init_TT_size(int sizeMBytes);
     void setTTEntry(const Zkey zkey, const int depth, const int score, const NodeType node, const Move16 bestMove, const int moveCounter);
     TTEntry* probeTT(const Zkey zkey, const int depth);
 

@@ -9,17 +9,15 @@ TEST_CASE( "Test uci command isready", "[isready]" )
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
+	ZK::initZobristKeys();
+    globalTT.init_TT_size(TT::TEST_MB_SIZE);
 	
     Uci uci;
 //  To verify default options    
 //    uci.printOptions();
     
     SECTION("Test TT size during game and clear TT when rematch")
-	{
-        // Get hash size and converts to bytes to compare to globalTT
-        int hash_value=std::stoi(uci.getOption("hash"));
-        U64 ttSizeBytes = hash_value*1024*1024;
-        
+	{       
 	    uci.initSearch();
 	    U64 maxEntries = globalTT.getTTSize();
 	    U64 nEntries = globalTT.countEntries();
