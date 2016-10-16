@@ -44,7 +44,7 @@ void MoveOrdering::setNewKiller(const Move& move, const unsigned int ply)
 
 void MoveOrdering::rateMoves(std::vector<Move>& moveList, std::shared_ptr<Board> board, const unsigned int ply, const bool isSEE)
 {
-    auto ttEntry = globalTT.probeTT(board->key, 0); // returns non nullpr if key exists and depth is greater
+    TTEntry* ttEntry = globalTT.probeTT(board->key, 0); // returns non nullpr if key exists and depth is greater
     Move hashMove = Move();
 
     if(ttEntry)

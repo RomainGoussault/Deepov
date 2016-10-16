@@ -25,13 +25,10 @@ class UciOption {
 
 public:
 
-	UciOption() :
-		myDefaultValue(""),
-		myCurrentValue(""),
-		myType(""),
-		myMin(0), myMax(0)
-{
-};
+    // Constructors
+	UciOption() : myDefaultValue(""), myCurrentValue(""), myType(""), myMin(0), myMax(0)
+    {
+    };
 
 	UciOption(std::string defaultValue, std::string type) :
 		myDefaultValue(defaultValue),
@@ -49,6 +46,7 @@ public:
 	{
 	};
 
+    // Overloading
 	UciOption& operator=(const std::string& v )
 	{
 		//Blindly update for now

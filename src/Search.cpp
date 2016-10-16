@@ -131,8 +131,8 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 	}
 
 	//check for 1-move repetition
-	auto keys = myBoard->getKeysHistory();
-	auto currentKey = myBoard->key;
+	std::vector<Zkey> keys = myBoard->getKeysHistory();
+	Zkey currentKey = myBoard->key;
 	keys.pop_back();
 
 	if (std::find(keys.begin(), keys.end(), currentKey) != keys.end())
