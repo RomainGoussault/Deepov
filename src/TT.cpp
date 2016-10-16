@@ -17,7 +17,7 @@
     along with Deepov.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include "TT.hpp"
+#include "TT.hpp"
 
 TT globalTT = TT();
 
