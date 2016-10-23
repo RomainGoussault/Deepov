@@ -50,7 +50,8 @@ class Uci
 {
 public :
 
-	Uci() : wtime(1000), btime(1000), winc(1000), binc(1000), myBoardPtr(std::shared_ptr<Board>(new Board())), mySearch(Search(myBoardPtr))
+	Uci() : wtime(1000), btime(1000), winc(1000), binc(1000), 
+	myBoardPtr(std::shared_ptr<Board>(new Board())), mySearch(Search(myBoardPtr)), myOptionsMap()
 	{
 		// myBoardPtr(std::shared_ptr<Board>(new Board()));
 		// mySearch(Search(myBoardPtr));

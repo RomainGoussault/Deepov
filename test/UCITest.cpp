@@ -44,13 +44,12 @@ TEST_CASE( "Test uci command isready", "[isready]" )
 	    
 	    Search uciSearch = uci.getUciSearch();
 	    uciSearch.negaMaxRootIterativeDeepening(1000);
-
 	    nEntries = globalTT.countEntries();
 	    REQUIRE(nEntries > 0);
 	    
 	    // Test clear TT
-	    globalTT.clearTT();
-        nEntries = globalTT.countEntries();
+	    uci.newGame();
+	    nEntries = globalTT.countEntries();
 	    REQUIRE(globalTT.getTTSize() == maxEntries);
 	    REQUIRE(globalTT.countEntries() == 0);
 	}

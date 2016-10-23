@@ -21,11 +21,21 @@
 
 Pawn::Entry pawnsTable[Pawn::HASH_SIZE];
 
+void Pawn::initPawnTable()
+{
+    for(U64 i=0; i<Pawn::HASH_SIZE; i++)
+    {
+    	pawnsTable[i].key = 0;
+    	pawnsTable[i].score = 0;
+    }
+}
+
 int Pawn::getScore(const Board &board, const int gameStage, const int alpha)
 {
     //Probe pawn hash first
     Zkey key = board.pawnsKey;
     int index = key % Pawn::HASH_SIZE;
+
     if(pawnsTable[index].key == key)
     {
         //it's a match

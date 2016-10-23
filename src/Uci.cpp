@@ -157,6 +157,8 @@ void Uci::init()
 	Eval::PAWN_GAIN_PERCENT = std::stoi(getOption("pawnGain"));
 	//apply TT size
     globalTT.init_TT_size(std::stoi(getOption("hash")));
+    // init Pawn hashtable
+    Pawn::initPawnTable();
 }
 
 void Uci::newGame()

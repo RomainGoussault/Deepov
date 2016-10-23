@@ -145,6 +145,9 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 		myHalfMovesCounter = 0;
 	}
 
+    pawnsKey = 0;
+    key = 0;
+    
 	//updateAtkFr();
 }
 

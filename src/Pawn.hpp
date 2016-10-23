@@ -45,7 +45,9 @@ namespace Pawn
         int score;
 
     };
-
+    
+    /** Initialize Pawn table **/
+    void initPawnTable();
 
 	/** Score calculation **/
     int getScore(const Board &board, const int gameStage, const int alpha);
@@ -76,5 +78,14 @@ namespace Pawn
         return (board.getPawns(color) & Tables::NEIGHBOR_FILES[file]);
     };
 };
+
+
+inline std::ostream& operator<<(std::ostream &strm, const Pawn::Entry &entry) {
+
+    strm << " > ";
+    strm << entry.key << " ";
+    strm << "Score " << entry.score;
+	return strm;
+}
 
 #endif // Pawn_H
