@@ -112,7 +112,6 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
 	int alpha_old = alpha;
 	int extensions = 0;
     myPvLength[myPly] = myPly; // Currentlength of the local PV 
-    bool isPvs = false ;
 
 	//Check extension: If in check go one ply further
 	myBoard->updateKingAttackers(myBoard->getColorToPlay());	
@@ -301,7 +300,6 @@ int Search::negaMaxRoot(const int depth)
 	myMovesSearched = 0;
 	myPly=0;
     myPvLength[myPly] = myPly; // Current length of the local PV 
-    bool isPvs = false ;
 
 	auto currentKey = myBoard->key;
 	auto ttEntry = globalTT.probeTT(currentKey, depth); // returns non nullpr if key exists and depth is greater
