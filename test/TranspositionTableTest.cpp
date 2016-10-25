@@ -52,7 +52,8 @@ TEST_CASE( "Fill transposition table from initial position ", "[TT]")
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
-    globalTT.init_TT_size(TT::TEST_MB_SIZE);
+	ZK::initZobristKeys();
+	globalTT.init_TT_size(TT::TEST_MB_SIZE);
     
 	SECTION("Depth 1")
 	{
@@ -85,7 +86,8 @@ TEST_CASE( "Search results should be the same with or without TT ", "[TT]")
 {
 	MagicMoves::initmagicmoves();
 	Tables::init();
-    globalTT.init_TT_size(TT::TEST_MB_SIZE);
+	ZK::initZobristKeys();
+	globalTT.init_TT_size(TT::TEST_MB_SIZE);
 
 	SECTION("Initial position")
 	{
