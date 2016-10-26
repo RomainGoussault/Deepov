@@ -147,8 +147,6 @@ myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(
 
     // pawnsKey = 0;
     // key = 0;
-    
-	//updateAtkFr();
 }
 
 
@@ -216,9 +214,7 @@ Piece::PieceType Board::findWhitePieceType(const Square position) const
 	}
 }
 
-
 /* Commented until proven useful */
-
 //U64 Board::getAttacksFromSq(const Square square) const
 //{
 //	//TODO Implement the commented functions
@@ -344,7 +340,7 @@ bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
 	}
 
 	return isAttacked;
-};
+}
 
 bool Board::isSquareAttacked(Square square, Color color) const
 {
@@ -533,7 +529,6 @@ void Board::executeMove(Move &move)
 	myKeys.push_back(key);
 
 	updateConvenienceBitboards();
-	//updateAtkFr();
 }
 
 void Board::executeNullMove()
@@ -573,7 +568,6 @@ void Board::undoMove(Move &move)
 	if(move.isQuiet())
 	{
 		movePiece(destination, origin, pieceType, oppositeColor);
-
 	}
 	else //Castling or Promotion or Capture
 	{
@@ -680,7 +674,6 @@ void Board::undoMove(Move &move)
 	myKeys.pop_back();
 
 	updateConvenienceBitboards();
-	//updateAtkFr();
 }
 
 void Board::updateConvenienceBitboards()
@@ -1081,7 +1074,6 @@ int Board::seeCapture(Move captureMove, Color color)
 
    return score;
 }
-
 
 //To statically evaluate a capture, that particular capture should be forced, because it might not be the lowest attacker that makes the capture,
 //and must not allow the option of standing pat

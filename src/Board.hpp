@@ -78,7 +78,6 @@ public:
 	inline U64 getWhiteKing() const{return myBitboards[5];}
 	inline Square getWhiteKingSquare() const{return msb(getWhiteKing());}
 
-
 	inline U64 getBlackPawns() const{return myBitboards[6];}
 	inline U64 getBlackKnights() const{return myBitboards[7];}
 	inline U64 getBlackBishops() const{return myBitboards[8];}
@@ -86,7 +85,6 @@ public:
 	inline U64 getBlackQueens() const{return myBitboards[10];}
 	inline U64 getBlackKing() const{return myBitboards[11];}
 	inline Square getBlackKingSquare() const{return msb(getBlackKing());}
-
 
 	inline U64 getPawns(Color color) const{return getBitBoard(Piece::PAWN, color);}
 	inline U64 getKnights(Color color) const{return getBitBoard(Piece::KNIGHT, color);}
@@ -121,8 +119,6 @@ public:
 	inline Color getColorToPlay() const {return myColorToPlay;};
 	inline std::vector<Move> getMovesHistory() const {return myMoves;};
 	inline std::vector<Zkey> getKeysHistory() const {return myKeys;};
-
-	/*  **********  */
 
 	void setBitBoards(const std::string piecesString, const unsigned int rank);
 	void updateConvenienceBitboards();
@@ -214,8 +210,6 @@ public:
 	bool isBitBoardAttacked(U64 bitboard, Color color) const;
 	bool isSquareAttacked(Square square, Color color) const; // is square attacked by the opposite color of "Color color"
 
-
-	/* ************* */
 	char getChar(const unsigned int file, const unsigned int rank) const;
 
 	/* This method takes a position as a string (e.g. e4) and returns the index in Little-Endian
@@ -233,7 +227,7 @@ public:
     /* Methods to get move counters */
     inline unsigned int getPly() const {return myHalfMovesCounter;}
 
-	//This should be private
+	// TODO : This should be private
 	//Zobrist key
 	Zkey key;
 	Zkey pawnsKey;
@@ -319,9 +313,7 @@ private:
 		//Add piece to destination positions
 		addPiece(destination, bitBoard);
 	}
-
 };
-
 
 inline std::ostream& operator<<(std::ostream &strm, const Board &Board) {
 
@@ -342,7 +334,6 @@ inline std::ostream& operator<<(std::ostream &strm, const Board &Board) {
 
 	return strm;
 }
-
 
 inline std::ostream& operator<<(std::ostream &strm, const std::vector<Move> &moves) {
 
