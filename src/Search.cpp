@@ -358,7 +358,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
-	int minDepth = 3;
+	int minDepth = 2;
 	myMovesSearched = 0;
 	myPly=0;
     myPvLength[myPly] = myPly; // Current length of the local PV
@@ -409,9 +409,13 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 				j++;
 
 				bool isMovelistHalfDone = 2*j > moveList.size();
-
+				
 				// Check for time fist
-				if(durationMS >  allocatedTimeMS && depth >= minDepth && !isMovelistHalfDone){
+				time = std::chrono::high_resolution_clock::now();
+				dur = time - startTime;
+				durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+
+				if(durationMS >  allocatedTimeMS && depth >= minDepth && isMovelistHalfDone){
 					return alpha;
 				}
 

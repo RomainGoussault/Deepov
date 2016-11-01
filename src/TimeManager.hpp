@@ -39,22 +39,22 @@ namespace TimeManager
 		{
 			if(colorToPlay == WHITE)
 			{
-				allocatedTimeMiliSec = winc/4+(wtime - wtime/divider)/divider;
+				allocatedTimeMiliSec = winc+(wtime - wtime/divider)/divider;
 			}
 			else
 			{
-				allocatedTimeMiliSec = binc/4+(btime - btime/divider)/divider;
+				allocatedTimeMiliSec = binc+(btime - btime/divider)/divider;
 			}
 		}
 		else
 		{
 			if(colorToPlay == WHITE)
 			{
-				allocatedTimeMiliSec = winc/4+(wtime - wtime/(movestogo+3))/(1*movestogo+3);
+				allocatedTimeMiliSec = winc+(wtime - wtime/(movestogo+3))/(1*movestogo+3);
 			}
 			else
 			{
-				allocatedTimeMiliSec = binc/4+(btime - btime/(movestogo+3))/(1*movestogo+3);
+				allocatedTimeMiliSec = binc+(btime - btime/(movestogo+3))/(1*movestogo+3);
 			}	
 		}
 
