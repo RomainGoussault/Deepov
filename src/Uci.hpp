@@ -50,7 +50,7 @@ class Uci
 {
 public :
 
-	Uci() : wtime(1000), btime(1000), winc(1000), binc(1000), 
+	Uci() : wtime(1000), btime(1000), winc(0), binc(0), movestogo(0),
 	myBoardPtr(std::shared_ptr<Board>(new Board())), mySearch(Search(myBoardPtr)), myOptionsMap()
 	{
 		// myBoardPtr(std::shared_ptr<Board>(new Board()));
@@ -81,6 +81,7 @@ private:
 	unsigned int btime;
 	unsigned int winc;
 	unsigned int binc;
+	unsigned int movestogo;
 	std::shared_ptr<Board> myBoardPtr;
 	Search mySearch;
 	thrd::thread myThread;

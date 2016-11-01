@@ -359,6 +359,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
+	int minDepth = 3;
 	myMovesSearched = 0;
 	myPly=0;
     myPvLength[myPly] = myPly; // Current length of the local PV
@@ -374,17 +375,14 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		alpha = -999999;
 		beta = -alpha;
 		score = 0;
-        bool isPvs = false ;
+        bool isPvs = false;
 
 		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
 		auto dur = time - startTime;
 		int durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
 
 		//check for time
-		if(depth !=1)
-		{
-			if(durationMS > allocatedTimeMS) return alpha; //if there only 2/3 of time left don't go one depth further
-		}
+		if(durationMS > 0.5 * allocatedTimeMS && depth >= minDepth) return alpha;
 
 		auto currentKey = myBoard->key;
 		auto ttEntry = globalTT.probeTT(currentKey, depth); // returns non nullpr if key exists and depth is greater
@@ -406,8 +404,18 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 			myMoveOrder.rateMoves(moveList, myBoard, myPly, true);
 			myMoveOrder.sortMoves(moveList);
 
+			unsigned int j = 0;
 			for (auto currentMove : moveList)
 			{
+				j++;
+
+				bool isMovelistHalfDone = 2*j > moveList.size();
+
+				// Check for time fist
+				if(durationMS >  allocatedTimeMS && depth >= minDepth && !isMovelistHalfDone){
+					return alpha;
+				}
+
 				myBoard->executeMove(currentMove);
 				myEval.updateEvalAttributes(currentMove);
 				myPly++;
@@ -430,7 +438,6 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 					alpha = score;
                     isPvs = true ;
 					myBestMove = currentMove.getMove16();
-					//std::cout << " Romain myBestMove" << currentMove.toShortString() << std::endl;
                     myPvTable[myPly][myPly] = currentMove ; 
                     for (unsigned int i=myPly+1; i<myPvLength[myPly+1]; i++)
                     {

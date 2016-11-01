@@ -186,7 +186,7 @@ void Uci::loop()
 
 		if (token == "uci")
 		{
-			std::cout << "id name Deepov 0.4" << std::endl;
+			std::cout << "id name Deepov 0.4-RC1" << std::endl;
 			std::cout << "id author Romain Goussault - Navid Hedjazian" << std::endl;
 			printOptions();
 			std::cout << "uciok" << std::endl;
@@ -221,10 +221,11 @@ void Uci::loop()
 		{
 			while (is >> token)
 			{
-				if (token == "wtime")     is >> wtime;
+				if (token == "wtime")          is >> wtime;
 				else if (token == "btime")     is >> btime;
 				else if (token == "winc")      is >> winc;
 				else if (token == "binc")      is >> binc;
+				else if (token == "movestogo") is >> movestogo;
 			}
 
 			//http://stackoverflow.com/questions/12624271/c11-stdthread-giving-error-no-matching-function-to-call-stdthreadthread
@@ -245,7 +246,7 @@ void Uci::loop()
 
 void Uci::search()
 {
-	auto timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, myBoardPtr->getColorToPlay());
+	auto timeMS = TimeManager::getTimeAllocatedMiliSec(wtime, btime,  winc,  binc, movestogo, myBoardPtr->getColorToPlay());
 
 	mySearch.negaMaxRootIterativeDeepening(timeMS);
 

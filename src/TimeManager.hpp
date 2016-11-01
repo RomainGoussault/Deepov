@@ -30,16 +30,35 @@ namespace TimeManager
 	unsigned int divider = 50; //this value is set by the timeDivider Option
 
 	//Note all values are in ms
-	unsigned int getTimeAllocatedMiliSec(const unsigned int wtime, const unsigned int btime, const unsigned int winc, const unsigned int binc, const Color colorToPlay)
+	unsigned int getTimeAllocatedMiliSec(const unsigned int wtime, const unsigned int btime, const unsigned int winc, const unsigned int binc, const unsigned int movestogo, const Color colorToPlay)
 	{
-		if(colorToPlay == WHITE)
+
+		unsigned int allocatedTimeMiliSec;
+
+		if(movestogo == 0)
 		{
-			return winc/4+(wtime - wtime/divider)/divider;
+			if(colorToPlay == WHITE)
+			{
+				allocatedTimeMiliSec = winc/4+(wtime - wtime/divider)/divider;
+			}
+			else
+			{
+				allocatedTimeMiliSec = binc/4+(btime - btime/divider)/divider;
+			}
 		}
 		else
 		{
-			return binc/4+(btime - btime/divider)/divider;
+			if(colorToPlay == WHITE)
+			{
+				allocatedTimeMiliSec = winc/4+(wtime - wtime/(movestogo+3))/(1*movestogo+3);
+			}
+			else
+			{
+				allocatedTimeMiliSec = binc/4+(btime - btime/(movestogo+3))/(1*movestogo+3);
+			}	
 		}
+
+		return allocatedTimeMiliSec;
 	}
 };
 
