@@ -74,12 +74,12 @@ TTEntry* TT::probeTT(const Zkey zkey, const int depth)
 }
 
 U64 TT::countEntries()
-    {
-    	U64 count = 0;
-    	for(U64 i=0; i<myTTSize; i++)
-    	{
-    		count += myTTTable[i].getNodeType() != NodeType::NONE;
-    	}
+{
+	U64 count = 0;
+	for(U64 i=0; i<myTTSize; i++)
+	{
+		count += myTTTable[i].getNodeType() != NodeType::NONE;
+	}
 
-    	return count;
-    }
+	return count;
+}

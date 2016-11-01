@@ -151,4 +151,3 @@ std::string Utils::Move16ToShortString(const Move16 shortMove)
 
 		return ss.str();
 }
-

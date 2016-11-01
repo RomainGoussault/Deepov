@@ -50,13 +50,6 @@ public:
 	UciOption& operator=(const std::string& v )
 	{
 		//Blindly update for now
-
-		//	if ((myType != "button" && v.empty())
-		//			|| (myType == "check" && v != "true" && v != "false")
-		//			|| (myType == "spin" && (stoi(v) < min || stoi(v) > max)))
-		//		return *this;
-		//
-		//	if (myType != "button")
 		myCurrentValue = v;
 
 		return *this;
@@ -129,28 +122,5 @@ inline std::ostream& operator<<(std::ostream &strm, const UciOption &UciOption) 
 
 	return strm;
 }
-///// operator<<() is used to print all the options default values in chronological
-///// insertion order (the idx field) and in the format defined by the UCI protocol.
-//
-//std::ostream& operator<<(std::ostream& os, const OptionsMap& om) {
-//
-//  for (size_t idx = 0; idx < om.size(); ++idx)
-//      for (OptionsMap::const_iterator it = om.begin(); it != om.end(); ++it)
-//          if (it->second.idx == idx)
-//          {
-//              const Option& o = it->second;
-//              os << "\noption name " << it->first << " type " << o.type;
-//
-//              if (o.type != "button")
-//                  os << " default " << o.defaultValue;
-//
-//              if (o.type == "spin")
-//                  os << " min " << o.min << " max " << o.max;
-//
-//              break;
-//          }
-//  return os;
-//}
-
 
 #endif /* UCIOPTION_HPP_ */

@@ -75,7 +75,6 @@ void Uci::updatePosition(std::istringstream& is)
 
 std::string Uci::getOption(const std::string str) const
 {
-	//Ugly and not safe
 	//TODO: Refactor
 	UciOption uciOption = (*(myOptionsMap.find(str))).second;
 	return uciOption.getCurrentValue();
@@ -110,7 +109,9 @@ void Uci::setoption(std::istringstream& is) {
 
 	}
 	else
+	{
 		std::cout << "No such option: " << name << std::endl;
+	}
 }
 
 void Uci::printOptions() const{

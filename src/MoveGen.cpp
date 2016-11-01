@@ -217,18 +217,6 @@ void MoveGen::appendRookPseudoLegalMoves(const Color color, std::vector<Move>& m
 		addCaptureMoves(rookCaptureDestinations, rookIndex, moves, Piece::ROOK);
 	}
 }
-/*
-std::vector<Move> MoveGen::getPawnPseudoLegalMoves(const Color color) const
-{
-	if(color == WHITE)
-	{
-		return getWhitePawnPseudoLegalMoves();
-	}
-	else
-	{
-		return getBlackPawnPseudoLegalMoves();
-	}
-}*/
 
 void MoveGen::appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target) const
 {
@@ -241,6 +229,7 @@ void MoveGen::appendPawnPseudoLegalMoves(const Color color, std::vector<Move>& m
 		appendBlackPawnPseudoLegalMoves(moves, target);
 	}
 }
+
 void MoveGen::appendKnightPseudoLegalMoves(const Color color, std::vector<Move>& moves, U64 target) const
 {
 	U64 knightPositions = myBoard->getKnights(color) & ~myBoard->getPinnedPieces();

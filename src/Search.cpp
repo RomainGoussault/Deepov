@@ -46,7 +46,6 @@ bool Search::isInsufficentMatingMaterial() const
 	auto numberOfWhiteMinorPieces = popcount(myBoard->getWhiteKnights() | myBoard->getWhiteBishops());
 	auto numberOfBlackMinorPieces = popcount(myBoard->getBlackKnights() | myBoard->getBlackBishops());
 
-
 	//No pawns, no queens nor rooks, only one bishop or knight per side.
 	return !isPawns && !isQueensOrRooks && numberOfWhiteMinorPieces <= 1 && numberOfBlackMinorPieces <=1;
 }

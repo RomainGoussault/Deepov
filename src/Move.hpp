@@ -221,10 +221,4 @@ inline std::ostream& operator<<(std::ostream &strm, const Move &move) {
 	return strm;
 }
 
-
-
-
-
-
-
 #endif // Move_H

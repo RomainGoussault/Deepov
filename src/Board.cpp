@@ -214,42 +214,6 @@ Piece::PieceType Board::findWhitePieceType(const Square position) const
 	}
 }
 
-/* Commented until proven useful */
-//U64 Board::getAttacksFromSq(const Square square) const
-//{
-//	//TODO Implement the commented functions
-//	if (myBitboards[0]&(1LL << square))
-//	{
-//		//return getPawnDestinations(square, color);
-//	}
-//	else if (myBitboards[1]&(1LL << square))
-//	{
-//		return getKnightAttackedDestinations(square);
-//	}
-//	else if (myBitboards[2]&(1LL << square))
-//	{
-//		//return getBishopDestinations(square, color);
-//	}
-//	else if (myBitboards[3]&(1LL << square))
-//	{
-//		//return getRookDestinations(square, color);
-//	}
-//	else if (myBitboards[4]&(1LL << square))
-//	{
-//		//return getQueenDestinations(square, color);
-//	}
-//	else if (myBitboards[5]&(1LL << square))
-//	{
-//		//return getKingDestinations(square);
-//	}
-//	else
-//	{
-//		return 0LL;
-//	}
-//
-//	return 0LL;
-//}
-
 /**
  * This method returns an unsigned int between 0 and 5 representing the type
  *  of the piece at the given position (MSB index) and for the given

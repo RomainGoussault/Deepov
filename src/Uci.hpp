@@ -53,9 +53,6 @@ public :
 	Uci() : wtime(1000), btime(1000), winc(0), binc(0), movestogo(0),
 	myBoardPtr(std::shared_ptr<Board>(new Board())), mySearch(Search(myBoardPtr)), myOptionsMap()
 	{
-		// myBoardPtr(std::shared_ptr<Board>(new Board()));
-		// mySearch(Search(myBoardPtr));
-
 		//Init Options map
 		myOptionsMap["timeDivider"] = UciOption("50", "spin",1,1000);
 		myOptionsMap["positionnalGain"] = UciOption("100", "spin",1,1000);

@@ -69,28 +69,6 @@ int Pawn::calculateEntryCount()
 
 int Pawn::calculateScore(const Board &board, const int gameStage, const int alpha)
 {
-    //TODO: Refactor
-    // U64 whitePawns = board.getWhitePawns();
-    // U64 blackPawns = board.getBlackPawns();
-
-    // while (whitePawns)
-    // {
-    //     Square sq = pop_lsb(&whitePawns);
-    //     File file = getFile(sq);
-    //     Rank rank = getRank(sq);
-
-    //     bool hasNeighbours = board.getWhitePawns() & Tables::NEIGHBOR_FILES[file];
-    //     //Supported if neighbours are behind int
-    //     bool isSupported  = hasNeighbours & Tables::MASK_RANK[rank-1] & board.getWhitePawns();
-    //     bool isDoubled = countPawnsInFile(board, file, WHITE)>1;
-    //     bool isPassed = (Tables::PASSED_PAWN_MASK[WHITE][sq] & blackPawns) == 0;
-
-    //     //Need to have score object to save midgame and endgame scores
-    // }
-
-
-
-
     int doubled = doubledPawns(board);
     int passed = passedPawns(board);
     int isolated = isolatedPawns(board);
