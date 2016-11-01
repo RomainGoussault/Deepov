@@ -50,11 +50,11 @@ namespace TimeManager
 		{
 			if(colorToPlay == WHITE)
 			{
-				allocatedTimeMiliSec = winc+(wtime - wtime/(movestogo+3))/(1*movestogo+3);
+				allocatedTimeMiliSec = winc+(wtime - wtime/(movestogo+3))/(0.7*movestogo+3);
 			}
 			else
 			{
-				allocatedTimeMiliSec = binc+(btime - btime/(movestogo+3))/(1*movestogo+3);
+				allocatedTimeMiliSec = binc+(btime - btime/(movestogo+3))/(0.7*movestogo+3);
 			}	
 		}
 
