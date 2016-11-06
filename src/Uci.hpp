@@ -54,11 +54,11 @@ public :
 	myBoardPtr(std::shared_ptr<Board>(new Board())), mySearch(Search(myBoardPtr)), myOptionsMap()
 	{
 		//Init Options map
-		myOptionsMap["timeDivider"] = UciOption("50", "spin",1,1000);
-		myOptionsMap["positionnalGain"] = UciOption("100", "spin",1,1000);
-		myOptionsMap["mobilityGain"] = UciOption("100", "spin",1,1000);
-		myOptionsMap["pawnGain"] = UciOption("100", "spin",1,1000);
-		myOptionsMap["hash"] = UciOption("16", "spin",1,2048); //hash size in MB
+		// myOptionsMap["timeDivider"] = UciOption("50", "spin",1,1000);
+		// myOptionsMap["positionnalGain"] = UciOption("100", "spin",1,1000);
+		// myOptionsMap["mobilityGain"] = UciOption("100", "spin",1,1000);
+		// myOptionsMap["pawnGain"] = UciOption("100", "spin",1,1000);
+		myOptionsMap["hash"] = UciOption("256", "spin",1,2048); //hash size in MB, default 256 MB
 	}
 
 	void loop();
