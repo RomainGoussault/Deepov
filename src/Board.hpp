@@ -109,7 +109,6 @@ public:
 
 	inline U64 getBitBoard(Piece::PieceType pieceType, Color color) const{return myBitboards[pieceType+6*color];};
 
-	inline U64 getAtkFr(Square sq) const {return myAtkFr[sq];};
 	inline U64 getAtkTo(Square sq) const {return myAtkTo[sq];};
 	inline U64 getKingAttackers() const {return myKingAttackers;};
 
@@ -123,7 +122,6 @@ public:
 	void setBitBoards(const std::string piecesString, const unsigned int rank);
 	void updateConvenienceBitboards();
 	void updatePinnedPieces();
-	void updateAtkFr();
 
 	/* Moves methods */
 	bool isMoveLegal(Move &move, bool isCheck); // uses executeMove and undoMove so it can't be const
@@ -196,6 +194,11 @@ public:
 		return Tables::ATTACK_TABLE[Piece::KING][square] & ~getPieces(color);
 	};
 
+	inline U64 getKingAttacks(const Square square) const
+	{
+		return Tables::ATTACK_TABLE[Piece::KING][square];
+	};
+
 	inline bool hasBlackCastled() const
 	{
 		return myHasBlackCastled;
@@ -206,8 +209,6 @@ public:
 		return myHasWhiteCastled;
 	}
 
-	/* I keep both functions to compare their performance */
-	bool isBitBoardAttacked(U64 bitboard, Color color) const;
 	bool isSquareAttacked(Square square, Color color) const; // is square attacked by the opposite color of "Color color"
 
 	char getChar(const unsigned int file, const unsigned int rank) const;
@@ -247,7 +248,6 @@ private:
 	bool myHasBlackCastled;
 
 	U64 myAtkTo[SQUARE_NB]; // Locations of pieces that attack to the square
-	U64 myAtkFr[SQUARE_NB]; // Attacks from the piece on the square
 	U64 myKingAttackers;
 
 	unsigned int myMovesCounter;

@@ -66,7 +66,7 @@ void ZK::initZobristKeys()
 Board::Board() : Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"){}
 
 Board::Board(const std::string fen) : 
-myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myAtkFr(), myKingAttackers()
+myBitboards(), myAllPieces(), myPinnedPieces(), myCastling(), myHasWhiteCastled(false), myHasBlackCastled(false), myAtkTo(), myKingAttackers()
 {
 	std::vector<std::string> spaceSplit;
 	std::vector<std::string> piecesByRank;
@@ -285,25 +285,6 @@ void Board::updateKingAttackers(const Color color)
 
 	//update myKingAttackers field;
 	myKingAttackers = getAttackersTo(kingSquare, color);
-}
-
-bool Board::isBitBoardAttacked(U64 bitboard, Color color) const
-{
-	bool isAttacked = false;
-	Color enemyColor = Utils::getOppositeColor(color);
-
-	U64 attackers = getPieces(enemyColor);
-
-	while(attackers)
-	{
-		Square attackerSquare = pop_lsb(&attackers);
-
-		U64 attackFr = getAtkFr(attackerSquare);
-
-		isAttacked |= bitboard & attackFr;
-	}
-
-	return isAttacked;
 }
 
 bool Board::isSquareAttacked(Square square, Color color) const
@@ -662,57 +643,6 @@ void Board::updateConvenienceBitboards()
 	myBitboards[19] = myBitboards[5] ^ myBitboards[11];
 
 	myAllPieces = myBitboards[12] ^ myBitboards[13];
-}
-
-void Board::updateAtkFr()
-{
-	std::fill(myAtkFr, myAtkFr+SQUARE_NB, 0LL);
-	U64 currentBB(0LL);
-
-	for (int i = WHITE; i<COLOR_NB; i++)
-	{
-		currentBB = getBitBoard(Piece::PAWN,static_cast<Color>(i));
-		while(currentBB)
-		{
-			const Square square = pop_lsb(&currentBB);
-			myAtkFr[square] = getPawnAttacks(square, static_cast<Color>(i));
-		}
-
-		currentBB = getBitBoard(Piece::KNIGHT,static_cast<Color>(i));
-		while(currentBB)
-		{
-			const Square square = pop_lsb(&currentBB);
-			myAtkFr[square] = getKnightAttacks(square,static_cast<Color>(i));
-		}
-
-		currentBB = getBitBoard(Piece::BISHOP,static_cast<Color>(i));
-		while(currentBB)
-		{
-			const Square square = pop_lsb(&currentBB);
-			myAtkFr[square] = getBishopAttacks(square,static_cast<Color>(i));
-		}
-
-		currentBB = getBitBoard(Piece::ROOK,static_cast<Color>(i));
-		while(currentBB)
-		{
-			const Square square = pop_lsb(&currentBB);
-			myAtkFr[square] = getRookAttacks(square,static_cast<Color>(i));
-		}
-
-		currentBB = getBitBoard(Piece::QUEEN,static_cast<Color>(i));
-		while(currentBB)
-		{
-			const Square square = pop_lsb(&currentBB);
-			myAtkFr[square] = getQueenAttacks(square,static_cast<Color>(i));
-		}
-
-		currentBB = getBitBoard(Piece::KING,static_cast<Color>(i));
-		while(currentBB)
-		{
-			const Square square = pop_lsb(&currentBB);
-			myAtkFr[square] = getKingAttacks(square,static_cast<Color>(i));
-		}
-	}
 }
 
 //This methods returns the char representing the piece at the given position (file,rank)
