@@ -359,6 +359,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	int beta = -alpha;
 	int score = 0;
 	int minDepth = 2;
+	
 	myMovesSearched = 0;
 	myPly=0;
     myPvLength[myPly] = myPly; // Current length of the local PV
@@ -366,6 +367,8 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
 			std::chrono::high_resolution_clock::now();
+	std::chrono::high_resolution_clock::time_point time;
+	auto dur = time - startTime;
 
 	myDepth = 1;
 
@@ -376,10 +379,7 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		score = 0;
         bool isPvs = false;
 
-		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
-		auto dur = time - startTime;
-		mySearchDurationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
-
+		
 		//check for time
 		if (mySearchDurationMS > 0.5 * allocatedTimeMS && myDepth >= minDepth)
 		{
@@ -451,27 +451,25 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
                     }
                     myPvLength[myPly] = myPvLength[myPly+1];
 				}
+			
 				myBoard->undoMove(currentMove);
 				myEval.rewindEvalAttributes(currentMove);
 				myPly--;
-			}
+			} 
+
 
 			globalTT.setTTEntry(myBoard->key, myDepth, alpha, NodeType::EXACT, myBestMove, myBoard->getPly());
 		}
 
-		myDepth++;
+		//update duration and send info to UCI
+		time = std::chrono::high_resolution_clock::now();
+		dur = time - startTime;
 
 		mySearchDurationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
-		mySearchDurationMS = std::max(mySearchDurationMS, (unsigned int) 1);
-		// Send info to uci console
-		std::cout << "info";
-		std::cout << " depth " << myDepth;
-		std::cout << " score " << alpha;
-		std::cout << " nodes " << myMovesSearched;
-		unsigned int nps = 1000 * myMovesSearched / mySearchDurationMS;
-		std::cout << " nps " << nps;
-		std::cout << " time " << mySearchDurationMS;
-		std::cout << " pv " << "" << std::endl; // TODO
+		mySearchDurationMS = std::max(mySearchDurationMS, (unsigned int) 1); 
+		sendInfoToUCI(alpha);
+
+		myDepth++;
 	}
 
 	return alpha;
@@ -483,6 +481,24 @@ int Search::evaluate()
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
 
+void Search::sendInfoToUCI(int alpha)
+{
+	// Send info to uci console
+	std::cout << "info";
+	std::cout << " depth " << myDepth;
+	std::cout << " score " << alpha;
+	std::cout << " nodes " << myMovesSearched;
+	unsigned int nps = 1000 * myMovesSearched / mySearchDurationMS;
+	std::cout << " nps " << nps;
+	std::cout << " time " << mySearchDurationMS;
+	std::cout << " pv ";
+	for (int j=0; j<myDepth; j++)
+    {
+		std::cout << myPvTable[j][j].toShortString() << " ";
+    }
+
+	std::cout << std::endl;
+}
 
 void Search::printPvTable(const unsigned int numLines)
 {

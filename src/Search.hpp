@@ -59,6 +59,7 @@ private:
     int negaMax(const int depth, int alpha, const int beta, const bool isNullMoveAuth);
     int evaluate();
     int qSearch(int alpha, const int beta);
+    void sendInfoToUCI(int alpha);
 
     Move myPvTable[MAX_DEPTH][MAX_DEPTH]; // Quadratic PV-table
     unsigned int myPvLength[MAX_DEPTH]; // Length of the PV line at this ply 
