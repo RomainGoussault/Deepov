@@ -46,7 +46,8 @@ public:
     U64 myMovesSearched; // TODO Count nodes not moves
     inline Move getPVMove(const unsigned int ply, const unsigned int depth) const {return myPvTable[ply][depth];}
     void printPvTable(const unsigned numLines);
-
+	unsigned int mySearchDurationMS;
+	unsigned int myDepth;
 private:
 
     std::shared_ptr<Board> myBoard;
