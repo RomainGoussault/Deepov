@@ -37,7 +37,7 @@ public:
     void clearSearchData();
 
     int negaMaxRoot(const int depth);
-    int negaMaxRootIterativeDeepening(const int timeSec);
+    int negaMaxRootIterativeDeepening(const unsigned int allocatedTimeMS);
     inline int getCurrentScore() {return myEval.evaluate();};
     bool isInsufficentMatingMaterial() const;
     Move16 myBestMove;

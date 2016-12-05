@@ -26,7 +26,7 @@
 #include <ratio>
 #include <algorithm>
 
-Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0),myPvTable{0},myPvLength{0}, mySearchDurationMS(0)
+Search::Search(std::shared_ptr<Board> boardPtr) : myBestMove(),myMovesSearched(0), myEval(boardPtr),myMoveOrder(),myPly(0),myPvTable{0},myPvLength{0}
 {
 	myBoard = boardPtr;
 }
@@ -273,8 +273,6 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
                     myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
                 }
                 myPvLength[myPly] = myPvLength[myPly+1];
-//                std::cout << "table at ply = " << myPly << std::endl;
-//                printPvTable(myPly+1);
 		    }
         }
 	}
@@ -341,8 +339,6 @@ int Search::negaMaxRoot(const int depth)
                 myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from the deeper ply
             }
             myPvLength[myPly] = myPvLength[myPly+1]; // update the length of the PV to the one assigned
-//            std::cout << "table at ply = " << myPly << std::endl;
-//            printPvTable(myPly+1);
 		}
 	}
 
@@ -351,14 +347,14 @@ int Search::negaMaxRoot(const int depth)
 	return alpha;
 }
 
-int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
+int Search::negaMaxRootIterativeDeepening(const unsigned int allocatedTimeMS)
 {
     clearSearchData();
 
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
-	int minDepth = 2;
+	unsigned int minDepth = 2;
 	
 	myMovesSearched = 0;
 	myPly=0;
@@ -491,12 +487,7 @@ void Search::sendInfoToUCI(int alpha)
 	unsigned int nps = 1000 * myMovesSearched / mySearchDurationMS;
 	std::cout << " nps " << nps;
 	std::cout << " time " << mySearchDurationMS;
-	std::cout << " pv ";
-	for (int j=0; j<myDepth; j++)
-    {
-		std::cout << myPvTable[j][j].toShortString() << " ";
-    }
-
+//	std::cout << " pv "; TODO
 	std::cout << std::endl;
 }
 
