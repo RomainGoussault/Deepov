@@ -50,7 +50,7 @@ class Uci
 {
 public :
 
-	Uci() : wtime(1000), btime(1000), winc(0), binc(0), movestogo(0),
+	Uci() : wtime(10000), btime(10000), winc(0), binc(0), movestogo(0),
 	myBoardPtr(std::shared_ptr<Board>(new Board())), mySearch(Search(myBoardPtr)), myOptionsMap()
 	{
 		//Init Options map

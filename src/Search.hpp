@@ -37,7 +37,7 @@ public:
     void clearSearchData();
 
     int negaMaxRoot(const int depth);
-    int negaMaxRootIterativeDeepening(const int timeSec);
+    int negaMaxRootIterativeDeepening(const unsigned int allocatedTimeMS);
     inline int getCurrentScore() {return myEval.evaluate();};
     bool isInsufficentMatingMaterial() const;
     Move16 myBestMove;
@@ -46,7 +46,8 @@ public:
     U64 myMovesSearched; // TODO Count nodes not moves
     inline Move getPVMove(const unsigned int ply, const unsigned int depth) const {return myPvTable[ply][depth];}
     void printPvTable(const unsigned numLines);
-
+	unsigned int mySearchDurationMS;
+	unsigned int myDepth;
 private:
 
     std::shared_ptr<Board> myBoard;
@@ -58,6 +59,7 @@ private:
     int negaMax(const int depth, int alpha, const int beta, const bool isNullMoveAuth);
     int evaluate();
     int qSearch(int alpha, const int beta);
+    void sendInfoToUCI(int alpha);
 
     Move myPvTable[MAX_DEPTH][MAX_DEPTH]; // Quadratic PV-table
     unsigned int myPvLength[MAX_DEPTH]; // Length of the PV line at this ply 

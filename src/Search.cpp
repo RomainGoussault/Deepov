@@ -273,8 +273,6 @@ int Search::negaMax(const int depth, int alpha, const int beta, const bool isNul
                     myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from deeper ply
                 }
                 myPvLength[myPly] = myPvLength[myPly+1];
-//                std::cout << "table at ply = " << myPly << std::endl;
-//                printPvTable(myPly+1);
 		    }
         }
 	}
@@ -341,8 +339,6 @@ int Search::negaMaxRoot(const int depth)
                 myPvTable[myPly][i] = myPvTable[myPly+1][i] ; // copy the pv from the deeper ply
             }
             myPvLength[myPly] = myPvLength[myPly+1]; // update the length of the PV to the one assigned
-//            std::cout << "table at ply = " << myPly << std::endl;
-//            printPvTable(myPly+1);
 		}
 	}
 
@@ -351,14 +347,15 @@ int Search::negaMaxRoot(const int depth)
 	return alpha;
 }
 
-int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
+int Search::negaMaxRootIterativeDeepening(const unsigned int allocatedTimeMS)
 {
     clearSearchData();
 
 	int alpha = -999999;
 	int beta = -alpha;
 	int score = 0;
-	int minDepth = 2;
+	unsigned int minDepth = 2;
+	
 	myMovesSearched = 0;
 	myPly=0;
     myPvLength[myPly] = myPly; // Current length of the local PV
@@ -366,8 +363,10 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 	//Starting time
 	std::chrono::high_resolution_clock::time_point startTime =
 			std::chrono::high_resolution_clock::now();
+	std::chrono::high_resolution_clock::time_point time;
+	auto dur = time - startTime;
 
-	int depth = 1;
+	myDepth = 1;
 
 	while(true)
 	{
@@ -376,15 +375,14 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 		score = 0;
         bool isPvs = false;
 
-		std::chrono::high_resolution_clock::time_point time = std::chrono::high_resolution_clock::now();
-		auto dur = time - startTime;
-		int durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
-
+		
 		//check for time
-		if(durationMS > 0.5 * allocatedTimeMS && depth >= minDepth) return alpha;
-
+		if (mySearchDurationMS > 0.5 * allocatedTimeMS && myDepth >= minDepth)
+		{
+			return alpha;
+		}
 		auto currentKey = myBoard->key;
-		auto ttEntry = globalTT.probeTT(currentKey, depth); // returns non nullpr if key exists and depth is greater
+		auto ttEntry = globalTT.probeTT(currentKey, myDepth); // returns non nullpr if key exists and depth is greater
 		
 		if(ttEntry) // we have a match in the transposition table with a greater depth
 		{
@@ -413,9 +411,10 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 				// Check for time fist
 				time = std::chrono::high_resolution_clock::now();
 				dur = time - startTime;
-				durationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+				mySearchDurationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
 
-				if(durationMS >  allocatedTimeMS && depth >= minDepth && isMovelistHalfDone){
+				if(mySearchDurationMS >  allocatedTimeMS && myDepth >= minDepth && isMovelistHalfDone)
+				{
 					return alpha;
 				}
 
@@ -424,16 +423,16 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
 				myPly++;
 
                 if (isPvs) {
-                    score = -negaMax(depth - 1, -alpha - 1, -alpha);
+                    score = -negaMax(myDepth - 1, -alpha - 1, -alpha);
 
                     if ((score > alpha) && (score < beta)) // Check for failure.
                     {
-                        score = -negaMax(depth - 1, -beta, -alpha);
+                        score = -negaMax(myDepth - 1, -beta, -alpha);
                     }
                 } 
                 else
                 {
-				    score = -negaMax(depth - 1, -beta, -alpha);
+				    score = -negaMax(myDepth - 1, -beta, -alpha);
                 }
 
 				if( score > alpha )
@@ -448,15 +447,25 @@ int Search::negaMaxRootIterativeDeepening(const int allocatedTimeMS)
                     }
                     myPvLength[myPly] = myPvLength[myPly+1];
 				}
+			
 				myBoard->undoMove(currentMove);
 				myEval.rewindEvalAttributes(currentMove);
 				myPly--;
-			}
+			} 
 
-			globalTT.setTTEntry(myBoard->key, depth, alpha, NodeType::EXACT, myBestMove, myBoard->getPly());
+
+			globalTT.setTTEntry(myBoard->key, myDepth, alpha, NodeType::EXACT, myBestMove, myBoard->getPly());
 		}
 
-		depth++;
+		//update duration and send info to UCI
+		time = std::chrono::high_resolution_clock::now();
+		dur = time - startTime;
+
+		mySearchDurationMS = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+		mySearchDurationMS = std::max(mySearchDurationMS, (unsigned int) 1); 
+		sendInfoToUCI(alpha);
+
+		myDepth++;
 	}
 
 	return alpha;
@@ -468,6 +477,19 @@ int Search::evaluate()
 	return (-2*myBoard->getColorToPlay() + 1)*myEval.evaluate(); //evaluate()/* returns +evaluate for WHITE, -evaluate for BLACK */
 }
 
+void Search::sendInfoToUCI(int alpha)
+{
+	// Send info to uci console
+	std::cout << "info";
+	std::cout << " depth " << myDepth;
+	std::cout << " score " << alpha;
+	std::cout << " nodes " << myMovesSearched;
+	unsigned int nps = 1000 * myMovesSearched / mySearchDurationMS;
+	std::cout << " nps " << nps;
+	std::cout << " time " << mySearchDurationMS;
+//	std::cout << " pv "; TODO
+	std::cout << std::endl;
+}
 
 void Search::printPvTable(const unsigned int numLines)
 {
