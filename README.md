@@ -1,9 +1,35 @@
 Deepov
 ======
 
-C++ Chess Engine
+C++ Chess Engine, UCI compliant
 
 [![Build Status](https://travis-ci.org/RomainGoussault/Deepov.svg?branch=master)](https://travis-ci.org/RomainGoussault/Deepov)
+
+======
+
+##Board representaion
+* Bitboards
+* Magic bitboards
+
+###Search
+* Iterative Deepening
+* Transposition Table
+* Move ordering
+ * MVV/LVA
+ * SEE
+ * Killer moves
+* Selectivity
+ * Null Move Pruning
+ * Check extensions
+ * LMR
+ * Quiescence Search
+
+###Evaluation
+* Material
+* Piece Square table
+* Mobility
+* Pawn structure
+
 
 ======
 
