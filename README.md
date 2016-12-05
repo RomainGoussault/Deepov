@@ -7,7 +7,7 @@ C++ Chess Engine, UCI compliant
 
 ======
 
-##Board representaion
+###Board representation
 * Bitboards
 * Magic bitboards
 
