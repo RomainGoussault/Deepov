@@ -24,6 +24,7 @@
 #include <iostream>
 #include <math.h>
 #include <sstream>
+#include <chrono>
 
 #include "Types.hpp"
 #include "Tables.hpp"
@@ -129,6 +130,8 @@ inline bool isBitSet(const U64 bitBoard, const unsigned int x, const unsigned in
 inline bool areAligned(const Square s1, const Square s2, const Square s3) {
   return Tables::LINE_BB[s1][s2] & Tables::SQUARE_BB[s3];
 }
+
+double measurePopcntSpeed(U64 testBB, unsigned int (*f)(U64));
 
 };
 
