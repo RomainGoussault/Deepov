@@ -64,5 +64,14 @@ TEST_CASE( "EP squares" )
     REQUIRE(sp->getLastEpSquare() == SQ_C6);
 }
 
+TEST_CASE("pop count")
+{
+  U64 testBoard = 0b1000000000001000000000100000000000000000000;
+  unsigned int count = __builtin_popcountll(testBoard);
+  REQUIRE(popcount64swar(testBoard) == count);
+  REQUIRE(popcount64sparse(testBoard) == count);
+  // TODO test the fastest
+}
+
 
 

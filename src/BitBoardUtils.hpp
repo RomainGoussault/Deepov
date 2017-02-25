@@ -51,6 +51,28 @@ inline unsigned int popcount(U64 bitboard)
 	return __builtin_popcountll(bitboard);
 }
 
+// SWAR algorithm for 64 bits
+inline unsigned int popcount64swar(U64 i)
+{
+  i = i - ((i >> 1) & 0x5555555555555555);
+  i = (i & 0x3333333333333333) + ((i >> 2) & 0x3333333333333333);
+  return (((i + (i >> 4)) & 0x0f0f0f0f0f0f0f0f) *
+          0x0101010101010101) >> 56;
+}
+
+// "Brian Kernighan's way" https://chessprogramming.wikispaces.com/Population+Count
+// efficient for sparse bitboard
+inline unsigned int popcount64sparse(U64 bitboard)
+{
+   int count = 0;
+   while (bitboard) {
+       count++;
+       bitboard &= bitboard - 1; // reset LS1B
+   }
+   return count;
+}
+
+
 //Some relevant links on this function:
 // https://chessprogramming.wikispaces.com/BitScan
 // http://stackoverflow.com/questions/671815/
