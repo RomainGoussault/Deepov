@@ -73,6 +73,8 @@ TEST_CASE("pop count")
   // TODO test the fastest
 }
 
+#ifdef NO_POPCNT
+
 TEST_CASE("Test popcount speed")
 {
     U64 testBoard = 0b1000000000001000000000100000000000000000000;
@@ -89,6 +91,7 @@ TEST_CASE("Test popcount speed")
     std::cout << "sparse = " << BitBoardUtils::measurePopcntSpeed(testBoard, popcount64sparse) << std::endl;
 }
 
+#endif
 
 
 

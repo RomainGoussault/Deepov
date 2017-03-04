@@ -49,7 +49,11 @@ inline bool moreThanOne(U64 bitboard)
 // Source : https://graphics.stanford.edu/~seander/bithacks.html
 inline unsigned int popcount(U64 bitboard)
 {
+    #ifdef NO_POPCNT
+    return popcount64sparse(U64 bitboard);
+    #else
 	return __builtin_popcountll(bitboard);
+	#endif
 }
 
 // SWAR algorithm for 64 bits
