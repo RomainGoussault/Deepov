@@ -482,7 +482,7 @@ void Search::sendInfoToUCI(int alpha)
 	// Send info to uci console
 	std::cout << "info";
 	std::cout << " depth " << myDepth;
-	std::cout << " score " << alpha;
+	std::cout << " score cp " << alpha;
 	std::cout << " nodes " << myMovesSearched;
 	unsigned int nps = 1000 * myMovesSearched / mySearchDurationMS;
 	std::cout << " nps " << nps;
