@@ -2,7 +2,7 @@
 
 C++ Chess Engine, UCI compliant
 
-[![Build Status](https://travis-ci.org/RomainGoussault/Deepov.svg?branch=master)](https://travis-ci.org/RomainGoussault/Deepov)
+[![Build status](https://github.com/RomainGoussault/Deepov/actions/workflows/ci.yml/badge.svg)](https://github.com/RomainGoussault/Deepov/actions/workflows/ci.yml)
 
 ## Board representation
 * Bitboards
