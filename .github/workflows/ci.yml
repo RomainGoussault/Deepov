@@ -1,0 +1,27 @@
+name: C++ Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Update package list
+        run: sudo apt-get update  # Mettez à jour la liste des paquets
+
+      - name: Set up C++ environment
+        run: sudo apt-get install -y clang
+
+      - name: Compile the project
+        run: make all
+
