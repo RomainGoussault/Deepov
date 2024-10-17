@@ -2,13 +2,12 @@
 
 export MAKEFLAGS=-j3
 
-CXX = g++-5 -O3
-#CXX = clang++-3.6
+CXX = clang++ -std=c++14 -O3 -W
 
-CC_FLAGS = -W -Wall -fno-rtti -ansi -Wshadow -Wextra -fmax-errors=3 -mcmodel=large -m64 -std=c++14 -msse -flto 
-LD_FLAGS = -Wl,--no-as-needed -lpthread -mcmodel=large -m64 -msse -flto
+CC_FLAGS =
+LD_FLAGS =
 
-ifeq ($(NO_POPCNT), 1) 
+ifeq ($(NO_POPCNT), 1)
     EXTRA_FLAGS += -DNO_POPCNT
     NO_POPCNT = 0
 endif
@@ -18,7 +17,7 @@ SRC_FILES := $(wildcard src/*.cpp)
 
 TEST_FILES := $(wildcard test/*.cpp)
 TEST_FILES += $(sort $(SRC_FILES) $(TEST_FILES))
-TEST_FILES := $(filter-out src/Main.cpp, $(TEST_FILES)) 
+TEST_FILES := $(filter-out src/Main.cpp, $(TEST_FILES))
 
 OBJ_FILES := $(addprefix obj/,$(notdir $(SRC_FILES:.cpp=.o)))
 OBJ_TEST_FILES := $(addprefix obj/,$(notdir $(TEST_FILES:.cpp=.o)))
@@ -37,7 +36,7 @@ obj/%.o: src/%.cpp
 clean:
 	rm -rf $(OBJ_TEST_FILES) rm -rf $(OBJ_FILES)
 
-DeepovTesting: $(OBJ_TEST_FILES) 
+DeepovTesting: $(OBJ_TEST_FILES)
 	$(CXX) -o $@ $^ $(LD_FLAGS) $(EXTRA_FLAGS)
 
 obj/%.o: test/%.cpp
