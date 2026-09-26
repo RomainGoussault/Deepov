@@ -92,7 +92,7 @@ inline Square msb(const U64 bitboard)
 
 #else
 	U64 idx;
-	__asm__("bsrq %1, %0": "=r"(idx) : "rm"(bitboard));
+	idx = 63 - __builtin_clzll(bitboard);
 
 #endif
 
@@ -100,7 +100,7 @@ inline Square msb(const U64 bitboard)
 	//return static_cast<Square>(__builtin_ctzll(bitboard));
 }
 
-inline Square lsb(U64 bitboard) { // Assembly code by Heinz van Saanen
+inline Square lsb(U64 bitboard) { // Originally based on assembly by Heinz van Saanen, now uses compiler built-ins
 #ifdef _MSC_VER
 	unsigned long idx;
 	_BitScanForward64(&idx, bitboard);
@@ -108,7 +108,7 @@ inline Square lsb(U64 bitboard) { // Assembly code by Heinz van Saanen
 
 #else
 	U64 idx;
-	__asm__("bsfq %1, %0": "=r"(idx): "rm"(bitboard) );
+	idx = __builtin_ctzll(bitboard);
 	return (Square)idx;
 
 #endif
